@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1e58cef5c735b4fbfe24829a7d3ed8, type: 3}
+  m_Name: AchievementsDataSO
+  m_EditorClassIdentifier: Assembly-CSharp::com.VisionXR.ModelClasses.AchievementsDataSO
+  AllAchievementInfo:
+  - icon: {fileID: 21300000, guid: 14046bb48abdb84419606abecddd0913, type: 3}
+    apiName: Ach_Login_First
+    achievementName: Login Milestone I
+    description: Log in for the first time
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: f9ad17616a166c04d8aad4824774db2e, type: 3}
+    apiName: Ach_Continues_Login_Three
+    achievementName: Login Milestone II
+    description: Log in for 3 days
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 7bf326bb4197af14288117d47b1dbd98, type: 3}
+    apiName: Ach_Continues_Login_Five
+    achievementName: Login Milestone III
+    description: Log in for 5 days
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: dae4a5fb1741db14a8ee16b6fc023fe6, type: 3}
+    apiName: Ach_Single_Pool_AIEasy_First_Win
+    achievementName: "Pool Victory I \u2013 Easy AI"
+    description: Win your first Pool match against the Easy AI.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: f3d7b148b5aba2a4abe7ed567b607372, type: 3}
+    apiName: Ach_Single_Pool_AIMedium_First_Win
+    achievementName: "Pool Victory I \u2013 Medium AI"
+    description: Win your first Pool match against the Medium AI.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: cda1dafd866c9de4eabefdbf4b08bb1b, type: 3}
+    apiName: Ach_Single_Pool_AIHard_First_Win
+    achievementName: "Pool Victory I \u2013 Hard AI"
+    description: Win your first Pool match against the Hard AI.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 5dc20861eeb0db54aaecea4cf148010b, type: 3}
+    apiName: Ach_Single_Pool_AIHard_Ten_Win
+    achievementName: "Pool Victory X \u2013 Hard AI"
+    description: Win 10 Pool matches against the Hard AI.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: beb3741f9adef9c4dabbae7afe5b9725, type: 3}
+    apiName: Ach_Single_Snooker_AIEasy_First_Win
+    achievementName: "Snooker Victory I \u2013 Easy AI"
+    description: Win your first Snooker match against the Easy AI.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: fce6932f114054d4f895b4e6598a28bc, type: 3}
+    apiName: Ach_Single_Snooker_AIMedium_First_Win
+    achievementName: "Snooker Victory I \u2013 Medium AI"
+    description: Win your first Snooker match against the Medium AI.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: f3051d318f4b59844ba085996dbdb5bc, type: 3}
+    apiName: Ach_Single_Snooker_AIHard_First_Win
+    achievementName: "Snooker Victory I \u2013 Hard AI"
+    description: Win your first Snooker match against the Hard AI.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 44abe305ea6ae3641901329744af22ed, type: 3}
+    apiName: Ach_Single_Snooker_AIHard_Ten_Win
+    achievementName: "Snooker Victory X \u2013 Hard AI"
+    description: Win 10 Snooker matches against the Hard AI.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 887132449ea3d2346bf5e70f2c502749, type: 3}
+    apiName: Ach_Multi_Pool_Win1
+    achievementName: Pool Duel Victory I
+    description: Win your first multiplayer Pool match.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 7437c634c6681c04e92ff1e1eb10506e, type: 3}
+    apiName: Ach_Multi_Pool_Win3
+    achievementName: Pool  Duel Victory II
+    description: Win 3 multiplayer Pool matches.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 2f615831d7eb55d4581ad7d8043bf3dc, type: 3}
+    apiName: Ach_Multi_Pool_Win5
+    achievementName: Pool Duel Victory III
+    description: Win 5 multiplayer Pool matches.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: a82eecc5b378c6547af0fded86ef994a, type: 3}
+    apiName: Ach_Multi_Pool_Win10
+    achievementName: Pool Duel Victory II
+    description: Win 10 multiplayer Pool matches.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 17693894d74c4ef41a691fac8d69149b, type: 3}
+    apiName: Ach_Multi_Snooker_Win1
+    achievementName: Snooker Duel Victory I
+    description: Win your first multiplayer Snooker match.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: ca273e80795f40145ac346f5eb5d0a19, type: 3}
+    apiName: Ach_Multi_Snooker_Win3
+    achievementName: Snooker Duel Victory II
+    description: Win 3 multiplayer Snooker matches.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 5d7e5a7f0acc26c49b62187ecddfdec5, type: 3}
+    apiName: Ach_Multi_Snooker_Win5
+    achievementName: Snooker Duel Victory III
+    description: Win 5 multiplayer Snooker matches.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 30568b23f18cd8046948ba8e337f0a40, type: 3}
+    apiName: Ach_Multi_Snooker_Win10
+    achievementName: Snooker Duel Victory IV
+    description: Win 10 multiplayer Snooker matches.
+    isAchieved: 0
+  userData:
+    lastLoginDate: 
+    totalLogins: 0
+    spTotalGames: 0
+    spTotalWins: 2
+    spPoolEasyWins: 0
+    spPoolMediumWins: 0
+    spPoolHardWins: 0
+    spSnookerEasyWins: 0
+    spSnookerMediumWins: 0
+    spSnookerHardWins: 0
+    mpTotalGames: 0
+    mpTotalWins: 0
+    mpPoolWins: 0
+    mpSnookerWins: 1

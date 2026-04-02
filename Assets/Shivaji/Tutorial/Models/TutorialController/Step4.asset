@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3799f2e46894ad441ba06c7e07693731, type: 3}
+  m_Name: Step4
+  m_EditorClassIdentifier: 
+  stepNumber: 4
+  stepText: "Here\u2019s how the coins work:\r\nStripes, Solids, and the 8-Ball follow
+    classic Pool rules.\r\nIn Snooker mode, you\u2019ll have Red coins, Color coins,
+    and simple snooker rules."
+  stepVideo: {fileID: 32900000, guid: bb7616490bbc12d42b7a8c460782d966, type: 3}
+  stepAudio: {fileID: 8300000, guid: 7e0ac0b132916ac42b4e64c4b4244654, type: 3}
+  interactiveStepType: 0
+  waitTimeAfterAudio: 10
+  successText: 
+  failureText: 
+  successAudio: {fileID: 0}
+  failureAudio: {fileID: 0}
+  aimingStrikerRotation: {x: 0, y: 0, z: 0}
+  strikingStrikerRotation: {x: 0, y: 0, z: 0}
+  coinPosition: {x: 0, y: 0, z: 0}
+  holeName: 

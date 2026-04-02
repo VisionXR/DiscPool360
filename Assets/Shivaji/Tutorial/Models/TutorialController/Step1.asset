@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3799f2e46894ad441ba06c7e07693731, type: 3}
+  m_Name: Step1
+  m_EditorClassIdentifier: 
+  stepNumber: 1
+  stepText: "Welcome to Disc Pool \u2014 a fresh blend of Pool and Snooker rules,
+    played with the flick mechanics of Carrom. \nInstead of balls, you\u2019ll be
+    playing with discs, and instead of a cue ball, you\u2019ll use a striker. \nThe
+    board is compact and rotates like a lazy-Susan, giving you full 360-degree control.
+    \nThis is a brand-new experience in MR. Let\u2019s begin."
+  stepVideo: {fileID: 32900000, guid: 4f2477ab9f433044898ce0d0a6040822, type: 3}
+  stepAudio: {fileID: 8300000, guid: 324803694a3fe1f48ad5be39181cf0b9, type: 3}
+  interactiveStepType: 0
+  waitTimeAfterAudio: 15
+  successText: 
+  failureText: 
+  successAudio: {fileID: 0}
+  failureAudio: {fileID: 0}
+  aimingStrikerRotation: {x: 0, y: 0, z: 0}
+  strikingStrikerRotation: {x: 0, y: 0, z: 0}
+  coinPosition: {x: 0, y: 0, z: 0}
+  holeName: 

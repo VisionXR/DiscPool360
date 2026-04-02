@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3799f2e46894ad441ba06c7e07693731, type: 3}
+  m_Name: Step5
+  m_EditorClassIdentifier: 
+  stepNumber: 5
+  stepText: "To aim, make a fist with your thumb up.\r\nIn this pose, the striker
+    locks and rotates with your wrist movement.\r\nYour wrist band glows green to
+    confirm proper aim mode.\r\nYou\u2019ll also see an aim arrow on the striker.
+    Rotate your wrist to align this arrow with the glowing guide arrow, then tap
+    the thumb.\r\nNow you try it. "
+  stepVideo: {fileID: 32900000, guid: 9a018dbb1634e534fa9cfd7dd5a6f87d, type: 3}
+  stepAudio: {fileID: 8300000, guid: 076e817dd4182f74e821492dec9bf834, type: 3}
+  interactiveStepType: 3
+  successText: Well Done!
+  failureText: Give it another try.
+  successAudio: {fileID: 8300000, guid: 849555446578eab44a2575dd8a892376, type: 3}
+  failureAudio: {fileID: 8300000, guid: f1acd48f77d513044a8c0bceacb289ba, type: 3}
+  aimingStrikerRotation: {x: 0, y: 60, z: 0}
+  strikingStrikerRotation: {x: 0, y: 0, z: 0}
+  coinPosition: {x: 0, y: 0, z: 0}
+  holeName: 

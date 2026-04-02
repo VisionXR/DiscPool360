@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3799f2e46894ad441ba06c7e07693731, type: 3}
+  m_Name: Step7
+  m_EditorClassIdentifier: 
+  stepNumber: 7
+  stepText: "Now let\u2019s learn how to strike.\nPress grab to lock striker and
+    rotate your wrist to align with the glowing arrow.\nPress and hold trigger to
+    charge the force bar.\nWhen you\u2019re ready, release trigger to take the shot."
+  stepVideo: {fileID: 32900000, guid: 4f5cab71371fb2b4ea2039d88ded7e97, type: 3}
+  stepAudio: {fileID: 8300000, guid: 1deb3857791a10b468f0b0467d0fd504, type: 3}
+  interactiveStepType: 4
+  successText: Well played! That was a perfect hit.
+  failureText: Take a moment and aim for a better shot.
+  successAudio: {fileID: 8300000, guid: 2d1f2ffeabc43194d956c874d34ba585, type: 3}
+  failureAudio: {fileID: 8300000, guid: beb97e7a6ab92de4887a681eef4721ec, type: 3}
+  aimingStrikerRotation: {x: 0, y: 0, z: 0}
+  strikingStrikerRotation: {x: 0, y: -22, z: 0}
+  coinPosition: {x: -0.57, y: 0.01149976, z: 0.512}
+  holeName: Hole2

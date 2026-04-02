@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3799f2e46894ad441ba06c7e07693731, type: 3}
+  m_Name: Step6
+  m_EditorClassIdentifier: 
+  stepNumber: 6
+  stepText: Let's try it once more to ensure you've got the hang of it.
+  stepVideo: {fileID: 32900000, guid: b912bcee37e430c48a13cb20f6ec40ca, type: 3}
+  stepAudio: {fileID: 8300000, guid: d2d93dbd609079f4da517c5d7edf3587, type: 3}
+  interactiveStepType: 3
+  successText: Great job! Your aim is right on target.
+  failureText: Missed it! Steady your wrist and try again.
+  successAudio: {fileID: 8300000, guid: d04b541db8153fc4d9888ed68a7f2843, type: 3}
+  failureAudio: {fileID: 8300000, guid: 05016713d103c9d48b7e4fee1f726bca, type: 3}
+  aimingStrikerRotation: {x: 0, y: -60, z: 0}
+  strikingStrikerRotation: {x: 0, y: 0, z: 0}
+  coinPosition: {x: 0, y: 0, z: 0}
+  holeName: 

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3799f2e46894ad441ba06c7e07693731, type: 3}
+  m_Name: Step8
+  m_EditorClassIdentifier: 
+  stepNumber: 8
+  stepText: Disc Pool is about precision and repetition. Let's take another shot!
+  stepVideo: {fileID: 32900000, guid: a7d66fa820cd9d1469b430170d2e2743, type: 3}
+  stepAudio: {fileID: 8300000, guid: f61107b0b2b6b0744824ce8b0c5f2ec4, type: 3}
+  interactiveStepType: 4
+  successText: Great shot! You nailed it perfectly
+  failureText: Steady yourself and aim more accurately.
+  successAudio: {fileID: 8300000, guid: 048e9aaf13a6f9649bfb0448e2709f49, type: 3}
+  failureAudio: {fileID: 8300000, guid: 6a5eae502e2f9cc44a2df958cf960ef2, type: 3}
+  aimingStrikerRotation: {x: 0, y: 0, z: 0}
+  strikingStrikerRotation: {x: 0, y: 22, z: 0}
+  coinPosition: {x: 0.57, y: 0.01149976, z: 0.512}
+  holeName: Hole1
