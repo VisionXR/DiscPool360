@@ -1,6 +1,8 @@
 using com.VisionXR.ModelClasses;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
+using PlayFab;
+using PlayFab.ClientModels;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +13,7 @@ namespace com.VisionXR.Controllers
         [Header("Scriptable Objects")]
         public UserDataSO playerSettings;
         public UIDataSO uiData;
+        public CloudDataSO cloudData;
 
         void Start()
         {
@@ -30,8 +33,20 @@ namespace com.VisionXR.Controllers
             // Simplified Editor Mock
             playerSettings.SetUserNameAndId("Guest_Player",UnityEngine.Random.Range(0, 9999).ToString());
             uiData.TriggerHomeEvent();
-            
 
+            // If in Editor, use a fixed string so you always log into the same test account
+            // If on Mobile, use the unique Device ID
+            string customId = Application.isEditor ? "Editor_Test_User" : SystemInfo.deviceUniqueIdentifier;
+
+            var request = new LoginWithCustomIDRequest
+            {
+                CustomId = customId,
+                CreateAccount = true,
+                TitleId = PlayFabSettings.TitleId
+            };
+
+
+            PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
         }
 
 
@@ -57,9 +72,46 @@ namespace com.VisionXR.Controllers
 
                 playerSettings.SetUserNameAndId(name, googleID);
                 uiData.TriggerHomeEvent();
-
+                RequestTokenAndLoginToPlayFab();
             }
 
+        }
+
+        private void RequestTokenAndLoginToPlayFab()
+        {
+            PlayGamesPlatform.Instance.RequestServerSideAccess(true, (authCode) =>
+            {
+                if (string.IsNullOrEmpty(authCode)) return;
+
+
+                Debug.Log("Disc pool 360: Received Google Auth Code, logging into PlayFab...");
+                // Use LoginWithGooglePlayGamesServices instead of LoginWithGoogleAccount
+                var request = new LoginWithGooglePlayGamesServicesRequest
+                {
+                    ServerAuthCode = authCode,
+                    CreateAccount = true,
+                    TitleId = PlayFabSettings.TitleId
+                };
+
+                PlayFabClientAPI.LoginWithGooglePlayGamesServices(request, OnPlayFabSuccess, OnPlayFabFailure);
+            });
+        }
+
+        private void OnPlayFabSuccess(LoginResult result)
+        {
+            Debug.Log("Disc Clash: PlayFab Login Success! PlayFabID: " + result.PlayFabId);
+
+            cloudData.PlayFabLoginSuccess();
+
+            //// OPTIONAL: Update PlayFab display name to match Google name
+            //UpdatePlayFabDisplayName(Social.localUser.userName);
+        }
+
+        private void OnPlayFabFailure(PlayFabError error)
+        {
+            Debug.Log("Disc Clash: PlayFab Login Error: " + error.GenerateErrorReport());
+
+            cloudData.PlayFabLoginFailure();
         }
 
 
