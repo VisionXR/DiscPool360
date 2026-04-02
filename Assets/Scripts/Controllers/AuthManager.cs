@@ -79,8 +79,12 @@ namespace com.VisionXR.Controllers
 
         private void RequestTokenAndLoginToPlayFab()
         {
+            Debug.Log("Disc Pool:  Logging to playfab! ");
+
             PlayGamesPlatform.Instance.RequestServerSideAccess(true, (authCode) =>
             {
+                Debug.Log("Disc pool 360: Received Auth Code from Google Play Games Services."+authCode);
+
                 if (string.IsNullOrEmpty(authCode)) return;
 
 
@@ -99,7 +103,7 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabSuccess(LoginResult result)
         {
-            Debug.Log("Disc Clash: PlayFab Login Success! PlayFabID: " + result.PlayFabId);
+            Debug.Log("Disc Pool: PlayFab Login Success! PlayFabID: " + result.PlayFabId);
 
             cloudData.PlayFabLoginSuccess();
 
@@ -109,7 +113,7 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabFailure(PlayFabError error)
         {
-            Debug.Log("Disc Clash: PlayFab Login Error: " + error.GenerateErrorReport());
+            Debug.Log("Disc Pool: PlayFab Login Error: " + error.GenerateErrorReport());
 
             cloudData.PlayFabLoginFailure();
         }
