@@ -185,7 +185,7 @@ namespace com.VisionXR.HelperClasses
     {
         public int myId;
         public string myName;
-        public ulong myOculusID;
+        public string myOculusID;
         public string imageURL;
         public Sprite myImage;
      

@@ -43,7 +43,7 @@ namespace com.VisionXR.Controllers
 
             if (!UnityEngine.Application.isEditor)
             {
-                userData.SetUserNameAndId("User " + UnityEngine.Random.Range(0, 9999), (ulong)UnityEngine.Random.Range(0, 9999));
+                userData.SetUserNameAndId("User " + UnityEngine.Random.Range(0, 9999).ToString(), UnityEngine.Random.Range(0, 9999).ToString());
                 //    localAvatar.SetActive(true);
 
                 // Simulate connection delay
@@ -67,8 +67,8 @@ namespace com.VisionXR.Controllers
             {
 
                 // Set player settings
-                userData.SetUserNameAndId("User " + UnityEngine.Random.Range(0, 9999), (ulong)UnityEngine.Random.Range(0, 9999));
-            //    localAvatar.SetActive(true);
+                userData.SetUserNameAndId("User " + UnityEngine.Random.Range(0, 9999).ToString(), UnityEngine.Random.Range(0, 9999).ToString());
+                //    localAvatar.SetActive(true);
 
                 // Simulate connection delay
                 yield return new WaitForSeconds(1);

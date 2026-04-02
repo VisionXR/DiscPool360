@@ -13,7 +13,7 @@ namespace com.VisionXR.ModelClasses
         public string MyName;
         public Sprite MyProfileImage;
         public string MyImageUrl;
-        public ulong MyOculusId;
+        public string MyOculusId;
         public DominantHand myDominantHand;
         public float bgMusicVolume = 1f;
         public int myBoard = 0;
@@ -30,7 +30,7 @@ namespace com.VisionXR.ModelClasses
             MyName = Name;
         }
 
-        public void SetUserNameAndId(string userName, ulong Id)
+        public void SetUserNameAndId(string userName, string Id)
         {
             Debug.Log("Setting User Name and Id: " + userName + " | " + Id);
             MyName = userName;

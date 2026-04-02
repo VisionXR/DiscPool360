@@ -72,7 +72,7 @@ namespace com.VisionXR.HelperClasses
     public struct NetworkPlayerProperties : INetworkStruct
     {
         [Networked] public int MyId { get; set; }
-        [Networked] public ulong MyOculusID { get; set; }
+        [Networked] public string MyOculusID { get; set; }
 
         // Choose capacities suitable for your expected lengths
         [Networked] public NetworkString<_64> MyName { get; set; }
