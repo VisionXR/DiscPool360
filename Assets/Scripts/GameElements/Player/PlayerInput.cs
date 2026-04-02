@@ -62,7 +62,7 @@ namespace com.VisionXR.GameElements
             inputData.RotationPinchEndedEvent += OnPinchEnded;
 
             inputData.RotateStrikerEvent += RotateStriker;
-            
+            inputData.FireStrikeEvent += FireStriker;
 
       
         }
@@ -75,6 +75,12 @@ namespace com.VisionXR.GameElements
             inputData.RotationPinchEndedEvent -= OnPinchEnded;
 
             inputData.RotateStrikerEvent -= RotateStriker;
+            inputData.FireStrikeEvent -= FireStriker;
+        }
+
+        private void FireStriker(float val)
+        {
+            strikerShooting.FireStriker(val);
         }
 
         private void RotateStriker(Vector2 dir)

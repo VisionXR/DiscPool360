@@ -22,6 +22,7 @@ namespace com.VisionXR.ModelClasses
 
         public Action<float> StartStrikeEvent;
         public Action<float> EndStrikeEvent;
+        public Action<float> FireStrikeEvent;
 
         public Action<bool> InputChangeEvent;
      
@@ -103,6 +104,11 @@ namespace com.VisionXR.ModelClasses
         public void EndStrike()
         {
             EndStrikeEvent?.Invoke(0);
+        }
+
+        public void FireStrike(float power)
+        {
+            FireStrikeEvent?.Invoke(power);
         }
 
         public void RotateStrikerAbsolute(float angle)

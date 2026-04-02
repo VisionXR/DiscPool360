@@ -15,7 +15,7 @@ namespace com.VisionXR.Controllers
         public UserDataSO userData;
 
         [Header("Audio Trigger")]
-        public FixedJoystick fixedJoystick;
+        public Joystick fixedJoystick;
         public AudioSource grapSelectedAudio;
         public AudioSource grapUnSelectedAudio;
         public AudioSource tapSelectedAudio;
@@ -30,11 +30,51 @@ namespace com.VisionXR.Controllers
         {
             // 3. You MUST enable EnhancedTouch once
             EnhancedTouchSupport.Enable();
+
+            fixedJoystick.JoyStickChangedEvent += OnJoystickChanged;
+            fixedJoystick.JoyStickStoppedEvent += OnJoystickStopped;
         }
 
         private void OnDisable()
         {
             EnhancedTouchSupport.Disable();
+
+            fixedJoystick.JoyStickChangedEvent -= OnJoystickChanged;
+            fixedJoystick.JoyStickStoppedEvent -= OnJoystickStopped;
+        }
+
+        private void OnJoystickChanged(Vector2 direction)
+        {
+            if (direction.magnitude > cutoffValue)
+            {
+                if (!isJoystickActive)
+                {
+                    isJoystickActive = true;
+                }
+                inputData.RotateStriker(-direction);
+            }
+            else
+            {
+                if (isJoystickActive)
+                {
+                    isJoystickActive = false;
+                    inputData.RotateStriker(Vector2.zero);
+                }
+                // Nothing
+            }
+        }
+
+        private void OnJoystickStopped(Vector2 direction)
+        {
+            if (direction.magnitude > cutoffValue)
+            {
+                if (isJoystickActive)
+                {
+                    isJoystickActive = false;
+                    inputData.FireStrike(direction.magnitude);
+                    // fire striker here
+                }
+            }
         }
 
         private void Start()
@@ -80,26 +120,6 @@ namespace com.VisionXR.Controllers
                         HandleTouchEnded(touch.screenPosition);
                         break;
                 }
-            }
-
-            Vector3 dir = fixedJoystick.Direction;
-            if(dir.magnitude > cutoffValue)
-            {
-                if(!isJoystickActive)
-                {
-                   
-                    isJoystickActive = true;
-                }
-                inputData.RotateStriker(-dir);
-            }
-            else
-            {
-                if(isJoystickActive)
-                {
-                    isJoystickActive = false;
-
-                }
-                // Nothing
             }
 
 
