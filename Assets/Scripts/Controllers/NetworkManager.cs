@@ -118,7 +118,7 @@ public class NetworkManager : MonoBehaviour
             AuthValues = new AuthenticationValues(userData.MyOculusId.ToString()),
             CustomLobbyName = "DiscPoolLobby",
             PlayerCount = 2,
-            SessionName = userData.MyOculusId.ToString()
+            SessionName = UnityEngine.Random.Range(1000, 9999).ToString() // Generate a random session name if not provided
         });
 
         if (result.Ok)

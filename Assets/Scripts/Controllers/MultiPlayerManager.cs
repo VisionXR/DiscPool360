@@ -32,6 +32,7 @@ namespace com.VisionXR.Controllers
         // local variables
         [Header("Game Objects")]
         public MultiPlayerConnectionManager multiPlayerConnectionManager;
+        public GameObject InputPanel;
         public GameObject PoolScoreCanvas;
         public GameObject SnookerScoreCanvas;
         public List<GameObject> pocketedCoins = new List<GameObject>();
@@ -161,6 +162,7 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     poolLogic.GlowCoins(cp.playerProperties.myCoin);
+                    InputPanel.SetActive(true);
                 }
 
             }
@@ -184,6 +186,7 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     snookerLogic.GlowCoins(cp.playerProperties.myCoin);
+                    InputPanel.SetActive(true);
                 }
 
             }
@@ -343,7 +346,7 @@ namespace com.VisionXR.Controllers
         {
             inputData.DisableInput();
             boardData.TurnOffInteractable();
-
+            InputPanel.SetActive(true);
             multiPlayerConnectionManager.SendStrikeStarted();
         }
 

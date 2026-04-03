@@ -13,6 +13,7 @@ namespace com.VisionXR.Controllers
         [Header("Scriptable Objects")]
         public InputDataSO inputData;
         public UserDataSO userData;
+        
 
         [Header("Audio Trigger")]
         public Joystick fixedJoystick;
@@ -91,6 +92,8 @@ namespace com.VisionXR.Controllers
             {
                 HandleTouchInput();
             }
+            
+
         }
 
         private void HandleTouchInput()

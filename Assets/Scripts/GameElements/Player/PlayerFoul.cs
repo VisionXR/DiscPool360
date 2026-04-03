@@ -13,6 +13,7 @@ namespace com.VisionXR.GameElements
         public InputDataSO inputData;
         public UIDataSO uiData;
         public UserDataSO userData;
+     
 
 
         [Header("Game Objects")]
@@ -33,9 +34,11 @@ namespace com.VisionXR.GameElements
         private void OnEnable()
         {
             strikerData.HandleFoulEvent += StartFoulHandling;
-            inputData.PinchStartedEvent += PinchStarted;
-            inputData.PinchContinuedEvent += PinchContinued;
-            inputData.PinchEndedEvent += PinchEnded;
+        
+
+            inputData.RotationPinchStartedEvent += PinchStarted;
+            inputData.RotationPinchContinuedEvent += PinchContinued;
+            inputData.RotationPinchEndedEvent += PinchEnded;
 
             Initialise();
         }
@@ -52,9 +55,10 @@ namespace com.VisionXR.GameElements
         private void OnDisable()
         {
             strikerData.HandleFoulEvent -= StartFoulHandling;
-            inputData.PinchStartedEvent -= PinchStarted;
-            inputData.PinchContinuedEvent -= PinchContinued;
-            inputData.PinchEndedEvent -= PinchEnded;
+
+            inputData.RotationPinchStartedEvent -= PinchStarted;
+            inputData.RotationPinchContinuedEvent -= PinchContinued;
+            inputData.RotationPinchEndedEvent -= PinchEnded;
 
             Reset();
         }
@@ -65,7 +69,7 @@ namespace com.VisionXR.GameElements
             _isHeld = false;
         }
 
-        private void PinchStarted(Vector3 origin)
+        private void PinchStarted(Vector2 origin)
         {
             if (isPlacingStriker)
             {
@@ -76,7 +80,7 @@ namespace com.VisionXR.GameElements
             }
         }
 
-        private void PinchContinued(Vector3 origin)
+        private void PinchContinued(Vector2 origin)
         {
             if ( _isHeld)
             {
@@ -85,7 +89,7 @@ namespace com.VisionXR.GameElements
             }
         }
 
-        private void PinchEnded()
+        private void PinchEnded(Vector2 origin)
         {
             if (_isHeld && !isPlacingStriker)
             {
@@ -102,29 +106,41 @@ namespace com.VisionXR.GameElements
                 // Auto-place for AI
                 PlaceStrikerOnBoard();
             }
-           
+            else if (currentPlayer.playerProperties.myPlayerType == PlayerType.Human && currentPlayer.playerProperties.myId == id)
+            {
+                isPlacingStriker = true;
+                uiData.ShowFoulHandling("Tap on board to place the striker");
+                inputData.EnableInput();
+            }
         }
 
-      
 
-        private void TryPlaceWhileHeld(Vector3 pointerWorldPosition)
+
+        private void TryPlaceWhileHeld(Vector2 pointerScreenPosition)
         {
 
+            pointerScreenPosition += new Vector2(0, 100);
+            // 1. Create a ray from the camera passing through the screen point
+            Ray ray = Camera.main.ScreenPointToRay(pointerScreenPosition);
 
-            // Raycast vertically down from pointer
-            Ray ray = new Ray(pointerWorldPosition, Vector3.down);
+            // 2. Perform the raycast using the camera's forward-pointing ray
             if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance))
             {
+                // 3. Check if we hit the board
                 if (hit.collider != null && hit.collider.CompareTag("Board"))
                 {
                     float r = boardData.StrikerRadius;
+
+                    // hit.point is the exact spot on the board surface where the ray landed
                     Vector3 target = hit.point + Vector3.up * (boardLift);
 
                     if (CanPlaceAt(target, r))
                     {
                         lineRenderer.positionCount = 2;
-                        lineRenderer.SetPosition(0, pointerWorldPosition);
+                        // Set the start of the line to the camera position or a hand anchor
+                        lineRenderer.SetPosition(0, ray.origin);
                         lineRenderer.SetPosition(1, target);
+
                         currentStriker.transform.position = target;
                         isPlacingStriker = false;
 
@@ -135,7 +151,6 @@ namespace com.VisionXR.GameElements
                         });
                     }
                 }
-
             }
         }
         private void FinalizePlacement()
