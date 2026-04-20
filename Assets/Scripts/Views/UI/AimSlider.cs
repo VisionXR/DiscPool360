@@ -15,10 +15,11 @@ public class AimSlider : MonoBehaviour, IDragHandler,IPointerDownHandler
     // local
     private RectTransform sliderRectTransform;
     private Player mp;
+    private float lastAngle = 0f;
 
     private void Awake()
     {
-       
+
         sliderRectTransform = GetComponent<RectTransform>();
     }
 
@@ -45,16 +46,21 @@ public class AimSlider : MonoBehaviour, IDragHandler,IPointerDownHandler
         // 2. Vector from center to mouse
         Vector2 direction = eventData.position - sliderCenterScreen;
 
-        if (direction.magnitude > 0.1f)
+        if (direction.magnitude > 0.025f)
         {
-            // 3. Atan2 returns angle where 0 is RIGHT (East)
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            // 3. Use SignedAngle for smooth continuous rotation without wrapping discontinuities
+            // Calculate angle from right (0,1) vector to maintain consistency
+            float angle = Vector2.SignedAngle(Vector2.right, direction);
 
             if (mp != null)
             {
+                // Normalize angle difference to handle smooth wrapping across -180/180 boundary
+                float angleDiff = Mathf.DeltaAngle(lastAngle, angle);
+                lastAngle += angleDiff;
+
                 // If your arrow graphic points UP in the sprite file, use: angle - 90
                 // If your arrow graphic points RIGHT in the sprite file, use: angle
-                float visualAngle = angle - 90f;
+                float visualAngle = lastAngle - 90f;
 
                 if (mp.playerProperties.myId == 2)
                 {
