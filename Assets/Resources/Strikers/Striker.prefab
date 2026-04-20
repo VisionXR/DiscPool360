@@ -264,9 +264,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AimLine
   boardData: {fileID: 11400000, guid: ad667ead06ef30141a535576a98b6906, type: 2}
   line: {fileID: 2368766724140658723}
+  checkTransform: {fileID: 443220710247185089}
   startTransform: {fileID: 4935950620630192013}
   lineRenderer: {fileID: 6070432328888676705}
-  hitMask:
+  colliderMask:
     serializedVersion: 2
     m_Bits: 192
   CutOffLength: 2.5
@@ -812,30 +813,6 @@ MonoBehaviour:
   inputData: {fileID: 11400000, guid: 886a3cfd97839fc428e81ec670c805d2, type: 2}
   strikerArrow: {fileID: 2409958208472385468}
   strikerRigidbody: {fileID: 8616717779063074513}
-  StrikeCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   cutOffValue: 0.1
 --- !u!114 &2409958208472385468
 MonoBehaviour:

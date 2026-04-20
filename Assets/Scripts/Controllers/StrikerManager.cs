@@ -11,18 +11,18 @@ public class StrikerManager : MonoBehaviour
 
     [Header("Game Objects")]
     public GameObject AllAssets;
-    public GameObject strikerPrefab;
     private GameObject currentStriker;
 
+    public string resourceFolderPath = "Strikers/";
 
     private void OnEnable()
     {
         strikerData.CreateStrikerEvent += CreateStriker;
         strikerData.DestroyStrikerEvent += DestroyStriker;
 
-        strikerData.PlaceStrikerEvent += PlaceStrikerOnEdge;
+        strikerData.PlaceStrikerOnEdgeEvent += PlaceStrikerOnEdge;
         strikerData.ResetStrikerEvent += ResetStriker;
-        
+
     }
 
     private void OnDisable()
@@ -30,7 +30,7 @@ public class StrikerManager : MonoBehaviour
         strikerData.CreateStrikerEvent -= CreateStriker;
         strikerData.DestroyStrikerEvent -= DestroyStriker;
 
-        strikerData.PlaceStrikerEvent -= PlaceStrikerOnEdge;
+        strikerData.PlaceStrikerOnEdgeEvent -= PlaceStrikerOnEdge;
         strikerData.ResetStrikerEvent -= ResetStriker;
 
     }
@@ -41,7 +41,7 @@ public class StrikerManager : MonoBehaviour
         {
             currentStriker = strikerData.currentStriker;
         }
-      
+
 
         Rigidbody strikerRigidbody = currentStriker.GetComponent<Rigidbody>();
         if (strikerRigidbody != null)
@@ -49,9 +49,9 @@ public class StrikerManager : MonoBehaviour
             strikerRigidbody.isKinematic = true;
             strikerRigidbody.linearVelocity = Vector3.zero;
             strikerRigidbody.angularVelocity = Vector3.zero;
-            strikerRigidbody.transform.position = boardData.StrikerFoulPositions[id-1].position;
-            strikerRigidbody.transform.rotation = boardData.StrikerFoulPositions[id-1].rotation;
-       
+            strikerRigidbody.transform.position = boardData.StrikerFoulPositions[id - 1].position;
+            strikerRigidbody.transform.rotation = boardData.StrikerFoulPositions[id - 1].rotation;
+
         }
     }
 
@@ -62,8 +62,11 @@ public class StrikerManager : MonoBehaviour
             Destroy(currentStriker);
         }
 
+        string path = resourceFolderPath + "Striker";
+        GameObject strikerPrefab = Resources.Load<GameObject>(path);
+
         currentStriker = Instantiate(strikerPrefab, strikerTransform.transform.position, strikerTransform.transform.rotation);
-        currentStriker.transform.localScale = Vector3.one*0.75f;
+        currentStriker.transform.localScale = Vector3.one * 0.75f;
         currentStriker.transform.SetParent(AllAssets.transform);
     }
 
@@ -78,11 +81,11 @@ public class StrikerManager : MonoBehaviour
 
     private void ResetStriker()
     {
-        if(currentStriker != null)
+        if (currentStriker != null)
         {
             currentStriker.transform.position = boardData.StrikerTransform.transform.position;
             currentStriker.transform.rotation = boardData.StrikerTransform.transform.rotation;
         }
     }
- 
+
 }

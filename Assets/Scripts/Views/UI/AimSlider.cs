@@ -5,7 +5,7 @@ using com.VisionXR.ModelClasses;
 using com.VisionXR.GameElements;
 
 [RequireComponent(typeof(Slider))]
-public class AimSlider : MonoBehaviour, IDragHandler
+public class AimSlider : MonoBehaviour, IDragHandler,IPointerDownHandler
 {
     [Header("Scriptable Objects")]
     public InputDataSO inputData;
@@ -30,34 +30,43 @@ public class AimSlider : MonoBehaviour, IDragHandler
         mp = playerData.GetMainPlayer();
     }
 
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        // Call OnDrag immediately to update the aim direction on pointer down
+        OnDrag(eventData);
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
         // 1. Get the center of the slider in Screen Space
+        // Ensure your sliderRectTransform pivot is (0.5, 0.5) for this to be the visual center
         Vector2 sliderCenterScreen = RectTransformUtility.WorldToScreenPoint(eventData.pressEventCamera, sliderRectTransform.position);
 
-        // 2. Calculate the vector from the center of the slider to the mouse/touch position
+        // 2. Vector from center to mouse
         Vector2 direction = eventData.position - sliderCenterScreen;
 
-        if (direction.magnitude > 0.1f) // Avoid jitter when very close to center
+        if (direction.magnitude > 0.1f)
         {
-            // 3. Calculate angle
-            // Atan2 returns the angle in radians. Rad2Deg converts to 0-360.
+            // 3. Atan2 returns angle where 0 is RIGHT (East)
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
 
             if (mp != null)
             {
-                if(mp.playerProperties.myId == 2)
+                // If your arrow graphic points UP in the sprite file, use: angle - 90
+                // If your arrow graphic points RIGHT in the sprite file, use: angle
+                float visualAngle = angle - 90f;
+
+                if (mp.playerProperties.myId == 2)
                 {
-                    aimArrow.transform.rotation = Quaternion.Euler(0, 0, angle);
-                    inputData.RotateStrikerAbsolute(-(angle+180));
-                    return;
+                    aimArrow.transform.rotation = Quaternion.Euler(0, 0, visualAngle);
+                    // Adjusting the absolute rotation for the striker logic
+                    inputData.RotateStrikerAbsolute(-(visualAngle + 180));
                 }
-
-
-                aimArrow.transform.rotation = Quaternion.Euler(0, 0, angle);
-                inputData.RotateStrikerAbsolute(-angle);
-
+                else
+                {
+                    aimArrow.transform.rotation = Quaternion.Euler(0, 0, visualAngle);
+                    inputData.RotateStrikerAbsolute(-visualAngle);
+                }
             }
         }
     }

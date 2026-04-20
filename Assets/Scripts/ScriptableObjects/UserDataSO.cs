@@ -17,6 +17,7 @@ namespace com.VisionXR.ModelClasses
         public DominantHand myDominantHand;
         public float bgMusicVolume = 1f;
         public int myBoard = 0;
+        public int myCoins = 0;
         public ServerRegion myServerRegion = ServerRegion.any;
 
         public List<Sprite> AIImages;
@@ -73,6 +74,11 @@ namespace com.VisionXR.ModelClasses
         {
             myBoard = id;
             BoardChangedEvent?.Invoke(id);
+        }
+
+        public void SetMyCoins(int id)
+        {
+            myCoins = id;
         }
 
         public void CreateSameBoard()

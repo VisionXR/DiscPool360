@@ -1,7 +1,5 @@
 using com.VisionXR.ModelClasses;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Com.VisionXR.GameElements
 {
@@ -33,37 +31,11 @@ namespace Com.VisionXR.GameElements
             }
         }
 
-        public void PlayCoinFellInHoleAudio(float volume)
-        {
-            if (audioSources.Length > 2)
-            {
-                audioSources[2].Play();
-                Invoke("DeActivate", 0.5f);
-            }
-        }
-
-        private void DeActivate()
-        {
-            coinRigidbody.gameObject.SetActive(false);
-        }
-
         private void OnCollisionEnter(Collision collision)
         {
-            if (coinRigidbody == null)
-            {
-                return;
-            }
 
             GameObject other = collision.gameObject;
             string otherTag = other.tag;
-
-            // Hole
-            if (otherTag == "Hole")
-            {
-
-                PlayCoinFellInHoleAudio(1f);
-                return;
-            }
 
             // Edge
             if (otherTag == "Edge")
@@ -82,12 +54,30 @@ namespace Com.VisionXR.GameElements
                 return;
             }
 
+
+            if (otherTag == "Striker")
+            {
+                // Use relative velocity provided by physics
+                float relSpeed = collision.relativeVelocity.magnitude;
+
+                if (relSpeed < MinVelocityToPlayAudio)
+                {
+                    return;
+                }
+
+                float volume = relSpeed >= CutOffVelocityForMaxAudio
+                    ? 1f
+                    : (relSpeed - MinVelocityToPlayAudio) / (CutOffVelocityForMaxAudio - MinVelocityToPlayAudio);
+
+                PlayCoinCollisionAudio(Mathf.Clamp01(volume));
+                return;
+            }
+
             // Coin or striker collision
-            if (other.layer == LayerMask.NameToLayer("Coin") )
+            if (otherTag == "Stripe" || otherTag == "Solid" || otherTag == "Black" || otherTag == "Red" || otherTag == "Color")
             {
                 // Use relative velocity provided by physics
                 float relSpeed = collision.relativeVelocity.magnitude;
-
 
                 if (relSpeed < MinVelocityToPlayAudio)
                 {
@@ -101,23 +91,6 @@ namespace Com.VisionXR.GameElements
                 PlayCoinCollisionAudio(Mathf.Clamp01(volume));
             }
 
-            if( otherTag == "Striker")
-            {
-                // Use relative velocity provided by physics
-                float relSpeed = collision.relativeVelocity.magnitude;
-
-
-                if (relSpeed < MinVelocityToPlayAudio)
-                {
-                    return;
-                }
-
-                float volume = relSpeed >= CutOffVelocityForMaxAudio
-                    ? 1f
-                    : (relSpeed - MinVelocityToPlayAudio) / (CutOffVelocityForMaxAudio - MinVelocityToPlayAudio);
-
-                PlayCoinCollisionAudio(Mathf.Clamp01(volume));
-            }
         }
 
 

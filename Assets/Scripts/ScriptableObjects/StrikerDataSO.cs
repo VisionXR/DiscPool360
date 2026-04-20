@@ -40,6 +40,7 @@ namespace com.VisionXR.ModelClasses
         public Action<int> HandleFoulEvent;
         public Action FoulCompleteEvent;
         public Action<int> PlaceStrikerEvent;
+        public Action<int> PlaceStrikerOnEdgeEvent;
 
         //Methods
 
@@ -121,6 +122,11 @@ namespace com.VisionXR.ModelClasses
         public void PlaceStriker()
         {
             PlaceStrikerEvent?.Invoke(pocketId);
+        }
+
+        public void PlaceStrikerOnEdge()
+        {
+            PlaceStrikerOnEdgeEvent?.Invoke(pocketId);
         }
 
         public void StrikerCollided(GameObject collidedObject)

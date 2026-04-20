@@ -8,13 +8,14 @@ public class AimLine : MonoBehaviour
 
     [Header("Game Objects")]
     public GameObject line;
+    public Transform checkTransform;
     public Transform startTransform;
     public Renderer lineRenderer;
 
     [Header("Properties")]
-    public LayerMask hitMask;
+    public LayerMask colliderMask;
     public float CutOffLength = 1f;
-    public  float LineThickness = 0.08f;
+    public float LineThickness = 0.08f;
 
     // local variables
     private RaycastHit hit;
@@ -34,7 +35,14 @@ public class AimLine : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Physics.SphereCast(startTransform.position,boardData.StrikerRadius,transform.up, out hit,2,hitMask))
+        if (Physics.CheckSphere(checkTransform.position, boardData.StrikerRadius, colliderMask))
+        {
+            line.transform.localScale = new Vector3(LineThickness, 0, 1);
+            return;
+        }
+
+
+        if (Physics.SphereCast(startTransform.position, boardData.StrikerRadius, transform.up, out hit, 2, colliderMask))
         {
             Vector3 hitPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
             float d = Vector3.Distance(hit.point, transform.position);
@@ -45,7 +53,7 @@ public class AimLine : MonoBehaviour
             // Set tiling for lineRenderer's material
             if (lineRenderer != null && lineRenderer.material != null)
             {
-                lineRenderer.material.mainTextureScale = new Vector2(1, scaleY*10);
+                lineRenderer.material.mainTextureScale = new Vector2(1, scaleY * 10);
             }
         }
         else
@@ -55,7 +63,7 @@ public class AimLine : MonoBehaviour
             // Set tiling for lineRenderer's material
             if (lineRenderer != null && lineRenderer.material != null)
             {
-                lineRenderer.material.mainTextureScale = new Vector2(1, CutOffLength*10);
+                lineRenderer.material.mainTextureScale = new Vector2(1, CutOffLength * 10);
             }
         }
     }

@@ -9,13 +9,14 @@ public class CoinManager : MonoBehaviour
     [Header("Scriptable Objects")]
     public BoardDataSO boardData;
     public CoinDataSO coinData;
+    public UserDataSO userData;
 
     [Header("Game Objects")]
     public GameObject AllAssets;
-    public GameObject poolCoinsPrefab;
-    public GameObject snookerCoinsPrefab;
+    public string resourceFolderPath = "Coins/";
 
     // Local variables
+    public AudioSource coinFellIntoHole;
     public float placeRadius = 0.1f;
     public float coinLift = 0.01f;
     public LayerMask coinLayerMask;
@@ -27,6 +28,8 @@ public class CoinManager : MonoBehaviour
         coinData.DestroyCoinsEvent += DestroyCoins;
 
         coinData.CoinFellOnGroundEvent += PlaceOnBoard;
+
+        coinData.CoinPocketedIntoHoleEvent += PlayHoleAudio;
     }
 
     private void OnDisable()
@@ -35,6 +38,13 @@ public class CoinManager : MonoBehaviour
         coinData.DestroyCoinsEvent -= DestroyCoins;
 
         coinData.CoinFellOnGroundEvent -= PlaceOnBoard;
+
+        coinData.CoinPocketedIntoHoleEvent -= PlayHoleAudio;
+    }
+
+    private void PlayHoleAudio(GameObject coin)
+    {
+        coinFellIntoHole.Play();
     }
 
     private IEnumerator WaitAndPlace(GameObject coin)
@@ -82,46 +92,26 @@ public class CoinManager : MonoBehaviour
 
     private void CreateCoins(GameMode mode, Transform coinTransform)
     {
-        // 1. Destroy existing coins if they exist
+
         if (currentCoins != null)
         {
             Destroy(currentCoins);
-            // Clean up memory from the previous coin set
-            Resources.UnloadUnusedAssets();
+
         }
 
-        // 2. Construct the path based on the Enum name 
-        // This assumes your files are named "Coins/Pool.prefab" and "Coins/Snooker.prefab"
-        string resourcePath = "Coins/";
-        
-        if(mode == GameMode.Pool)
-            resourcePath += "PoolCoins";
-        else if(mode == GameMode.Snooker)
-            resourcePath += "SnookerCoins";
-        else
-            Debug.LogError($"[CreateCoins] Unsupported GameMode: {mode}");
-    
+        string path = resourceFolderPath + "Coins" + userData.myCoins;
+        GameObject coinsPrefab = Resources.Load<GameObject>(path);
 
-        // 3. Load from Resources
-        GameObject coinPrefab = Resources.Load<GameObject>(resourcePath);
+        currentCoins = Instantiate(coinsPrefab, coinTransform.transform.position, coinTransform.transform.rotation);
+        currentCoins.transform.localScale = Vector3.one * 0.5f;
+        currentCoins.transform.SetParent(AllAssets.transform);
 
-        if (coinPrefab != null)
-        {
-            // 4. Instantiate and set properties
-            currentCoins = Instantiate(coinPrefab, coinTransform.position, coinTransform.rotation);
 
-            currentCoins.transform.localScale = Vector3.one * 0.5f;
-            currentCoins.transform.SetParent(AllAssets.transform);
-        }
-        else
-        {
-            Debug.LogError($"[CreateCoins] Could not find prefab at Resources/{resourcePath}");
-        }
     }
 
     private void DestroyCoins()
     {
-        if(currentCoins != null)
+        if (currentCoins != null)
         {
             Destroy(currentCoins);
             coinData.AvailableCoinsInGame.Clear();

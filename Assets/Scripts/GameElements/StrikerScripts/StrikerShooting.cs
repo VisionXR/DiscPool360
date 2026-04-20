@@ -21,8 +21,8 @@ public class StrikerShooting : MonoBehaviour
     public Action StrikeForceStartedEvent;
 
     // variables
-    public AnimationCurve StrikeCurve;
-    public float cutOffValue = 0.15f;
+ 
+    public float cutOffValue = 0.1f;
     private float strikeForce = 2;
     private bool isFired = false;  
     private float startTime;
