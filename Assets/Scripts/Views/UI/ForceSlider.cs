@@ -6,6 +6,7 @@ using com.VisionXR.ModelClasses;
 [RequireComponent(typeof(Slider))]
 public class ForceSlider : MonoBehaviour, IPointerUpHandler
 {
+    [Header("Scriptable Objects")]
     public InputDataSO inputData; // Reference to your ScriptableObject for input data
     private Slider slider;
 
@@ -35,5 +36,10 @@ public class ForceSlider : MonoBehaviour, IPointerUpHandler
         inputData.FireStrike(force);
         // Trigger your game logic here!
         // Example: myPlayer.Launch(force);
+    }
+
+    public void SetForce(float force)
+    {
+        inputData.StrikerForceChanged(force);
     }
 }

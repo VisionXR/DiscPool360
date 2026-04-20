@@ -346,7 +346,7 @@ namespace com.VisionXR.Controllers
         {
             inputData.DisableInput();
             boardData.TurnOffInteractable();
-            InputPanel.SetActive(true);
+            InputPanel.SetActive(false);
             multiPlayerConnectionManager.SendStrikeStarted();
         }
 

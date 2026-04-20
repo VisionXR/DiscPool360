@@ -33,6 +33,8 @@ namespace com.VisionXR.GameElements
             inputData.RotateStrikerAbsoluteEvent += RotateStriker;
             gameData.TurnChangeEvent += SetStriker;
 
+            inputData.StrikerForceChangedEvent += StrikerForceChanged;
+
         }
 
         private void OnDisable()
@@ -42,6 +44,13 @@ namespace com.VisionXR.GameElements
             inputData.RotateStrikerAbsoluteEvent -= RotateStriker;
             gameData.TurnChangeEvent -= SetStriker;
 
+            inputData.StrikerForceChangedEvent -= StrikerForceChanged;
+
+        }
+
+        private void StrikerForceChanged(float obj)
+        {
+           strikerShooting.SetStrikerForce(obj);
         }
 
         private void RotateStriker(float angle)

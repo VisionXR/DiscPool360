@@ -269,7 +269,7 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 192
-  CutOffLength: 2
+  CutOffLength: 2.5
   LineThickness: 0.08
 --- !u!1 &7171349960604373572
 GameObject:
@@ -836,7 +836,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cutOffValue: 0.15
+  cutOffValue: 0.1
 --- !u!114 &2409958208472385468
 MonoBehaviour:
   m_ObjectHideFlags: 0

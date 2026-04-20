@@ -23,6 +23,7 @@ namespace com.VisionXR.ModelClasses
         public Action<float> StartStrikeEvent;
         public Action<float> EndStrikeEvent;
         public Action<float> FireStrikeEvent;
+        public Action<float> StrikerForceChangedEvent;
 
         public Action<bool> InputChangeEvent;
      
@@ -129,6 +130,11 @@ namespace com.VisionXR.ModelClasses
         public void RotateStrikerTowards(Vector3 initialPosition)
         {
             RotateStrikerTowardsEvent?.Invoke(initialPosition);
+        }
+
+        public void StrikerForceChanged(float force)
+        {
+            StrikerForceChangedEvent?.Invoke(force);
         }
 
         public void PlatformRotated(int direction)

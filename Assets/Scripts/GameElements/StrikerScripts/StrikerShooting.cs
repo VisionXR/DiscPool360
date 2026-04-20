@@ -99,7 +99,7 @@ public class StrikerShooting : MonoBehaviour
     public void SetStrikerForce(float normalizedValue)
     {
         // Map the normalized value to the desired range
-        normalizedValue = StrikeCurve.Evaluate(normalizedValue);
+    //    normalizedValue = StrikeCurve.Evaluate(normalizedValue);
         float range = strikerData.forceUpperLimit - strikerData.forceLowerLimit;
         strikeForce = strikerData.forceLowerLimit + (normalizedValue) * range;
         strikerArrow.ChangeColorOfArrow(normalizedValue);
