@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentStriker: {fileID: 0}
   period: 6
-  forceUpperLimit: 2.5
-  forceLowerLimit: 0.2
+  forceUpperLimit: 2
+  forceLowerLimit: 0.1
   isFoul: 0
-  strikeForce: 1.9118152
-  normalValue: 0.54862213
-  strikerDir: {x: 0.98639095, y: -0.00000013297408, z: -0.1644193}
+  strikeForce: 1.2138518
+  normalValue: 0.548687
+  strikerDir: {x: -0.3263526, y: -0.0000060642697, z: 0.9452481}

@@ -14,6 +14,7 @@ namespace com.VisionXR.Controllers
         public UserDataSO playerSettings;
         public UIDataSO uiData;
         public CloudDataSO cloudData;
+        public AchievementsDataSO achievementData;
 
         void Start()
         {
@@ -72,6 +73,7 @@ namespace com.VisionXR.Controllers
 
                 playerSettings.SetUserNameAndId(name, googleID);
                 uiData.TriggerHomeEvent();
+                achievementData.GetAllAchievemnets();
                 RequestTokenAndLoginToPlayFab();
             }
 

@@ -80,32 +80,43 @@ public class CoinManager : MonoBehaviour
         StartCoroutine(WaitAndPlace(coin));
     }
 
-    private void CreateCoins(GameMode mode,Transform coinTransform)
+    private void CreateCoins(GameMode mode, Transform coinTransform)
     {
-        
-        if (mode == GameMode.Pool)
+        // 1. Destroy existing coins if they exist
+        if (currentCoins != null)
         {
-            if (currentCoins != null)
-            {
-                Destroy(currentCoins);
-               
-            }
-            currentCoins = Instantiate(poolCoinsPrefab, coinTransform.transform.position,coinTransform.transform.rotation);
-            currentCoins.transform.localScale = Vector3.one*0.5f;
-            currentCoins.transform.SetParent(AllAssets.transform);
-
+            Destroy(currentCoins);
+            // Clean up memory from the previous coin set
+            Resources.UnloadUnusedAssets();
         }
+
+        // 2. Construct the path based on the Enum name 
+        // This assumes your files are named "Coins/Pool.prefab" and "Coins/Snooker.prefab"
+        string resourcePath = "Coins/";
+        
+        if(mode == GameMode.Pool)
+            resourcePath += "PoolCoins";
         else if(mode == GameMode.Snooker)
+            resourcePath += "SnookerCoins";
+        else
+            Debug.LogError($"[CreateCoins] Unsupported GameMode: {mode}");
+    
+
+        // 3. Load from Resources
+        GameObject coinPrefab = Resources.Load<GameObject>(resourcePath);
+
+        if (coinPrefab != null)
         {
-            if (currentCoins != null)
-            {
-                Destroy(currentCoins);
-              
-            }
-            currentCoins = Instantiate(snookerCoinsPrefab, coinTransform.transform.position,coinTransform.transform.rotation);
-            currentCoins.transform.localScale = Vector3.one*0.5f;
+            // 4. Instantiate and set properties
+            currentCoins = Instantiate(coinPrefab, coinTransform.position, coinTransform.rotation);
+
+            currentCoins.transform.localScale = Vector3.one * 0.5f;
             currentCoins.transform.SetParent(AllAssets.transform);
-        }   
+        }
+        else
+        {
+            Debug.LogError($"[CreateCoins] Could not find prefab at Resources/{resourcePath}");
+        }
     }
 
     private void DestroyCoins()

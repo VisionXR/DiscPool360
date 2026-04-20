@@ -4,6 +4,7 @@ using com.VisionXR.ModelClasses;
 using System;
 using System.IO;
 using UnityEngine;
+using GooglePlayGames;
 
 
 public class AchievementManager : MonoBehaviour
@@ -51,8 +52,32 @@ public class AchievementManager : MonoBehaviour
 
     public void GetAllAchievements()
     {
+        if (!PlayGamesPlatform.Instance.IsAuthenticated())
+        {
+            Debug.LogWarning("User is not authenticated with Google Play Games Services");
+            return;
+        }
 
+        PlayGamesPlatform.Instance.LoadAchievements((achievements) =>
+        {
+            if (achievements == null)
+            {
+                Debug.LogError("Failed to load achievements from Google Play Games Services");
+                return;
+            }
 
+            // Update achievement data with fetched achievements
+            foreach (var achievement in achievements)
+            {
+                if(achievement.completed)
+                {
+                    achievementData.UnLockLocal(achievement.id);
+                }
+               
+                Debug.Log($"Achievement: {achievement.id}, Completed: {achievement.completed}, percentCompleted: {achievement.percentCompleted}");
+            }
+
+        });
     }
 
     public void GameStarted()
@@ -77,7 +102,7 @@ public class AchievementManager : MonoBehaviour
     public void GameCompleted(int id)
     {
         Destination d = destinationData.currentDestination;
-        Player mp = playerData.GetMainPlayer();
+        com.VisionXR.GameElements.Player mp = playerData.GetMainPlayer();
         if (d != null && mp.playerProperties.myId == id)
         {
             if (d.gameType == GameType.SinglePlayer)

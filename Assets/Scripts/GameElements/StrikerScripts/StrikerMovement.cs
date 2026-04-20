@@ -36,7 +36,7 @@ namespace com.VisionXR.GameElements
         public void RotateAbsolute(float angle)
         {
             var currentEuler = transform.eulerAngles;
-            transform.eulerAngles = new Vector3(currentEuler.x, angle, currentEuler.z);
+            transform.eulerAngles = new Vector3(0, angle, 0);
             _lastAppliedYaw = angle;
         }
 

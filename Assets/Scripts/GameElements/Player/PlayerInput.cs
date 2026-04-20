@@ -1,5 +1,4 @@
 using com.VisionXR.ModelClasses;
-using Photon.Realtime;
 using System;
 using UnityEngine;
 
@@ -27,21 +26,27 @@ namespace com.VisionXR.GameElements
         // Actions
         public Action PlatformRotatedEvent;
 
-
-
         private void OnEnable()
-        {       
+        {
 
-            inputData.RotateStrikerEvent += RotateStriker;
             inputData.FireStrikeEvent += FireStriker;
-      
+            inputData.RotateStrikerAbsoluteEvent += RotateStriker;
+            gameData.TurnChangeEvent += SetStriker;
+
         }
 
         private void OnDisable()
         {
-            
-            inputData.RotateStrikerEvent -= RotateStriker;
+
             inputData.FireStrikeEvent -= FireStriker;
+            inputData.RotateStrikerAbsoluteEvent -= RotateStriker;
+            gameData.TurnChangeEvent -= SetStriker;
+
+        }
+
+        private void RotateStriker(float angle)
+        {
+            strikerMovement.RotateAbsolute(angle);
         }
 
         private void FireStriker(float val)
@@ -49,21 +54,8 @@ namespace com.VisionXR.GameElements
             strikerShooting.FireStriker(val);
         }
 
-        private void RotateStriker(Vector2 dir)
-        {
-            SetStriker();
-            int id = playerData.GetMainPlayer().playerProperties.myId;
-            Vector3 forward = tableData.GetCanvasTransform(id).forward;
-            Vector3 right = tableData.GetCanvasTransform(id).right;
-            Vector3 viewDirection = strikerData.currentStriker.transform.position + forward * dir.y + right * dir.x;
 
-            strikerMovement.RotateTo(viewDirection);
-            strikerShooting.SetStrikerForce(dir.magnitude); // use joystick magnitude as normalized force (0..1)
-
-        }
-
-
-        private void SetStriker()
+        private void SetStriker(int id)
         {
             // Fetching references from TableData/StrikerData
             striker = strikerData.currentStriker;
@@ -80,12 +72,15 @@ namespace com.VisionXR.GameElements
             }
         }
 
-   
+        private bool CheckTag(string tag)
+        {
+            if (tag == "Board" || tag == "Solid" || tag == "Stripe" || tag == "BlacK" || tag == "Red" || tag == "Color")
+            {
+                return true;
+            }
+            return false;
+        }
 
-        // Keep these for external/legacy calls if needed
-        public void RotateTo(Vector3 direction) => strikerMovement?.RotateTo(direction);
-        public void RotateRelative(float angle) => strikerMovement?.RotateRelative(angle);
-        public void StartStrike(float value) => strikerShooting?.StartStrike(value);
-        public void EndStrike(float value) => strikerShooting?.EndStrike(value);
+
     }
 }

@@ -30,53 +30,17 @@ namespace com.VisionXR.Controllers
         private void OnEnable()
         {
             // 3. You MUST enable EnhancedTouch once
-            EnhancedTouchSupport.Enable();
-
-            fixedJoystick.JoyStickChangedEvent += OnJoystickChanged;
-            fixedJoystick.JoyStickStoppedEvent += OnJoystickStopped;
+            EnhancedTouchSupport.Enable();   
+         
         }
 
         private void OnDisable()
         {
             EnhancedTouchSupport.Disable();
 
-            fixedJoystick.JoyStickChangedEvent -= OnJoystickChanged;
-            fixedJoystick.JoyStickStoppedEvent -= OnJoystickStopped;
         }
 
-        private void OnJoystickChanged(Vector2 direction)
-        {
-            if (direction.magnitude > cutoffValue)
-            {
-                if (!isJoystickActive)
-                {
-                    isJoystickActive = true;
-                }
-                inputData.RotateStriker(-direction);
-            }
-            else
-            {
-                if (isJoystickActive)
-                {
-                    isJoystickActive = false;
-                    inputData.RotateStriker(Vector2.zero);
-                }
-                // Nothing
-            }
-        }
 
-        private void OnJoystickStopped(Vector2 direction)
-        {
-            if (direction.magnitude > cutoffValue)
-            {
-                if (isJoystickActive)
-                {
-                    isJoystickActive = false;
-                    inputData.FireStrike(direction.magnitude);
-                    // fire striker here
-                }
-            }
-        }
 
         private void Start()
         {
@@ -91,8 +55,7 @@ namespace com.VisionXR.Controllers
             if (inputData.isInputEnabled)
             {
                 HandleTouchInput();
-            }
-            
+            }       
 
         }
 
@@ -181,8 +144,6 @@ namespace com.VisionXR.Controllers
             // 1. Fire the event for the Platform script to check for "Edge" raycast
             inputData.RotationPinchStarted(touch);
 
-
-            Debug.Log($"Touch Began at: {touch}");
         }
 
         private void HandleTouchUpdate(Vector2 touch)

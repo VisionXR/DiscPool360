@@ -14,47 +14,77 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::com.VisionXR.ModelClasses.AchievementsDataSO
   AllAchievementInfo:
   - icon: {fileID: 21300000, guid: 14046bb48abdb84419606abecddd0913, type: 3}
-    apiName: Ach_Login_First
+    apiName: CgkI64-uqPAcEAIQAQ
     achievementName: Login Milestone I
     description: Log in for the first time
     isAchieved: 0
   - icon: {fileID: 21300000, guid: f9ad17616a166c04d8aad4824774db2e, type: 3}
-    apiName: Ach_Continues_Login_Three
+    apiName: CgkI64-uqPAcEAIQIg
     achievementName: Login Milestone II
     description: Log in for 3 days
     isAchieved: 0
   - icon: {fileID: 21300000, guid: 7bf326bb4197af14288117d47b1dbd98, type: 3}
-    apiName: Ach_Continues_Login_Five
+    apiName: CgkI64-uqPAcEAIQLQ
     achievementName: Login Milestone III
     description: Log in for 5 days
     isAchieved: 0
+  - icon: {fileID: 21300000, guid: 82e1988a8949d1b42b54c519c1f87bee, type: 3}
+    apiName: CgkI64-uqPAcEAIQKA
+    achievementName: Login Milestone IV
+    description: Log in 10 days
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: a851051f350cf8c4e87f6569e9a3ab82, type: 3}
+    apiName: CgkI64-uqPAcEAIQBQ
+    achievementName: Table Host I
+    description: In Multiplayer P1 Vs P2, send first invite.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: c0cdb5126f9e1444c90c5d5c602cfb7d, type: 3}
+    apiName: CgkI64-uqPAcEAIQDA
+    achievementName: Table Host II
+    description: In Multiplayer P1 Vs P2, send invites to 3 unique players.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: bc1db51e37ff0634cafa3c21f9fa4ede, type: 3}
+    apiName: CgkI64-uqPAcEAIQHA
+    achievementName: Table Host III
+    description: In Multiplayer P1 Vs P2, send invites to 5 unique players.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 32361ec57a30c6940a2a6bbe20e1c295, type: 3}
+    apiName: CgkI64-uqPAcEAIQGg
+    achievementName: Table Host IV
+    description: Send 10 invites in Multiplayer P1 vs P2
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 8afb9e783aea4e74ba0e75c613c05ecd, type: 3}
+    apiName: CgkI64-uqPAcEAIQKw
+    achievementName: Grand Champion
+    description: Win 100 total matches
+    isAchieved: 0
   - icon: {fileID: 21300000, guid: dae4a5fb1741db14a8ee16b6fc023fe6, type: 3}
-    apiName: Ach_Single_Pool_AIEasy_First_Win
+    apiName: CgkI64-uqPAcEAIQEg
     achievementName: "Pool Victory I \u2013 Easy AI"
     description: Win your first Pool match against the Easy AI.
     isAchieved: 0
   - icon: {fileID: 21300000, guid: f3d7b148b5aba2a4abe7ed567b607372, type: 3}
-    apiName: Ach_Single_Pool_AIMedium_First_Win
+    apiName: CgkI64-uqPAcEAIQHg
     achievementName: "Pool Victory I \u2013 Medium AI"
     description: Win your first Pool match against the Medium AI.
     isAchieved: 0
   - icon: {fileID: 21300000, guid: cda1dafd866c9de4eabefdbf4b08bb1b, type: 3}
-    apiName: Ach_Single_Pool_AIHard_First_Win
+    apiName: CgkI64-uqPAcEAIQIw
     achievementName: "Pool Victory I \u2013 Hard AI"
     description: Win your first Pool match against the Hard AI.
     isAchieved: 0
   - icon: {fileID: 21300000, guid: 5dc20861eeb0db54aaecea4cf148010b, type: 3}
-    apiName: Ach_Single_Pool_AIHard_Ten_Win
+    apiName: CgkI64-uqPAcEAIQMw
     achievementName: "Pool Victory X \u2013 Hard AI"
     description: Win 10 Pool matches against the Hard AI.
     isAchieved: 0
   - icon: {fileID: 21300000, guid: beb3741f9adef9c4dabbae7afe5b9725, type: 3}
-    apiName: Ach_Single_Snooker_AIEasy_First_Win
+    apiName: CgkI64-uqPAcEAIQDw
     achievementName: "Snooker Victory I \u2013 Easy AI"
     description: Win your first Snooker match against the Easy AI.
     isAchieved: 0
   - icon: {fileID: 21300000, guid: fce6932f114054d4f895b4e6598a28bc, type: 3}
-    apiName: Ach_Single_Snooker_AIMedium_First_Win
+    apiName: CgkI64-uqPAcEAIQBg
     achievementName: "Snooker Victory I \u2013 Medium AI"
     description: Win your first Snooker match against the Medium AI.
     isAchieved: 0
@@ -64,55 +94,185 @@ MonoBehaviour:
     description: Win your first Snooker match against the Hard AI.
     isAchieved: 0
   - icon: {fileID: 21300000, guid: 44abe305ea6ae3641901329744af22ed, type: 3}
-    apiName: Ach_Single_Snooker_AIHard_Ten_Win
+    apiName: CgkI64-uqPAcEAIQJA
     achievementName: "Snooker Victory X \u2013 Hard AI"
     description: Win 10 Snooker matches against the Hard AI.
     isAchieved: 0
   - icon: {fileID: 21300000, guid: 887132449ea3d2346bf5e70f2c502749, type: 3}
-    apiName: Ach_Multi_Pool_Win1
+    apiName: CgkI64-uqPAcEAIQFA
     achievementName: Pool Duel Victory I
     description: Win your first multiplayer Pool match.
     isAchieved: 0
   - icon: {fileID: 21300000, guid: 7437c634c6681c04e92ff1e1eb10506e, type: 3}
-    apiName: Ach_Multi_Pool_Win3
-    achievementName: Pool  Duel Victory II
-    description: Win 3 multiplayer Pool matches.
+    apiName: CgkI64-uqPAcEAIQEw
+    achievementName: Pool Duel Victory II
+    description: Win 3 Multiplayer Pool matches.
     isAchieved: 0
   - icon: {fileID: 21300000, guid: 2f615831d7eb55d4581ad7d8043bf3dc, type: 3}
-    apiName: Ach_Multi_Pool_Win5
+    apiName: CgkI64-uqPAcEAIQNw
     achievementName: Pool Duel Victory III
-    description: Win 5 multiplayer Pool matches.
+    description: Win 5  Multiplayer Pool matches
     isAchieved: 0
   - icon: {fileID: 21300000, guid: a82eecc5b378c6547af0fded86ef994a, type: 3}
-    apiName: Ach_Multi_Pool_Win10
-    achievementName: Pool Duel Victory II
+    apiName: CgkI64-uqPAcEAIQMw
+    achievementName: Pool Duel Victory IV
     description: Win 10 multiplayer Pool matches.
     isAchieved: 0
   - icon: {fileID: 21300000, guid: 17693894d74c4ef41a691fac8d69149b, type: 3}
-    apiName: Ach_Multi_Snooker_Win1
+    apiName: CgkI64-uqPAcEAIQAw
     achievementName: Snooker Duel Victory I
     description: Win your first multiplayer Snooker match.
     isAchieved: 0
   - icon: {fileID: 21300000, guid: ca273e80795f40145ac346f5eb5d0a19, type: 3}
-    apiName: Ach_Multi_Snooker_Win3
+    apiName: CgkI64-uqPAcEAIQHw
     achievementName: Snooker Duel Victory II
-    description: Win 3 multiplayer Snooker matches.
+    description: Win 3 Multiplayer Snooker matches
     isAchieved: 0
   - icon: {fileID: 21300000, guid: 5d7e5a7f0acc26c49b62187ecddfdec5, type: 3}
-    apiName: Ach_Multi_Snooker_Win5
+    apiName: CgkI64-uqPAcEAIQLw
     achievementName: Snooker Duel Victory III
-    description: Win 5 multiplayer Snooker matches.
+    description: Win 5 Multiplayer snooker matches
     isAchieved: 0
   - icon: {fileID: 21300000, guid: 30568b23f18cd8046948ba8e337f0a40, type: 3}
-    apiName: Ach_Multi_Snooker_Win10
+    apiName: CgkI64-uqPAcEAIQNQ
     achievementName: Snooker Duel Victory IV
     description: Win 10 multiplayer Snooker matches.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: ed548b4ea007efb46b624c8a24642dd9, type: 3}
+    apiName: CgkI64-uqPAcEAIQBw
+    achievementName: Square Pool Pro
+    description: Win a Single Player Pool match on the Square board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 3a05fe5fd9ca240428d3caeb6b40449c, type: 3}
+    apiName: CgkI64-uqPAcEAIQIQ
+    achievementName: Square Snooker Pro
+    description: Win a Single Player Snooker match on the Square board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: eb07d31561c01144a8d2b1401ae19be8, type: 3}
+    apiName: CgkI64-uqPAcEAIQDQ
+    achievementName: Square Pool Duelist
+    description: Win a Multi Player Pool  match on the Square board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 280dacaced8e4a24da46d7f9a94de3e1, type: 3}
+    apiName: CgkI64-uqPAcEAIQMA
+    achievementName: Square Snooker Duelist
+    description: Win a Multiplayer Snooker match on the Square board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 210201b021a62c040a9f113620209150, type: 3}
+    apiName: CgkI64-uqPAcEAIQJg
+    achievementName: Hexagon Pool Pro
+    description: Win a Single Player Pool match on the Hexagon 4 holes board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 7cadc894e7e3d404c8a49c4e0ce3c590, type: 3}
+    apiName: CgkI64-uqPAcEAIQFg
+    achievementName: Hexagon Pool Duelist
+    description: Win a Multiplayer Pool match on the Hexagon4 holes board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 7659fd600496ee441b95c1ef87ac91fd, type: 3}
+    apiName: CgkI64-uqPAcEAIQLg
+    achievementName: Hexagon Snooker Pro
+    description: Win a Single Player Snooker match on the Hexagon 4 holes board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 45eab5e89a916a54fbb69bacbf16bfc5, type: 3}
+    apiName: CgkI64-uqPAcEAIQHQ
+    achievementName: Hexagon Snooker Duelist
+    description: Win a Multiplayer Snooker match on the Hexagon 4 holes board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: b1e5e5013d8bb11429869e6bfd15c87c, type: 3}
+    apiName: CgkI64-uqPAcEAIQGA
+    achievementName: Octagon Pool Pro
+    description: Win a Single Player Pool match on the Octagon 4 holes board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: e69be4fbdc39a2d40b87c52c1690aef8, type: 3}
+    apiName: CgkI64-uqPAcEAIQDg
+    achievementName: Octagon Pool Duelist
+    description: Win a Multiplayer Pool match on the Octagon 4 holes board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 6544adcd149b1e74f94cfd967711b2d3, type: 3}
+    apiName: CgkI64-uqPAcEAIQEA
+    achievementName: Octagon Snooker Pro
+    description: Win a Single Player Snooker match on the Octagon 4 holes board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 837a51d4342ed054f9d429ce1a668b3c, type: 3}
+    apiName: CgkI64-uqPAcEAIQCQ
+    achievementName: Octagon Snooker Duelist
+    description: Win a Multiplayer Snooker match on the Octagon 4 holes board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 88843faf5e441c34dbd8f85ca076e117, type: 3}
+    apiName: CgkI64-uqPAcEAIQIA
+    achievementName: Circle Pool Pro
+    description: Win a Single Player Pool match on the Circle 4 Holes board.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: b8497591a8202df44b1f73372786d6bb, type: 3}
+    apiName: CgkI64-uqPAcEAIQFQ
+    achievementName: Circle Pool Duelist
+    description: Win a Multiplayer Pool match on the Circle 4 holes board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: a47a9fafde1335f4cab12d95754737c4, type: 3}
+    apiName: CgkI64-uqPAcEAIQBA
+    achievementName: Circle Snooker Pro
+    description: Win a Single Player Snooker match on the Circle 4 Holes board.
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: eb2a9bcf562461d4bba250a48b89bcc0, type: 3}
+    apiName: CgkI64-uqPAcEAIQNg
+    achievementName: Circle Snooker Duelist
+    description: Win a Multiplayer Snooker match on the Circle 4 holes board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 210201b021a62c040a9f113620209150, type: 3}
+    apiName: CgkI64-uqPAcEAIQCw
+    achievementName: Hexagon 6 Holes Pool Pro
+    description: Win a Single Player Pool match on the Hexagon board with 6 Holes
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 7cadc894e7e3d404c8a49c4e0ce3c590, type: 3}
+    apiName: CgkI64-uqPAcEAIQGQ
+    achievementName: Hexagon 6 Holes Pool Duelist
+    description: Win a Multiplayer Pool match on the Hexagon board with 6 Holes
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 7659fd600496ee441b95c1ef87ac91fd, type: 3}
+    apiName: CgkI64-uqPAcEAIQKg
+    achievementName: Hexagon 6 Holes Snooker Pro
+    description: Win a Single Player Snooker match on the Hexagon board with 6 Holes
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 45eab5e89a916a54fbb69bacbf16bfc5, type: 3}
+    apiName: CgkI64-uqPAcEAIQMQ
+    achievementName: Hexagon 6 Holes Snooker Duelist
+    description: Win a Multiplayer Snooker match on the Hexagon board with 6 Holes
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 97026f7eeef27264998604a34474bdf4, type: 3}
+    apiName: CgkI64-uqPAcEAIQCg
+    achievementName: Triangle Pool Duelist
+    description: Win a Multiplayer Pool match on the Triangle board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 8077e1265bec10547980719e334e796c, type: 3}
+    apiName: CgkI64-uqPAcEAIQLA
+    achievementName: Triangle Snooker Duelist
+    description: Win a Multiplayer Snooker match on the Triangle board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 5d7b1448dca466a44918e3f2283a7c52, type: 3}
+    apiName: CgkI64-uqPAcEAIQAg
+    achievementName: Triangle Pool Pro
+    description: Win a Single Player Pool match on the Triangle board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 0ded85a9a6cd3bc4798c12555c990eb8, type: 3}
+    apiName: CgkI64-uqPAcEAIQJQ
+    achievementName: Triangle Snooker Pro
+    description: Win a Single Player Snooker match on the Triangle board
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: 4abd57bb36b49ed4ea823e928cf7383b, type: 3}
+    apiName: CgkI64-uqPAcEAIQEQ
+    achievementName: Veteran Soloist
+    description: Win 50 Single Player matches
+    isAchieved: 0
+  - icon: {fileID: 21300000, guid: e70965bb2c5d81641a9b20850a7e5ec8, type: 3}
+    apiName: CgkI64-uqPAcEAIQMg
+    achievementName: Social Contender
+    description: Win 50 Multiplayer matches
     isAchieved: 0
   userData:
     lastLoginDate: 
     totalLogins: 0
     spTotalGames: 0
-    spTotalWins: 2
+    spTotalWins: 0
     spPoolEasyWins: 0
     spPoolMediumWins: 0
     spPoolHardWins: 0
@@ -122,4 +282,4 @@ MonoBehaviour:
     mpTotalGames: 0
     mpTotalWins: 0
     mpPoolWins: 0
-    mpSnookerWins: 1
+    mpSnookerWins: 0

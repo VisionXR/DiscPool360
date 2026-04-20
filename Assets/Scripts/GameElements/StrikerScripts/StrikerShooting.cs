@@ -84,7 +84,7 @@ public class StrikerShooting : MonoBehaviour
         if (val > cutOffValue)
         {
             
-            strikerData.strikerDir = transform.forward;
+            SetStrikerForce(val);
             strikerRigidbody.AddForce(transform.forward * strikerData.strikeForce, ForceMode.VelocityChange);
             strikerData.StrikerStarted();
             strikerArrow.TurnOffArrow();

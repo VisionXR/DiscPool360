@@ -121,9 +121,9 @@ namespace com.VisionXR.ModelClasses
             RotateStrikerRelativeEvent?.Invoke(angle);
         }
 
-        public void RotateStriker(Vector2 rotation)
+        public void RotateStriker(Vector2 direction)
         {
-            RotateStrikerEvent?.Invoke(rotation);
+            RotateStrikerEvent?.Invoke(direction);
         }
 
         public void RotateStrikerTowards(Vector3 initialPosition)
