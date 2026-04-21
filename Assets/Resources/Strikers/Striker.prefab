@@ -813,7 +813,7 @@ MonoBehaviour:
   inputData: {fileID: 11400000, guid: 886a3cfd97839fc428e81ec670c805d2, type: 2}
   strikerArrow: {fileID: 2409958208472385468}
   strikerRigidbody: {fileID: 8616717779063074513}
-  cutOffValue: 0.1
+  cutOffValue: 0.01
 --- !u!114 &2409958208472385468
 MonoBehaviour:
   m_ObjectHideFlags: 0

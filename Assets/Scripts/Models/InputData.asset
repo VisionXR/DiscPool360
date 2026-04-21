@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: InputData
   m_EditorClassIdentifier: 
   isInputEnabled: 0
+  isBoardGrabbed: 0
+  isInputLocked: 0

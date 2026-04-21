@@ -136,7 +136,7 @@ public class TurnAndFoulCanvas : MonoBehaviour
             }
         }
         foulHandlingText.text = displayText;
-        yield return new WaitForSeconds(7f);
+        yield return new WaitForSeconds(3f);
         foulHandlingText.text = "";
         foulHandlingPanel.SetActive(false);
     }

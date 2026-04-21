@@ -42,9 +42,6 @@ namespace com.VisionXR.GameElements
             inputData.RotateStrikerRelativeEvent += RotateRelative;
             inputData.RotateStrikerTowardsEvent += RotateTo;
 
-            inputData.PinchStartedEvent += PinchStarted;
-            inputData.PinchContinuedEvent += PinchContinued;
-            inputData.PinchEndedEvent += PinchEnded;
 
             Initialise();
 
@@ -60,9 +57,7 @@ namespace com.VisionXR.GameElements
             inputData.RotateStrikerRelativeEvent -= RotateRelative;
             inputData.RotateStrikerTowardsEvent -= RotateTo;
 
-            inputData.PinchStartedEvent -= PinchStarted;
-            inputData.PinchContinuedEvent -= PinchContinued;
-            inputData.PinchEndedEvent -= PinchEnded;
+
 
         }
 

@@ -16,7 +16,7 @@ namespace com.VisionXR.Controllers
         
 
         [Header("Audio Trigger")]
-        public Joystick fixedJoystick;
+        
         public AudioSource grapSelectedAudio;
         public AudioSource grapUnSelectedAudio;
         public AudioSource tapSelectedAudio;

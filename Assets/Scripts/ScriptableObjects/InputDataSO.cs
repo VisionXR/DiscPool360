@@ -26,11 +26,7 @@ namespace com.VisionXR.ModelClasses
         public Action<float> StrikerForceChangedEvent;
 
         public Action<bool> InputChangeEvent;
-     
 
-        public Action<Vector3> PinchStartedEvent;
-        public Action<Vector3> PinchContinuedEvent;
-        public Action PinchEndedEvent;
 
         public Action<Vector2> RotationPinchStartedEvent;
         public Action<Vector2> RotationPinchContinuedEvent;
@@ -67,20 +63,6 @@ namespace com.VisionXR.ModelClasses
         }
 
 
-        public void PinchStarted(Vector3 origin)
-        {
-            PinchStartedEvent?.Invoke(origin);
-        }
-
-        public void PinchContinued(Vector3 origin)
-        {
-            PinchContinuedEvent?.Invoke(origin);
-        }
-
-        public void PinchEnded()
-        {
-            PinchEndedEvent?.Invoke();
-        }
 
         public void RotationPinchStarted(Vector2 origin)
         {

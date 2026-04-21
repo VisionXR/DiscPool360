@@ -27,13 +27,13 @@ namespace com.VisionXR.Controllers
 
         // local variables
         [Header("Game Objects")]
-        public GameObject InputPanel;
         public GameObject PoolScoreCanvas;
         public GameObject SnookerScoreCanvas;
+        public GameObject InputCanvas;
         public List<GameObject> pocketedCoins = new List<GameObject>();
 
         [Header("Logic")]
-        
+
         public PoolLogic poolLogic;
         public SnookerLogic snookerLogic;
         private int firstTurnId = 1;
@@ -51,14 +51,13 @@ namespace com.VisionXR.Controllers
             strikerData.StrikerStoppedEvent += StrikeStopped;
 
             strikerData.StrikerPocketedEvent += StrikePocketed;
-            strikerData.FoulCompleteEvent += FoulCompleted;
+            strikerData.StrikerFellOnGroundEvent += StrikeFellOnGround;
+
 
             gameData.PlayAgainEvent += PlayAgain;
 
             gameData.ExitGameEvent += EndGame;
             gameData.TurnChangeEvent += OnTurnChangedAssignCoins;
-
-            InputPanel.SetActive(false);
         }
 
         private void OnDisable()
@@ -70,7 +69,7 @@ namespace com.VisionXR.Controllers
             strikerData.StrikerStoppedEvent -= StrikeStopped;
 
             strikerData.StrikerPocketedEvent -= StrikePocketed;
-            strikerData.FoulCompleteEvent -= FoulCompleted;
+            strikerData.StrikerFellOnGroundEvent -= StrikeFellOnGround;
 
             gameData.PlayAgainEvent -= PlayAgain;
 
@@ -81,12 +80,10 @@ namespace com.VisionXR.Controllers
         // Called whenever turn changes to keep AI/UI in sync for snooker
         private void OnTurnChangedAssignCoins(int newTurnId)
         {
-            strikerData.SetFoul(false); // reset foul state at turn change
             pocketedCoins.Clear();
-           
 
             if (uiData.currentGameMode == GameMode.Pool)
-            {        
+            {
                 _previousTurnId = newTurnId;
                 AssignPoolCoins();
                 uiData.UpdateCoins();
@@ -95,14 +92,14 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     poolLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputPanel.SetActive(true);
+                    InputCanvas.SetActive(true);
                 }
             }
             else
             {
                 if (_previousTurnId != newTurnId)
                 {
-                   
+
                     snookerLogic.SetPhase();
                 }
                 else
@@ -119,13 +116,13 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     snookerLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputPanel.SetActive(true);
+                    InputCanvas.SetActive(true);
                 }
 
             }
         }
 
-        
+
         public void StartGame(int id)
         {
             gameData.StartGame();
@@ -138,24 +135,21 @@ namespace com.VisionXR.Controllers
             StartCoroutine(InitialiseGame(firstTurnId));
 
             strikerData.SetFoul(false);
-      
             tableData.ResetPlatform();
-           
+
         }
 
         private IEnumerator WaitAndPlayAgain(int id)
         {
-             gameData.StartGame();
+            gameData.StartGame();
             _previousTurnId = -1;
             userData.CreateSameBoard();
             strikerData.CreateStriker(boardData.StrikerTransform);
             yield return new WaitForSeconds(0.1f);
 
-           
+
             firstTurnId = id;
             isFirstCoinPocketed = false;
-
-          
             tableData.ResetPlatform();
 
 
@@ -208,7 +202,7 @@ namespace com.VisionXR.Controllers
         private void PlayAgain(int id)
         {
             StartCoroutine(WaitAndPlayAgain(id));
-         
+
         }
 
         private IEnumerator InitialiseGame(int id)
@@ -234,7 +228,7 @@ namespace com.VisionXR.Controllers
                 SnookerScoreCanvas.SetActive(true);
                 coinData.CreateCoins(GameMode.Snooker, boardData.AllCoinsTransform);
                 snookerLogic.StartGame();
-               
+
             }
 
             yield return new WaitForSeconds(0.1f);
@@ -309,8 +303,8 @@ namespace com.VisionXR.Controllers
 
         private void CheckPocketedCoins(GameObject coin)
         {
-            if(pocketedCoins.Contains(coin))
-            { 
+            if (pocketedCoins.Contains(coin))
+            {
                 return;
             }
 
@@ -340,34 +334,22 @@ namespace com.VisionXR.Controllers
 
                             isFirstCoinPocketed = true;
                             uiData.SetCoins();
-                          
+
                         }
                     }
                 }
 
             }
- 
+
         }
 
         private void AssignPoolCoins()
         {
-            
+
 
             Player current = playerData.GetPlayerById(gameData.currentTurnId);
             Player opponent = playerData.GetPlayerById(GetNextTurn());
             if (current == null || opponent == null) return;
-
-            // Helper: check if any coin in list is active
-            bool AnyActive(List<GameObject> list)
-            {
-                if (list == null) return false;
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var c = list[i];
-                    if (c != null && c.activeInHierarchy) return true;
-                }
-                return false;
-            }
 
             // Current player
             if (current.playerProperties.myCoin == PlayerCoin.Stripe && !AnyActive(coinData.stripes))
@@ -392,9 +374,21 @@ namespace com.VisionXR.Controllers
 
         }
 
+        // Helper: check if any coin in list is active
+        public bool AnyActive(List<GameObject> list)
+        {
+            if (list == null) return false;
+            for (int i = 0; i < list.Count; i++)
+            {
+                var c = list[i];
+                if (c != null && c.activeInHierarchy) return true;
+            }
+            return false;
+        }
+
         private void AssignSnookerCoins()
         {
-        
+
 
             Player current = playerData.GetPlayerById(gameData.currentTurnId);
             Player opponent = playerData.GetPlayerById(GetNextTurn());
@@ -415,16 +409,13 @@ namespace com.VisionXR.Controllers
             {
                 // Colors phase: assign specific expected color to current using the logic mapping
                 current.playerProperties.myCoin = snookerLogic.GetExpectedPlayerCoin();
-                opponent.playerProperties.myCoin = current.playerProperties.myCoin ;
+                opponent.playerProperties.myCoin = current.playerProperties.myCoin;
             }
-
-
-
         }
 
         private void StrikeStarted()
         {
-            InputPanel.SetActive(false);
+            InputCanvas.SetActive(false);
             inputData.DisableInput();
             boardData.TurnOffInteractable();
         }
@@ -433,7 +424,7 @@ namespace com.VisionXR.Controllers
         {
             if (strikerData.isFoul)
             {
-                strikerData.PlaceStriker();
+                strikerData.PlaceStrikerOnEdge();
             }
 
             if (uiData.currentGameMode == GameMode.Pool)
@@ -448,38 +439,34 @@ namespace com.VisionXR.Controllers
 
         private void StrikePocketed(int id)
         {
-
             strikerData.SetFoul(true);
             uiData.ShowFoul();
             audioData.PlayAudio(AudioClipType.Foul);
+
         }
 
-        private void FoulCompleted()
+        private void StrikeFellOnGround()
         {
+            strikerData.SetFoul(true);
+            uiData.ShowFoul();
+            audioData.PlayAudio(AudioClipType.Foul);
 
-            StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
         }
-
-
         private IEnumerator WaitAndCheckPoolLogic()
         {
-            yield return new WaitForSeconds(0.5f);
-            foreach (GameObject coin in pocketedCoins)
-            {
-                coin.SetActive(false);
-            }
 
-          
+
             Player currentPlayer = playerData.GetPlayerById(gameData.currentTurnId);
             var myCoinType = currentPlayer.playerProperties.myCoin;
 
             bool anyPocketed = pocketedCoins.Count > 0;
             bool blackPocketed = poolLogic.HasPocketedBlack(pocketedCoins);
             bool myCoinsRemainingOnBoard = poolLogic.AreAnyCoinsRemaining(myCoinType);
+            bool myCoinPocketed = poolLogic.HasPocketedMyCoin(pocketedCoins, myCoinType);
+
 
             uiData.UpdateCoins();
-            yield return new WaitForSeconds(0.5f);
-           
+
             if (!strikerData.isFoul)
             {
                 if (anyPocketed)
@@ -488,44 +475,31 @@ namespace com.VisionXR.Controllers
                     {
                         if (myCoinsRemainingOnBoard)
                         {
-                           
-                            pocketedCoins.Clear();
-                            coinData.DestroyCoins();
-
-                            gameData.GameCompleted(GetNextTurn());
                             StartCoroutine(SetWinner(GetNextTurn()));
-                           
                             yield break;
                         }
                         else
                         {
-                            
-                            pocketedCoins.Clear();
-                            coinData.DestroyCoins();
-
-                            gameData.GameCompleted(gameData.currentTurnId);              
                             StartCoroutine(SetWinner(gameData.currentTurnId));
-
                             yield break;
                         }
                     }
                     else
                     {
-                        if (poolLogic.HasPocketedMyCoin(pocketedCoins, myCoinType))
+                        if (myCoinPocketed)
                         {
-                            
                             yield return StartCoroutine(WaitAndChangeTurn(gameData.currentTurnId));
                         }
                         else
                         {
-                           
+
                             yield return StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
                         }
                     }
                 }
                 else
                 {
-                   
+
                     yield return StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
                 }
             }
@@ -533,36 +507,31 @@ namespace com.VisionXR.Controllers
             {
                 if (!blackPocketed)
                 {
-                    strikerData.HandleFoul(GetNextTurn());
-
-                    yield break;
+                    yield return StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
+                }
+                else
+                {
+                    StartCoroutine(SetWinner(GetNextTurn()));
                 }
 
-           
-                pocketedCoins.Clear();
-                gameData.GameCompleted(GetNextTurn());
-                StartCoroutine(SetWinner(GetNextTurn()));
-                coinData.DestroyCoins();
-            }            
+
+            }
 
         }
 
         private IEnumerator WaitAndCheckSnookerLogic()
         {
-            yield return new WaitForSeconds(0.5f);
-            foreach (GameObject coin in pocketedCoins)
-            {
-                coin.SetActive(false);
-            }
 
-            yield return new WaitForSeconds(0.5f);
+
             var result = snookerLogic.ValidateShot(pocketedCoins, strikerData.isFoul);
+
+            uiData.UpdateCoins();
 
             switch (result)
             {
                 case SnookerShotResult.Foul:
-                    strikerData.HandleFoul(GetNextTurn());
-                    pocketedCoins.Clear();
+                    yield return StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
+
                     yield break;
 
                 case SnookerShotResult.ContinueTurn:
@@ -571,27 +540,21 @@ namespace com.VisionXR.Controllers
                     break;
 
                 case SnookerShotResult.ChangeTurn:
-                    pocketedCoins.Clear();
+
                     yield return StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
                     break;
 
                 case SnookerShotResult.Win:
-                    pocketedCoins.Clear();
-                    coinData.DestroyCoins();
 
-                    gameData.GameCompleted(gameData.snookerWinnerId);
-                  
                     yield return StartCoroutine(SetWinner(gameData.snookerWinnerId));
                     break;
             }
-       
+
         }
 
         private IEnumerator WaitAndChangeTurn(int id)
         {
-
-            pocketedCoins.Clear();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
             gameData.ChangeTurn(id);
         }
 
@@ -612,14 +575,11 @@ namespace com.VisionXR.Controllers
         private IEnumerator SetWinner(int id)
         {
 
-            PoolScoreCanvas.SetActive(false);
-            SnookerScoreCanvas.SetActive(false);
-
             Player player = playerData.GetPlayerById(id);
             if (id == 1)
             {
                 audioData.PlayAudio(AudioClipType.Winning);
-                
+
                 aiData.PlayHandAnimation("Loose", true);
 
             }
@@ -630,7 +590,13 @@ namespace com.VisionXR.Controllers
 
             }
 
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(2f);
+            gameData.GameCompleted(id);
+            coinData.DestroyCoins();
+            PoolScoreCanvas.SetActive(false);
+            SnookerScoreCanvas.SetActive(false);
+
+            yield return new WaitForSeconds(3f);
             aiData.PlayHandAnimation("Loose", false);
             aiData.PlayHandAnimation("Win", false);
 
@@ -642,7 +608,7 @@ namespace com.VisionXR.Controllers
             {
                 endGameRoutine = StartCoroutine(EndGameRoutine());
             }
-           
+
         }
 
         private IEnumerator EndGameRoutine()
@@ -654,7 +620,7 @@ namespace com.VisionXR.Controllers
             yield return new WaitForSeconds(0.1f);
             playerData.DestroyAllPlayers();
             yield return new WaitForSeconds(0.1f);
-           
+
             PoolScoreCanvas.SetActive(false);
             SnookerScoreCanvas.SetActive(false);
             strikerData.SetFoul(false);

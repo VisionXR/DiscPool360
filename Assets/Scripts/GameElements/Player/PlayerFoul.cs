@@ -26,16 +26,16 @@ namespace com.VisionXR.GameElements
 
 
         // local state
-        private bool isPlacingStriker = false;
+        public bool isPlacingStriker = false;
         private bool _isHeld = false; // pinch/trigger held state
 
 
         private void OnEnable()
         {
 
-            inputData.PinchStartedEvent += PinchStarted;
-            inputData.PinchContinuedEvent += PinchContinued;
-            inputData.PinchEndedEvent += PinchEnded;
+            inputData.RotationPinchStartedEvent += PinchStarted;
+            inputData.RotationPinchContinuedEvent += PinchContinued;
+            inputData.RotationPinchEndedEvent += PinchEnded;
 
             Initialise();
         }
@@ -52,9 +52,9 @@ namespace com.VisionXR.GameElements
         private void OnDisable()
         {
 
-            inputData.PinchStartedEvent -= PinchStarted;
-            inputData.PinchContinuedEvent -= PinchContinued;
-            inputData.PinchEndedEvent -= PinchEnded;
+            inputData.RotationPinchStartedEvent -= PinchStarted;
+            inputData.RotationPinchContinuedEvent -= PinchContinued;
+            inputData.RotationPinchEndedEvent -= PinchEnded;
 
             Reset();
         }
@@ -65,8 +65,9 @@ namespace com.VisionXR.GameElements
             _isHeld = false;
         }
 
-        private void PinchStarted(Vector3 origin)
+        private void PinchStarted(Vector2 origin)
         {
+            
             if (isPlacingStriker)
             {
                 // Handle the pinch start while placing the striker
@@ -76,7 +77,7 @@ namespace com.VisionXR.GameElements
             }
         }
 
-        private void PinchContinued(Vector3 origin)
+        private void PinchContinued(Vector2 origin)
         {
             if (_isHeld)
             {
@@ -85,7 +86,7 @@ namespace com.VisionXR.GameElements
             }
         }
 
-        private void PinchEnded()
+        private void PinchEnded(Vector2 origin)
         {
             if (_isHeld && !isPlacingStriker)
             {
@@ -134,14 +135,17 @@ namespace com.VisionXR.GameElements
                 }
             }
         }
-        private void TryPlaceWhileHeld(Vector3 pointerWorldPosition)
+        private void TryPlaceWhileHeld(Vector2 startPosition)
         {
 
-            // Raycast vertically down from pointer
-            Ray ray = new Ray(pointerWorldPosition, Vector3.down);
-            if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance))
+            // 2. Raycast from the 2D pinch/touch position
+            Ray ray = Camera.main.ScreenPointToRay(startPosition);
+            RaycastHit hit;
+
+            // 3. Check if we hit the "Edge" tag
+            if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider != null && hit.collider.CompareTag("Board"))
+                if (hit.collider.CompareTag("Board"))
                 {
                     float r = boardData.StrikerRadius;
                     Vector3 target = hit.point + Vector3.up * (boardLift);
@@ -149,15 +153,16 @@ namespace com.VisionXR.GameElements
                     if (CanPlaceAt(target, r))
                     {
                         lineRenderer.positionCount = 2;
-                        lineRenderer.SetPosition(0, pointerWorldPosition);
+                        lineRenderer.SetPosition(0, Vector3.zero);
                         lineRenderer.SetPosition(1, target);
                         currentStriker.transform.position = target;
                         isPlacingStriker = false;
 
                     }
-                }
 
+                }
             }
+
         }
         private void FinalizePlacement()
         {

@@ -41,6 +41,7 @@ namespace com.VisionXR.ModelClasses
         public Action FoulCompleteEvent;
         public Action<int> PlaceStrikerEvent;
         public Action<int> PlaceStrikerOnEdgeEvent;
+        public Action StrikerFellOnGroundEvent;
 
         //Methods
 

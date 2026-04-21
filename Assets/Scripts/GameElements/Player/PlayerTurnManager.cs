@@ -44,6 +44,7 @@ namespace com.VisionXR.GameElements
                     {
                         playerFoul.StartFoulHandling(player.playerProperties.myId);
                         boardData.TurnOnInteractable();
+                        inputData.EnableInput();
                     }
 
                 }
