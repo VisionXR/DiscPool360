@@ -57,6 +57,8 @@ public class ReceivePlayerData : NetworkBehaviour
     public GameObject platform;
     public GameObject allAssets;
 
+
+    private StrikerShooting strikerShooting;
     private int previousTurnId = -1;
 
     private void OnEnable()
@@ -82,6 +84,7 @@ public class ReceivePlayerData : NetworkBehaviour
             if (strikerGo != null)
             {
                 strikerRigidbody = strikerGo.GetComponent<Rigidbody>();
+                strikerShooting = strikerGo.GetComponent<StrikerShooting>();
             }
         }
 
@@ -189,18 +192,15 @@ public class ReceivePlayerData : NetworkBehaviour
 
     public void PlayerStrikeStarted(float force, Vector3 direction)
     {
-
-        StrikerShooting strikerShooting = strikerRigidbody.GetComponent<StrikerShooting>();
         
         strikerShooting.TurnOffArrow();
         strikerShooting.SetForceAndDir(force, direction);
         ReceiveData();
     }
-    public void PlayerStrikeForceStarted()
+    public void PlayerStrikeForceStarted(float force)
     {
-        StrikerShooting strikerShooting = strikerRigidbody.GetComponent<StrikerShooting>();
-       
-
+     
+        strikerShooting.SetStrikerForce(force);
     }
     public void PlayerStrikeEnded()
     {

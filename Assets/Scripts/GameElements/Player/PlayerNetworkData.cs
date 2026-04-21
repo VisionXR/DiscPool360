@@ -285,11 +285,11 @@ namespace com.VisionXR.HelperClasses
         }
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
-        public void RPC_PlayerStrikeForceStarted()
+        public void RPC_PlayerStrikeForceStarted(float force)
         {
             if (!HasStateAuthority)
             {
-                receivePlayerData.PlayerStrikeForceStarted();
+                receivePlayerData.PlayerStrikeForceStarted(force);
             }
         }
 

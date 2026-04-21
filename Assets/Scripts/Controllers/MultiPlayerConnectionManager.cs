@@ -58,11 +58,11 @@ namespace com.VisionXR.Controllers
             networkData.SetActiveCoinsNetworkData(activeCoinsData);
         }
 
-        public void SendStrikeForceChanged()
+        public void SendStrikeForceChanged(float force)
         {
             Player p = playerData.GetMainPlayer();
             PlayerNetworkData networkData = p.GetComponent<PlayerNetworkData>();
-            networkData.RPC_PlayerStrikeForceStarted();
+            networkData.RPC_PlayerStrikeForceStarted(force);
         }
 
         public void SendStrikeEnded()

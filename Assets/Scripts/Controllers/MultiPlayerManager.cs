@@ -55,6 +55,7 @@ namespace com.VisionXR.Controllers
 
             networkOutputData.UpdateSnookerScoreEvent += UpdateSnookerScore;
 
+            inputData.StrikerForceChangedEvent += StrikerForceChanged ;
 
             gameData.PlayAgainEvent += PlayAgain;
 
@@ -87,6 +88,8 @@ namespace com.VisionXR.Controllers
 
             coinData.CoinPocketedEvent -= CheckPocketedCoins;
 
+
+            inputData.StrikerForceChangedEvent -= StrikerForceChanged;
             strikerData.StrikeForceStartedEvent -= StrikeForceStarted;
             strikerData.StrikerStartedEvent -= StrikeStarted;
             strikerData.StrikerStoppedEvent -= StrikeStopped;
@@ -266,9 +269,15 @@ namespace com.VisionXR.Controllers
 
         }
 
+        private void StrikerForceChanged(float force)
+        {
+            strikerData.strikeForce = force;
+            multiPlayerConnectionManager.SendStrikeForceChanged(force);
+        }
+
         private void StrikeForceStarted()
         {
-            multiPlayerConnectionManager.SendStrikeForceChanged();
+          //  multiPlayerConnectionManager.SendStrikeForceChanged();
         }
         private void StrikeStarted()
         {
@@ -487,6 +496,7 @@ namespace com.VisionXR.Controllers
         {
             pocketedCoins.Clear();
             coinData.DestroyCoins();
+            InputPanel.SetActive(false);
             multiPlayerConnectionManager.SetPlayStatus(false);
 
             yield return new WaitForSeconds(0.1f);

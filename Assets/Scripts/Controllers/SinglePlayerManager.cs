@@ -613,6 +613,7 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator EndGameRoutine()
         {
+            InputCanvas.SetActive(false);
             pocketedCoins.Clear();
             coinData.DestroyCoins();
             yield return new WaitForSeconds(0.1f);
