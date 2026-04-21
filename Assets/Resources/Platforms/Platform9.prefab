@@ -249,7 +249,7 @@ MonoBehaviour:
   pickupTrigger: {fileID: 1138945866142600024}
   dropTrigger: {fileID: 970786581756495385}
   pinchThreshold: 0.1
-  rotationSensitivity: 2
+  rotationSensitivity: 0.2
 --- !u!1 &424632968160857069
 GameObject:
   m_ObjectHideFlags: 0

@@ -52,7 +52,7 @@ MonoBehaviour:
   interestGroup: 0
   useTargetPlayers: 0
   targetPlayers: 
-  debugEchoMode: 1
+  debugEchoMode: 0
   reliableMode: 0
   encrypt: 0
   transmitEnabled: 1
@@ -76,7 +76,7 @@ MonoBehaviour:
   stopRecordingWhenPaused: 0
   useOnAudioFilterRead: 0
   useMicrophoneTypeFallback: 1
-  recordWhenJoined: 1
+  recordWhenJoined: 0
 --- !u!82 &1436632896028036055
 AudioSource:
   m_ObjectHideFlags: 0
@@ -353,6 +353,7 @@ GameObject:
   - component: {fileID: -463771018469966190}
   - component: {fileID: 1084809439081554060}
   - component: {fileID: 262089840506418370}
+  - component: {fileID: 4904016894464349999}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -455,9 +456,6 @@ MonoBehaviour:
   striker: {fileID: 0}
   strikerShooting: {fileID: 0}
   strikerMovement: {fileID: 0}
-  maxRayDistance: 10
-  dragSensitivity: 5
-  coinRotateSensitivity: 0.2
 --- !u!114 &3922481355013551849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,7 +513,7 @@ MonoBehaviour:
     _MyId:
       Data: 00000000
     _MyOculusID:
-      Data: 0000000000000000
+      Data: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     _MyName:
       Data: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     _ImageURL:
@@ -662,6 +660,7 @@ MonoBehaviour:
   - {fileID: 7188178982219978534}
   - {fileID: 3496250440452404583}
   - {fileID: 255718197792495272}
+  - {fileID: 4904016894464349999}
   ForceRemoteRenderTimeframe: 0
 --- !u!120 &262089840506418370
 LineRenderer:
@@ -771,3 +770,16 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &4904016894464349999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1067826bf8a02c4a99a7eda6bb18367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoicePermissionHandler
+  photonRecorder: {fileID: 760662254974022178}
