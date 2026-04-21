@@ -3265,6 +3265,7 @@ MonoBehaviour:
   coinData: {fileID: 11400000, guid: da634169fe1f8ae48b810401198257be, type: 2}
   uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
   gameData: {fileID: 11400000, guid: 427f023afe4c8504898cdfd86741aae8, type: 2}
+  tableData: {fileID: 11400000, guid: ab3e04cb2b741b14a9f15b44f81c74c9, type: 2}
   Striker: {fileID: 0}
   PlatformObject: {fileID: 0}
   playerCoin: 5
@@ -3277,7 +3278,7 @@ MonoBehaviour:
   forceAdder: 0.6
   strikerOffset: 0.0025
   AIIcon: {fileID: 0}
-  CutOffAngle: 35
+  CutOffAngle: 30
   MyId: 2
   isExcecuting: 0
 --- !u!114 &3249503038661304244
