@@ -191,7 +191,7 @@ public class ReceivePlayerData : NetworkBehaviour
     {
 
         StrikerShooting strikerShooting = strikerRigidbody.GetComponent<StrikerShooting>();
-        strikerShooting.StopArrowChange();
+        
         strikerShooting.TurnOffArrow();
         strikerShooting.SetForceAndDir(force, direction);
         ReceiveData();
@@ -199,7 +199,7 @@ public class ReceivePlayerData : NetworkBehaviour
     public void PlayerStrikeForceStarted()
     {
         StrikerShooting strikerShooting = strikerRigidbody.GetComponent<StrikerShooting>();
-        strikerShooting.StartArrowChange();
+       
 
     }
     public void PlayerStrikeEnded()

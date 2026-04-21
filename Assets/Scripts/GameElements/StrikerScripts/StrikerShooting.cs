@@ -34,7 +34,7 @@ public class StrikerShooting : MonoBehaviour
         if (strength > 0.5f && !isFired)
         {
             isFired = true;
-            StartArrowChange();
+          
             strikerData.StrikeForceStarted();
         }
     }
@@ -46,7 +46,7 @@ public class StrikerShooting : MonoBehaviour
         {
 
             isFired = false;
-            StopArrowChange();
+          
            
             strikerArrow.TurnOffArrow();
             strikerData.strikeForce = strikeForce;
@@ -138,23 +138,6 @@ public class StrikerShooting : MonoBehaviour
     }
 
 
-    public void StartArrowChange()
-    {
-        startTime = Time.time;
-        if (FireRoutine == null)
-        {
-            FireRoutine = StartCoroutine(WaitAndChangeArrow());
-        }
-    }
-
-    public void StopArrowChange()
-    {
-        if (FireRoutine != null)
-        {
-            StopCoroutine(FireRoutine);
-            FireRoutine = null;
-        }
-    }
 
     public void TurnOffArrow()
     {

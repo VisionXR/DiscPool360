@@ -215,12 +215,12 @@ namespace com.VisionXR.GameElements
             yield return new WaitForSeconds(0.5f);
 
             aIData.PlayHandAnimation("RightThumbsUp",true);
-            Striker.GetComponent<StrikerShooting>().StartArrowChange();
+           
 
 
             yield return new WaitForSeconds(1.1f);
 
-            Striker.GetComponent<StrikerShooting>().StopArrowChange();
+            Striker.GetComponent<StrikerShooting>().SetStrikerForce(0.5f);
             aIData.PlayHandAnimation("RightThumbsUp",false);
 
             emotionChanger.SetEmotionEyes(emotionIndex);
