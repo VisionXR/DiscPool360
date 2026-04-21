@@ -783,3 +783,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoicePermissionHandler
   photonRecorder: {fileID: 760662254974022178}
+  speaker: {fileID: 1436632896028036055}

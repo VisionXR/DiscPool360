@@ -6,6 +6,7 @@ using UnityEngine.Android; // Required for Android permissions
 public class VoicePermissionHandler : NetworkBehaviour
 {
     public Recorder photonRecorder;
+    public AudioSource speaker;
 
     void Start()
     {
@@ -49,6 +50,7 @@ public class VoicePermissionHandler : NetworkBehaviour
         {
             photonRecorder.RecordingEnabled = true;
             photonRecorder.RestartRecording();
+            speaker.mute = true;
             Debug.Log("Microphone recording started after permission granted.");
         }
     }

@@ -54,7 +54,7 @@ namespace com.VisionXR.Controllers
             networkOutputData.SetPlayerCoinsEvent += SetCoins;
 
             networkOutputData.UpdateSnookerScoreEvent += UpdateSnookerScore;
-            networkOutputData.UpdateCoinsEvent += UpdateCoins;
+
 
             gameData.PlayAgainEvent += PlayAgain;
 
@@ -81,7 +81,7 @@ namespace com.VisionXR.Controllers
             networkOutputData.SetPlayerCoinsEvent -= SetCoins;
         
             networkOutputData.UpdateSnookerScoreEvent -= UpdateSnookerScore;
-            networkOutputData.UpdateCoinsEvent -= UpdateCoins;
+        
 
             gameData.PlayAgainEvent -= PlayAgain;
 
@@ -147,8 +147,9 @@ namespace com.VisionXR.Controllers
         // Called whenever turn changes to keep AI/UI in sync for snooker
         private void OnTurnChangedAssignCoins(int newTurnId)
         {
-            
-            strikerData.SetFoul(false);
+
+
+            pocketedCoins.Clear();
             uiData.UpdateCoins();
 
             if (uiData.currentGameMode == GameMode.Pool)
@@ -156,14 +157,15 @@ namespace com.VisionXR.Controllers
 
                 _previousTurnId = newTurnId;
                 AssignPoolCoins();
-            
+
                 Player cp = playerData.GetPlayerById(newTurnId);
                 Player mp = playerData.GetMainPlayer();
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     poolLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputPanel.SetActive(true);
+
                 }
+
 
             }
             else
@@ -178,15 +180,17 @@ namespace com.VisionXR.Controllers
                     snookerLogic.ChangePhase();
 
                 }
+
                 _previousTurnId = newTurnId;
                 AssignSnookerCoins();
                 uiData.UpdateCoins();
+
                 Player cp = playerData.GetPlayerById(newTurnId);
                 Player mp = playerData.GetMainPlayer();
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     snookerLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputPanel.SetActive(true);
+
                 }
 
             }
@@ -378,21 +382,16 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator WaitAndCheckPoolLogic()
         {
-            yield return new WaitForSeconds(0.5f);
-               
+
+
             Player currentPlayer = playerData.GetPlayerById(gameData.currentTurnId);
             var myCoinType = currentPlayer.playerProperties.myCoin;
-
             bool anyPocketed = pocketedCoins.Count > 0;
-
             bool blackPocketed = poolLogic.HasPocketedBlack(pocketedCoins);
             bool myCoinsRemainingOnBoard = poolLogic.AreAnyCoinsRemaining(myCoinType);
             bool isMyCoinPocketed = poolLogic.HasPocketedMyCoin(pocketedCoins, myCoinType);
 
             uiData.UpdateCoins();
-            yield return new WaitForSeconds(0.5f);
-
-            pocketedCoins.Clear();
             multiPlayerConnectionManager.SendActivetCoinData();
 
             yield return new WaitForSeconds(0.5f);
@@ -405,15 +404,15 @@ namespace com.VisionXR.Controllers
                     {
                         if (myCoinsRemainingOnBoard)
                         {
-                          
+
                             StartCoroutine(SetWinnerRoutine(GetNextTurn()));
                             multiPlayerConnectionManager.SendSetWinner(GetNextTurn());
-                          
+
                             yield break;
                         }
                         else
                         {
-                           
+
                             StartCoroutine(SetWinnerRoutine(gameData.currentTurnId));
                             multiPlayerConnectionManager.SendSetWinner(gameData.currentTurnId);
 
@@ -424,19 +423,19 @@ namespace com.VisionXR.Controllers
                     {
                         if (isMyCoinPocketed)
                         {
-                          
+
                             yield return StartCoroutine(WaitAndChangeTurn(gameData.currentTurnId));
                         }
                         else
                         {
-                            
+
                             yield return StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
                         }
                     }
                 }
                 else
                 {
-                    
+
                     yield return StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
                 }
             }
@@ -444,35 +443,29 @@ namespace com.VisionXR.Controllers
             {
                 if (!blackPocketed)
                 {
-                    
-                    multiPlayerConnectionManager.SendFoul(GetNextTurn());
-                
-                    yield break;
+                    yield return StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
                 }
 
                 else
                 {
-          
-                    gameData.GameCompleted(GetNextTurn());
+
                     multiPlayerConnectionManager.SendSetWinner(GetNextTurn());
                     StartCoroutine(SetWinnerRoutine(GetNextTurn()));
                 }
-               
+
             }
 
         }
 
         private IEnumerator WaitAndCheckSnookerLogic()
         {
-            yield return new WaitForSeconds(0.5f);
 
             var result = snookerLogic.ValidateShot(pocketedCoins, strikerData.isFoul);
-
             multiPlayerConnectionManager.SendSnookerScore(snookerLogic.requiredColorIndex, snookerLogic.phase, gameData.Player1SnookerScore, gameData.Player2SnookerScore);
 
-            yield return new WaitForSeconds(0.5f);
+            uiData.UpdateCoins();
 
-            pocketedCoins.Clear();
+            yield return new WaitForSeconds(0.5f);
             multiPlayerConnectionManager.SendActivetCoinData();
 
             yield return new WaitForSeconds(0.5f);
@@ -481,7 +474,7 @@ namespace com.VisionXR.Controllers
             {
                 case SnookerShotResult.Foul:
 
-                    multiPlayerConnectionManager.SendFoul(GetNextTurn());
+                    yield return StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
 
                     yield break;
 
@@ -508,7 +501,6 @@ namespace com.VisionXR.Controllers
             }
 
         }
-
         private IEnumerator WaitAndChangeTurn(int id)
         {
 
@@ -546,10 +538,7 @@ namespace com.VisionXR.Controllers
             gameData.SetSnookerScore(p1Score, p2Score);
         }
 
-        public void UpdateCoins()
-        {
-            pocketedCoins.Clear();
-        }
+
 
         private void SetWinner(int id)
         {
