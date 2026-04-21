@@ -16,6 +16,7 @@ namespace com.VisionXR.GameElements
         public UIDataSO uiData;
 
         // local
+      
         public Player player;
         public PlayerFoul playerFoul;
 
@@ -58,7 +59,7 @@ namespace com.VisionXR.GameElements
                 strikerData.TurnOnRigidBody();
                 strikerData.TurnOnArrow();
                 uiData.ShowTurn(id);
-
+        
                 if (player.playerProperties.myPlayerType == PlayerType.Human && player.playerProperties.myPlayerControl == PlayerControl.Local)
                 {
                     inputData.EnableInput();
@@ -92,7 +93,7 @@ namespace com.VisionXR.GameElements
                 {
                     inputData.EnableInput();
                     boardData.TurnOnInteractable();
-
+                  
                 }
                 else if (player.playerProperties.myPlayerType == PlayerType.AI && player.playerProperties.myPlayerControl == PlayerControl.Local)
                 {

@@ -26,7 +26,7 @@ namespace com.VisionXR.Controllers
         public TableDataSO tableData;
         public NetworkOutputDataSO networkOutputData;
         public NetworkInputDataSO networkInputData;
-    
+
 
 
         // local variables
@@ -65,8 +65,8 @@ namespace com.VisionXR.Controllers
             strikerData.StrikerStoppedEvent += StrikeStopped;
 
             strikerData.StrikerPocketedEvent += StrikePocketed;
+            strikerData.StrikerFellOnGroundEvent += StrikeFellOnGround;
             strikerData.FoulCompleteEvent += FoulCompleted;
-            strikerData.StrikeForceChangedEvent += StrikeForceChanges;
 
             gameData.ExitGameEvent += EndGame;
 
@@ -79,9 +79,9 @@ namespace com.VisionXR.Controllers
             networkOutputData.StartGameEvent -= StartGame;
             networkOutputData.SetWinnerEvent -= SetWinner;
             networkOutputData.SetPlayerCoinsEvent -= SetCoins;
-        
+
             networkOutputData.UpdateSnookerScoreEvent -= UpdateSnookerScore;
-        
+
 
             gameData.PlayAgainEvent -= PlayAgain;
 
@@ -90,9 +90,9 @@ namespace com.VisionXR.Controllers
             strikerData.StrikeForceStartedEvent -= StrikeForceStarted;
             strikerData.StrikerStartedEvent -= StrikeStarted;
             strikerData.StrikerStoppedEvent -= StrikeStopped;
-            strikerData.StrikeForceChangedEvent -= StrikeForceChanges;
 
             strikerData.StrikerPocketedEvent -= StrikePocketed;
+            strikerData.StrikerFellOnGroundEvent -= StrikeFellOnGround;
             strikerData.FoulCompleteEvent -= FoulCompleted;
 
 
@@ -102,13 +102,24 @@ namespace com.VisionXR.Controllers
 
 
         }
-  
+
         public void StartGame(int id)
         {
             _previousTurnId = -1;
+            userData.myCoins = id;
+            if (id == 0 || id == 1)
+            {
+                uiData.currentGameMode = GameMode.Pool;
+
+            }
+            else
+            {
+                uiData.currentGameMode = GameMode.Snooker;
+            }
+
             uiData.ResetAllPanels();
             tableData.ResetPlatform();
-            firstTurnId = id;
+            firstTurnId = 1;
             isFirstCoinPocketed = false;
             StartCoroutine(InitialiseGame(firstTurnId));
             gameData.currentTurnId = 1;
@@ -118,7 +129,7 @@ namespace com.VisionXR.Controllers
         }
         private IEnumerator InitialiseGame(int id)
         {
-           
+
             strikerData.CreateStriker(boardData.StrikerTransform);
             yield return new WaitForSeconds(0.5f);
 
@@ -164,6 +175,7 @@ namespace com.VisionXR.Controllers
                 {
                     poolLogic.GlowCoins(cp.playerProperties.myCoin);
                     InputPanel.SetActive(true);
+
                 }
 
 
@@ -198,24 +210,27 @@ namespace com.VisionXR.Controllers
 
         private void PlayAgain(int id)
         {
-           multiPlayerConnectionManager.PlayAgain(); // Reuse the same logic as player joining to reset the game for both host and client
+            multiPlayerConnectionManager.PlayAgain(); // Reuse the same logic as player joining to reset the game for both host and client
         }
 
         private void StrikePocketed(int id)
         {
-           
             strikerData.SetFoul(true);
             uiData.ShowFoul();
             audioData.PlayAudio(AudioClipType.Foul);
         }
+        private void StrikeFellOnGround()
+        {
+            strikerData.SetFoul(true);
+            uiData.ShowFoul();
+            audioData.PlayAudio(AudioClipType.Foul);
+
+        }
 
         private void FoulCompleted()
         {
-
-            multiPlayerConnectionManager.SendFoulComplete();       
-            StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
+            multiPlayerConnectionManager.SendFoulComplete();
         }
-
 
         private void CheckPocketedCoins(GameObject coin)
         {
@@ -229,117 +244,26 @@ namespace com.VisionXR.Controllers
             {
                 if (!isFirstCoinPocketed && coin != null)
                 {
-                    
+
                     var tag = coin.tag;
                     if (tag == "Stripe" || tag == "Solid")
                     {
-                       
-                            if (tag == "Stripe")
-                            {
-                                SetCoins(PlayerCoin.Stripe, PlayerCoin.Solid);
-                                multiPlayerConnectionManager.SendPlayerAssignedCoins(PlayerCoin.Stripe, PlayerCoin.Solid);
-                            }
-                            else
-                            {
-                                SetCoins(PlayerCoin.Solid, PlayerCoin.Stripe);
-                                multiPlayerConnectionManager.SendPlayerAssignedCoins(PlayerCoin.Solid, PlayerCoin.Stripe);
-                            }
+
+                        if (tag == "Stripe")
+                        {
+                            SetCoins(PlayerCoin.Stripe, PlayerCoin.Solid);
+                            multiPlayerConnectionManager.SendPlayerAssignedCoins(PlayerCoin.Stripe, PlayerCoin.Solid);
+                        }
+                        else
+                        {
+                            SetCoins(PlayerCoin.Solid, PlayerCoin.Stripe);
+                            multiPlayerConnectionManager.SendPlayerAssignedCoins(PlayerCoin.Solid, PlayerCoin.Stripe);
+                        }
                     }
                 }
 
             }
- 
-        }
 
-        private void SetCoinsOnly(PlayerCoin coin1, PlayerCoin coin2)
-        {
-            Player current = playerData.GetPlayerById(gameData.currentTurnId);
-            Player opponent = playerData.GetPlayerById(GetNextTurn());
-
-            current.playerProperties.myCoin = coin1;
-            opponent.playerProperties.myCoin = coin2;
-        }
-
-        public void SetCoins(PlayerCoin coin1,PlayerCoin coin2 )
-        {
-            Player current = playerData.GetPlayerById(gameData.currentTurnId);
-            Player opponent = playerData.GetPlayerById(GetNextTurn());
-
-            current.playerProperties.myCoin = coin1;
-            opponent.playerProperties.myCoin = coin2;
-
-            isFirstCoinPocketed = true;
-            uiData.SetCoins();
-        }
-
-        private void AssignPoolCoins()
-        {
-            
-            Player current = playerData.GetPlayerById(gameData.currentTurnId);
-            Player opponent = playerData.GetPlayerById(GetNextTurn());
-            if (current == null || opponent == null) return;
-
-            // Helper: check if any coin in list is active
-            bool AnyActive(List<GameObject> list)
-            {
-                if (list == null) return false;
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var c = list[i];
-                    if (c != null && c.activeInHierarchy) return true;
-                }
-                return false;
-            }
-
-            // Current player
-            if (current.playerProperties.myCoin == PlayerCoin.Stripe && !AnyActive(coinData.stripes))
-            {
-                current.playerProperties.myCoin = PlayerCoin.Black;
-            }
-            else if (current.playerProperties.myCoin == PlayerCoin.Solid && !AnyActive(coinData.solids))
-            {
-                current.playerProperties.myCoin = PlayerCoin.Black;
-            }
-
-            // Opponent
-            if (opponent.playerProperties.myCoin == PlayerCoin.Stripe && !AnyActive(coinData.stripes))
-            {
-                opponent.playerProperties.myCoin = PlayerCoin.Black;
-            }
-            else if (opponent.playerProperties.myCoin == PlayerCoin.Solid && !AnyActive(coinData.solids))
-            {
-                opponent.playerProperties.myCoin = PlayerCoin.Black;
-            }
-
-
-        }
-
-        private void AssignSnookerCoins()
-        {
-        
-
-            Player current = playerData.GetPlayerById(gameData.currentTurnId);
-            Player opponent = playerData.GetPlayerById(GetNextTurn());
-            if (current == null || opponent == null) return;
-
-            if (snookerLogic.phase == SnookerPhase.RedsPhase)
-            {
-                // Current expected: Red or Color
-                current.playerProperties.myCoin =
-                    snookerLogic.expectation == ShotExpectation.ExpectRed
-                    ? PlayerCoin.Red
-                    : PlayerCoin.Color;
-
-                // Opponent informational
-                opponent.playerProperties.myCoin = PlayerCoin.Red;
-            }
-            else
-            {
-                // Colors phase: assign specific expected color to current using the logic mapping
-                current.playerProperties.myCoin = snookerLogic.GetExpectedPlayerCoin();
-                opponent.playerProperties.myCoin = current.playerProperties.myCoin ;
-            }      
-           
         }
 
         private void StrikeForceStarted()
@@ -348,24 +272,18 @@ namespace com.VisionXR.Controllers
         }
         private void StrikeStarted()
         {
-            InputPanel.SetActive(false);
             inputData.DisableInput();
             boardData.TurnOffInteractable();
             InputPanel.SetActive(false);
-            multiPlayerConnectionManager.SendStrikeStarted();
-        }
 
-        private void StrikeForceChanges(float force,Vector3 dir)
-        {
-            multiPlayerConnectionManager.SendStrikeForceChanged();
+            multiPlayerConnectionManager.SendStrikeStarted();
         }
 
         private void StrikeStopped()
         {
-
             if (strikerData.isFoul)
             {
-                strikerData.PlaceStriker();
+                strikerData.PlaceStrikerOnEdge();
             }
 
             if (uiData.currentGameMode == GameMode.Pool)
@@ -375,7 +293,7 @@ namespace com.VisionXR.Controllers
             else if (uiData.currentGameMode == GameMode.Snooker)
             {
                 StartCoroutine(WaitAndCheckSnookerLogic());
-            }  
+            }
 
             multiPlayerConnectionManager.SendStrikeEnded();
         }
@@ -502,14 +420,14 @@ namespace com.VisionXR.Controllers
             }
 
         }
+
         private IEnumerator WaitAndChangeTurn(int id)
         {
-
             yield return new WaitForSeconds(0.5f);
             gameData.ChangeTurn(id);
-           
-           
-            Player p = playerData.GetMainPlayer();      
+
+
+            Player p = playerData.GetMainPlayer();
             PlayerNetworkData networkData = p.GetComponent<PlayerNetworkData>();
             networkData.RPC_ChangeTurn(id);
         }
@@ -528,18 +446,6 @@ namespace com.VisionXR.Controllers
             return nextId;
         }
 
-        private void UpdateSnookerScore(int requiredColorIndex, SnookerPhase phase, int p1Score, int p2Score)
-        {
-           
-
-           SnookerShotResult result =  snookerLogic.ValidateShot(pocketedCoins, strikerData.isFoul);
-      
-            snookerLogic.requiredColorIndex = requiredColorIndex;
-            snookerLogic.phase = phase;
-            gameData.SetSnookerScore(p1Score, p2Score);
-        }
-
-
 
         private void SetWinner(int id)
         {
@@ -547,36 +453,33 @@ namespace com.VisionXR.Controllers
         }
         private IEnumerator SetWinnerRoutine(int id)
         {
-            coinData.DestroyCoins();
-            PoolScoreCanvas.SetActive(false);
-            SnookerScoreCanvas.SetActive(false);
+
             multiPlayerConnectionManager.SetPlayStatus(false);
-
-             
-            gameData.GameCompleted(id);
-
-            yield return new WaitForSeconds(1f);
-
             Player player = playerData.GetMainPlayer();
 
             if (player.playerProperties.myId == id)
             {
                 audioData.PlayAudio(AudioClipType.Winning);
-                
+
 
             }
             else // its AI
             {
                 audioData.PlayAudio(AudioClipType.Losing);
-                
+
             }
+            yield return new WaitForSeconds(2f);
+            gameData.GameCompleted(id);
+            coinData.DestroyCoins();
+            PoolScoreCanvas.SetActive(false);
+            SnookerScoreCanvas.SetActive(false);
         }
 
         private void EndGame()
         {
             if (endGameRoutine == null)
             {
-               endGameRoutine =  StartCoroutine(EndGameRoutine());
+                endGameRoutine = StartCoroutine(EndGameRoutine());
             }
         }
 
@@ -589,6 +492,7 @@ namespace com.VisionXR.Controllers
             yield return new WaitForSeconds(0.1f);
             strikerData.DestroyStriker();
             playerData.DestroyAllPlayers();
+            boardData.TurnOffInteractable();
             yield return new WaitForSeconds(0.1f);
             networkInputData.LeaveRoom();
 
@@ -603,5 +507,105 @@ namespace com.VisionXR.Controllers
 
         }
 
+
+
+        // coin methods
+        private void UpdateSnookerScore(int requiredColorIndex, SnookerPhase phase, int p1Score, int p2Score)
+        {
+
+            SnookerShotResult result = snookerLogic.ValidateShot(pocketedCoins, strikerData.isFoul);
+
+            snookerLogic.requiredColorIndex = requiredColorIndex;
+            snookerLogic.phase = phase;
+            gameData.SetSnookerScore(p1Score, p2Score);
+        }
+
+        private void SetCoinsOnly(PlayerCoin coin1, PlayerCoin coin2)
+        {
+            Player current = playerData.GetPlayerById(gameData.currentTurnId);
+            Player opponent = playerData.GetPlayerById(GetNextTurn());
+
+            current.playerProperties.myCoin = coin1;
+            opponent.playerProperties.myCoin = coin2;
+        }
+        public void SetCoins(PlayerCoin coin1, PlayerCoin coin2)
+        {
+            Player current = playerData.GetPlayerById(gameData.currentTurnId);
+            Player opponent = playerData.GetPlayerById(GetNextTurn());
+
+            current.playerProperties.myCoin = coin1;
+            opponent.playerProperties.myCoin = coin2;
+
+            isFirstCoinPocketed = true;
+            uiData.SetCoins();
+        }
+        private void AssignPoolCoins()
+        {
+
+            Player current = playerData.GetPlayerById(gameData.currentTurnId);
+            Player opponent = playerData.GetPlayerById(GetNextTurn());
+            if (current == null || opponent == null) return;
+
+            // Helper: check if any coin in list is active
+            bool AnyActive(List<GameObject> list)
+            {
+                if (list == null) return false;
+                for (int i = 0; i < list.Count; i++)
+                {
+                    var c = list[i];
+                    if (c != null && c.activeInHierarchy) return true;
+                }
+                return false;
+            }
+
+            // Current player
+            if (current.playerProperties.myCoin == PlayerCoin.Stripe && !AnyActive(coinData.stripes))
+            {
+                current.playerProperties.myCoin = PlayerCoin.Black;
+            }
+            else if (current.playerProperties.myCoin == PlayerCoin.Solid && !AnyActive(coinData.solids))
+            {
+                current.playerProperties.myCoin = PlayerCoin.Black;
+            }
+
+            // Opponent
+            if (opponent.playerProperties.myCoin == PlayerCoin.Stripe && !AnyActive(coinData.stripes))
+            {
+                opponent.playerProperties.myCoin = PlayerCoin.Black;
+            }
+            else if (opponent.playerProperties.myCoin == PlayerCoin.Solid && !AnyActive(coinData.solids))
+            {
+                opponent.playerProperties.myCoin = PlayerCoin.Black;
+            }
+
+
+        }
+        private void AssignSnookerCoins()
+        {
+
+
+            Player current = playerData.GetPlayerById(gameData.currentTurnId);
+            Player opponent = playerData.GetPlayerById(GetNextTurn());
+            if (current == null || opponent == null) return;
+
+            if (snookerLogic.phase == SnookerPhase.RedsPhase)
+            {
+                // Current expected: Red or Color
+                current.playerProperties.myCoin =
+                    snookerLogic.expectation == ShotExpectation.ExpectRed
+                    ? PlayerCoin.Red
+                    : PlayerCoin.Color;
+
+                // Opponent informational
+                opponent.playerProperties.myCoin = PlayerCoin.Red;
+            }
+            else
+            {
+                // Colors phase: assign specific expected color to current using the logic mapping
+                current.playerProperties.myCoin = snookerLogic.GetExpectedPlayerCoin();
+                opponent.playerProperties.myCoin = current.playerProperties.myCoin;
+            }
+
+        }
     }
 }
