@@ -41,5 +41,9 @@ namespace com.VisionXR.HelperClasses
 
     public enum ServerRegion { any, us, @in, eu, asia, au, uae, jp, kr, cae, hk, sa, tr, ussc, usw }
 
+    public enum AchievementSection { SinglePlayer, MultiPlayer, General }
+
+    public enum AchievementType { Simple, Progess }
+
 }
 

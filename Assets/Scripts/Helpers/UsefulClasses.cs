@@ -234,16 +234,29 @@ namespace com.VisionXR.HelperClasses
         public int mpSnookerWins;
 
     }
-
     [Serializable]
 
     public class AchievementInfo
     {
+        public int id;
         public Sprite icon;
+        public string name;
         public string apiName;
         public string achievementName;
         public string description;
+
+        public GameType type;
+        public GameMode mode;
+        public BoardType boardType;
+        public AIDifficulty difficulty;
+        public AchievementSection achievementSection;
+
+
+        public AchievementType achievementType;
         public bool isAchieved;
+        public int actual;
+        public int target;
+
     }
 
 
