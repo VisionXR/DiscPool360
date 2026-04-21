@@ -15,7 +15,7 @@ public class CoinCollision : MonoBehaviour
         {           
             coinDataSO.CoinPocketed(gameObject);
             coinDataSO.CoinPocketedIntoHole(collision.collider.gameObject);          
-            GetComponent<Rigidbody>().isKinematic = true;
+            gameObject.SetActive(false);
            
         }
         else if (collision.collider.gameObject.tag == "Floor")

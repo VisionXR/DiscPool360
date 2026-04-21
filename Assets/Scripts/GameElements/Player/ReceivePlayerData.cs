@@ -25,16 +25,16 @@ public class ReceivePlayerData : NetworkBehaviour
     public PlayerInput playerInput;
     public PlayerFoul playerFoul;
     public LayerMask hitMask;
-    //public LineRenderer actualLineRenderer;
-    //public LineRenderer estimatedLineRenderer;
+
 
 
     // Networked snapshots (platform-local space for positions/rotations/velocities)
     [Header("structures")]
-    [Networked, OnChangedRender(nameof(OnPoolSnapShotReceived))][HideInInspector] public PoolGameSnapshot poolGameSnapshot { get; set; }
+    [Networked, OnChangedRender(nameof(OnGameSnapShotReceived))][HideInInspector] public GameSnapshot currentGameSnapshot { get; set; }
     [Networked, OnChangedRender(nameof(OnPlatformDataReceived))][HideInInspector] public PlatformSnapshot platforSnapshotData { get; set; }
-    [Networked, OnChangedRender(nameof(OnSnookerSnapShotReceived))][HideInInspector] public SnookerGameSnapshot snookerGameSnapshot { get; set; }
-    [Networked, OnChangedRender(nameof(OnStrikerSnapShotReceived))][HideInInspector] public StrikerSnapshot strikerSnapshot { get; set; }
+    [Networked, OnChangedRender(nameof(OnStrikerDataReceived))][HideInInspector] public StrikerSnapshot strikerSnapshot { get; set; }
+
+
 
     public int currentSentFrameNumber;
     public int currentReceivedFrameNumber;
@@ -45,9 +45,10 @@ public class ReceivePlayerData : NetworkBehaviour
 
     public bool canISendSnapShot;
     public bool canIReceiveSnapShot;
-    public bool canIReceive;
-    public bool canISend;
+    public bool canIReceiveData;
+    public bool canISendData;
     public bool canISendStrikerData;
+
 
 
     private List<Rigidbody> coinRbs;
@@ -61,48 +62,23 @@ public class ReceivePlayerData : NetworkBehaviour
     private void OnEnable()
     {
         gameData.TurnChangeEvent += OnTurnChanged;
-
         playerInput.PlatformRotatedEvent += RotatePlatform;
-        playerFoul.StrikerFoulPlacedEvent += HandleFoul;
-
         tableData.PlatformRotationChangedEvent += OnPlatformRotaionReceived;
     }
 
     private void OnDisable()
     {
         gameData.TurnChangeEvent -= OnTurnChanged;
-
         playerInput.PlatformRotatedEvent -= RotatePlatform;
-        playerFoul.StrikerFoulPlacedEvent -= HandleFoul;
-
         tableData.PlatformRotationChangedEvent -= OnPlatformRotaionReceived;
-    }
-
-    private void OnPlatformRotaionReceived(Vector3 rotation)
-    {
-        if(HasStateAuthority)
-        {
-            PlatformSnapshot platformSnapshot = new PlatformSnapshot();
-            platformSnapshot.Rotation = rotation;
-            SetPlatformSnapShotData(platformSnapshot);
-        }
-    }
-
-    private void HandleFoul(StrikerSnapshot snapshot)
-    {
-        if (HasStateAuthority)
-        {
-            SetStrikerSnapShotData(snapshot);
-        }
     }
 
     private void OnTurnChanged(int id)
     {
-        Reset();
 
         if (strikerRigidbody == null)
         {
-            var strikerGo = GameObject.FindGameObjectWithTag("Striker");
+            var strikerGo = strikerData.currentStriker;
             if (strikerGo != null)
             {
                 strikerRigidbody = strikerGo.GetComponent<Rigidbody>();
@@ -111,22 +87,73 @@ public class ReceivePlayerData : NetworkBehaviour
 
         if (platform == null)
         {
-            platform = GameObject.FindGameObjectWithTag("Platform");
+            platform = tableData.GetPlatform().gameObject;
             if (platform != null)
             {
                 platformRb = platform.GetComponent<Rigidbody>();
             }
         }
 
-        if(allAssets == null)
+        if (allAssets == null)
         {
-            allAssets = GameObject.FindGameObjectWithTag("AllAssets");
+            allAssets = tableData.GetAllAssets();
         }
 
-        if (player.playerProperties.myId == id && player.playerProperties.myPlayerControl == PlayerControl.Local)
+        if (player.playerProperties.myId == id && HasStateAuthority)
         {
-            canISendStrikerData = true;
+            SendStrikerData();
         }
+
+    }
+    private void OnPlatformRotaionReceived(Vector3 rotation)
+    {
+        if (HasStateAuthority)
+        {
+            PlatformSnapshot platformSnapshot = new PlatformSnapshot();
+            platformSnapshot.Rotation = rotation;
+            SetPlatformSnapShotData(platformSnapshot);
+        }
+    }
+
+    private void OnStrikerDataReceived()
+    {
+        if (canIReceiveData || HasStateAuthority)
+        {
+            return;
+        }
+
+        strikerRigidbody.position = strikerSnapshot.Position;
+        strikerRigidbody.transform.eulerAngles = strikerSnapshot.Rotation;
+
+    }
+    private void OnPlatformDataReceived()
+    {
+
+        if (canIReceiveData || HasStateAuthority)
+        {
+            return;
+        }
+
+        if (!strikerData.isFoul)
+        {
+            strikerData.TurnOffRigidBody();
+        }
+
+        coinData.TurnOffRigidBodies();
+
+        allAssets.transform.SetParent(platform.transform);
+        Vector3 localAngles = platforSnapshotData.Rotation;
+        Quaternion incomingLocalRot = Quaternion.Euler(localAngles);
+        platform.transform.rotation = incomingLocalRot;
+        allAssets.transform.SetParent(null);
+
+        if (!strikerData.isFoul)
+        {
+            strikerData.TurnOnRigidBody();
+        }
+
+        coinData.TurnOnRigidBodies();
+
     }
 
     private void RotatePlatform()
@@ -136,59 +163,38 @@ public class ReceivePlayerData : NetworkBehaviour
         SetPlatformSnapShotData(platformSnapshot);
     }
 
-    public void SendData(int id)
+    public void SendStrikerData()
     {
-        if (player.playerProperties.myId == id && player.playerProperties.myPlayerControl == PlayerControl.Local)
-        {
+        canISendStrikerData = true;
+    }
 
-            canISend = true;
-            canISendStrikerData = false;
-            currentSentFrameNumber = 0;
-            currentStrikerNumber = 0;
-        }
+    public void SendData()
+    {
+
+        canISendStrikerData = false;
+        canISendData = true;
+        currentSentFrameNumber = 0;
+        currentStrikerNumber = 0;
+
     }
 
     public void ReceiveData()
     {
-        if ( player.playerProperties.myPlayerControl == PlayerControl.Remote)
-        {
-            canIReceive = true;
-            currentRunningFrameNumber = 0;
-            currentReceivedFrameNumber = 0;
-        }
-    }   
 
-    private void OnPlatformDataReceived()
-    {
+        canIReceiveData = true;
+        currentRunningFrameNumber = 0;
+        currentReceivedFrameNumber = 0;
 
-        if (canIReceive || HasStateAuthority)
-        {
-            return;
-        }
-
-        allAssets.transform.SetParent(platform.transform);
-        Vector3 localAngles = platforSnapshotData.Rotation;
-        Quaternion incomingLocalRot = Quaternion.Euler(localAngles);     
-        platform.transform.rotation = incomingLocalRot;
-        allAssets.transform.SetParent(null);
-
-    }
-
-    public void StrikeForceChanged(float force,Vector3 dir)
-    {
-        StrikerShooting strikerShooting = strikerRigidbody.GetComponent<StrikerShooting>();
-        strikerShooting.SetStrikerData(force,dir);
     }
 
     public void PlayerStrikeStarted(float force, Vector3 direction)
     {
+
         StrikerShooting strikerShooting = strikerRigidbody.GetComponent<StrikerShooting>();
         strikerShooting.StopArrowChange();
         strikerShooting.TurnOffArrow();
         strikerShooting.SetForceAndDir(force, direction);
-
         ReceiveData();
-
     }
     public void PlayerStrikeForceStarted()
     {
@@ -199,19 +205,6 @@ public class ReceivePlayerData : NetworkBehaviour
     public void PlayerStrikeEnded()
     {
         Reset();
-
-        if(strikerData.isFoul)
-        {
-            strikerData.PlaceStriker();
-        }
-
-       // StopAllCoroutines();
-
-    }
-
-    public void SetStrikerSnapShotData(StrikerSnapshot newStrikerSnapShot)
-    {
-        strikerSnapshot = newStrikerSnapShot;
     }
 
     public void SetPlatformSnapShotData(PlatformSnapshot newPlatformSnapshot)
@@ -219,143 +212,76 @@ public class ReceivePlayerData : NetworkBehaviour
         platforSnapshotData = newPlatformSnapshot;
     }
 
-    public void SetPoolGameSnapShotdata(PoolGameSnapshot newgameSnapshot)
+    public void SetGameSnapShotdata(GameSnapshot newgameSnapshot)
     {
-        poolGameSnapshot = newgameSnapshot;
-       
-    }
-    public void SetSnookerGameSnapShotdata(SnookerGameSnapshot newgameSnapshot)
-    {
-        snookerGameSnapshot = newgameSnapshot;
+        currentGameSnapshot = newgameSnapshot;
     }
 
-    private void OnPoolSnapShotReceived()
+    public void SetStrikerSnapShotData(StrikerSnapshot newStrikerSnapshot)
+    {
+        strikerSnapshot = newStrikerSnapshot;
+    }
+
+
+    private void OnGameSnapShotReceived()
     {
 
-        if (canIReceive && !HasStateAuthority)
+        if (canIReceiveData && !HasStateAuthority)
         {
 
             canIReceiveSnapShot = true;
-        }
-    }
-    private void OnSnookerSnapShotReceived()
-    {
-
-        if (canIReceive && !HasStateAuthority)
-        {
-            canIReceiveSnapShot = true;
-        }
-    }
-
-    private void OnStrikerSnapShotReceived()
-    {
-
-        if (!canIReceive && !HasStateAuthority)
-        {          
-            
-            strikerRigidbody.transform.eulerAngles = (Vector3)(strikerSnapshot.Rotation);
-            strikerRigidbody.position = (Vector3)strikerSnapshot.Position;
         }
     }
 
     public void ReceiveCoinRotationData(float val) { }
-    public void ReceiveAvatarData(NetworkAvatarData data) { }
+
     public void ReceiveAIData(string data) { }
 
     private void FixedUpdate()
     {
         // receiving
-        if (canIReceive)
+        if (canIReceiveData)
         {
             currentRunningFrameNumber++;
         }
 
-        if(canISendStrikerData && HasStateAuthority)
-        {
-            currentStrikerNumber++;
-            if(currentStrikerNumber % playerData.SendRate == 0)
-            {
-                StrikerSnapshot newStrikerSnapShot = new StrikerSnapshot
-                {
-                    Rotation = strikerRigidbody.transform.eulerAngles,
-                    Position = strikerRigidbody.position
-                };
-                SetStrikerSnapShotData(newStrikerSnapShot);
-            }
-        }
 
-        if (canIReceive && canIReceiveSnapShot)
+        if (canIReceiveData && canIReceiveSnapShot)
         {
-            if (uiData.currentGameMode == com.VisionXR.HelperClasses.GameMode.Pool)
-            {
-                ProcessPoolGameSnapShot();
-            }
-            else
-            {
-                ProcessSnookerGameSnapShot();
-            }
+            ProcessGameSnapShot();
             canIReceiveSnapShot = false;
         }
 
 
-        // sending
-        if (canISend && HasStateAuthority)
+        // sending game data
+        if (canISendData && HasStateAuthority)
         {
             currentSentFrameNumber++;
             if (currentSentFrameNumber % playerData.SendRate == 0)
             {
-                if (uiData.currentGameMode == com.VisionXR.HelperClasses.GameMode.Pool)
-                {
-                    SetPoolGameSnapShotdata(GetPoolGameSnapshot());
-                }
-                else
-                {
-                    SetSnookerGameSnapShotdata(GetSnookerGameSnapshot());
-                }
+                SetGameSnapShotdata(GetGameSnapshot());
             }
 
-           
         }
-    }
 
-    private PoolGameSnapshot GetPoolGameSnapshot()
-    {
-        PoolGameSnapshot snapshot = new PoolGameSnapshot();
-
-
-        snapshot.FrameNumber = currentSentFrameNumber;
-
-        StrikerSnapshot strikerData = new StrikerSnapshot
+        // sending game data
+        if (canISendStrikerData && HasStateAuthority)
         {
-            Position = strikerRigidbody.position,
-            Rotation = strikerRigidbody.transform.eulerAngles,
-            Velocity = strikerRigidbody.linearVelocity
-        };
-
-        snapshot.Striker = strikerData;
-
-        // Build coin snapshots
-        for (int i = 0; i < coinData.AvailableCoinsInGame.Count; i++)
-        {
-            var coinRb = coinData.AvailableCoinsInGame[i];
-
-            CoinSnapshot coinSnapshot = new CoinSnapshot
+            StrikerSnapshot strikerDataToSend = new StrikerSnapshot
             {
-                Position = coinRb.position,
-                Rotation = coinRb.transform.eulerAngles,
-                Velocity = coinRb.linearVelocity
+                Position = strikerRigidbody.position,
+                Rotation = strikerRigidbody.transform.eulerAngles,
+                Velocity = strikerRigidbody.linearVelocity
             };
-
-
-            snapshot.Coins.Set(i, coinSnapshot);
+            SetStrikerSnapShotData(strikerDataToSend);
         }
 
-        return snapshot;
     }
 
-    private SnookerGameSnapshot GetSnookerGameSnapshot()
+
+    private GameSnapshot GetGameSnapshot()
     {
-        SnookerGameSnapshot snapshot = new SnookerGameSnapshot();
+        GameSnapshot snapshot = new GameSnapshot();
 
 
         snapshot.FrameNumber = currentSentFrameNumber;
@@ -387,24 +313,24 @@ public class ReceivePlayerData : NetworkBehaviour
         return snapshot;
     }
 
-    public void ProcessPoolGameSnapShot()
+    public void ProcessGameSnapShot()
     {
         // Validate frame ordering
 
-        if (poolGameSnapshot.FrameNumber < currentReceivedFrameNumber)
+        if (currentGameSnapshot.FrameNumber < currentReceivedFrameNumber)
         {
             return;
         }
 
 
-        currentReceivedFrameNumber = poolGameSnapshot.FrameNumber;
-        int frameDelta =   currentRunningFrameNumber - currentReceivedFrameNumber;
+        currentReceivedFrameNumber = currentGameSnapshot.FrameNumber;
+        int frameDelta = currentRunningFrameNumber - currentReceivedFrameNumber;
 
 
         float dt = Time.fixedDeltaTime * (frameDelta + playerData.DelayRate);
 
         // Striker: platform-local -> estimate in local -> convert to world
-        StrikerSnapshot s = poolGameSnapshot.Striker;
+        StrikerSnapshot s = currentGameSnapshot.Striker;
 
         Vector3 localStrikerPos = s.Position;
         Vector3 localStrikerVel = s.Velocity;
@@ -415,8 +341,14 @@ public class ReceivePlayerData : NetworkBehaviour
 
         if (!strikerData.isFoul)
         {
-            strikerRigidbody.isKinematic = true;
+
             StartCoroutine(LerpToTarget(strikerRigidbody, estimatedLocalPos, estimatedLocalVel, localStrikerEuler, playerData.DelayRate * Time.fixedDeltaTime));
+        }
+        else
+        {
+
+            strikerRigidbody.position = localStrikerPos;
+            strikerRigidbody.transform.eulerAngles = localStrikerEuler;
         }
 
         // Coins: platform-local -> estimate in local -> convert to world for each
@@ -426,60 +358,7 @@ public class ReceivePlayerData : NetworkBehaviour
             Rigidbody rb = coinRbs[i];
             if (rb == null) continue;
 
-            CoinSnapshot c = poolGameSnapshot.Coins[i];
-
-            Vector3 localCoinPos = c.Position;
-            Vector3 localCoinVel = c.Velocity;
-            Vector3 localCoinEuler = c.Rotation;
-
-            Vector3 estimatedLocalCoinPos = GetEstimatedReflectedPoint(localCoinPos, localCoinVel, playerData.coinK, dt, boardData.CoinRadius);
-            Vector3 estimatedLocalCoinVel = localCoinVel * Mathf.Exp(-playerData.coinK * dt);
-
-            rb.isKinematic = true;
-            StartCoroutine(LerpToTarget(rb, estimatedLocalCoinPos, estimatedLocalCoinVel, localCoinEuler, playerData.DelayRate * Time.fixedDeltaTime));
-        }
-    }
-    public void ProcessSnookerGameSnapShot()
-    {
-        // Validate frame ordering
-
-        if (snookerGameSnapshot.FrameNumber < currentReceivedFrameNumber)
-        {
-            return;
-        }
-
-
-        currentReceivedFrameNumber = snookerGameSnapshot.FrameNumber;
-        int frameDelta =  currentRunningFrameNumber - currentReceivedFrameNumber;
-
-
-        float dt = Time.fixedDeltaTime * (frameDelta + playerData.DelayRate);
-
-
-        // Striker: platform-local -> estimate in local -> convert to world
-        StrikerSnapshot s = snookerGameSnapshot.Striker;
-
-        Vector3 localStrikerPos = s.Position;
-        Vector3 localStrikerVel = s.Velocity;
-        Vector3 localStrikerEuler = s.Rotation;
-
-        Vector3 estimatedLocalPos = GetEstimatedReflectedPoint(localStrikerPos, localStrikerVel, playerData.strikerK, dt, boardData.StrikerRadius);
-        Vector3 estimatedLocalVel = localStrikerVel * Mathf.Exp(-playerData.strikerK * dt);
-
-
-        if (!strikerData.isFoul)
-        {
-            strikerRigidbody.isKinematic = true;
-            StartCoroutine(LerpToTarget(strikerRigidbody, estimatedLocalPos, estimatedLocalVel, localStrikerEuler, playerData.DelayRate * Time.fixedDeltaTime));
-        }
-
-        // Coins: platform-local -> estimate in local -> convert to world for each
-        coinRbs = coinData.AvailableCoinsInGame;
-        for (int i = 0; i < coinRbs.Count; i++)
-        {
-            Rigidbody rb = coinRbs[i];
-
-            CoinSnapshot c = snookerGameSnapshot.Coins[i];
+            CoinSnapshot c = currentGameSnapshot.Coins[i];
 
             Vector3 localCoinPos = c.Position;
             Vector3 localCoinVel = c.Velocity;
@@ -489,13 +368,15 @@ public class ReceivePlayerData : NetworkBehaviour
             Vector3 estimatedLocalCoinVel = localCoinVel * Mathf.Exp(-playerData.coinK * dt);
 
 
-            rb.isKinematic = true;
             StartCoroutine(LerpToTarget(rb, estimatedLocalCoinPos, estimatedLocalCoinVel, localCoinEuler, playerData.DelayRate * Time.fixedDeltaTime));
         }
     }
 
     private IEnumerator LerpToTarget(Rigidbody rb, Vector3 targetPos, Vector3 targetVel, Vector3 targetRot, float duration)
     {
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
         Vector3 start = rb.position;
         Vector3 startRot = rb.transform.eulerAngles;
         float elapsed = 0;
@@ -509,9 +390,9 @@ public class ReceivePlayerData : NetworkBehaviour
 
         rb.position = targetPos;
         rb.transform.eulerAngles = targetRot;
-        rb.isKinematic = false;
         rb.linearVelocity = targetVel;
-       
+        //  rb.isKinematic = false;
+
     }
     public Vector3 GetEstimatedReflectedPoint(Vector3 startPos, Vector3 velocity, float k, float dt, float radius)
     {
@@ -520,7 +401,7 @@ public class ReceivePlayerData : NetworkBehaviour
         float totalDistance = (velocity.magnitude / k) * decayFactor;
 
         // First raycast
-        if (Physics.SphereCast(startPos, radius, direction, out RaycastHit hit1, totalDistance,hitMask))
+        if (Physics.SphereCast(startPos, radius, direction, out RaycastHit hit1, totalDistance, hitMask))
         {
             if (hit1.collider.CompareTag("Edge"))
             {
@@ -530,7 +411,7 @@ public class ReceivePlayerData : NetworkBehaviour
                 Vector3 reflectedDir1 = Vector3.Reflect(direction, hit1.normal);
 
                 // Second raycast from hit point in reflected direction
-                if (Physics.SphereCast(hit1.point - direction * radius, boardData.StrikerRadius, reflectedDir1, out RaycastHit hit2, remainingDist1,hitMask))
+                if (Physics.SphereCast(hit1.point - direction * radius, boardData.StrikerRadius, reflectedDir1, out RaycastHit hit2, remainingDist1, hitMask))
                 {
                     if (hit2.collider.CompareTag("Edge"))
                     {
@@ -558,10 +439,11 @@ public class ReceivePlayerData : NetworkBehaviour
 
     private void Reset()
     {
-        canIReceive = false;
-        canISend = false;
+        canIReceiveData = false;
+        canISendData = false;
         canISendSnapShot = false;
         canIReceiveSnapShot = false;
+        canISendStrikerData = false;
 
         currentRunningFrameNumber = 0;
         currentReceivedFrameNumber = 0;

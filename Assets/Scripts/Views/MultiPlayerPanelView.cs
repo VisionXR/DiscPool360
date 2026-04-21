@@ -1,10 +1,6 @@
 using com.VisionXR.Controllers;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,8 +28,10 @@ namespace com.VisionXR.Views
         public GameObject JoinRoomPanel;
 
         [Header("Bg Images")]
-        public Image poolSelectionImage;
-        public Image snookerSelectionImage;
+        public Image FivePoolSelectionImage;
+        public Image EightPoolSelectionImage;
+        public Image SnookerSelectionImage;
+        public Image ColorSelectionImage;
 
 
         private void OnEnable()
@@ -46,35 +44,60 @@ namespace com.VisionXR.Views
         {
             ResetGameModeImages();
 
-            if (uiData.currentGameMode == GameMode.Pool)
+            if (userData.myCoins == 0)
             {
-                poolSelectionImage.gameObject.SetActive(true);
+                EightPoolSelectionImage.gameObject.SetActive(true);
             }
-            else if (uiData.currentGameMode == GameMode.Snooker)
-            {             
-              snookerSelectionImage.gameObject.SetActive(true);
+            else if (userData.myCoins == 1)
+            {
+                FivePoolSelectionImage.gameObject.SetActive(true);
+            }
+
+            else if (userData.myCoins == 2)
+            {
+                SnookerSelectionImage.gameObject.SetActive(true);
+            }
+            else if (userData.myCoins == 3)
+            {
+                ColorSelectionImage.gameObject.SetActive(true);
             }
 
         }
-
-        public void PoolBtnClicked()
+        public void FivePoolBtnClicked()
         {
-            
+
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetGameModeImages();
             uiData.SetGameMode(GameMode.Pool);
-
-            poolSelectionImage.gameObject.SetActive(true);
-
+            userData.SetMyCoins(1);
+            FivePoolSelectionImage.gameObject.SetActive(true);
         }
 
+        public void EightPoolBtnClicked()
+        {
+
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            ResetGameModeImages();
+            uiData.SetGameMode(GameMode.Pool);
+            userData.SetMyCoins(0);
+            EightPoolSelectionImage.gameObject.SetActive(true);
+        }
         public void SnookerBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetGameModeImages();
             uiData.SetGameMode(GameMode.Snooker);
+            userData.SetMyCoins(2);
+            SnookerSelectionImage.gameObject.SetActive(true);
+        }
 
-            snookerSelectionImage.gameObject.SetActive(true);
+        public void ColorBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            ResetGameModeImages();
+            uiData.SetGameMode(GameMode.Snooker);
+            userData.SetMyCoins(3);
+            ColorSelectionImage.gameObject.SetActive(true);
         }
 
 
@@ -86,7 +109,7 @@ namespace com.VisionXR.Views
         }
 
 
-        public void CreateRoomBtnClicked()
+        public void NextBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             BoardsPanel.SetActive(true);
@@ -98,12 +121,15 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             JoinRoomPanel.SetActive(true);
             gameObject.SetActive(false);
+
         }
 
         private void ResetGameModeImages()
         {
-            poolSelectionImage.gameObject.SetActive(false);
-            snookerSelectionImage.gameObject.SetActive(false);
+            FivePoolSelectionImage.gameObject.SetActive(false);
+            EightPoolSelectionImage.gameObject.SetActive(false);
+            SnookerSelectionImage.gameObject.SetActive(false);
+            ColorSelectionImage.gameObject.SetActive(false);
         }
 
     }

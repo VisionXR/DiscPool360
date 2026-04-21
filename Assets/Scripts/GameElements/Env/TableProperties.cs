@@ -22,7 +22,7 @@ public class TableProperties : MonoBehaviour
         tableData.SetPlayerPositions(playerTransforms);
         tableData.SetMainCanvasPositions(canvasTransforms);
         tableData.SetCamPositions(camTransforms);
-        tableData.SetCamera(cam);
+     
         tableData.SetAllAssets(allAssets);
     }
 }

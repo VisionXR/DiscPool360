@@ -85,9 +85,6 @@ MonoBehaviour:
   striker: {fileID: 0}
   strikerShooting: {fileID: 0}
   strikerMovement: {fileID: 0}
-  maxRayDistance: 10
-  dragSensitivity: 6
-  coinRotateSensitivity: 0.2
 --- !u!114 &-6593588591319569185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +101,9 @@ MonoBehaviour:
   inputData: {fileID: 11400000, guid: 886a3cfd97839fc428e81ec670c805d2, type: 2}
   gameData: {fileID: 11400000, guid: 427f023afe4c8504898cdfd86741aae8, type: 2}
   boardData: {fileID: 11400000, guid: ad667ead06ef30141a535576a98b6906, type: 2}
+  uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
   player: {fileID: 2648659965353522191}
+  playerFoul: {fileID: -144279102587338790}
 --- !u!114 &-144279102587338790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,7 +121,6 @@ MonoBehaviour:
   inputData: {fileID: 11400000, guid: 886a3cfd97839fc428e81ec670c805d2, type: 2}
   uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
   userData: {fileID: 11400000, guid: c3388b89caee67446b98ab64fc26a36e, type: 2}
-  tableData: {fileID: 11400000, guid: ab3e04cb2b741b14a9f15b44f81c74c9, type: 2}
   currentPlayer: {fileID: 2648659965353522191}
   lineRenderer: {fileID: 4043974901642639763}
   currentStriker: {fileID: 0}

@@ -1,7 +1,6 @@
 using com.VisionXR.Controllers;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,8 +25,10 @@ namespace com.VisionXR.Views
         public GameObject BoardsPanel;
 
         [Header("Bg Images")]
-        public Image poolSelectionImage;
-        public Image snookerSelectionImage;
+        public Image FivePoolSelectionImage;
+        public Image EightPoolSelectionImage;
+        public Image SnookerSelectionImage;
+        public Image ColorSelectionImage;
 
         public Image easyAISelectionImage;
         public Image mediumAISelectionImage;
@@ -37,52 +38,70 @@ namespace com.VisionXR.Views
         private void OnEnable()
         {
             Initialise();
-       
+
         }
 
         private void Initialise()
         {
             ResetGameModeImages();
             ResetAIImages();
-           
-
-            if (uiData.currentGameMode == GameMode.Pool)
+            if (userData.myCoins == 0)
             {
-
-                poolSelectionImage.gameObject.SetActive(true);
+                EightPoolSelectionImage.gameObject.SetActive(true);
             }
-            else if (uiData.currentGameMode == GameMode.Snooker)
+            else if (userData.myCoins == 1)
             {
-              
-               snookerSelectionImage.gameObject.SetActive(true);
+                FivePoolSelectionImage.gameObject.SetActive(true);
             }
 
-
-           if(uiData.currentAIDifficulty == AIDifficulty.Easy)
+            else if (userData.myCoins == 2)
             {
-               
-               easyAISelectionImage.gameObject.SetActive(true);
+                SnookerSelectionImage.gameObject.SetActive(true);
+            }
+            else if (userData.myCoins == 3)
+            {
+                ColorSelectionImage.gameObject.SetActive(true);
+            }
+
+
+
+            if (uiData.currentAIDifficulty == AIDifficulty.Easy)
+            {
+
+                easyAISelectionImage.gameObject.SetActive(true);
             }
             else if (uiData.currentAIDifficulty == AIDifficulty.Medium)
             {
-              
+
                 mediumAISelectionImage.gameObject.SetActive(true);
             }
             else if (uiData.currentAIDifficulty == AIDifficulty.Hard)
             {
-              
-               hardAISelectionImage.gameObject.SetActive(true);
-            }     
+
+                hardAISelectionImage.gameObject.SetActive(true);
+            }
 
         }
 
-        public void PoolBtnClicked()
+        public void FivePoolBtnClicked()
         {
-            
+
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetGameModeImages();
             uiData.SetGameMode(GameMode.Pool);
-            poolSelectionImage.gameObject.SetActive(true);
+            userData.SetMyCoins(1);
+            FivePoolSelectionImage.gameObject.SetActive(true);
+
+        }
+
+        public void EightPoolBtnClicked()
+        {
+
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            ResetGameModeImages();
+            uiData.SetGameMode(GameMode.Pool);
+            userData.SetMyCoins(0);
+            EightPoolSelectionImage.gameObject.SetActive(true);
 
         }
 
@@ -91,7 +110,17 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetGameModeImages();
             uiData.SetGameMode(GameMode.Snooker);
-            snookerSelectionImage.gameObject.SetActive(true);
+            userData.SetMyCoins(2);
+            SnookerSelectionImage.gameObject.SetActive(true);
+        }
+
+        public void ColorBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            ResetGameModeImages();
+            uiData.SetGameMode(GameMode.Snooker);
+            userData.SetMyCoins(3);
+            ColorSelectionImage.gameObject.SetActive(true);
         }
 
         public void EasyAIBtnClicked()
@@ -115,9 +144,8 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetAIImages();
             uiData.SetAIDifficulty(AIDifficulty.Hard);
-           hardAISelectionImage.gameObject.SetActive(true);
+            hardAISelectionImage.gameObject.SetActive(true);
         }
-
 
         public void NextBtnClicked()
         {
@@ -125,9 +153,6 @@ namespace com.VisionXR.Views
             BoardsPanel.SetActive(true);
             gameObject.SetActive(false);
         }
-
-
-
         public void BackBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
@@ -138,10 +163,10 @@ namespace com.VisionXR.Views
 
         private void ResetGameModeImages()
         {
-
-           poolSelectionImage.gameObject.SetActive(false);
-            snookerSelectionImage.gameObject.SetActive(false);
-      
+            FivePoolSelectionImage.gameObject.SetActive(false);
+            EightPoolSelectionImage.gameObject.SetActive(false);
+            SnookerSelectionImage.gameObject.SetActive(false);
+            ColorSelectionImage.gameObject.SetActive(false);
         }
 
         private void ResetAIImages()

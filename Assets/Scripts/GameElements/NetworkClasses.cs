@@ -47,23 +47,13 @@ namespace com.VisionXR.HelperClasses
 
 
     [Serializable]
-    public struct PoolGameSnapshot : INetworkStruct
+    public struct GameSnapshot : INetworkStruct
     {
         [Networked] public int FrameNumber { get; set; }
         [Networked] public StrikerSnapshot Striker { get; set; }
 
         // You can adjust 22 if you want a smaller/larger max coin count
-        [Networked, Capacity(15)] public NetworkArray<CoinSnapshot> Coins => default;
-    }
-
-    [Serializable]
-    public struct SnookerGameSnapshot : INetworkStruct
-    {
-        [Networked] public int FrameNumber { get; set; }
-        [Networked] public StrikerSnapshot Striker { get; set; }
-
-        // You can adjust 22 if you want a smaller/larger max coin count
-        [Networked, Capacity(12)] public NetworkArray<CoinSnapshot> Coins => default;
+        [Networked, Capacity(18)] public NetworkArray<CoinSnapshot> Coins => default;
     }
 
     // Networked player properties: use Fusion Networked properties.

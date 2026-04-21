@@ -11,44 +11,30 @@ namespace com.VisionXR.ModelClasses
         // variables
         [Header("Board Properties")]
         public Transform BoardTransform;
+        public GameObject allAssets;
+        public Platform platform;
 
         [Header("Table Elements")]
         public List<Transform> PlayerTransforms;
         public List<Transform> CanvasTransforms;
         public List<Transform> CamTransforms;
 
-        public Platform platform;
-        public GameObject Camera;
-        public GameObject AllAssets;
 
         // Actions
 
-        public Action TablePlacedEvent;
-
         public Action<int> SetTableRotationEvent;
-
-        public Action TurnOnGlowEvent;
-        public Action TurnOffGlowEvent;
-
-
-        public Action TurnOnInteractableEvent;
-        public Action TurnOffInteractableEvent;
-
-
-        public Action TableMovementStartedEvent;
-        public Action TableMovementEndedEvent;
-
         public Action PlatformRotationStartedEvent;
         public Action PlatformRotationEndedEvent;
-
         public Action ResetPlatformEvent;
-
-
         public Action<Vector3> PlatformRotationChangedEvent;
 
 
         //Methods
         public Transform GetBoardTransform() => BoardTransform;
+
+        public GameObject GetAllAssets() => allAssets;
+
+        public Platform GetPlatform() => platform;
 
         public Transform GetCanvasTransform(int playerID) => CanvasTransforms[playerID - 1];
 
@@ -56,10 +42,20 @@ namespace com.VisionXR.ModelClasses
         public Transform GetCamTransform(int playerId) => CamTransforms[playerId - 1];
 
 
+        public void SetPlatform(Platform platform)
+        {
+            this.platform = platform;
+        }
+
         public void SetBoardPosition(Transform boardTransform)
         {
             BoardTransform = boardTransform;
         }
+        public void SetAllAssets(GameObject allAssets)
+        {
+            this.allAssets = allAssets;
+        }
+
         public void SetMainCanvasPositions(List<Transform> mainCanvasTransforms)
         {
             CanvasTransforms = mainCanvasTransforms;
@@ -74,47 +70,13 @@ namespace com.VisionXR.ModelClasses
         {
             this.CamTransforms = camTransforms;
         }
-         
+
 
         public void SetTableRotation(int index)
         {
             SetTableRotationEvent?.Invoke(index);
         }
 
-        public void TurnOnGlow()
-        {
-            TurnOnGlowEvent?.Invoke();
-        }
-
-        public void TurnOffGlow()
-        {
-            TurnOffGlowEvent?.Invoke();
-        }
-
-        public void TurnOnInteractable()
-        {
-            TurnOnInteractableEvent?.Invoke();
-        }
-
-        public void TurnOffInteractable()
-        {
-            TurnOffInteractableEvent?.Invoke();
-        }
-
-
-        public void PlaceTable()
-        {
-            TablePlacedEvent?.Invoke();
-        }
-
-        public void TableMovementStarted()
-        {
-            TableMovementStartedEvent?.Invoke();
-        }
-        public void TableMovementEnded()
-        {
-            TableMovementEndedEvent?.Invoke();
-        }
 
         public void PlatformRotationStarted()
         {
@@ -136,18 +98,5 @@ namespace com.VisionXR.ModelClasses
             PlatformRotationChangedEvent?.Invoke(rotationDelta);
         }
 
-        public void SetPlatform(Platform platform)
-        {
-            this.platform = platform;
-        }
-
-        public void SetCamera(GameObject cam)
-        {
-            this.Camera = cam;
-        }
-        public void SetAllAssets(GameObject allAssets)
-        {
-                this.AllAssets = allAssets;
-        }
     }
 }

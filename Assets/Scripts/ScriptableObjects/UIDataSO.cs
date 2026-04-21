@@ -12,12 +12,14 @@ namespace com.VisionXR.ModelClasses
         public GameType currentGameType;
         public GameMode currentGameMode;
         public AIDifficulty currentAIDifficulty;
+        public BoardType currentBoardType;
 
         // Actions
 
         public Action HomeEvent;
+        public Action<int> ShowTurnEvent;
         public Action ShowFoulEvent;
-        public Action<string> ShowFoulHandlingEvent;
+        public Action ShowFoulHandlingEvent;
 
         public Action SetCoinsEvent;
         public Action UpdateCoinsEvent;
@@ -28,7 +30,7 @@ namespace com.VisionXR.ModelClasses
         // Mic and speaker Actions
         public Action TurnOnMicEvent;
         public Action TurnOffMicEvent;
-        
+
         public Action TurnOnSpeakerEvent;
         public Action TurnOffSpeakerEvent;
 
@@ -44,14 +46,19 @@ namespace com.VisionXR.ModelClasses
             SetCoinsEvent?.Invoke();
         }
 
-        public void ShowFoulHandling(string displayText)
+        public void ShowFoulHandling()
         {
-            ShowFoulHandlingEvent?.Invoke(displayText);
+            ShowFoulHandlingEvent?.Invoke();
         }
 
         public void ShowFoul()
         {
             ShowFoulEvent?.Invoke();
+        }
+
+        public void ShowTurn(int playerNumber)
+        {
+            ShowTurnEvent?.Invoke(playerNumber);
         }
 
         public void TriggerHomeEvent()
@@ -72,6 +79,11 @@ namespace com.VisionXR.ModelClasses
         public void SetAIDifficulty(AIDifficulty aiDifficulty)
         {
             currentAIDifficulty = aiDifficulty;
+        }
+
+        public void SetBoardType(BoardType boardType)
+        {
+            currentBoardType = boardType;
         }
 
         public void ExitButtonClicked()

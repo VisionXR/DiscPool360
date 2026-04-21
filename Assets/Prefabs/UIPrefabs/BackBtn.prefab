@@ -118,7 +118,6 @@ GameObject:
   - component: {fileID: 4155335658119809845}
   - component: {fileID: 3808925780533083464}
   - component: {fileID: 8104444910205755373}
-  - component: {fileID: 3652204206604578112}
   m_Layer: 5
   m_Name: ActualImage
   m_TagString: Untagged
@@ -183,19 +182,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3652204206604578112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4779124695861840392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56549cdaaf4d81e4387b02698fd3daa0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  borderRadius: {x: 20, y: 20, z: 20, w: 20}
 --- !u!1 &6080587748144326984
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,6 +335,7 @@ MonoBehaviour:
   HoverImage: {fileID: 5469430662071238136}
   ActualImage: {fileID: 8104444910205755373}
   SelectionImage: {fileID: 6127354919842756470}
+  isHovering: 0
   popScale: 1.08
   popDuration: 0.12
 --- !u!1 &6525362388045043392

@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class TurnAndFoulCanvas : MonoBehaviour
 {
@@ -14,32 +15,49 @@ public class TurnAndFoulCanvas : MonoBehaviour
     public GameDataSO gameData;
     public PlayerDataSO playerData;
     public UIDataSO uiData;
+    public UserDataSO userData;
+    public StrikerDataSO strikerData;
 
-    [Header("UI Elements")]
+
+    [Header("UI Panels")]
     public GameObject turnPanel;
     public GameObject foulPanel;
+    public GameObject foulHandlingPanel;
+
+    [Header("UI Elements")]
     public TMP_Text turnText;
     public TMP_Text foulText;
     public TMP_Text foulHandlingText;
 
     private void OnEnable()
     {
-        gameData.TurnChangeEvent += ShowPlayerName;
+        uiData.ShowTurnEvent += ShowPlayerName;
         uiData.ShowFoulEvent += ShowFoul;
         uiData.ShowFoulHandlingEvent += ShowFoulHandling;
+
+        strikerData.FoulCompleteEvent += HideFoulHandlingPanel;
     }
 
     private void OnDisable()
     {
-        gameData.TurnChangeEvent -= ShowPlayerName;
+        uiData.ShowTurnEvent -= ShowPlayerName;
         uiData.ShowFoulEvent -= ShowFoul;
         uiData.ShowFoulHandlingEvent -= ShowFoulHandling;
+
+        strikerData.FoulCompleteEvent -= HideFoulHandlingPanel;
     }
 
-    private void ShowFoulHandling(string displayText)
+    private void ShowFoulHandling()
     {
-        StartCoroutine(ShowFoulPanelCoroutine());
-        foulHandlingText.text = displayText;
+
+        StartCoroutine(ShowFoulHandlingPanelCoroutine());
+
+    }
+
+    private void HideFoulHandlingPanel()
+    {
+        foulHandlingText.text = "";
+        foulHandlingPanel.SetActive(false);
     }
 
     private void ShowFoul()
@@ -64,7 +82,7 @@ public class TurnAndFoulCanvas : MonoBehaviour
                 turnText.text = $"{player.playerProperties.myName}'s Turn";
             }
         }
-        
+
         audioData.PlayAudio(AudioClipType.TurnChange);
     }
 
@@ -72,7 +90,7 @@ public class TurnAndFoulCanvas : MonoBehaviour
     {
         turnPanel.SetActive(true);
         yield return new WaitForSeconds(3f);
-        turnText.text = "";      
+        turnText.text = "";
         turnPanel.SetActive(false);
     }
 
@@ -81,7 +99,45 @@ public class TurnAndFoulCanvas : MonoBehaviour
         foulPanel.SetActive(true);
         yield return new WaitForSeconds(3f);
         foulText.text = "";
-        foulHandlingText.text = "";
         foulPanel.SetActive(false);
+    }
+
+    private IEnumerator ShowFoulHandlingPanelCoroutine()
+    {
+        yield return new WaitForSeconds(1f);
+        foulHandlingPanel.SetActive(true);
+        string displayText = "";
+        bool handTrackingActive = false;
+
+        if (userData.myDominantHand == DominantHand.Right)
+        {
+            if (handTrackingActive)
+            {
+                displayText = "Hold right hand pinch to move the striker. Release to place.";
+              
+            }
+            else
+            {
+                displayText = "Hold right trigger to move the striker. Release to place";
+              
+            }
+        }
+        else
+        {
+            if (handTrackingActive)
+            {
+                displayText = "Hold left hand pinch to move the striker. Release to place.";
+              
+            }
+            else
+            {
+                displayText = "Hold left trigger to move the striker. Release to place";
+              
+            }
+        }
+        foulHandlingText.text = displayText;
+        yield return new WaitForSeconds(7f);
+        foulHandlingText.text = "";
+        foulHandlingPanel.SetActive(false);
     }
 }

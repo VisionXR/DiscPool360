@@ -1,6 +1,6 @@
 ﻿<Solution>
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="PhotonVoice.API.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Fusion.Unity.Editor.csproj" />
   <Project Path="PhotonRealtime.csproj" />
   <Project Path="PhotonUnityNetworking.Editor.csproj" />

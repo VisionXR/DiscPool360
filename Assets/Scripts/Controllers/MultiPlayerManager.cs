@@ -163,7 +163,7 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     poolLogic.GlowCoins(cp.playerProperties.myCoin);
-
+                    InputPanel.SetActive(true);
                 }
 
 
@@ -190,7 +190,7 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     snookerLogic.GlowCoins(cp.playerProperties.myCoin);
-
+                    InputPanel.SetActive(true);
                 }
 
             }
@@ -344,10 +344,11 @@ namespace com.VisionXR.Controllers
 
         private void StrikeForceStarted()
         {
-            multiPlayerConnectionManager.SendStrikeForcheChanged();
+            multiPlayerConnectionManager.SendStrikeForceChanged();
         }
         private void StrikeStarted()
         {
+            InputPanel.SetActive(false);
             inputData.DisableInput();
             boardData.TurnOffInteractable();
             InputPanel.SetActive(false);
@@ -356,7 +357,7 @@ namespace com.VisionXR.Controllers
 
         private void StrikeForceChanges(float force,Vector3 dir)
         {
-            multiPlayerConnectionManager.SendStrikeForceChanged(force,dir);
+            multiPlayerConnectionManager.SendStrikeForceChanged();
         }
 
         private void StrikeStopped()

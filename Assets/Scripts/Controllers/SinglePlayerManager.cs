@@ -138,7 +138,7 @@ namespace com.VisionXR.Controllers
             StartCoroutine(InitialiseGame(firstTurnId));
 
             strikerData.SetFoul(false);
-            tableData.TurnOffInteractable();
+      
             tableData.ResetPlatform();
            
         }
@@ -155,7 +155,7 @@ namespace com.VisionXR.Controllers
             firstTurnId = id;
             isFirstCoinPocketed = false;
 
-            tableData.TurnOffInteractable();
+          
             tableData.ResetPlatform();
 
 

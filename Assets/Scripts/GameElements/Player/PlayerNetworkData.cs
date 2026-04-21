@@ -1,7 +1,6 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.ModelClasses;
 using Fusion;
-using Fusion.Addons.Physics;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -25,8 +24,9 @@ namespace com.VisionXR.HelperClasses
 
         [Header("local Objects")]
         public Player player;
-       
+      
         public ReceivePlayerData receivePlayerData;
+        public PlayerTurnManager playerTurnManager;
 
 
         [Header("Network Variables")]
@@ -36,7 +36,7 @@ namespace com.VisionXR.HelperClasses
         // Replaced string JSON with strongly-typed networked struct
         [Networked, OnChangedRender(nameof(OnPlayerPropertiesReceived))] public NetworkPlayerProperties NetPlayerProps { get; set; }
 
-      
+    
 
         public override void Spawned()
         {
@@ -51,15 +51,13 @@ namespace com.VisionXR.HelperClasses
 
         private void OnEnable()
         {
-            inputData.GrabInputEvent += GrabInput ;
-            inputData.TapInputEvent += TapInput;
+           
             inputData.PlatformHiglightEvent += PlatformHighlight;
         }
 
         private void OnDisable()
         {
-            inputData.GrabInputEvent -= GrabInput;
-            inputData.TapInputEvent -= TapInput;
+          
             inputData.PlatformHiglightEvent -= PlatformHighlight;
         }
 
@@ -71,21 +69,6 @@ namespace com.VisionXR.HelperClasses
             }
         }
 
-        private void TapInput(DominantHand hand, bool arg2)
-        {
-            if(HasStateAuthority)
-            {
-                RPC_TapInput(hand, arg2);
-            }
-        }
-
-        private void GrabInput(DominantHand hand, bool arg2)
-        {
-            if(HasStateAuthority)
-            {
-                RPC_GrabInput(hand, arg2);
-            }
-        }
 
         #region setters
         public void SetPlayerData(PlayerProperties p)
@@ -111,8 +94,8 @@ namespace com.VisionXR.HelperClasses
 
             gameObject.name = "Player" + NetPlayerProps.MyId;
             tableData.SetTableRotation(p.myId);
-     
 
+     
 
         }
 
@@ -122,17 +105,17 @@ namespace com.VisionXR.HelperClasses
         }
 
 
-
         // Getters
         private void OnActiveCoinNetworkDataReceived()
         {
             for (int i = 0; i < coinData.AvailableCoinsInGame.Count; i++)
-            {              
-                Rigidbody rb = coinData.AvailableCoinsInGame[i];            
+            {
+                Rigidbody rb = coinData.AvailableCoinsInGame[i];
                 rb.gameObject.SetActive(activeCoinsNetworkData.Status[i]);
-                networkOutputData.UpdateCoins();
+
             }
 
+            uiData.UpdateCoins();
 
         }
         #endregion
@@ -169,6 +152,8 @@ namespace com.VisionXR.HelperClasses
             gameObject.transform.rotation = tableData.PlayerTransforms[props.myId - 1].rotation;
 
 
+
+
             if (!HasStateAuthority)
             {
 
@@ -189,7 +174,7 @@ namespace com.VisionXR.HelperClasses
 
         #endregion
 
-      
+    
 
         #region RPCS
 
@@ -198,46 +183,18 @@ namespace com.VisionXR.HelperClasses
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
         public void RPC_HostReady()
         {
-            networkOutputData.SetHostReady(true);        
+            networkOutputData.SetHostReady(true);
         }
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
         public void RPC_ClientReady()
         {
-           networkOutputData.SetClientReady(true);          
+            networkOutputData.SetClientReady(true);
         }
 
-        [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
-        public void RPC_GrabInput(DominantHand hand,bool value)
-        {
-            if (!HasStateAuthority)
-            {
-                if(hand == DominantHand.Right)
-                {
-                   
-                }
-                else
-                {
-                   
-                }
-            }
-        }
+      
 
-        [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
-        public void RPC_TapInput(DominantHand hand, bool value)
-        {
-            if (!HasStateAuthority)
-            {
-                if (hand == DominantHand.Right)
-                {
-
-                }
-                else
-                {
-
-                }
-            }
-        }
+     
 
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
@@ -245,15 +202,15 @@ namespace com.VisionXR.HelperClasses
         {
             if (!HasStateAuthority)
             {
-               if(tableData.platform != null)
+                if (tableData.GetPlatform() != null)
                 {
-                    if(value)
+                    if (value)
                     {
-                        tableData.platform.TurnOnBoardHighlight();
+                        tableData.GetPlatform().TurnOnBoardHighlight();
                     }
                     else
                     {
-                        tableData.platform.TurnOffBoardHighlight();
+                        tableData.GetPlatform().TurnOffBoardHighlight();
                     }
                 }
             }
@@ -274,7 +231,7 @@ namespace com.VisionXR.HelperClasses
         {
             if (!HasStateAuthority)
             {
-                strikerData.HandleFoul(id);
+                strikerData.SetFoul(true);
             }
         }
 
@@ -285,8 +242,7 @@ namespace com.VisionXR.HelperClasses
         {
             if (!HasStateAuthority)
             {
-                GameObject striker = strikerData.currentStriker;
-                striker.GetComponent<Rigidbody>().isKinematic = false;
+                playerTurnManager.FoulComplete();
             }
         }
 
@@ -306,7 +262,7 @@ namespace com.VisionXR.HelperClasses
             {
                 gamedata.ChangeTurn(id);
             }
-                     
+
         }
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
@@ -320,20 +276,11 @@ namespace com.VisionXR.HelperClasses
 
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
-        public void RPC_PlayerStrikeStarted(float force,Vector3 dir)
+        public void RPC_PlayerStrikeStarted(float force, Vector3 dir)
         {
             if (!HasStateAuthority)
             {
                 receivePlayerData.PlayerStrikeStarted(force, dir);
-            }
-        }
-
-        [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Unreliable)]
-        public void RPC_StrikeForceChanged(float force,Vector3 dir)
-        {
-            if (!HasStateAuthority)
-            {
-                receivePlayerData.StrikeForceChanged(force,dir);
             }
         }
 
@@ -352,6 +299,10 @@ namespace com.VisionXR.HelperClasses
             if (!HasStateAuthority)
             {
                 receivePlayerData.PlayerStrikeEnded();
+                if (strikerData.isFoul)
+                {
+                    strikerData.PlaceStrikerOnEdge();
+                }
             }
         }
 

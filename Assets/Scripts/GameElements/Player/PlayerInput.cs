@@ -72,7 +72,7 @@ namespace com.VisionXR.GameElements
             if (tableData.platform != null)
                 Platform = tableData.platform.gameObject;
 
-            AllAssets = tableData.AllAssets;
+            AllAssets = tableData.allAssets;
 
             if (striker != null)
             {

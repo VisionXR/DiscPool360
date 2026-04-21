@@ -73,7 +73,7 @@ public class Platform : MonoBehaviour
 
         if(allAssets == null)
         {
-            allAssets = tableData.AllAssets;
+            allAssets = tableData.allAssets;
         }
 
         // 2. Raycast from the 2D pinch/touch position

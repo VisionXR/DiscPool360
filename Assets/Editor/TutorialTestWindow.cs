@@ -48,7 +48,7 @@ public class TutorialTestWindow : EditorWindow
 
             {
 
-                tableData.TableMovementEnded();
+                
 
             }
 

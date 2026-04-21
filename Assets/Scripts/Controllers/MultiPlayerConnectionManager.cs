@@ -44,7 +44,7 @@ namespace com.VisionXR.Controllers
         }
 
 
-        public  void SendActivetCoinData()
+        public void SendActivetCoinData()
         {
             Player p = playerData.GetMainPlayer();
             PlayerNetworkData networkData = p.GetComponent<PlayerNetworkData>();
@@ -58,7 +58,7 @@ namespace com.VisionXR.Controllers
             networkData.SetActiveCoinsNetworkData(activeCoinsData);
         }
 
-        public void SendStrikeForcheChanged()
+        public void SendStrikeForceChanged()
         {
             Player p = playerData.GetMainPlayer();
             PlayerNetworkData networkData = p.GetComponent<PlayerNetworkData>();
@@ -78,24 +78,13 @@ namespace com.VisionXR.Controllers
         {
             Player p = playerData.GetMainPlayer();
             PlayerNetworkData networkData = p.GetComponent<PlayerNetworkData>();
-           
             ReceivePlayerData receivePlayerData = p.GetComponent<ReceivePlayerData>();
-            receivePlayerData.SendData(p.playerProperties.myId);
-
-            networkData.RPC_PlayerStrikeStarted(strikerData.strikeForce,strikerData.strikerDir);
+            receivePlayerData.SendData();
+            networkData.RPC_PlayerStrikeStarted(strikerData.strikeForce, strikerData.strikerDir);
         }
 
-        public void SendStrikeForceChanged(float force,Vector3 dir)
-        {
-            Player p = playerData.GetMainPlayer();
-            PlayerNetworkData networkData = p.GetComponent<PlayerNetworkData>();
 
-            ReceivePlayerData receivePlayerData = p.GetComponent<ReceivePlayerData>();
-           
-
-            networkData.RPC_StrikeForceChanged(force,dir);
-        }
-        public void SendSnookerScore(int requiredColorIndex, SnookerPhase phase,int p1Score,int p2Score)
+        public void SendSnookerScore(int requiredColorIndex, SnookerPhase phase, int p1Score, int p2Score)
         {
             Player p = playerData.GetMainPlayer();
             PlayerNetworkData networkData = p.GetComponent<PlayerNetworkData>();
@@ -123,7 +112,7 @@ namespace com.VisionXR.Controllers
             networkData.RPC_FoulComplete();
         }
 
-        public void SendPlayerAssignedCoins(PlayerCoin coin1,PlayerCoin coin2)
+        public void SendPlayerAssignedCoins(PlayerCoin coin1, PlayerCoin coin2)
         {
 
             Player p = playerData.GetMainPlayer();
@@ -141,8 +130,8 @@ namespace com.VisionXR.Controllers
 
         public void OnPlayerJoined()
         {
-            
-          
+
+
 
         }
 
@@ -155,7 +144,7 @@ namespace com.VisionXR.Controllers
             {
                 Player p = playerData.GetMainPlayer();
                 PlayerNetworkData networkData = p.GetComponent<PlayerNetworkData>();
-                networkData.RPC_HostReady();    
+                networkData.RPC_HostReady();
 
             }
             else
@@ -180,16 +169,16 @@ namespace com.VisionXR.Controllers
             {
 
             }
-           
+
         }
 
         private void Reset()
         {
-            
+
             lobbyPanel.SetActive(false);
             clientDisconnectedPanel.SetActive(false);
         }
 
-       
+
     }
 }
