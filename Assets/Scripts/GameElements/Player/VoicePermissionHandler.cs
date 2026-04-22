@@ -34,6 +34,15 @@ public class VoicePermissionHandler : NetworkBehaviour
             }
 
         }
+        else
+        {
+            if (photonRecorder != null)
+            {
+                photonRecorder.enabled = false;
+                speaker.mute = false;
+            }
+
+        }
     }
 
     void OnPermissionGranted(string permissionName)

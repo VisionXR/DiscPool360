@@ -100,6 +100,8 @@ public class CoinManager : MonoBehaviour
         }
 
         string path = resourceFolderPath + "Coins" + userData.myCoins;
+
+        Debug.Log(path);
         GameObject coinsPrefab = Resources.Load<GameObject>(path);
 
         currentCoins = Instantiate(coinsPrefab, coinTransform.transform.position, coinTransform.transform.rotation);

@@ -14,6 +14,7 @@ public class HostWaitingPanel : MonoBehaviour
     public NetworkOutputDataSO networkOutPutData;
     public UIDataSO uiData;
     public GameDataSO gameData;
+    public UserDataSO userData;
 
     [Header("Player Objects")]
     public Image player1Image;
@@ -253,7 +254,7 @@ public class HostWaitingPanel : MonoBehaviour
     {
         audioData.PlayAudio(AudioClipType.ButtonClick);
         SendPlayerData sendPlayerData = playerData.GetMainPlayer().GetComponent<SendPlayerData>();
-        sendPlayerData.RPC_StartGame(1);
+        sendPlayerData.RPC_StartGame(userData.myCoins);
         gameObject.SetActive(false);
     }
 

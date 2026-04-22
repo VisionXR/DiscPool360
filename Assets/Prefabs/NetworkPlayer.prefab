@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voiceDetection: 0
+  voiceDetection: 1
   voiceDetectionThreshold: 0.01
   voiceDetectionDelayMs: 500
   interestGroup: 0
@@ -484,6 +484,7 @@ MonoBehaviour:
   raycastDistance: 2
   boardLift: 0.01
   placeRadius: 0.25
+  isPlacingStriker: 0
 --- !u!114 &7188178982219978534
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -108,6 +108,7 @@ namespace com.VisionXR.Controllers
 
         public void StartGame(int id)
         {
+            Debug.Log(" Starting game with id: " + id);
             _previousTurnId = -1;
             userData.myCoins = id;
             if (id == 0 || id == 1)
@@ -123,12 +124,13 @@ namespace com.VisionXR.Controllers
             uiData.ResetAllPanels();
             tableData.ResetPlatform();
             firstTurnId = 1;
-            isFirstCoinPocketed = false;
-            StartCoroutine(InitialiseGame(firstTurnId));
-            gameData.currentTurnId = 1;
+            isFirstCoinPocketed = false;        
+            gameData.currentTurnId = firstTurnId;
             multiPlayerConnectionManager.SetPlayStatus(true);
             strikerData.SetFoul(false);
             pocketedCoins.Clear();
+
+            StartCoroutine(InitialiseGame(firstTurnId));
         }
         private IEnumerator InitialiseGame(int id)
         {
