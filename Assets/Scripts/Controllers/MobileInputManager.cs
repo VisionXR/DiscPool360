@@ -1,10 +1,11 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
-using TouchPhase = UnityEngine.TouchPhase;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
+using TouchPhase = UnityEngine.TouchPhase;
 
 namespace com.VisionXR.Controllers
 {
@@ -50,8 +51,9 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        private void Update()
+        private void LateUpdate()
         {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
             if (inputData.isInputEnabled)
             {
                 HandleTouchInput();

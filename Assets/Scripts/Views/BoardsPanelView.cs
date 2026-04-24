@@ -78,6 +78,9 @@ namespace com.VisionXR.Views
                 }
             }
 
+                UnlockBoards(0, 20); // for testing now remove later
+            
+
         }
 
         private void UnlockBoards(int startIndex, int endIndex)
