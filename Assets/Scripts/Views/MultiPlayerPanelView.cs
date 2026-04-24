@@ -30,7 +30,8 @@ namespace com.VisionXR.Views
         [Header("Bg Images")]
         public Image FivePoolSelectionImage;
         public Image EightPoolSelectionImage;
-        public Image SnookerSelectionImage;
+        public Image Snooker6SelectionImage;
+        public Image Snooker10SelectionImage;
         public Image ColorSelectionImage;
 
 
@@ -55,7 +56,11 @@ namespace com.VisionXR.Views
 
             else if (userData.myCoins == 2)
             {
-                SnookerSelectionImage.gameObject.SetActive(true);
+                Snooker6SelectionImage.gameObject.SetActive(true);
+            }
+            else if (userData.myCoins == 4)
+            {
+                Snooker10SelectionImage.gameObject.SetActive(true);
             }
             else if (userData.myCoins == 3)
             {
@@ -82,13 +87,22 @@ namespace com.VisionXR.Views
             userData.SetMyCoins(0);
             EightPoolSelectionImage.gameObject.SetActive(true);
         }
-        public void SnookerBtnClicked()
+        public void Snooker6BtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetGameModeImages();
             uiData.SetGameMode(GameMode.Snooker);
             userData.SetMyCoins(2);
-            SnookerSelectionImage.gameObject.SetActive(true);
+            Snooker6SelectionImage.gameObject.SetActive(true);
+        }
+
+        public void Snooker10BtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            ResetGameModeImages();
+            uiData.SetGameMode(GameMode.Snooker);
+            userData.SetMyCoins(4);
+            Snooker10SelectionImage.gameObject.SetActive(true);
         }
 
         public void ColorBtnClicked()
@@ -128,7 +142,8 @@ namespace com.VisionXR.Views
         {
             FivePoolSelectionImage.gameObject.SetActive(false);
             EightPoolSelectionImage.gameObject.SetActive(false);
-            SnookerSelectionImage.gameObject.SetActive(false);
+            Snooker6SelectionImage.gameObject.SetActive(false);
+            Snooker10SelectionImage.gameObject.SetActive(false);
             ColorSelectionImage.gameObject.SetActive(false);
         }
 
