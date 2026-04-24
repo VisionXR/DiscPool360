@@ -48,21 +48,27 @@ namespace com.VisionXR.Controllers
         // --- SAVE DATA ---
         public void SaveUserData()
         {
-           
-            // Convert your UserData class to JSON string
-            string jsonString = JsonUtility.ToJson(achievementsData.userData);
-
-            var request = new UpdateUserDataRequest
+            try
             {
-                Data = new Dictionary<string, string> {
+
+                // Convert your UserData class to JSON string
+                string jsonString = JsonUtility.ToJson(achievementsData.userData);
+
+                var request = new UpdateUserDataRequest
+                {
+                    Data = new Dictionary<string, string> {
                     { userDataKey, jsonString }
                 },
-               
-            };
 
-            PlayFabClientAPI.UpdateUserData(request,
-                result => Debug.Log("Cloud Save Successful"),
-                OnDataFetchError);
+                };
+
+                PlayFabClientAPI.UpdateUserData(request,
+                    result => Debug.Log("Cloud Save Successful"),
+                    OnDataFetchError);
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         // --- LOAD DATA ---
@@ -73,24 +79,31 @@ namespace com.VisionXR.Controllers
                 Keys = new List<string> { userDataKey }
             };
 
-            PlayFabClientAPI.GetUserData(request, result =>
+            try
             {
-                if (result.Data != null && result.Data.ContainsKey(userDataKey))
+                PlayFabClientAPI.GetUserData(request, result =>
                 {
-                    // Convert the JSON string back into your UserData object
-                    string json = result.Data[userDataKey].Value;
-                    achievementsData.userData = JsonUtility.FromJson<UserData>(json);
+                    if (result.Data != null && result.Data.ContainsKey(userDataKey))
+                    {
+                        // Convert the JSON string back into your UserData object
+                        string json = result.Data[userDataKey].Value;
+                        achievementsData.userData = JsonUtility.FromJson<UserData>(json);
 
-                    Debug.Log("Cloud Data Loaded Successfully"+json);
-                }
-                else
-                {
-                    Debug.Log("No existing cloud data found for this key. Starting fresh.");
-                }
+                        Debug.Log("Cloud Data Loaded Successfully" + json);
+                    }
+                    else
+                    {
+                        Debug.Log("No existing cloud data found for this key. Starting fresh.");
+                    }
 
-                OnDataFetchSuccessEvent?.Invoke();
+                    OnDataFetchSuccessEvent?.Invoke();
 
-            }, OnDataFetchError);
+                }, OnDataFetchError);
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         private void OnDataFetchError(PlayFabError error)

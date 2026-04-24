@@ -12,6 +12,7 @@ namespace com.VisionXR.GameElements
         [Header(" Game Objects")]
         public GameObject arrow;
         public GameObject displayArrow;
+        public GameObject aimLine;
         public Renderer arrowRenderer;
      
         private void OnEnable()
@@ -30,6 +31,7 @@ namespace com.VisionXR.GameElements
         {
             arrow.SetActive(true);
             displayArrow.SetActive(true);
+            aimLine.SetActive(true);
 
         }
 
@@ -48,6 +50,7 @@ namespace com.VisionXR.GameElements
             arrowRenderer.material.SetFloat("_Threshold", 0);
             arrow.SetActive(false);
             displayArrow.SetActive(false);
+            aimLine.SetActive(false);
              
         }
 

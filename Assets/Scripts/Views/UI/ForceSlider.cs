@@ -10,7 +10,7 @@ public class ForceSlider : MonoBehaviour, IPointerUpHandler
     public InputDataSO inputData; // Reference to your ScriptableObject for input data
     public AnimationCurve StrikeCurve;
     private Slider slider;
-
+    public float powerFactor = 0.75f;
     void Awake()
     {
         slider = GetComponent<Slider>();
@@ -32,7 +32,7 @@ public class ForceSlider : MonoBehaviour, IPointerUpHandler
 
     private void FireSlingshot(float force)
     {
-        force = force * force;
+        force = Mathf.Pow(force, powerFactor);
 
         inputData.FireStrike(force);
         // Trigger your game logic here!
@@ -41,7 +41,8 @@ public class ForceSlider : MonoBehaviour, IPointerUpHandler
 
     public void SetForce(float force)
     {
-        force = force * force;
+        force = Mathf.Pow(force, powerFactor);
+
         inputData.StrikerForceChanged(force);
     }
 }
