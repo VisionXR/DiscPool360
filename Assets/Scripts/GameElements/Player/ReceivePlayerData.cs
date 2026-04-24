@@ -391,7 +391,7 @@ public class ReceivePlayerData : NetworkBehaviour
         rb.position = targetPos;
         rb.transform.eulerAngles = targetRot;
         rb.linearVelocity = targetVel;
-        //  rb.isKinematic = false;
+ 
 
     }
     public Vector3 GetEstimatedReflectedPoint(Vector3 startPos, Vector3 velocity, float k, float dt, float radius)
