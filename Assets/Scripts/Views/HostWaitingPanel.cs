@@ -234,7 +234,7 @@ public class HostWaitingPanel : MonoBehaviour
     IEnumerator GenerateAndShare(string roomID)
     {
         string apiURL = "https://api.tinyurl.com/create";
-        string deepLink = "discpool://RoomId=" + roomID;
+        string deepLink = "discpool://" + roomID;
 
         // TinyURL's simple payload
         string jsonPayload = $"{{\"url\": \"{deepLink}\", \"domain\": \"tinyurl.com\"}}";
