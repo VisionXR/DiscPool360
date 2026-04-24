@@ -17,6 +17,7 @@ public class AimLine : MonoBehaviour
     public float LineThickness = 0.08f;
     public int NoofArrowsPerUnit = 5; // 5 arrows per 0.1m
     public float distanceFactor = 0.15f; // Adjust this based on your line's original length to get the correct scaling
+    public float checkFactor = 1.5f;
     // local variables
     private RaycastHit hit;
 
@@ -36,7 +37,7 @@ public class AimLine : MonoBehaviour
     private void FixedUpdate()
     {
         // 1. Initial Overlap Check - Hide line if overlapping something
-        if (Physics.CheckSphere(checkTransform.position, boardData.StrikerRadius, colliderMask))
+        if (Physics.CheckSphere(checkTransform.position, boardData.StrikerRadius*checkFactor, colliderMask))
         {
             line.SetActive(false);
             return;

@@ -23,7 +23,7 @@ namespace com.VisionXR.GameElements
         public float raycastDistance = 2.0f;
         public float boardLift = 0.01f;
         public float placeRadius = 0.25f;
-
+        public float yOffset = 100f;
 
         // local state
         public bool isPlacingStriker = false;
@@ -137,6 +137,8 @@ namespace com.VisionXR.GameElements
         }
         private void TryPlaceWhileHeld(Vector2 startPosition)
         {
+
+            startPosition += new Vector2(0, yOffset); // Add vertical offset to the pinch position for raycasting
 
             // 2. Raycast from the 2D pinch/touch position
             Ray ray = Camera.main.ScreenPointToRay(startPosition);

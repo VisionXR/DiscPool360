@@ -328,6 +328,7 @@ MonoBehaviour:
   LineThickness: 0.02
   NoofArrowsPerUnit: 30
   distanceFactor: 0.75
+  checkFactor: 1.25
 --- !u!1 &7171349960604373572
 GameObject:
   m_ObjectHideFlags: 0

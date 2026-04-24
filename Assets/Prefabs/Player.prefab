@@ -130,6 +130,8 @@ MonoBehaviour:
   raycastDistance: 2
   boardLift: 0.01
   placeRadius: 0.25
+  yOffset: 150
+  isPlacingStriker: 0
 --- !u!120 &4043974901642639763
 LineRenderer:
   serializedVersion: 3
