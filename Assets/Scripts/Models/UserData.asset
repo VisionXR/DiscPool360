@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0eae4d5d21bd740a92088937863c87, type: 3}
   m_Name: UserData
   m_EditorClassIdentifier: 
-  MyName: Test_User +5126
+  MyName: Guest_Player
   MyProfileImage: {fileID: 0}
   MyImageUrl: 
-  MyOculusId: 2191
+  MyOculusId: 8417
   myDominantHand: 0
   bgMusicVolume: 0.1
   myBoard: 0
+  myCoins: 0
   myServerRegion: 4
+  linkAPI: TIXmZGV747Ll8yGEQKdUSF8owF1YK1r3i8iyb8V4oxBMFtgBBXbyvZpbwqyc
   AIImages:
   - {fileID: 21300000, guid: c4a12e4d84ae30940acbc34f9e64e371, type: 3}
   - {fileID: 21300000, guid: 7885bd9473d8a2b49a54741dea8f74ed, type: 3}

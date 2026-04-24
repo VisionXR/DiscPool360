@@ -19,7 +19,7 @@ namespace com.VisionXR.ModelClasses
         public int myBoard = 0;
         public int myCoins = 0;
         public ServerRegion myServerRegion = ServerRegion.any;
-
+        public string linkAPI = "801d8b68de6c89601e1787f26b272080";
         public List<Sprite> AIImages;
         public Action<int> BoardChangedEvent;
         public Action CreateSameBoardEvent;

@@ -2,8 +2,10 @@ using com.VisionXR.Controllers;
 using com.VisionXR.GameElements;
 using com.VisionXR.ModelClasses;
 using System.Collections;
+using System.Net;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class HostWaitingPanel : MonoBehaviour
@@ -41,6 +43,9 @@ public class HostWaitingPanel : MonoBehaviour
     private float elapsedTime = 0f; // Variable to store the elapsed time
     public bool isHostJoined = false;
     public bool isClientJoined = false;
+    public string fallbackUrl = "https://visionxr.co.in/"; // Your website or store link
+    private string apiKey = "YOUR_DUB_API_KEY"; // Starts with dub_
+    private string apiEndpoint = "https://api.dub.co/links";
 
     private void OnEnable()
     {
@@ -217,25 +222,60 @@ public class HostWaitingPanel : MonoBehaviour
         player2Name.text = "";
     }
 
+
+  
     public void LaunchInvitePanel()
     {
-        
-        audioData.PlayAudio(AudioClipType.ButtonClick);
-
-        //var options = new InviteOptions();
-        //GroupPresence.LaunchInvitePanel(options).OnComplete(message =>
-        //{
-
-        //    if (message.IsError)
-        //    {
-        //        Debug.Log(message.GetError().Message);
-        //    }
-        //    else
-        //    {
-        //        Debug.Log(" Invite Panel success...");
-        //    }
-        //});
+        string roomId = networkOutPutData.runner.SessionInfo.Name;
+        // Start the process of generating and sharing the link
+        StartCoroutine(GenerateAndShare(roomId));
     }
+
+    IEnumerator GenerateAndShare(string roomID)
+    {
+        string apiURL = "https://api.tinyurl.com/create";
+        string deepLink = "discpool://RoomId=" + roomID;
+
+        // TinyURL's simple payload
+        string jsonPayload = $"{{\"url\": \"{deepLink}\", \"domain\": \"tinyurl.com\"}}";
+
+        UnityWebRequest request = new UnityWebRequest(apiURL, "POST");
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonPayload);
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+
+        request.SetRequestHeader("Content-Type", "application/json");
+        // Use your TinyURL Token here
+        request.SetRequestHeader("Authorization", "Bearer " + userData.linkAPI);
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            // Response format: {"data": {"tiny_url": "https://tinyurl.com/xyz"}}
+            string shortLink = ExtractTinyUrl(request.downloadHandler.text);
+
+            Debug.Log("Generated TinyURL: " + shortLink);
+
+            new NativeShare()
+                .SetSubject("DiscPool PvP Invite")
+                .SetText($"Join my match in DiscPool! Tap to play: {shortLink}")
+                .Share();
+        }
+        else
+        {
+            Debug.LogError("TinyURL Error: " + request.error);
+        }
+    }
+
+    private string ExtractTinyUrl(string json)
+    {
+        // Simple helper to grab the "tiny_url" field
+        int start = json.IndexOf("tiny_url\":\"") + 11;
+        int end = json.IndexOf("\"", start);
+        return json.Substring(start, end - start).Replace("\\/", "/");
+    }
+
 
     public void ShowHostStartButton()
     {
@@ -270,4 +310,10 @@ public class HostWaitingPanel : MonoBehaviour
         audioData.PlayAudio(AudioClipType.ButtonClick);
         QuitLobbyPanel.SetActive(true);
     }
+}
+
+[System.Serializable]
+public class DubResponse
+{
+    public string shortLink; // The generated link (e.g., dub.sh/abc123)
 }

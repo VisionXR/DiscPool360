@@ -1,8 +1,10 @@
 using com.VisionXR.ModelClasses;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
+using Photon.Realtime;
 using PlayFab;
 using PlayFab.ClientModels;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -15,10 +17,28 @@ namespace com.VisionXR.Controllers
         public UIDataSO uiData;
         public CloudDataSO cloudData;
         public AchievementsDataSO achievementData;
+        public DestinationSO destinationData;
 
-        void Start()
+        [Header("Local Objects")]
+        public Destination multiPlayerDestination;
+        public bool isLoggedIn = false;
+        public bool isLink = false;
+        public DestinationPanel destinationPanel;
+
+        private void Awake()
         {
-            if(Application.isEditor)
+            Application.deepLinkActivated += OnDeepLinkActivated;
+
+            if (!string.IsNullOrEmpty(Application.absoluteURL))
+            {
+                OnDeepLinkActivated(Application.absoluteURL);
+            }
+            else
+            {
+
+            }
+
+            if (Application.isEditor)
             {
                 EditorLogin();
             }
@@ -28,12 +48,60 @@ namespace com.VisionXR.Controllers
             }
         }
 
+        private void OnDeepLinkActivated(string url)
+        {
+            
+            isLink = true;
+
+            string roomId = ParseDeepLink(url);
+
+            multiPlayerDestination.roomName = roomId;
+
+            StartCoroutine(WaitAndConnect());
+
+        }
+
+        private IEnumerator WaitAndConnect()
+        {
+            while (!isLoggedIn)
+            {
+                yield return new WaitForSeconds(1);
+
+            }
+
+            uiData.ResetAllPanels();
+            destinationPanel.gameObject.SetActive(true);
+            destinationPanel.ConnectToDestination(multiPlayerDestination);
+        }
+
+        public string ParseDeepLink(string url)
+        {
+            if (string.IsNullOrEmpty(url)) return null;
+
+            try
+            {
+                string prefix = "discpool://";
+                if (!url.StartsWith(prefix)) return null;
+
+                string jsonPart = url.Substring(prefix.Length);
+              
+               
+                return jsonPart;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Deep Link Parse Error: {e.Message}");
+                return null;
+            }
+        }
+
+
 
         private void EditorLogin()
         {
             // Simplified Editor Mock
             playerSettings.SetUserNameAndId("Guest_Player",UnityEngine.Random.Range(0, 9999).ToString());
-            uiData.TriggerHomeEvent();
+           
 
             // If in Editor, use a fixed string so you always log into the same test account
             // If on Mobile, use the unique Device ID
@@ -46,6 +114,7 @@ namespace com.VisionXR.Controllers
                 TitleId = PlayFabSettings.TitleId
             };
 
+            isLoggedIn = true;
 
             PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
         }
@@ -53,35 +122,42 @@ namespace com.VisionXR.Controllers
 
         public void GoogleLogin()
         {
-                 Debug.Log("Trying to login!");
+                
                 PlayGamesPlatform.Activate();
                 PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
             
-
         }
 
         internal void ProcessAuthentication(SignInStatus status)
         {
             if (status == SignInStatus.Success)
             {
-                Debug.Log("Disc Clash: Google Login Successful!");
+                Debug.Log("Disc Pool: Google Login Successful!");
 
                 // 1. First, set local UI data (Name and Image)
                 string name = Social.localUser.userName;
                 string googleID = Social.localUser.id;
-                StartCoroutine(LoadProfileImage());
+               
 
                 playerSettings.SetUserNameAndId(name, googleID);
-                uiData.TriggerHomeEvent();
+                StartCoroutine(LoadProfileImage());
+                isLoggedIn = true;
+
+              
                 achievementData.GetAllAchievemnets();
                 RequestTokenAndLoginToPlayFab();
+
+                if(!isLink)
+                {
+                    uiData.TriggerHomeEvent();
+                }
             }
 
         }
 
         private void RequestTokenAndLoginToPlayFab()
         {
-            Debug.Log("Disc Pool:  Logging to playfab! ");
+           
 
             PlayGamesPlatform.Instance.RequestServerSideAccess(true, (authCode) =>
             {
@@ -105,7 +181,7 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabSuccess(LoginResult result)
         {
-            Debug.Log("Disc Pool: PlayFab Login Success! PlayFabID: " + result.PlayFabId);
+           
 
             cloudData.PlayFabLoginSuccess();
 
@@ -120,8 +196,6 @@ namespace com.VisionXR.Controllers
             cloudData.PlayFabLoginFailure();
         }
 
-
-
         private IEnumerator LoadProfileImage()
         {
             float timeout = 5f;
@@ -134,7 +208,7 @@ namespace com.VisionXR.Controllers
             if (Social.localUser.image != null)
             {
                 playerSettings.SetUserProfileImage(ConvertTextureToSprite(Social.localUser.image));
-                Debug.Log("Disc Clash: Profile Image Loaded!");
+                
             }
         }
 
