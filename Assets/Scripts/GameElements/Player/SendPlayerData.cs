@@ -48,10 +48,10 @@ namespace com.VisionXR.GameElements
         }
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
-        public void RPC_StartGame(int id)
+        public void RPC_StartGame(int playerId,int coinsId)
         {
-            Debug.Log("RPC_StartGame called with id: " + id);
-            outputData.StartGame(id);
+            
+            outputData.StartGame(playerId,coinsId);
         }
 
 

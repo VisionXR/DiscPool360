@@ -69,7 +69,7 @@ public class Platform : MonoBehaviour
     private void PinchStarted(Vector2 startPosition)
     {
         // 1. Basic UI/Lock guards
-        if (!grabbableComponent.activeInHierarchy || inputData.isInputLocked) return;
+        if (!grabbableComponent.activeInHierarchy) return;
 
         if(allAssets == null)
         {

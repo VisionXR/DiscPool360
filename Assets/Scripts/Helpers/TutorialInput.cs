@@ -36,11 +36,7 @@ namespace com.VisionXR.GameElements
 
         private void OnEnable()
         {
-            inputData.StartStrikeEvent += StartStrike;
-            inputData.EndStrikeEvent += EndStrike;
-       
-            inputData.RotateStrikerRelativeEvent += RotateRelative;
-            inputData.RotateStrikerTowardsEvent += RotateTo;
+            
 
 
             Initialise();
@@ -51,11 +47,7 @@ namespace com.VisionXR.GameElements
         private void OnDisable()
         {
 
-            inputData.StartStrikeEvent -= StartStrike;
-            inputData.EndStrikeEvent -= EndStrike;
-
-            inputData.RotateStrikerRelativeEvent -= RotateRelative;
-            inputData.RotateStrikerTowardsEvent -= RotateTo;
+         
 
 
 

@@ -53,7 +53,7 @@ namespace com.VisionXR.Controllers
             tableData.PlatformRotationStartedEvent += PlatformRotationStarted;
             tableData.PlatformRotationEndedEvent += PlatformRotationEnded;
 
-            inputData.StartStrikeEvent += Tapped;
+            
             coinData.CoinPocketedEvent += CoinPocketed;
 
             strikerData.StrikerStartedEvent += StrikeStarted;
@@ -75,7 +75,7 @@ namespace com.VisionXR.Controllers
             tableData.PlatformRotationStartedEvent -= PlatformRotationStarted;
             tableData.PlatformRotationEndedEvent -= PlatformRotationEnded;
 
-            inputData.StartStrikeEvent -= Tapped;
+            
             coinData.CoinPocketedEvent -= CoinPocketed;
             strikerData.StrikerStoppedEvent -= StrikeCompleted;
             strikerData.StrikerStartedEvent -= StrikeStarted;

@@ -43,9 +43,7 @@ public class HostWaitingPanel : MonoBehaviour
     private float elapsedTime = 0f; // Variable to store the elapsed time
     public bool isHostJoined = false;
     public bool isClientJoined = false;
-    public string fallbackUrl = "https://visionxr.co.in/"; // Your website or store link
-    private string apiKey = "YOUR_DUB_API_KEY"; // Starts with dub_
-    private string apiEndpoint = "https://api.dub.co/links";
+
 
     private void OnEnable()
     {
@@ -294,7 +292,14 @@ public class HostWaitingPanel : MonoBehaviour
     {
         audioData.PlayAudio(AudioClipType.ButtonClick);
         SendPlayerData sendPlayerData = playerData.GetMainPlayer().GetComponent<SendPlayerData>();
-        sendPlayerData.RPC_StartGame(userData.myCoins);
+        if (gameData.firstTurnId == -1 || gameData.firstTurnId == 2)
+        {
+            sendPlayerData.RPC_StartGame(1, userData.myCoins);
+        }
+        else
+        {
+            sendPlayerData.RPC_StartGame(2, userData.myCoins);
+        }
         gameObject.SetActive(false);
     }
 

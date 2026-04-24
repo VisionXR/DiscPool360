@@ -10,36 +10,19 @@ namespace com.VisionXR.ModelClasses
         // User Data
         public bool isInputEnabled = true;
         public bool isBoardGrabbed = false;
-        public bool isInputLocked = false;
-
-
-
+        
         // Events
-        public Action<float> RotateStrikerAbsoluteEvent;
-        public Action<float> RotateStrikerRelativeEvent;
-        public Action<Vector3> RotateStrikerTowardsEvent;
-        public Action<Vector2> RotateStrikerEvent;
 
-        public Action<float> StartStrikeEvent;
-        public Action<float> EndStrikeEvent;
         public Action<float> FireStrikeEvent;
         public Action<float> StrikerForceChangedEvent;
 
         public Action<bool> InputChangeEvent;
 
-
+        public Action<float> RotateStrikerAbsoluteEvent;
         public Action<Vector2> RotationPinchStartedEvent;
         public Action<Vector2> RotationPinchContinuedEvent;
         public Action<Vector2>RotationPinchEndedEvent;
 
-        public Action<int> PlatformRotatedEvent;
-
-        public Action<float> MovePlayerXEvent;
-        public Action<float> MovePlayerYEvent;
-
-
-        public Action<DominantHand, bool> GrabInputEvent;
-        public Action<DominantHand, bool> TapInputEvent;
 
         public Action<bool> PlatformHiglightEvent;
 
@@ -63,7 +46,6 @@ namespace com.VisionXR.ModelClasses
         }
 
 
-
         public void RotationPinchStarted(Vector2 origin)
         {
             RotationPinchStartedEvent?.Invoke(origin);
@@ -79,15 +61,6 @@ namespace com.VisionXR.ModelClasses
             RotationPinchEndedEvent?.Invoke(pos);
         }
 
-        public void StartStrike()
-        {
-            StartStrikeEvent?.Invoke(1);
-        }
-
-        public void EndStrike()
-        {
-            EndStrikeEvent?.Invoke(0);
-        }
 
         public void FireStrike(float power)
         {
@@ -99,29 +72,10 @@ namespace com.VisionXR.ModelClasses
             RotateStrikerAbsoluteEvent?.Invoke(angle);
         }
 
-        public void RotateStrikerRelative(float angle)
-        {
-            RotateStrikerRelativeEvent?.Invoke(angle);
-        }
-
-        public void RotateStriker(Vector2 direction)
-        {
-            RotateStrikerEvent?.Invoke(direction);
-        }
-
-        public void RotateStrikerTowards(Vector3 initialPosition)
-        {
-            RotateStrikerTowardsEvent?.Invoke(initialPosition);
-        }
 
         public void StrikerForceChanged(float force)
         {
             StrikerForceChangedEvent?.Invoke(force);
-        }
-
-        public void PlatformRotated(int direction)
-        {
-            PlatformRotatedEvent?.Invoke(direction);
         }
 
         public void BoardGrabbed()
@@ -134,35 +88,6 @@ namespace com.VisionXR.ModelClasses
             isBoardGrabbed = false;
         }
 
-        public void LockInput()
-        {
-            isInputLocked = true;
-        }
-
-        public void UnlockInput()
-        {
-            isInputLocked = false;
-        }
-
-        public void MovePlayerX(float value)
-        {
-            MovePlayerXEvent?.Invoke(value);
-        }
-
-        public void MovePlayerY(float value)
-        {
-            MovePlayerYEvent?.Invoke(value);
-        }
-
-        public void GrabInput(DominantHand hand,bool value)
-        {
-            GrabInputEvent?.Invoke(hand, value);
-        }
-
-        public void TapInput(DominantHand hand,bool value)
-        {
-            TapInputEvent?.Invoke(hand, value);
-        }
 
         public void PlatformHighlight(bool value)
         {

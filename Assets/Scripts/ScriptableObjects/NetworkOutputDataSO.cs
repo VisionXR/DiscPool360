@@ -16,7 +16,7 @@ namespace com.VisionXR.ModelClasses
 
         public Action OnPlayerJoinedEvent;
         public Action OnPlayerLeftEvent;
-        public Action<int> StartGameEvent;
+        public Action<int,int> StartGameEvent;
         public Action HostReadyEvent;
         public Action ClientReadyEvent;
 
@@ -56,9 +56,9 @@ namespace com.VisionXR.ModelClasses
             SetWinnerEvent?.Invoke(id);
         }
 
-        public void StartGame(int id)
+        public void StartGame(int playerId,int coinsId)
         {
-            StartGameEvent?.Invoke(id);
+            StartGameEvent?.Invoke(playerId,coinsId);
         }
 
         public void OnPlayerJoined()

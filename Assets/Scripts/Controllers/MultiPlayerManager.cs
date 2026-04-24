@@ -40,7 +40,6 @@ namespace com.VisionXR.Controllers
         [Header("Logic")]
         public PoolLogic poolLogic;
         public SnookerLogic snookerLogic;
-        private int firstTurnId = 1;
         public bool isFirstCoinPocketed = false;
         // Add a field to track previous turn id
         private int _previousTurnId = -1;
@@ -49,16 +48,14 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
+            gameData.firstTurnId = -1;
+
             networkOutputData.StartGameEvent += StartGame;
             networkOutputData.SetWinnerEvent += SetWinner;
             networkOutputData.SetPlayerCoinsEvent += SetCoins;
-
             networkOutputData.UpdateSnookerScoreEvent += UpdateSnookerScore;
 
             inputData.StrikerForceChangedEvent += StrikerForceChanged ;
-
-            gameData.PlayAgainEvent += PlayAgain;
-
             coinData.CoinPocketedEvent += CheckPocketedCoins;
 
             strikerData.StrikeForceStartedEvent += StrikeForceStarted;
@@ -69,9 +66,8 @@ namespace com.VisionXR.Controllers
             strikerData.StrikerFellOnGroundEvent += StrikeFellOnGround;
             strikerData.FoulCompleteEvent += FoulCompleted;
 
+            gameData.PlayAgainEvent += PlayAgain;
             gameData.ExitGameEvent += EndGame;
-
-            // Link: re-assign snooker expectation whenever turn changes
             gameData.TurnChangeEvent += OnTurnChangedAssignCoins;
         }
 
@@ -80,38 +76,31 @@ namespace com.VisionXR.Controllers
             networkOutputData.StartGameEvent -= StartGame;
             networkOutputData.SetWinnerEvent -= SetWinner;
             networkOutputData.SetPlayerCoinsEvent -= SetCoins;
-
             networkOutputData.UpdateSnookerScoreEvent -= UpdateSnookerScore;
 
-
-            gameData.PlayAgainEvent -= PlayAgain;
-
             coinData.CoinPocketedEvent -= CheckPocketedCoins;
-
-
             inputData.StrikerForceChangedEvent -= StrikerForceChanged;
+
             strikerData.StrikeForceStartedEvent -= StrikeForceStarted;
             strikerData.StrikerStartedEvent -= StrikeStarted;
             strikerData.StrikerStoppedEvent -= StrikeStopped;
-
             strikerData.StrikerPocketedEvent -= StrikePocketed;
             strikerData.StrikerFellOnGroundEvent -= StrikeFellOnGround;
             strikerData.FoulCompleteEvent -= FoulCompleted;
 
-
+            gameData.PlayAgainEvent -= PlayAgain;
             gameData.ExitGameEvent -= EndGame;
-
             gameData.TurnChangeEvent -= OnTurnChangedAssignCoins;
 
+        }       
 
-        }
-
-        public void StartGame(int id)
+        public void StartGame(int playerId,int coinsId)
         {
-            Debug.Log(" Starting game with id: " + id);
+            
             _previousTurnId = -1;
-            userData.myCoins = id;
-            if (id == 0 || id == 1)
+            gameData.firstTurnId = playerId;
+            userData.myCoins = coinsId;
+            if (coinsId == 0 || coinsId == 1)
             {
                 uiData.currentGameMode = GameMode.Pool;
 
@@ -123,14 +112,14 @@ namespace com.VisionXR.Controllers
 
             uiData.ResetAllPanels();
             tableData.ResetPlatform();
-            firstTurnId = 1;
+            
             isFirstCoinPocketed = false;        
-            gameData.currentTurnId = firstTurnId;
+            gameData.currentTurnId = playerId;
             multiPlayerConnectionManager.SetPlayStatus(true);
             strikerData.SetFoul(false);
             pocketedCoins.Clear();
 
-            StartCoroutine(InitialiseGame(firstTurnId));
+            StartCoroutine(InitialiseGame(playerId));
         }
         private IEnumerator InitialiseGame(int id)
         {
@@ -157,7 +146,7 @@ namespace com.VisionXR.Controllers
             }
 
             yield return new WaitForSeconds(0.1f);
-            gameData.ChangeTurn(firstTurnId);
+            gameData.ChangeTurn(id);
         }
 
         // Called whenever turn changes to keep AI/UI in sync for snooker

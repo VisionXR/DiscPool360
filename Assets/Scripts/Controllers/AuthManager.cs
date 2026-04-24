@@ -116,6 +116,11 @@ namespace com.VisionXR.Controllers
 
             isLoggedIn = true;
 
+            if (!isLink)
+            {
+                uiData.TriggerHomeEvent();
+            }
+
             PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
         }
 
