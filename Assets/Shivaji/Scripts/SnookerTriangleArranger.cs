@@ -9,7 +9,7 @@ public class SnookerTriangleArranger : MonoBehaviour
     public List<GameObject> colorCoins;
     public void Start()
     {
-        Debug.Log("Setting snooker coin positions");
+      
          List<Transform> positions = boardData.SnookerCoinPositions;
          for(int i=0;  i< positions.Count; i++)
          {
