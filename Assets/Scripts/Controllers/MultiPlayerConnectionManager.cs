@@ -54,6 +54,12 @@ namespace com.VisionXR.Controllers
                 Rigidbody c = coinData.AvailableCoinsInGame[i];
                 bool isActive = c != null && c.gameObject.activeInHierarchy;
                 activeCoinsData.Status.Set(i, isActive);
+
+                CoinTransformData coinTransformData = new CoinTransformData();
+                coinTransformData.Position = c.transform.position;
+                coinTransformData.Rotation = c.transform.eulerAngles;
+
+                activeCoinsData.AllCoinsData.Set(i, coinTransformData);
             }
             networkData.SetActiveCoinsNetworkData(activeCoinsData);
         }

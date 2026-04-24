@@ -31,6 +31,14 @@ namespace com.VisionXR.HelperClasses
     }
 
     [Serializable]
+    public struct CoinTransformData : INetworkStruct
+    {
+        [Networked] public Vector3Compressed Position { get; set; }
+        [Networked] public Vector3Compressed Rotation { get; set; }
+    
+    }
+
+    [Serializable]
     public struct PlatformSnapshot : INetworkStruct
     {
         [Networked] public Vector3Compressed Rotation { get; set; }
@@ -41,6 +49,7 @@ namespace com.VisionXR.HelperClasses
     {
       
        [Networked, Capacity(22)] public NetworkArray<NetworkBool> Status => default;
+       [Networked, Capacity(22)] public NetworkArray<CoinTransformData> AllCoinsData => default;
 
 
     }
@@ -53,7 +62,7 @@ namespace com.VisionXR.HelperClasses
         [Networked] public StrikerSnapshot Striker { get; set; }
 
         // You can adjust 22 if you want a smaller/larger max coin count
-        [Networked, Capacity(18)] public NetworkArray<CoinSnapshot> Coins => default;
+        [Networked, Capacity(22)] public NetworkArray<CoinSnapshot> Coins => default;
     }
 
     // Networked player properties: use Fusion Networked properties.

@@ -67,7 +67,19 @@ namespace com.VisionXR.GameElements
 
         private void PinchStarted(Vector2 origin)
         {
-            
+            // 2. Raycast from the 2D pinch/touch position
+            Ray ray = Camera.main.ScreenPointToRay(origin);
+            RaycastHit hit;
+            // 3. Check if we hit the "Edge" tag
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.CompareTag("Edge"))
+                {
+
+                    return;
+                }
+            }
+
             if (isPlacingStriker)
             {
                 // Handle the pinch start while placing the striker
@@ -138,19 +150,19 @@ namespace com.VisionXR.GameElements
         private void TryPlaceWhileHeld(Vector2 startPosition)
         {
 
-            startPosition += new Vector2(0, yOffset); // Add vertical offset to the pinch position for raycasting
+            startPosition += new Vector2(0, yOffset);
 
             // 2. Raycast from the 2D pinch/touch position
-            Ray ray = Camera.main.ScreenPointToRay(startPosition);
-            RaycastHit hit;
+            Ray ray1 = Camera.main.ScreenPointToRay(startPosition);
+            RaycastHit hit1;
 
             // 3. Check if we hit the "Edge" tag
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray1, out hit1))
             {
-                if (hit.collider.CompareTag("Board"))
+                if (hit1.collider.CompareTag("Board"))
                 {
                     float r = boardData.StrikerRadius;
-                    Vector3 target = hit.point + Vector3.up * (boardLift);
+                    Vector3 target = hit1.point + Vector3.up * (boardLift);
 
                     if (CanPlaceAt(target, r))
                     {

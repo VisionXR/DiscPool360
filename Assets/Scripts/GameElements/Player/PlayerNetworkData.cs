@@ -112,6 +112,11 @@ namespace com.VisionXR.HelperClasses
             {
                 Rigidbody rb = coinData.AvailableCoinsInGame[i];
                 rb.gameObject.SetActive(activeCoinsNetworkData.Status[i]);
+                CoinTransformData coinTransformData = activeCoinsNetworkData.AllCoinsData[i];
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.transform.position = coinTransformData.Position;
+                rb.transform.eulerAngles = coinTransformData.Rotation;
 
             }
 
