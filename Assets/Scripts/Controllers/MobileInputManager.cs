@@ -68,7 +68,7 @@ namespace com.VisionXR.Controllers
             isZooming = HandleZoomInput();
             
 
-            if (inputData.isInputEnabled && !isZooming)
+            if (!isZooming)
             {
                 HandleTouchInput();
             }      
@@ -111,10 +111,6 @@ namespace com.VisionXR.Controllers
                         _initialPinchDistance = currentDistance;
                        
 
-                    }
-                    else
-                    {
-                        _isTouching = false;
                     }
 
                     return true;
@@ -212,7 +208,10 @@ namespace com.VisionXR.Controllers
 
             _lastTouchPosition = touch;
 
-        
+            //if (_isTouching)
+            //{
+            //    DetectSwipe(touch);
+            //}
         }
 
         private void HandleTouchEnded(Vector2 touch)
@@ -243,33 +242,25 @@ namespace com.VisionXR.Controllers
             float horizontalDistance = Mathf.Abs(swipeDelta.x);
             float verticalDistance = Mathf.Abs(swipeDelta.y);
 
-            // Check if minimum swipe distance is met for either direction
-            float maxDistance = Mathf.Max(horizontalDistance, verticalDistance);
 
-            Debug.Log("max distance: " + maxDistance);
-            if (maxDistance < swipeminDistanceThreshold)
-            {
-                return; // Swipe distance too short
-            }
-
-            // Determine which direction is dominant
-            if (horizontalDistance > verticalDistance)
+            if (horizontalDistance > swipeminDistanceThreshold)
             {
                 // Horizontal swipe is dominant
                 float normalizedValue = NormalizeSwipeDistance(horizontalDistance);
                 float directedValue = Mathf.Sign(swipeDelta.x) * normalizedValue;
                 inputData.HorizontalSwiped(directedValue);
-                Debug.Log("Horizontal Swipe Detected: " + directedValue);
             }
-            else if (verticalDistance > horizontalDistance)
+
+            // Determine which direction is dominant
+            if (verticalDistance > swipeminDistanceThreshold)
             {
                 // Vertical swipe is dominant
                 float normalizedValue = NormalizeSwipeDistance(verticalDistance);
                 float directedValue = Mathf.Sign(swipeDelta.y) * normalizedValue;
                 inputData.VerticalSwiped(directedValue);
-                Debug.Log("Vertical Swipe Detected: " + directedValue);
+
             }
-            // If equal (very unlikely), no swipe is fired
+
         }
 
         private float NormalizeSwipeDistance(float distance)

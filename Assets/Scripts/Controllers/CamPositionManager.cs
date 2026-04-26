@@ -101,7 +101,7 @@ namespace com.VisionXR.Controllers
         private void VerticalSwiped(float delta)
         {
             // Subtracting delta often feels more natural for "pulling" the camera up/down
-            _targetPolarAngle -= delta * SwipePolarSensitivity;
+            _targetPolarAngle += delta * SwipePolarSensitivity;
             _targetPolarAngle = Mathf.Clamp(_targetPolarAngle, MinPolarAngle, MaxPolarAngle);
         }
 
@@ -109,9 +109,11 @@ namespace com.VisionXR.Controllers
         {
             // Adding delta rotates the camera around the Y axis
             _targetAzimuth += delta * SwipeAzimuthSensitivity;
+
+            Debug.Log("Azimuth" + _targetAzimuth);
             // We don't necessarily need to Clamp/Repeat targetAzimuth, LerpAngle handles it
 
-            _targetAzimuth = Mathf.Clamp(_targetAzimuth, MinAzimuthAngle, MaxAzimuthAngle);
+           // _targetAzimuth = Mathf.Clamp(_targetAzimuth, MinAzimuthAngle, MaxAzimuthAngle);
         }
 
         private void LateUpdate()
@@ -129,7 +131,7 @@ namespace com.VisionXR.Controllers
 
             // 2. Update striker position
 
-            _azimuth = Mathf.Clamp(_azimuth, MinAzimuthAngle, MaxAzimuthAngle);
+        //    _azimuth = Mathf.Clamp(_azimuth, MinAzimuthAngle, MaxAzimuthAngle);
             _polarAngle = Mathf.Clamp(_polarAngle, MinPolarAngle, MaxPolarAngle);
             _radius = Mathf.Clamp(_radius, MinDistanceCutoff, MaxDistanceCutoff);
 
