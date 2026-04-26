@@ -22,9 +22,10 @@ namespace com.VisionXR.Controllers
         public AudioSource tapSelectedAudio;
 
         [Header("Swipe Settings")]
-        public float swipeminDistanceThreshold = 50f; // Minimum pixels to register a swipe
+        public float swipeminDistanceThreshold = 100f; // Minimum pixels to register a swipe
         public float swipemaxDistanceThreshold = 400f; // Minimum pixels to register a swipe
-        public float swipeTimeThreshold = 0.05f; // Maximum time for a swipe (seconds)
+        public float swipeminTimeThreshold = 0.05f; // Minimum time for a swipe (seconds)
+        public float swipemaxTimeThreshold = 1; // Maximum time for a swipe (seconds)
 
         private bool _isTouching = false;
         private Vector2 _lastTouchPosition;
@@ -233,7 +234,7 @@ namespace com.VisionXR.Controllers
             Debug.Log("Swipe duration: " + swipeDuration);
 
             // Check if swipe duration is within threshold
-            if (swipeDuration > swipeTimeThreshold)
+            if (swipeDuration > swipemaxTimeThreshold || swipeDuration < swipeminTimeThreshold)
             {
                 return; // Too slow to be a swipe
             }
