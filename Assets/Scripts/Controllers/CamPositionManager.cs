@@ -123,7 +123,6 @@ namespace com.VisionXR.Controllers
         private void ApplyZoom(float delta)
         {
             
-
             // Zoom adjusts the radius
             _targetRadius += delta * ZoomSensitivity;
             _targetRadius = Mathf.Clamp(_targetRadius, MinDistanceCutoff, MaxDistanceCutoff);
