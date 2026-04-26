@@ -242,6 +242,7 @@ namespace com.VisionXR.Controllers
                 float normalizedValue = NormalizeSwipeDistance(horizontalDistance);
                 float directedValue = Mathf.Sign(swipeDelta.x) * normalizedValue;
                 inputData.HorizontalSwiped(directedValue);
+                Debug.Log("Horizontal Swipe Detected: " + directedValue);
             }
             else if (verticalDistance > horizontalDistance)
             {
@@ -249,6 +250,7 @@ namespace com.VisionXR.Controllers
                 float normalizedValue = NormalizeSwipeDistance(verticalDistance);
                 float directedValue = Mathf.Sign(swipeDelta.y) * normalizedValue;
                 inputData.VerticalSwiped(directedValue);
+                Debug.Log("Vertical Swipe Detected: " + directedValue);
             }
             // If equal (very unlikely), no swipe is fired
         }
