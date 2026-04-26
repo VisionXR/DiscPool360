@@ -15,6 +15,8 @@ namespace com.VisionXR.ModelClasses
 
         public Action<float> FireStrikeEvent;
         public Action<float> StrikerForceChangedEvent;
+        public Action<float> ZoomChangedEvent;
+        public Action ZoomStartedEvent;
 
         public Action<bool> InputChangeEvent;
 
@@ -25,6 +27,9 @@ namespace com.VisionXR.ModelClasses
 
 
         public Action<bool> PlatformHiglightEvent;
+
+        public Action<float> HorizontalSwipedEvent;
+        public Action<float> VerticalSwipedEvent;
 
         //Methods
 
@@ -45,7 +50,16 @@ namespace com.VisionXR.ModelClasses
             InputChangeEvent?.Invoke(false);
         }
 
+        public void HorizontalSwiped(float a)
+        {
+            HorizontalSwipedEvent?.Invoke(a);
+        }
 
+
+        public void VerticalSwiped(float a)
+        {
+            VerticalSwipedEvent?.Invoke(a);
+        }
         public void RotationPinchStarted(Vector2 origin)
         {
             RotationPinchStartedEvent?.Invoke(origin);
@@ -76,6 +90,16 @@ namespace com.VisionXR.ModelClasses
         public void StrikerForceChanged(float force)
         {
             StrikerForceChangedEvent?.Invoke(force);
+        }
+
+        public void ZoomStarted()
+        {
+            ZoomStartedEvent?.Invoke();
+        }
+
+        public void ZoomChanged(float zoomLevel)
+        {
+            ZoomChangedEvent?.Invoke(zoomLevel);
         }
 
         public void BoardGrabbed()

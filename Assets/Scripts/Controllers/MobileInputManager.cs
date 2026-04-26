@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
-using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
-using TouchPhase = UnityEngine.TouchPhase;
+
 
 namespace com.VisionXR.Controllers
 {
@@ -22,11 +21,18 @@ namespace com.VisionXR.Controllers
         public AudioSource grapUnSelectedAudio;
         public AudioSource tapSelectedAudio;
 
+        [Header("Swipe Settings")]
+        public float swipeminDistanceThreshold = 50f; // Minimum pixels to register a swipe
+        public float swipemaxDistanceThreshold = 400f; // Minimum pixels to register a swipe
+        public float swipeTimeThreshold = 0.05f; // Maximum time for a swipe (seconds)
+
         private bool _isTouching = false;
-        // Store the position to send to the Platform script
         private Vector2 _lastTouchPosition;
-        public float cutoffValue = 0.15f;
-        private bool isJoystickActive = false;
+        private Vector2 _swipeStartPosition;
+        private float _swipeStartTime;
+        public float cutoffValue = 0.1f;
+        private float _initialPinchDistance;
+
 
         private void OnEnable()
         {
@@ -54,49 +60,98 @@ namespace com.VisionXR.Controllers
         private void LateUpdate()
         {
             if (EventSystem.current.IsPointerOverGameObject()) return;
-            if (inputData.isInputEnabled)
+
+           bool isZooming =  HandleZoomInput();
+
+            if (inputData.isInputEnabled && !isZooming)
             {
                 HandleTouchInput();
-            }       
+            }      
+
+        }
+
+
+
+        private bool HandleZoomInput()
+        {
+
+            // Check active touches using the new API
+            var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
+
+            if (activeTouches.Count > 0)
+            {
+              
+                if (activeTouches.Count == 2)
+                {
+                    var touch0 = activeTouches[0];
+                    var touch1 = activeTouches[1];
+
+                    if (touch1.phase == UnityEngine.InputSystem.TouchPhase.Began)
+                    {
+                        _initialPinchDistance = Vector2.Distance(touch0.screenPosition, touch1.screenPosition);
+                        inputData.ZoomStarted();
+                        return true;
+
+                    }
+                    else if (touch0.phase == UnityEngine.InputSystem.TouchPhase.Moved || touch1.phase == UnityEngine.InputSystem.TouchPhase.Moved)
+                    {
+                        float currentDistance = Vector2.Distance(touch0.screenPosition, touch1.screenPosition);
+                        float delta = (currentDistance - _initialPinchDistance) * 0.005f;
+
+                        // Send this delta to InputDataSO (Normalized for sensitivity)
+
+
+                        delta = Mathf.Clamp(delta, -1.0f, 1.0f);
+                        inputData.ZoomChanged(delta);
+                        _initialPinchDistance = currentDistance;
+                        return true;
+
+                    }
+                   
+                }
+              
+            }
+            return false; // Prioritize pinch over single touch rotation
 
         }
 
         private void HandleTouchInput()
         {
-
-
             // Check active touches using the new API
-            var activeTouches = Touch.activeTouches;
+            var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
 
             if (activeTouches.Count > 0)
             {
-                var touch = activeTouches[0]; // Get the first finger
-
-                switch (touch.phase)
+                if (activeTouches.Count == 1)
                 {
-                    case UnityEngine.InputSystem.TouchPhase.Began:
-                        HandleTouchBegan(touch.screenPosition);
-                        break;
+                    var touch = activeTouches[0]; // Get the first finger
+                    switch (touch.phase)
+                    {
+                        case UnityEngine.InputSystem.TouchPhase.Began:
+                            HandleTouchBegan(touch.screenPosition);
+                            break;
 
-                    case UnityEngine.InputSystem.TouchPhase.Moved:
-                    case UnityEngine.InputSystem.TouchPhase.Stationary:
-                        HandleTouchUpdate(touch.screenPosition);
-                        break;
+                        case UnityEngine.InputSystem.TouchPhase.Moved:
+                        case UnityEngine.InputSystem.TouchPhase.Stationary:
+                            HandleTouchUpdate(touch.screenPosition);
+                            break;
 
-                    case UnityEngine.InputSystem.TouchPhase.Ended:
-                    case UnityEngine.InputSystem.TouchPhase.Canceled:
-                        HandleTouchEnded(touch.screenPosition);
-                        break;
+                        case UnityEngine.InputSystem.TouchPhase.Ended:
+                        case UnityEngine.InputSystem.TouchPhase.Canceled:
+                            HandleTouchEnded(touch.screenPosition);
+                            break;
+                    }
                 }
+                
             }
 
-
-            if (! Application.isEditor)
+            // Fallback for Editor testing with mouse
+            if (!Application.isEditor)
             {
                 return;
             }
 
-            // 2. Fallback for Pointer (Mouse/Pen) using the New Input System
+            // Fallback for Pointer (Mouse/Pen) using the New Input System
             var pointer = Pointer.current;
 
             if (pointer != null)
@@ -105,66 +160,109 @@ namespace com.VisionXR.Controllers
 
                 if (pointer.press.wasPressedThisFrame)
                 {
-                    ProcessInput(pointerPos, TouchPhase.Began);
+                    HandleTouchBegan(pointerPos);
                 }
                 else if (pointer.press.isPressed)
                 {
                     // Only process Moved if the pointer actually changed position to save performance
-                    ProcessInput(pointerPos, TouchPhase.Moved);
+                    HandleTouchUpdate(pointerPos);
                 }
                 else if (pointer.press.wasReleasedThisFrame)
                 {
-                    ProcessInput(pointerPos, UnityEngine.TouchPhase.Ended);
+                    HandleTouchEnded(pointerPos);
                 }
             }
         }
 
-        // Move your switch logic into this helper method
-        private void ProcessInput(Vector2 screenPos, TouchPhase phase)
-        {
-            DominantHand hand = userData.myDominantHand;
-            switch (phase)
-            {
-                case TouchPhase.Began:
-                    HandleTouchBegan(screenPos); // Updated to take Vector2
-                    break;
-                case TouchPhase.Moved:
-                    HandleTouchUpdate(screenPos); // Updated to take Vector2
-                    break;
-                case TouchPhase.Ended:
-                    HandleTouchEnded(screenPos);
-                    break;
-            }
-        }
-
-
         private void HandleTouchBegan(Vector2 touch)
         {
+            Debug.Log("Touch began at position: " + touch);
+
             _isTouching = true;
             _lastTouchPosition = touch;
+            _swipeStartPosition = touch;
+            _swipeStartTime = Time.time;
 
-            // 1. Fire the event for the Platform script to check for "Edge" raycast
-            inputData.RotationPinchStarted(touch);
-
+           
         }
 
         private void HandleTouchUpdate(Vector2 touch)
         {
-            // 1. Fire the event for Platform rotation (Lazy Susan)
-            // The Platform script uses the distance from the start to rotate
-            inputData.RotationPinchContinued(touch);
+            // Only process if position has actually changed
+            if (_lastTouchPosition == touch)
+            {
+                return;
+            }
 
-          
+            _lastTouchPosition = touch;
+
+        
         }
 
         private void HandleTouchEnded(Vector2 touch)
         {
             _isTouching = false;
 
-            // 1. Fire the event for Platform to stop rotating and unparent assets
-            inputData.RotationPinchEnded(touch);
+          
 
+            // Check for swipe gesture
+            DetectSwipe(touch);
+        }
 
+        private void DetectSwipe(Vector2 touchEndPosition)
+        {
+            Vector2 swipeDelta = touchEndPosition - _swipeStartPosition;
+            float swipeDuration = Time.time - _swipeStartTime;
+
+            Debug.Log("Swipe duration: " + swipeDuration);
+
+            // Check if swipe duration is within threshold
+            if (swipeDuration > swipeTimeThreshold)
+            {
+                return; // Too slow to be a swipe
+            }
+
+            // Calculate absolute distances
+            float horizontalDistance = Mathf.Abs(swipeDelta.x);
+            float verticalDistance = Mathf.Abs(swipeDelta.y);
+
+            // Check if minimum swipe distance is met for either direction
+            float maxDistance = Mathf.Max(horizontalDistance, verticalDistance);
+
+            Debug.Log("max distance: " + maxDistance);
+            if (maxDistance < swipeminDistanceThreshold)
+            {
+                return; // Swipe distance too short
+            }
+
+            // Determine which direction is dominant
+            if (horizontalDistance > verticalDistance)
+            {
+                // Horizontal swipe is dominant
+                float normalizedValue = NormalizeSwipeDistance(horizontalDistance);
+                float directedValue = Mathf.Sign(swipeDelta.x) * normalizedValue;
+                inputData.HorizontalSwiped(directedValue);
+            }
+            else if (verticalDistance > horizontalDistance)
+            {
+                // Vertical swipe is dominant
+                float normalizedValue = NormalizeSwipeDistance(verticalDistance);
+                float directedValue = Mathf.Sign(swipeDelta.y) * normalizedValue;
+                inputData.VerticalSwiped(directedValue);
+            }
+            // If equal (very unlikely), no swipe is fired
+        }
+
+        private float NormalizeSwipeDistance(float distance)
+        {
+            // Clamp distance between min and max thresholds
+            float clamped = Mathf.Clamp(distance, swipeminDistanceThreshold, swipemaxDistanceThreshold);
+
+            // Normalize to 0-1 range
+            float normalized = (clamped - swipeminDistanceThreshold) / (swipemaxDistanceThreshold - swipeminDistanceThreshold);
+
+            // Map to -1 to 1 range (0 maps to -1, 0.5 maps to 0, 1 maps to 1)
+            return normalized * 2f - 1f;
         }
     }
 }

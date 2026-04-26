@@ -70,11 +70,12 @@ public  class CoinSorter : MonoBehaviour
                         {
 
                             GetCoinInfo(coin, hole, strikerPosition);
-                            yield return new WaitForSeconds(0.01f);
+                           
                         }
                     }
+                yield return new WaitForSeconds(0.01f);
 
-                }
+            }
 
             }
             else if (myCoin == PlayerCoin.Solid)
@@ -87,11 +88,12 @@ public  class CoinSorter : MonoBehaviour
                         {
 
                             GetCoinInfo(coin, hole, strikerPosition);
-                            yield return new WaitForSeconds(0.01f);
+                            
                         }
                     }
+                yield return new WaitForSeconds(0.01f);
 
-                }
+            }
 
             }
             else if (myCoin == PlayerCoin.Black)
@@ -101,9 +103,10 @@ public  class CoinSorter : MonoBehaviour
                     foreach (GameObject hole in holes)
                     {
                         GetCoinInfo(black, hole, strikerPosition);
-                        yield return new WaitForSeconds(0.01f);
+                       
                     }
-                }
+                yield return new WaitForSeconds(0.01f);
+            }
 
             }
             else if (myCoin == PlayerCoin.AllPool)
@@ -116,11 +119,12 @@ public  class CoinSorter : MonoBehaviour
                         {
 
                             GetCoinInfo(coin, hole, strikerPosition);
-                            yield return new WaitForSeconds(0.01f);
+                            
                         }
                     }
+                yield return new WaitForSeconds(0.01f);
 
-                }
+            }
                 foreach (GameObject coin in solids)
                 {
                     if (coin.activeInHierarchy)
@@ -129,11 +133,11 @@ public  class CoinSorter : MonoBehaviour
                         {
 
                             GetCoinInfo(coin, hole, strikerPosition);
-                            yield return new WaitForSeconds(0.01f);
+                           
                         }
                     }
-
-                }
+                yield return new WaitForSeconds(0.01f);
+            }
 
             }
 
@@ -168,10 +172,10 @@ public  class CoinSorter : MonoBehaviour
                     {
 
                         GetCoinInfo(coin, hole, strikerPosition);
-                        yield return new WaitForSeconds(0.01f);
+                        
                     }
                 }
-
+                yield return new WaitForSeconds(0.01f);
             }
 
         }
@@ -185,9 +189,10 @@ public  class CoinSorter : MonoBehaviour
                     {
 
                         GetCoinInfo(coin, hole, strikerPosition);
-                        yield return new WaitForSeconds(0.01f);
+                        
                     }
                 }
+                yield return new WaitForSeconds(0.01f);
 
             }
 
