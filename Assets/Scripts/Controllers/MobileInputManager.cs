@@ -32,6 +32,7 @@ namespace com.VisionXR.Controllers
         private float _swipeStartTime;
         public float cutoffValue = 0.1f;
         private float _initialPinchDistance;
+        private bool isTouching = false;
 
 
         private void OnEnable()
@@ -61,7 +62,10 @@ namespace com.VisionXR.Controllers
         {
             if (EventSystem.current.IsPointerOverGameObject()) return;
 
-           bool isZooming =  HandleZoomInput();
+            bool isZooming = false;
+    
+            isZooming = HandleZoomInput();
+            
 
             if (inputData.isInputEnabled && !isZooming)
             {
@@ -90,7 +94,7 @@ namespace com.VisionXR.Controllers
                     {
                         _initialPinchDistance = Vector2.Distance(touch0.screenPosition, touch1.screenPosition);
                         inputData.ZoomStarted();
-                        return true;
+                       
 
                     }
                     else if (touch0.phase == UnityEngine.InputSystem.TouchPhase.Moved || touch1.phase == UnityEngine.InputSystem.TouchPhase.Moved)
@@ -104,10 +108,16 @@ namespace com.VisionXR.Controllers
                         delta = Mathf.Clamp(delta, -1.0f, 1.0f);
                         inputData.ZoomChanged(delta);
                         _initialPinchDistance = currentDistance;
-                        return true;
+                       
 
                     }
-                   
+                    else
+                    {
+                        _isTouching = false;
+                    }
+
+                    return true;
+
                 }
               
             }
@@ -124,6 +134,7 @@ namespace com.VisionXR.Controllers
             {
                 if (activeTouches.Count == 1)
                 {
+                    
                     var touch = activeTouches[0]; // Get the first finger
                     switch (touch.phase)
                     {
@@ -143,6 +154,10 @@ namespace com.VisionXR.Controllers
                     }
                 }
                 
+            }
+            else
+            {
+                isTouching = false;
             }
 
             // Fallback for Editor testing with mouse
@@ -176,7 +191,7 @@ namespace com.VisionXR.Controllers
 
         private void HandleTouchBegan(Vector2 touch)
         {
-            Debug.Log("Touch began at position: " + touch);
+            
 
             _isTouching = true;
             _lastTouchPosition = touch;
@@ -201,12 +216,13 @@ namespace com.VisionXR.Controllers
 
         private void HandleTouchEnded(Vector2 touch)
         {
-            _isTouching = false;
 
-          
-
-            // Check for swipe gesture
-            DetectSwipe(touch);
+            if (_isTouching)
+            {
+                _isTouching = false;
+                // Check for swipe gesture
+                DetectSwipe(touch);
+            }
         }
 
         private void DetectSwipe(Vector2 touchEndPosition)

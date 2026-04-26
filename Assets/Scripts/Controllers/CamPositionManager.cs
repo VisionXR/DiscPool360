@@ -85,46 +85,16 @@ namespace com.VisionXR.Controllers
 
         private void StartZoom()
         {
-            if (strikerData.currentStriker == null)
-            {
-               
-                return;
-            }
-
-   
             _playerTransform = tableData.GetCamTransform(playerData.GetMainPlayer().playerProperties.myId);
-            _strikerPos = strikerData.currentStriker.transform.position;
-
-            // Initialize spherical coordinates from current camera position
-            InitializeSphericalCoordinates();
-
-            // Set target to current values (no initial jump)
-            _targetAzimuth = _azimuth;
-            _targetPolarAngle = _polarAngle;
-            _targetRadius = _radius;
         }
 
-        private void InitializeSphericalCoordinates()
-        {
-            // Convert current camera position to spherical coordinates relative to striker
-            Vector3 cameraOffset = cameraRig.transform.position - _strikerPos;
-            
-            _radius = cameraOffset.magnitude;
-            _radius = Mathf.Clamp(_radius, MinDistanceCutoff, MaxDistanceCutoff);
-
-            // Calculate azimuth (rotation around Y-axis)
-            _azimuth = Mathf.Atan2(cameraOffset.x, cameraOffset.z) * Mathf.Rad2Deg;
-            
-            // Calculate polar angle (angle from top)
-            _polarAngle = Mathf.Acos(Mathf.Clamp01(cameraOffset.y / _radius)) * Mathf.Rad2Deg;
-            _polarAngle = Mathf.Clamp(_polarAngle, MinPolarAngle, MaxPolarAngle);
-        }
+      
 
         private void ApplyZoom(float delta)
         {
             
             // Zoom adjusts the radius
-            _targetRadius += delta * ZoomSensitivity;
+            _targetRadius -= delta * ZoomSensitivity;
             _targetRadius = Mathf.Clamp(_targetRadius, MinDistanceCutoff, MaxDistanceCutoff);
         }
 
@@ -146,15 +116,10 @@ namespace com.VisionXR.Controllers
 
         private void LateUpdate()
         {
-            if (strikerData.currentStriker == null)
-            {
 
                 _strikerPos = boardData.Board.transform.position;
-            }
-            else
-            {
-                _strikerPos = strikerData.currentStriker.transform.position;
-            }
+            
+ 
 
             // 1. Smoothly interpolate values
             // Use LerpAngle for Azimuth to prevent the "360-degree flip" bug
