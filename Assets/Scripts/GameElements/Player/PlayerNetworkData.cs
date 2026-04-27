@@ -93,7 +93,7 @@ namespace com.VisionXR.HelperClasses
             };
 
             gameObject.name = "Player" + NetPlayerProps.MyId;
-            tableData.SetTableRotation(p.myId);
+            tableData.SetCamRotation(p.myId);
 
      
 

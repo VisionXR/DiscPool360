@@ -1,6 +1,8 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.ModelClasses;
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace com.VisionXR.Controllers
@@ -17,6 +19,7 @@ namespace com.VisionXR.Controllers
 
 
         [Header("Game Objects")]
+        public List<CamProperties> camPropertiesList; // List of camera properties for different boards
         public GameObject cameraRig;
         public LineRenderer lineRenderer;
 
@@ -28,8 +31,8 @@ namespace com.VisionXR.Controllers
 
         [Header("Zoom Settings")]
         public float ZoomSensitivity = 1f;
-        public float MinDistanceCutoff = 0.4f; // r1 - Minimum distance from striker
-        public float MaxDistanceCutoff = 2f; // r2 - Maximum distance from striker
+        public float MinRadius = 0.4f; // r1 - Minimum distance from striker
+        public float MaxRadius = 2f; // r2 - Maximum distance from striker
         public float CameraFollowSmoothing = 20f; // Higher = snappier response
 
         [Header("Polar Angle Constraints")]
@@ -58,12 +61,15 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
+            SetCamProperties(1);
             uiData.HomeEvent += ResetCamPosition;
             inputData.ZoomChangedEvent += ApplyZoom;
             inputData.ZoomStartedEvent += StartZoom;
 
             inputData.HorizontalSwipedEvent += HorizontalSwiped;
             inputData.VerticalSwipedEvent += VerticalSwiped;
+
+            tableData.SetCamRotationEvent += SetCamProperties;
         }
 
         private void OnDisable()
@@ -74,13 +80,30 @@ namespace com.VisionXR.Controllers
 
             inputData.HorizontalSwipedEvent -= HorizontalSwiped;
             inputData.VerticalSwipedEvent -= VerticalSwiped;
+
+            tableData.SetCamRotationEvent -= SetCamProperties;
         }
 
       
         private void ResetCamPosition()
         {
-            tableData.SetTableRotation(1);
+            SetCamProperties(1);
 
+        }
+
+        public void SetCamProperties(int id)
+        {
+            id = id - 1;
+
+            _targetRadius = camPropertiesList[id].Radius;
+            _targetPolarAngle = camPropertiesList[id].PolarAngle;
+            _targetAzimuth = camPropertiesList[id].Azimuth;
+             MinAzimuthAngle = camPropertiesList[id].minAzimuthAngle;
+             MaxAzimuthAngle = camPropertiesList[id].maxAzimuthAngle;
+             MinPolarAngle = camPropertiesList[id].minPolarAngle;
+             MaxPolarAngle = camPropertiesList[id].maxPolarAngle;
+             MinRadius = camPropertiesList[id].minRadius;
+             MaxRadius = camPropertiesList[id].maxRadius;
         }
 
         private void StartZoom()
@@ -95,34 +118,43 @@ namespace com.VisionXR.Controllers
             
             // Zoom adjusts the radius
             _targetRadius -= delta * ZoomSensitivity;
-            _targetRadius = Mathf.Clamp(_targetRadius, MinDistanceCutoff, MaxDistanceCutoff);
+
+            _targetRadius = Mathf.Clamp(_targetRadius,MinRadius,MaxRadius);
+
+            Debug.Log("Radius" + _targetRadius);
+
         }
 
         private void VerticalSwiped(float delta)
         {
             // Subtracting delta often feels more natural for "pulling" the camera up/down
             _targetPolarAngle += delta * SwipePolarSensitivity;
+
+          
+
             _targetPolarAngle = Mathf.Clamp(_targetPolarAngle, MinPolarAngle, MaxPolarAngle);
+
+            Debug.Log("Polar" + _targetPolarAngle);
         }
 
         private void HorizontalSwiped(float delta)
         {
             // Adding delta rotates the camera around the Y axis
-            _targetAzimuth += delta * SwipeAzimuthSensitivity;
+           _targetAzimuth += delta * SwipeAzimuthSensitivity;
 
-            Debug.Log("Azimuth" + _targetAzimuth);
+           
             // We don't necessarily need to Clamp/Repeat targetAzimuth, LerpAngle handles it
 
-           // _targetAzimuth = Mathf.Clamp(_targetAzimuth, MinAzimuthAngle, MaxAzimuthAngle);
+            _targetAzimuth = Mathf.Clamp(_targetAzimuth, MinAzimuthAngle, MaxAzimuthAngle);
+
+            Debug.Log("Azimuth" + _targetAzimuth);
         }
 
         private void LateUpdate()
         {
 
-                _strikerPos = boardData.Board.transform.position;
+             _strikerPos = boardData.Board.transform.position;
             
- 
-
             // 1. Smoothly interpolate values
             // Use LerpAngle for Azimuth to prevent the "360-degree flip" bug
             _azimuth = Mathf.LerpAngle(_azimuth, _targetAzimuth, Time.deltaTime * CameraFollowSmoothing);
@@ -131,9 +163,9 @@ namespace com.VisionXR.Controllers
 
             // 2. Update striker position
 
-        //    _azimuth = Mathf.Clamp(_azimuth, MinAzimuthAngle, MaxAzimuthAngle);
+            _azimuth = Mathf.Clamp(_azimuth, MinAzimuthAngle, MaxAzimuthAngle);
             _polarAngle = Mathf.Clamp(_polarAngle, MinPolarAngle, MaxPolarAngle);
-            _radius = Mathf.Clamp(_radius, MinDistanceCutoff, MaxDistanceCutoff);
+            _radius = Mathf.Clamp(_radius, MinRadius, MaxRadius);
 
 
             // 3. Calculate position on the sphere
@@ -170,5 +202,21 @@ namespace com.VisionXR.Controllers
 
             return center + new Vector3(x, y, z);
         }
+    }
+
+    [Serializable]
+    public class CamProperties
+    {
+        public float Azimuth;
+        public float PolarAngle;
+        public float Radius;
+
+
+        public float minAzimuthAngle;
+        public float maxAzimuthAngle;
+        public float minPolarAngle;
+        public float maxPolarAngle;
+        public float minRadius;
+        public float maxRadius;
     }
 }

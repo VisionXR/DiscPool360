@@ -27,13 +27,15 @@ namespace com.VisionXR.Controllers
         public float swipeminTimeThreshold = 0.05f; // Minimum time for a swipe (seconds)
         public float swipemaxTimeThreshold = 1; // Maximum time for a swipe (seconds)
 
-        private bool _isTouching = false;
-        private Vector2 _lastTouchPosition;
-        private Vector2 _swipeStartPosition;
-        private float _swipeStartTime;
+        // Gesture type tracking
+        private enum GestureType { None, Zoom, Swipe, Rotation }
+        private GestureType _currentGestureType = GestureType.None;
+
+        private Vector2 swipeStartPosition;
+        private float swipeStartTime;
         public float cutoffValue = 0.1f;
-        private float _initialPinchDistance;
-        private bool isTouching = false;
+        private float initialPinchDistance;
+
 
 
         private void OnEnable()
@@ -63,109 +65,85 @@ namespace com.VisionXR.Controllers
         {
             if (EventSystem.current.IsPointerOverGameObject()) return;
 
-            bool isZooming = false;
-    
-            isZooming = HandleZoomInput();
-            
-
-            if (!isZooming)
-            {
-                HandleTouchInput();
-            }      
-
+            HandleZoomInput();
+            HandleTouchInput();
         }
-
-
 
         private bool HandleZoomInput()
         {
-
             // Check active touches using the new API
             var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
 
-            if (activeTouches.Count > 0)
+            if (activeTouches.Count >= 2)
             {
-              
-                if (activeTouches.Count == 2)
+                var touch0 = activeTouches[0];
+                var touch1 = activeTouches[1];
+
+                if (touch1.phase == UnityEngine.InputSystem.TouchPhase.Began)
                 {
-                    var touch0 = activeTouches[0];
-                    var touch1 = activeTouches[1];
-
-                    if (touch1.phase == UnityEngine.InputSystem.TouchPhase.Began)
-                    {
-                        _initialPinchDistance = Vector2.Distance(touch0.screenPosition, touch1.screenPosition);
-                        inputData.ZoomStarted();
-                       
-
-                    }
-                    else if (touch0.phase == UnityEngine.InputSystem.TouchPhase.Moved || touch1.phase == UnityEngine.InputSystem.TouchPhase.Moved)
-                    {
-                        float currentDistance = Vector2.Distance(touch0.screenPosition, touch1.screenPosition);
-                        float delta = (currentDistance - _initialPinchDistance) * 0.005f;
-
-                        // Send this delta to InputDataSO (Normalized for sensitivity)
-
-
-                        delta = Mathf.Clamp(delta, -1.0f, 1.0f);
-                        inputData.ZoomChanged(delta);
-                        _initialPinchDistance = currentDistance;
-                       
-
-                    }
-
+                    // Lock into zoom gesture
+                    _currentGestureType = GestureType.Zoom;
+                    initialPinchDistance = Vector2.Distance(touch0.screenPosition, touch1.screenPosition);
+                    inputData.ZoomStarted();
                     return true;
-
                 }
-              
-            }
-            return false; // Prioritize pinch over single touch rotation
+                else if (_currentGestureType == GestureType.Zoom &&
+                         (touch0.phase == UnityEngine.InputSystem.TouchPhase.Moved || 
+                          touch1.phase == UnityEngine.InputSystem.TouchPhase.Moved))
+                {
+                    float currentDistance = Vector2.Distance(touch0.screenPosition, touch1.screenPosition);
+                    float delta = (currentDistance - initialPinchDistance) * 0.005f;
+                    delta = Mathf.Clamp(delta, -1.0f, 1.0f);
+                    inputData.ZoomChanged(delta);
+                    initialPinchDistance = currentDistance;
+                    return true;
+                }
 
+            }
+            else if (_currentGestureType == GestureType.Zoom)
+            {
+                // If we were zooming but now have less than 2 touches, end zoom
+                _currentGestureType = GestureType.None;
+               
+            }
+
+            return _currentGestureType == GestureType.Zoom;
         }
 
         private void HandleTouchInput()
         {
-            // Check active touches using the new API
+            // Only process single touch if NOT zooming
+            if (_currentGestureType == GestureType.Zoom)
+                return;
+
             var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
 
-            if (activeTouches.Count > 0)
+            if (activeTouches.Count == 1)
             {
-                if (activeTouches.Count == 1)
+                var touch = activeTouches[0];
+                switch (touch.phase)
                 {
-                    
-                    var touch = activeTouches[0]; // Get the first finger
-                    switch (touch.phase)
-                    {
-                        case UnityEngine.InputSystem.TouchPhase.Began:
-                            HandleTouchBegan(touch.screenPosition);
-                            break;
+                    case UnityEngine.InputSystem.TouchPhase.Began:
+                        HandleTouchBegan(touch.screenPosition);
+                        break;
 
-                        case UnityEngine.InputSystem.TouchPhase.Moved:
-                        case UnityEngine.InputSystem.TouchPhase.Stationary:
-                            HandleTouchUpdate(touch.screenPosition);
-                            break;
+                    case UnityEngine.InputSystem.TouchPhase.Moved:
+                    case UnityEngine.InputSystem.TouchPhase.Stationary:
+                        HandleTouchUpdate(touch.screenPosition);
+                        break;
 
-                        case UnityEngine.InputSystem.TouchPhase.Ended:
-                        case UnityEngine.InputSystem.TouchPhase.Canceled:
-                            HandleTouchEnded(touch.screenPosition);
-                            break;
-                    }
+                    case UnityEngine.InputSystem.TouchPhase.Ended:
+                    case UnityEngine.InputSystem.TouchPhase.Canceled:
+                        HandleTouchEnded(touch.screenPosition);
+                        break;
                 }
-                
-            }
-            else
-            {
-                isTouching = false;
             }
 
             // Fallback for Editor testing with mouse
             if (!Application.isEditor)
-            {
                 return;
-            }
 
-            // Fallback for Pointer (Mouse/Pen) using the New Input System
             var pointer = Pointer.current;
-
             if (pointer != null)
             {
                 Vector2 pointerPos = pointer.position.ReadValue();
@@ -176,7 +154,6 @@ namespace com.VisionXR.Controllers
                 }
                 else if (pointer.press.isPressed)
                 {
-                    // Only process Moved if the pointer actually changed position to save performance
                     HandleTouchUpdate(pointerPos);
                 }
                 else if (pointer.press.wasReleasedThisFrame)
@@ -188,49 +165,57 @@ namespace com.VisionXR.Controllers
 
         private void HandleTouchBegan(Vector2 touch)
         {
-            
+            // If already zooming, ignore single touch
+            if (_currentGestureType == GestureType.Zoom)
+                return;
 
-            _isTouching = true;
-            _lastTouchPosition = touch;
-            _swipeStartPosition = touch;
-            _swipeStartTime = Time.time;
+            swipeStartPosition = touch;
+            swipeStartTime = Time.time;
 
-           
+            Ray ray = Camera.main.ScreenPointToRay(touch);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.CompareTag("Edge"))
+                {
+                    _currentGestureType = GestureType.Rotation;
+                    inputData.RotationPinchStarted(touch);
+                    return;
+                }
+            }
+
+            _currentGestureType = GestureType.Swipe;
         }
 
         private void HandleTouchUpdate(Vector2 touch)
         {
-            // Only process if position has actually changed
-            if (_lastTouchPosition == touch)
+            if (_currentGestureType == GestureType.Rotation)
             {
-                return;
+                inputData.RotationPinchContinued(touch);
             }
-
-            _lastTouchPosition = touch;
-
-            //if (_isTouching)
-            //{
-            //    DetectSwipe(touch);
-            //}
         }
 
         private void HandleTouchEnded(Vector2 touch)
         {
-
-            if (_isTouching)
+            if (_currentGestureType == GestureType.Swipe)
             {
-                _isTouching = false;
-                // Check for swipe gesture
                 DetectSwipe(touch);
             }
+            else if (_currentGestureType == GestureType.Rotation)
+            {
+                inputData.RotationPinchEnded(touch);
+            }
+
+            _currentGestureType = GestureType.None;
         }
 
         private void DetectSwipe(Vector2 touchEndPosition)
         {
-            Vector2 swipeDelta = touchEndPosition - _swipeStartPosition;
-            float swipeDuration = Time.time - _swipeStartTime;
+            Vector2 swipeDelta = touchEndPosition - swipeStartPosition;
+            float swipeDuration = Time.time - swipeStartTime;
 
-            Debug.Log("Swipe duration: " + swipeDuration);
+          
 
             // Check if swipe duration is within threshold
             if (swipeDuration > swipemaxTimeThreshold || swipeDuration < swipeminTimeThreshold)
@@ -243,7 +228,7 @@ namespace com.VisionXR.Controllers
             float verticalDistance = Mathf.Abs(swipeDelta.y);
 
 
-            if (horizontalDistance > swipeminDistanceThreshold)
+            if (horizontalDistance >= verticalDistance)
             {
                 // Horizontal swipe is dominant
                 float normalizedValue = NormalizeSwipeDistance(horizontalDistance);
@@ -252,7 +237,7 @@ namespace com.VisionXR.Controllers
             }
 
             // Determine which direction is dominant
-            if (verticalDistance > swipeminDistanceThreshold)
+            else if (verticalDistance > horizontalDistance)
             {
                 // Vertical swipe is dominant
                 float normalizedValue = NormalizeSwipeDistance(verticalDistance);

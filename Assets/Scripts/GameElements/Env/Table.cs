@@ -18,18 +18,6 @@ public class Table : MonoBehaviour
     public GameObject playerTransforms;
     
 
-    private void OnEnable()
-    {
-        tableData.SetTableRotationEvent += SetTableRotation;
-
-    }
-
-    private void OnDisable()
-    {
-        tableData.SetTableRotationEvent -= SetTableRotation;
-
-    }
-
 
 
     public void SetTableRotation(int index)
@@ -44,17 +32,7 @@ public class Table : MonoBehaviour
         cameraRig.transform.rotation = camPositions[index-1].rotation;
 
 
-        mainCanvas.transform.position = canvasPositions[index-1].position;
-        mainCanvas.transform.rotation = canvasPositions[index-1].rotation;
-
-        poolCanvas.transform.position = canvasPositions[index - 1].position;
-        poolCanvas.transform.rotation = canvasPositions[index - 1].rotation;
-
-        snookerCanvas.transform.position = canvasPositions[index - 1].position;
-        snookerCanvas.transform.rotation = canvasPositions[index - 1].rotation;
-
-        FoulCanvas.transform.rotation = canvasPositions[index - 1].rotation;
-
+       
       
     }
 

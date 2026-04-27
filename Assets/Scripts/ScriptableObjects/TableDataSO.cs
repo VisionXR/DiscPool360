@@ -22,7 +22,7 @@ namespace com.VisionXR.ModelClasses
 
         // Actions
 
-        public Action<int> SetTableRotationEvent;
+        public Action<int> SetCamRotationEvent;
         public Action PlatformRotationStartedEvent;
         public Action PlatformRotationEndedEvent;
         public Action ResetPlatformEvent;
@@ -72,9 +72,9 @@ namespace com.VisionXR.ModelClasses
         }
 
 
-        public void SetTableRotation(int index)
+       public void SetCamRotation(int id)
         {
-            SetTableRotationEvent?.Invoke(index);
+            SetCamRotationEvent?.Invoke(id);
         }
 
 
