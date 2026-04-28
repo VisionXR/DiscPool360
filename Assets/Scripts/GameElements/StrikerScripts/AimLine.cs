@@ -7,9 +7,13 @@ public class AimLine : MonoBehaviour
     public BoardDataSO boardData;
 
     [Header("Game Objects")]
-    public GameObject line;
+   
     public Transform checkTransform;
     public Renderer lineRenderer;
+    public GameObject line;
+    public GameObject quadCircle;
+    public GameObject NormalLine;
+    
 
     [Header("Properties")]
     public LayerMask colliderMask;
@@ -18,6 +22,10 @@ public class AimLine : MonoBehaviour
     public int NoofArrowsPerUnit = 5; // 5 arrows per 0.1m
     public float distanceFactor = 0.15f; // Adjust this based on your line's original length to get the correct scaling
     public float checkFactor = 1.5f;
+
+
+    public float lineOffset = 0.01f;
+    public float strikerOffset = 0.01f;
     // local variables
     private RaycastHit hit;
 
@@ -39,11 +47,16 @@ public class AimLine : MonoBehaviour
         // 1. Initial Overlap Check - Hide line if overlapping something
         if (Physics.CheckSphere(checkTransform.position, boardData.StrikerRadius*checkFactor, colliderMask))
         {
-            line.SetActive(false);
+               line.SetActive(false);
+               quadCircle.SetActive(false);
+               NormalLine.SetActive(false);
+              
             return;
         }
 
         line.SetActive(true);
+        quadCircle.SetActive(true);
+        NormalLine.SetActive(true);
 
         Vector3 rayOrigin = transform.position;
         Vector3 rayDirection = transform.forward;
@@ -53,26 +66,27 @@ public class AimLine : MonoBehaviour
         if (Physics.SphereCast(rayOrigin, boardData.StrikerRadius, rayDirection, out hit, CutOffLength, colliderMask))
         {
             currentDistance = hit.distance;
-          
+            quadCircle.transform.position = hit.point + hit.normal * (boardData.StrikerRadius-strikerOffset); // Slightly above the surface to avoid z-fighting
+
+
+            Transform coin = hit.collider.transform;
+
+            NormalLine.transform.position = hit.collider.transform.position; // Position at the hit point
+           
+
+            NormalLine.transform.rotation = Quaternion.LookRotation(-Vector3.up,-hit.normal);
+           
         }
-        Debug.DrawLine(rayOrigin, rayOrigin + rayDirection * currentDistance, Color.red);
+     
 
         currentDistance = currentDistance / distanceFactor;
 
 
         // 3. Scale the Line (Assuming Y-axis is the "length" of your line object)
         // Adjust the scale to match the distance
-        line.transform.localScale = new Vector3(LineThickness, currentDistance, LineThickness);
+        line.transform.localScale = new Vector3(LineThickness, currentDistance-lineOffset, LineThickness);
 
-        // 4. Update Material Tiling
-        // Tiling = Distance * ArrowsPerUnit. 
-        // This ensures that as the line grows, more arrows appear rather than stretching the existing ones.
-        if (lineRenderer != null)
-        {
-            float tilingValue = currentDistance * NoofArrowsPerUnit;
+       
 
-            // "_MainTex" is the standard property name, but if using URP/HDRP it might be "_BaseMap"
-            lineRenderer.material.mainTextureScale = new Vector2(1, tilingValue);
-        }
     }
 }
