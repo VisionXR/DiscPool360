@@ -198,11 +198,7 @@ namespace com.VisionXR.Controllers
 
         private void HandleTouchEnded(Vector2 touch)
         {
-            if (_currentGestureType == GestureType.Swipe)
-            {
-                DetectSwipe(touch);
-            }
-            else if (_currentGestureType == GestureType.Rotation)
+            if (_currentGestureType == GestureType.Rotation)
             {
                 inputData.RotationPinchEnded(touch);
             }
