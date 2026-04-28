@@ -1,4 +1,5 @@
 using com.VisionXR.Controllers;
+using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace com.VisionXR.Views
         public UIDataSO uiData;
 
         [Header("Local Objects")]
+        public CamPositionManager camPositionManager;
         public GameObject RulesPanel;
 
         [Header("Sound Sprites")]
@@ -52,6 +54,21 @@ namespace com.VisionXR.Views
             {
                 RulesPanel.SetActive(true);
             }
+        }
+
+        public void TopViewBtnClicked()
+        {
+             audioData.PlayAudio(AudioClipType.ButtonClick);
+            Player  mp = playerData.GetMainPlayer();
+            camPositionManager.SetTopCamProperties(mp.playerProperties.myId);
+
+        }
+
+        public void FrontViewBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            Player mp = playerData.GetMainPlayer();
+            camPositionManager.SetFrontCamProperties(mp.playerProperties.myId);
         }
 
         public void RulesBackBtnClicked()

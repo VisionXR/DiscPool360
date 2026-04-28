@@ -33,9 +33,9 @@ namespace com.VisionXR.GameElements
         private void OnEnable()
         {
 
-            inputData.RotationPinchStartedEvent += PinchStarted;
-            inputData.RotationPinchContinuedEvent += PinchContinued;
-            inputData.RotationPinchEndedEvent += PinchEnded;
+            inputData.FoulPinchStartedEvent += PinchStarted;
+            inputData.FoulPinchContinuedEvent += PinchContinued;
+            inputData.FoulPinchEndedEvent += PinchEnded;
 
             Initialise();
         }
@@ -52,9 +52,9 @@ namespace com.VisionXR.GameElements
         private void OnDisable()
         {
 
-            inputData.RotationPinchStartedEvent -= PinchStarted;
-            inputData.RotationPinchContinuedEvent -= PinchContinued;
-            inputData.RotationPinchEndedEvent -= PinchEnded;
+            inputData.FoulPinchStartedEvent -= PinchStarted;
+            inputData.FoulPinchContinuedEvent -= PinchContinued;
+            inputData.FoulPinchEndedEvent -= PinchEnded;
 
             Reset();
         }
@@ -67,18 +67,7 @@ namespace com.VisionXR.GameElements
 
         private void PinchStarted(Vector2 origin)
         {
-            // 2. Raycast from the 2D pinch/touch position
-            Ray ray = Camera.main.ScreenPointToRay(origin);
-            RaycastHit hit;
-            // 3. Check if we hit the "Edge" tag
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider.CompareTag("Edge"))
-                {
-
-                    return;
-                }
-            }
+          
 
             if (isPlacingStriker)
             {

@@ -107,34 +107,12 @@ public class TurnAndFoulCanvas : MonoBehaviour
         yield return new WaitForSeconds(1f);
         foulHandlingPanel.SetActive(true);
         string displayText = "";
-        bool handTrackingActive = false;
+        
 
-        if (userData.myDominantHand == DominantHand.Right)
-        {
-            if (handTrackingActive)
-            {
-                displayText = "Hold right hand pinch to move the striker. Release to place.";
+
+        displayText = " Tap and drag on board to place the striker.";
               
-            }
-            else
-            {
-                displayText = "Hold right trigger to move the striker. Release to place";
-              
-            }
-        }
-        else
-        {
-            if (handTrackingActive)
-            {
-                displayText = "Hold left hand pinch to move the striker. Release to place.";
-              
-            }
-            else
-            {
-                displayText = "Hold left trigger to move the striker. Release to place";
-              
-            }
-        }
+                
         foulHandlingText.text = displayText;
         yield return new WaitForSeconds(3f);
         foulHandlingText.text = "";

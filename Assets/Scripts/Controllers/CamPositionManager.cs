@@ -20,6 +20,7 @@ namespace com.VisionXR.Controllers
 
         [Header("Game Objects")]
         public List<Transform> camTransforms; // List of camera properties for different boards
+        public List<Transform> camTopTransforms; // List of camera properties for different boards
         public GameObject cameraRig;
 
 
@@ -27,25 +28,25 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-            SetCamProperties(1);
+            SetFrontCamProperties(1);
             uiData.HomeEvent += ResetCamPosition;
-            tableData.SetCamRotationEvent += SetCamProperties;
+            tableData.SetCamRotationEvent += SetFrontCamProperties;
         }
 
         private void OnDisable()
         {
             uiData.HomeEvent -= ResetCamPosition;
-            tableData.SetCamRotationEvent -= SetCamProperties;
+            tableData.SetCamRotationEvent -= SetFrontCamProperties;
         }
 
-      
+
         private void ResetCamPosition()
         {
-            SetCamProperties(1);
+            SetFrontCamProperties(1);
 
         }
 
-        public void SetCamProperties(int id)
+        public void SetFrontCamProperties(int id)
         {
             id = id - 1;
             Transform camTransform = camTransforms[id];
@@ -53,8 +54,16 @@ namespace com.VisionXR.Controllers
             cameraRig.transform.rotation = camTransform.rotation;
 
         }
-      
-    }
 
+        public void SetTopCamProperties(int id)
+        {
+            id = id - 1;
+            Transform camTransform = camTopTransforms[id];
+            cameraRig.transform.position = camTransform.position;
+            cameraRig.transform.rotation = camTransform.rotation;
+
+        }
+
+    }
 
 }

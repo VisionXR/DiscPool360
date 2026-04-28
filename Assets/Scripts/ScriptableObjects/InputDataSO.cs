@@ -21,15 +21,20 @@ namespace com.VisionXR.ModelClasses
         public Action<bool> InputChangeEvent;
 
         public Action<float> RotateStrikerAbsoluteEvent;
+
+
         public Action<Vector2> RotationPinchStartedEvent;
         public Action<Vector2> RotationPinchContinuedEvent;
         public Action<Vector2>RotationPinchEndedEvent;
 
+        public Action<Vector2> FoulPinchStartedEvent;
+        public Action<Vector2> FoulPinchContinuedEvent;
+        public Action<Vector2> FoulPinchEndedEvent;
+
 
         public Action<bool> PlatformHiglightEvent;
 
-        public Action<float> HorizontalSwipedEvent;
-        public Action<float> VerticalSwipedEvent;
+
 
         //Methods
 
@@ -50,16 +55,7 @@ namespace com.VisionXR.ModelClasses
             InputChangeEvent?.Invoke(false);
         }
 
-        public void HorizontalSwiped(float a)
-        {
-            HorizontalSwipedEvent?.Invoke(a);
-        }
 
-
-        public void VerticalSwiped(float a)
-        {
-            VerticalSwipedEvent?.Invoke(a);
-        }
         public void RotationPinchStarted(Vector2 origin)
         {
             RotationPinchStartedEvent?.Invoke(origin);
@@ -73,6 +69,22 @@ namespace com.VisionXR.ModelClasses
         public void RotationPinchEnded(Vector2 pos)
         {
             RotationPinchEndedEvent?.Invoke(pos);
+        }
+
+
+        public void FoulPinchStarted(Vector2 origin)
+        {
+            FoulPinchStartedEvent?.Invoke(origin);
+        }
+
+        public void FoulPinchContinued(Vector2 origin)
+        {
+            FoulPinchContinuedEvent?.Invoke(origin);
+        }
+
+        public void FoulPinchEnded(Vector2 pos)
+        {
+            FoulPinchEndedEvent?.Invoke(pos);
         }
 
 

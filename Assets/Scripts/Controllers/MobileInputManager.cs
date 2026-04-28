@@ -13,10 +13,10 @@ namespace com.VisionXR.Controllers
         [Header("Scriptable Objects")]
         public InputDataSO inputData;
         public UserDataSO userData;
-        
+
 
         [Header("Audio Trigger")]
-        
+
         public AudioSource grapSelectedAudio;
         public AudioSource grapUnSelectedAudio;
         public AudioSource tapSelectedAudio;
@@ -41,8 +41,8 @@ namespace com.VisionXR.Controllers
         private void OnEnable()
         {
             // 3. You MUST enable EnhancedTouch once
-            EnhancedTouchSupport.Enable();   
-         
+            EnhancedTouchSupport.Enable();
+
         }
 
         private void OnDisable()
@@ -65,56 +65,15 @@ namespace com.VisionXR.Controllers
         {
             if (EventSystem.current.IsPointerOverGameObject()) return;
 
-            HandleZoomInput();
+
             HandleTouchInput();
         }
 
-        private bool HandleZoomInput()
-        {
-            // Check active touches using the new API
-            var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
 
-            if (activeTouches.Count >= 2)
-            {
-                var touch0 = activeTouches[0];
-                var touch1 = activeTouches[1];
-
-                if (touch1.phase == UnityEngine.InputSystem.TouchPhase.Began)
-                {
-                    // Lock into zoom gesture
-                    _currentGestureType = GestureType.Zoom;
-                    initialPinchDistance = Vector2.Distance(touch0.screenPosition, touch1.screenPosition);
-                    inputData.ZoomStarted();
-                    return true;
-                }
-                else if (_currentGestureType == GestureType.Zoom &&
-                         (touch0.phase == UnityEngine.InputSystem.TouchPhase.Moved || 
-                          touch1.phase == UnityEngine.InputSystem.TouchPhase.Moved))
-                {
-                    float currentDistance = Vector2.Distance(touch0.screenPosition, touch1.screenPosition);
-                    float delta = (currentDistance - initialPinchDistance) * 0.005f;
-                    delta = Mathf.Clamp(delta, -1.0f, 1.0f);
-                    inputData.ZoomChanged(delta);
-                    initialPinchDistance = currentDistance;
-                    return true;
-                }
-
-            }
-            else if (_currentGestureType == GestureType.Zoom)
-            {
-                // If we were zooming but now have less than 2 touches, end zoom
-                _currentGestureType = GestureType.None;
-               
-            }
-
-            return _currentGestureType == GestureType.Zoom;
-        }
 
         private void HandleTouchInput()
         {
-            // Only process single touch if NOT zooming
-            if (_currentGestureType == GestureType.Zoom)
-                return;
+
 
             var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
 
@@ -165,9 +124,7 @@ namespace com.VisionXR.Controllers
 
         private void HandleTouchBegan(Vector2 touch)
         {
-            // If already zooming, ignore single touch
-            if (_currentGestureType == GestureType.Zoom)
-                return;
+
 
             swipeStartPosition = touch;
             swipeStartTime = Time.time;
@@ -179,81 +136,30 @@ namespace com.VisionXR.Controllers
             {
                 if (hit.collider.CompareTag("Edge"))
                 {
-                    _currentGestureType = GestureType.Rotation;
+
                     inputData.RotationPinchStarted(touch);
                     return;
                 }
             }
 
-            _currentGestureType = GestureType.Swipe;
+
+            inputData.FoulPinchStarted(touch);
+
         }
 
         private void HandleTouchUpdate(Vector2 touch)
         {
-            if (_currentGestureType == GestureType.Rotation)
-            {
-                inputData.RotationPinchContinued(touch);
-            }
+
+            inputData.RotationPinchContinued(touch);
+            inputData.FoulPinchContinued(touch);
         }
 
         private void HandleTouchEnded(Vector2 touch)
         {
-            if (_currentGestureType == GestureType.Rotation)
-            {
-                inputData.RotationPinchEnded(touch);
-            }
 
-            _currentGestureType = GestureType.None;
+            inputData.RotationPinchEnded(touch);
+            inputData.FoulPinchEnded(touch);
         }
 
-        private void DetectSwipe(Vector2 touchEndPosition)
-        {
-            Vector2 swipeDelta = touchEndPosition - swipeStartPosition;
-            float swipeDuration = Time.time - swipeStartTime;
-
-          
-
-            // Check if swipe duration is within threshold
-            if (swipeDuration > swipemaxTimeThreshold || swipeDuration < swipeminTimeThreshold)
-            {
-                return; // Too slow to be a swipe
-            }
-
-            // Calculate absolute distances
-            float horizontalDistance = Mathf.Abs(swipeDelta.x);
-            float verticalDistance = Mathf.Abs(swipeDelta.y);
-
-
-            if (horizontalDistance >= verticalDistance)
-            {
-                // Horizontal swipe is dominant
-                float normalizedValue = NormalizeSwipeDistance(horizontalDistance);
-                float directedValue = Mathf.Sign(swipeDelta.x) * normalizedValue;
-                inputData.HorizontalSwiped(directedValue);
-            }
-
-            // Determine which direction is dominant
-            else if (verticalDistance > horizontalDistance)
-            {
-                // Vertical swipe is dominant
-                float normalizedValue = NormalizeSwipeDistance(verticalDistance);
-                float directedValue = Mathf.Sign(swipeDelta.y) * normalizedValue;
-                inputData.VerticalSwiped(directedValue);
-
-            }
-
-        }
-
-        private float NormalizeSwipeDistance(float distance)
-        {
-            // Clamp distance between min and max thresholds
-            float clamped = Mathf.Clamp(distance, swipeminDistanceThreshold, swipemaxDistanceThreshold);
-
-            // Normalize to 0-1 range
-            float normalized = (clamped - swipeminDistanceThreshold) / (swipemaxDistanceThreshold - swipeminDistanceThreshold);
-
-            // Map to -1 to 1 range (0 maps to -1, 0.5 maps to 0, 1 maps to 1)
-            return normalized * 2f - 1f;
-        }
     }
 }
