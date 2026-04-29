@@ -1,6 +1,7 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace com.VisionXR.Controllers
         // local variables
         [Header("Game Objects")]
         public MultiPlayerConnectionManager multiPlayerConnectionManager;
-        public GameObject InputPanel;
+        public InputPanelView InputPanel;
         public GameObject PoolScoreCanvas;
         public GameObject SnookerScoreCanvas;
         public List<GameObject> pocketedCoins = new List<GameObject>();
@@ -168,7 +169,7 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     poolLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputPanel.SetActive(true);
+                    InputPanel.TurnOn();
 
                 }
 
@@ -196,7 +197,7 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     snookerLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputPanel.SetActive(true);
+                    InputPanel.TurnOn();
                 }
 
             }
@@ -274,7 +275,7 @@ namespace com.VisionXR.Controllers
         {
             inputData.DisableInput();
             boardData.TurnOffInteractable();
-            InputPanel.SetActive(false);
+            InputPanel.TurnOff();
 
             multiPlayerConnectionManager.SendStrikeStarted();
         }
@@ -487,7 +488,7 @@ namespace com.VisionXR.Controllers
         {
             pocketedCoins.Clear();
             coinData.DestroyCoins();
-            InputPanel.SetActive(false);
+            InputPanel.TurnOff();
             multiPlayerConnectionManager.SetPlayStatus(false);
 
             yield return new WaitForSeconds(0.1f);

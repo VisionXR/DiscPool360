@@ -1,6 +1,7 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace com.VisionXR.Controllers
         [Header("Game Objects")]
         public GameObject PoolScoreCanvas;
         public GameObject SnookerScoreCanvas;
-        public GameObject InputCanvas;
+        public InputPanelView InputCanvas;
         public List<GameObject> pocketedCoins = new List<GameObject>();
 
         [Header("Logic")]
@@ -92,7 +93,7 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     poolLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputCanvas.SetActive(true);
+                    InputCanvas.TurnOn();
                 }
             }
             else
@@ -116,7 +117,7 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     snookerLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputCanvas.SetActive(true);
+                    InputCanvas.TurnOn() ;
                 }
 
             }
@@ -415,7 +416,7 @@ namespace com.VisionXR.Controllers
 
         private void StrikeStarted()
         {
-            InputCanvas.SetActive(false);
+            InputCanvas.TurnOff();
             inputData.DisableInput();
             boardData.TurnOffInteractable();
         }
@@ -613,7 +614,7 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator EndGameRoutine()
         {
-            InputCanvas.SetActive(false);
+            InputCanvas.TurnOff();
             pocketedCoins.Clear();
             coinData.DestroyCoins();
             yield return new WaitForSeconds(0.1f);
