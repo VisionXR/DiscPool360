@@ -50,7 +50,7 @@ namespace com.VisionXR.Controllers
         private void ShowHomePanel()
         {
             ResetPanels();
-            homePanel.SetActive(true);
+            homePanel.GetComponent<HomePanelView>().TurnOn();
         }
 
         public void ShowTutorialPanel()

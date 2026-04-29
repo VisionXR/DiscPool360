@@ -14,6 +14,8 @@ namespace com.VisionXR.ModelClasses
         public AIDifficulty currentAIDifficulty;
         public BoardType currentBoardType;
         public float disableTime = 0.5f;
+        public Color selectionColor;
+        public Color defaultColor;
         // Actions
 
         public Action HomeEvent;

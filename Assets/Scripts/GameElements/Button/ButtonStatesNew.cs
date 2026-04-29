@@ -31,7 +31,7 @@ public class ButtonStatesNew : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (isHovering)
         {
             isHovering = false;
-            if (HoverImage != null) HoverImage.gameObject.SetActive(false);
+         //   if (HoverImage != null) HoverImage.gameObject.SetActive(false);
           
             if (popRoutine != null) { StopCoroutine(popRoutine); popRoutine = null; }
             // reset scale if needed
@@ -49,7 +49,7 @@ public class ButtonStatesNew : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (!isHovering && !SelectionImage.gameObject.activeInHierarchy)
         {
             isHovering = true;
-            if (HoverImage != null) HoverImage.gameObject.SetActive(true);
+         //   if (HoverImage != null) HoverImage.gameObject.SetActive(true);
             appPropertiesData.StartVibration();
 
             // scale/pop the actual image slightly toward the user
@@ -69,11 +69,11 @@ public class ButtonStatesNew : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (isHovering)
         {
             isHovering = false;
-            if (HoverImage != null)
-            {
-                // hide hover visual after reverting scale
-                HoverImage.gameObject.SetActive(false);
-            }
+            //if (HoverImage != null)
+            //{
+            //    // hide hover visual after reverting scale
+            //    HoverImage.gameObject.SetActive(false);
+            //}
 
             if (ActualImage != null)
             {
