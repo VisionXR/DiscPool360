@@ -19,7 +19,7 @@ namespace com.VisionXR.Views
 
         [Header("Next Panels")]
         public SinglePlayerView singlePlayerView;
-        public MultiPlayerPanelView multiPlayerPanel;
+        public MultiPlayerPanelView multiPlayerPanelView;
         public PanelOnOff internetToastPanel;
 
         [Header("Home Panels")]
@@ -55,9 +55,9 @@ namespace com.VisionXR.Views
 
             if (Application.internetReachability != NetworkReachability.NotReachable)
             {
-                uiData.SetGameType(GameType.MultiPlayer);
-              
+                uiData.SetGameType(GameType.MultiPlayer);           
                 TurnOff();
+                multiPlayerPanelView.TurnOn();
             }
             else
             {

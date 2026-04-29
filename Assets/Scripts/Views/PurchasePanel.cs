@@ -1,6 +1,8 @@
 using com.VisionXR.Controllers;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -16,6 +18,10 @@ public class PurchasePanel : MonoBehaviour
     [Header("List Elements")]
     public GameObject boardsPanel;
     public List<TMP_Text> boardPriceTexts;
+
+    [Header("This Objects")]
+    public HomePanelView homePanelView;
+    public List<PanelOnOff> panelsToOff;
 
 
     private void OnEnable()
@@ -47,18 +53,6 @@ public class PurchasePanel : MonoBehaviour
         purchaseData.GetPurchasedItems();
     }
 
-    public void BackBtnClicked()
-    {
-        audioData.PlayAudio(AudioClipType.ButtonClick);
-        boardsPanel.SetActive(true);
-        gameObject.SetActive(false);
-
-    }
-    public void CrossButtonClicked()
-    {
-        audioData.PlayAudio(AudioClipType.ButtonClick);
-        gameObject.SetActive(false);
-    }
 
     private void SetProductPrices()
     {
@@ -78,6 +72,38 @@ public class PurchasePanel : MonoBehaviour
             }
         }
 
+    }
+
+
+    public void BackBtnClicked()
+    {
+        audioData.PlayAudio(AudioClipType.ButtonClick);
+        TurnOff();
+        homePanelView.TurnOn();
+    }
+
+    public void TurnOff()
+    {
+        foreach (PanelOnOff panel in panelsToOff)
+        {
+            panel.TurnOffPanel();
+        }
+        StartCoroutine(WaitAndTurnOff());
+    }
+
+    private IEnumerator WaitAndTurnOff()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameObject.SetActive(false);
+    }
+
+    public void TurnOn()
+    {
+        gameObject.SetActive(true);
+        foreach (PanelOnOff panel in panelsToOff)
+        {
+            panel.TurnOnPanel();
+        }
     }
 
 

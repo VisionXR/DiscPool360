@@ -1,10 +1,12 @@
+using com.VisionXR.Controllers;
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using com.VisionXR.Controllers;
-using com.VisionXR.HelperClasses;
 
 public class AchievementsPanel : MonoBehaviour
 {
@@ -28,7 +30,9 @@ public class AchievementsPanel : MonoBehaviour
     public GameObject multiPlayerSelectionImage;
     public GameObject generalSelectionImage;
 
-
+    [Header("This Objects")]
+    public HomePanelView homePanelView;
+    public List<PanelOnOff> panelsToOff;
     void OnEnable()
     {
         Initialise();
@@ -147,6 +151,37 @@ public class AchievementsPanel : MonoBehaviour
         generalScrollView.SetActive(true);
     }
 
+    public void BackBtnClicked()
+    {
+        audioData.PlayAudio(AudioClipType.ButtonClick);
+        TurnOff();
+        homePanelView.TurnOn();
+    }
+
+    public void TurnOff()
+    {
+        foreach (PanelOnOff panel in panelsToOff)
+        {
+            panel.TurnOffPanel();
+        }
+        StartCoroutine(WaitAndTurnOff());
+    }
+
+    private IEnumerator WaitAndTurnOff()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameObject.SetActive(false);
+    }
+
+    public void TurnOn()
+    {
+        gameObject.SetActive(true);
+        foreach (PanelOnOff panel in panelsToOff)
+        {
+            panel.TurnOnPanel();
+        }
+    }
+
 
     private void DisableContent()
     {
@@ -163,12 +198,4 @@ public class AchievementsPanel : MonoBehaviour
     }
 }
 
-[Serializable]
-public class AchievementUI
-{
-    public TMP_Text NameText;
-    public TMP_Text DescriptionText;
-    public GameObject lockedObject;
-    public GameObject unLockedObject;
 
-}

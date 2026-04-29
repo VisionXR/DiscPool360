@@ -1,6 +1,8 @@
 using com.VisionXR.Controllers;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,10 +24,6 @@ namespace com.VisionXR.Views
         public UserDataSO userData;
         public NetworkOutputDataSO networkOutputData;
 
-        [Header("Board Objects")]
-        public GameObject HomePanel;
-        public GameObject BoardsPanel;
-        public GameObject JoinRoomPanel;
 
         [Header("Bg Images")]
         public Image FivePoolSelectionImage;
@@ -33,6 +31,12 @@ namespace com.VisionXR.Views
         public Image Snooker6SelectionImage;
         public Image Snooker10SelectionImage;
         public Image ColorSelectionImage;
+
+        [Header("This Objects")]
+        public HomePanelView homePanelView;
+        public BoardsPanelView boardsPanelView;
+        public JoinRoomPanel joinRoomPanelView;
+        public List<PanelOnOff> panelsToOff;
 
 
         private void OnEnable()
@@ -115,26 +119,51 @@ namespace com.VisionXR.Views
         }
 
 
-        public void BackBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            HomePanel.SetActive(true);
-            gameObject.SetActive(false);
-        }
-
-
         public void NextBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            BoardsPanel.SetActive(true);
-            gameObject.SetActive(false);
+            boardsPanelView.TurnOn();
+            TurnOff();
         }
 
         public void JoinRoomBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            JoinRoomPanel.SetActive(true);
+            joinRoomPanelView.TurnOn();
+            TurnOff();
+
+        }
+
+        public void BackBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            TurnOff();
+            homePanelView.TurnOn();
+        }
+
+        public void TurnOff()
+        {
+            foreach (PanelOnOff panel in panelsToOff)
+            {
+                panel.TurnOffPanel();
+            }
+            StartCoroutine(WaitAndTurnOff());
+        }
+
+        private IEnumerator WaitAndTurnOff()
+        {
+            yield return new WaitForSeconds(0.5f);
             gameObject.SetActive(false);
+        }
+
+
+        public void TurnOn()
+        {
+            gameObject.SetActive(true);
+            foreach (PanelOnOff panel in panelsToOff)
+            {
+                panel.TurnOnPanel();
+            }
 
         }
 

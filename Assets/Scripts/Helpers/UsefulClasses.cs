@@ -1,7 +1,8 @@
-using System.Collections.Generic;
-using System;
-using UnityEngine;
 using Fusion;
+using System;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
 namespace com.VisionXR.HelperClasses
 {
@@ -265,6 +266,16 @@ namespace com.VisionXR.HelperClasses
     {
         public AudioClipType audioClipType;
         public AudioSource audioSource;
+    }
+
+    [Serializable]
+    public class AchievementUI
+    {
+        public TMP_Text NameText;
+        public TMP_Text DescriptionText;
+        public GameObject lockedObject;
+        public GameObject unLockedObject;
+
     }
 
 

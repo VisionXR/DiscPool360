@@ -26,9 +26,9 @@ namespace com.VisionXR.Views
         public List<PanelOnOff> panelsToOff;
 
         [Header("Panel Objects")]
-        public GameObject PurchasePanel;
-        public GameObject SinglePlayerPanel;
-        public GameObject MultiPlayerPanel;
+        public PurchasePanel PurchasePanel;
+        public SinglePlayerView singlePlayerView;
+        public MultiPlayerPanelView multiPlayerPanelView;
         public DestinationPanel destinationPanel;
 
         void OnEnable()
@@ -109,8 +109,9 @@ namespace com.VisionXR.Views
             }
             else
             {
-                PurchasePanel.SetActive(true);
-                gameObject.SetActive(false);
+                TurnOff();
+                PurchasePanel.TurnOn();
+                
             }
            
         }
@@ -126,10 +127,10 @@ namespace com.VisionXR.Views
             destination.gameMode = uiData.currentGameMode;
             destination.aIDifficulty = uiData.currentAIDifficulty;
             
-            destinationPanel.gameObject.SetActive(true);
+            destinationPanel.TurnOn();
             destinationPanel.ConnectToDestination(destination);
 
-             gameObject.SetActive(false);
+             TurnOff();
         }
         public void BackBtnClicked()
         {
@@ -137,11 +138,13 @@ namespace com.VisionXR.Views
 
             if(uiData.currentGameType == GameType.SinglePlayer)
             {
-                SinglePlayerPanel.SetActive(true);
+                TurnOff();
+                singlePlayerView.TurnOn();
             }
             else if(uiData.currentGameType == GameType.MultiPlayer)
             {
-                MultiPlayerPanel.SetActive(true);
+                TurnOff();
+                multiPlayerPanelView.TurnOn();
             }
             
             gameObject.SetActive(false);
