@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
 using System.Collections.Generic;
@@ -41,21 +42,5 @@ namespace com.VisionXR.Controllers
  
     }
 
-    [Serializable]
-    public enum AudioClipType
-    {
-        BGMusic,
-        ButtonClick,
-        Winning,
-        Losing,
-        TurnChange,
-        Foul
-    }
 
-    [Serializable]
-    public class AudioClipData
-    {
-        public AudioClipType audioClipType;
-        public AudioSource audioSource;
-    }
 }

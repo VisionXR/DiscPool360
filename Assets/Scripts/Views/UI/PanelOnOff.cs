@@ -12,6 +12,7 @@ public class PanelOnOff : MonoBehaviour
     {
         if (gameObject.activeInHierarchy)
         {
+            
             StartCoroutine(AnimateScaleOff());
         }
     }
@@ -19,13 +20,16 @@ public class PanelOnOff : MonoBehaviour
     public void TurnOnPanel()
     {
       
-            gameObject.SetActive(true);
-            StartCoroutine(AnimateScaleOn());
+        gameObject.SetActive(true);
+        transform.localScale = Vector3.zero;
+        StartCoroutine(AnimateScaleOn());
         
     }
 
     private IEnumerator AnimateScaleOff()
     {
+       
+
         float elapsed = 0f;
         Vector3 startScale = transform.localScale;
         Vector3 targetScale = Vector3.zero;
@@ -39,12 +43,13 @@ public class PanelOnOff : MonoBehaviour
         }
 
         transform.localScale = targetScale;
-        gameObject.SetActive(false);
+     
     }
 
     private IEnumerator AnimateScaleOn()
     {
-        gameObject.SetActive(true);
+        yield return new WaitForSeconds(uiData.disableTime);
+
         float elapsed = 0f;
         Vector3 startScale = Vector3.zero;
         Vector3 targetScale = Vector3.one;

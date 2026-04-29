@@ -1,6 +1,6 @@
-using com.VisionXR.Controllers;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +21,9 @@ namespace com.VisionXR.Views
         [Header("Board Images")]
         public List<Image> boardSelectionImages;
         public List<Image> boardLockImages;
+
+        [Header("This Objects")]
+        public List<PanelOnOff> panelsToOff;
 
         [Header("Panel Objects")]
         public GameObject PurchasePanel;
@@ -151,6 +154,28 @@ namespace com.VisionXR.Views
             {
                 boardImage.gameObject.SetActive(false);
             }
+        }
+
+        public void TurnOff()
+        {
+            foreach (PanelOnOff panel in panelsToOff)
+            {
+                panel.TurnOffPanel();
+            }
+            StartCoroutine(WaitAndTurnOff());
+        }
+
+        private IEnumerator WaitAndTurnOff()
+        {
+            yield return new WaitForSeconds(0.5f);
+            gameObject.SetActive(false);
+        }
+
+
+        public void TurnOn()
+        {
+            gameObject.SetActive(true);
+
         }
     }
 

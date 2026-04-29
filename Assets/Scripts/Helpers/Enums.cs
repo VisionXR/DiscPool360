@@ -1,4 +1,7 @@
 
+using System;
+using UnityEngine;
+
 namespace com.VisionXR.HelperClasses
 {
 
@@ -44,6 +47,18 @@ namespace com.VisionXR.HelperClasses
     public enum AchievementSection { SinglePlayer, MultiPlayer, General }
 
     public enum AchievementType { Simple, Progess }
+
+    [Serializable]
+    public enum AudioClipType
+    {
+        BGMusic,
+        ButtonClick,
+        Winning,
+        Losing,
+        TurnChange,
+        Foul
+    }
+
 
 }
 

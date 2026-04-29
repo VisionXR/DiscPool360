@@ -260,4 +260,12 @@ namespace com.VisionXR.HelperClasses
     }
 
 
+    [Serializable]
+    public class AudioClipData
+    {
+        public AudioClipType audioClipType;
+        public AudioSource audioSource;
+    }
+
+
 }

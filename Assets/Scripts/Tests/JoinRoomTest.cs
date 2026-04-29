@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
 using UnityEngine;
@@ -51,7 +52,7 @@ public class JoinRoomTest : MonoBehaviour
     {
         if(destinationData.currentDestination != null)
         {
-            audioData.PlayAudio(com.VisionXR.Controllers.AudioClipType.ButtonClick);
+            audioData.PlayAudio(AudioClipType.ButtonClick);
             changeDestinationPanel.gameObject.SetActive(true);
             changeDestinationPanel.SetDestination(destination);
         }

@@ -1,7 +1,6 @@
 using com.VisionXR.Controllers;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,54 +15,49 @@ namespace com.VisionXR.Views
         public GameDataSO gameData;
         public TableDataSO tableData;
         public DestinationSO destinationData;
+     
 
-        [Header("Game Objects")]
-        public PanelOnOff GamesPanel;
-        public PanelOnOff NavigationPanel;
-        public PanelOnOff singlePlayerPanel;
-        public PanelOnOff multiPlayerPanel;
+        [Header("Next Panels")]
+        public SinglePlayerView singlePlayerView;
+        public MultiPlayerPanelView multiPlayerPanel;
         public PanelOnOff internetToastPanel;
 
         [Header("Home Panels")]
-        public List<PanelOnOff> homePanels;
-        public GameObject allAssets;
+        public List<PanelOnOff> panelsToOff;
+
+
+        //local variables
+        private GameObject allAssets;
 
 
         private void OnEnable()
         {
-            foreach (PanelOnOff go in homePanels)
-            {
-                go.TurnOffPanel();
-            }
 
-            NavigationPanel.TurnOnPanel();
-            GamesPanel.TurnOnPanel();
-
-
+            allAssets = tableData.allAssets;
             allAssets.transform.rotation = Quaternion.identity;
             destinationData.ClearDestination();
-
-
+            
         }
 
 
-        public void SinglePlayerButtonPressed()
+        public void SinglePlayerBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.SetGameType(GameType.SinglePlayer);
-            singlePlayerPanel.TurnOnPanel();
-            gameObject.SetActive(false);
+            uiData.SetGameType(GameType.SinglePlayer);        
+            TurnOff();
+            singlePlayerView.TurnOn();
+           
         }
 
-        public void MultiPlayerButtonPressed()
+        public void MultiPlayerBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
 
             if (Application.internetReachability != NetworkReachability.NotReachable)
             {
                 uiData.SetGameType(GameType.MultiPlayer);
-                multiPlayerPanel.TurnOnPanel();
-                gameObject.SetActive(false);
+              
+                TurnOff();
             }
             else
             {
@@ -71,7 +65,7 @@ namespace com.VisionXR.Views
             }
         }
 
-        public void TutorialButtonPressed()
+        public void TutorialBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.SetGameType(GameType.Tutorial);
@@ -84,9 +78,6 @@ namespace com.VisionXR.Views
                 roomName = "",
                 isJoinable = false
             };
-
-
-            destinationData.ConnectToDestination(d, null, null);
             
         }
 
@@ -96,6 +87,30 @@ namespace com.VisionXR.Views
             yield return new WaitForSeconds(2);
             internetToastPanel.TurnOffPanel();
         }
-     
+
+        public void TurnOff()
+        {
+            foreach (PanelOnOff panel in panelsToOff)
+            {
+                panel.TurnOffPanel();
+            }
+            StartCoroutine(WaitAndTurnOff());
+        }
+
+        private IEnumerator WaitAndTurnOff()
+        {
+            yield return new WaitForSeconds(0.5f);
+            gameObject.SetActive(false);
+        }
+
+
+        public void TurnOn()
+        {
+           gameObject.SetActive(true);
+            foreach (PanelOnOff panel in panelsToOff)
+            {
+                panel.TurnOnPanel();
+            }
+        }
     }
 }
