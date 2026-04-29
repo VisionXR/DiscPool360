@@ -207,9 +207,10 @@ public  class CoinSorter : MonoBehaviour
                     foreach (GameObject hole in holes)
                     {
                         GetCoinInfo(coin, hole, strikerPosition);
-                        yield return new WaitForSeconds(0.01f);
+                        
                     }
                 }
+                yield return new WaitForSeconds(0.01f);
             }
         }
         else if (myCoin == PlayerCoin.Green)
@@ -221,9 +222,10 @@ public  class CoinSorter : MonoBehaviour
                     foreach (GameObject hole in holes)
                     {
                         GetCoinInfo(coin, hole, strikerPosition);
-                        yield return new WaitForSeconds(0.01f);
+                      
                     }
                 }
+                yield return new WaitForSeconds(0.01f);
             }
         }
         else if (myCoin == PlayerCoin.Brown)
@@ -235,9 +237,10 @@ public  class CoinSorter : MonoBehaviour
                     foreach (GameObject hole in holes)
                     {
                         GetCoinInfo(coin, hole, strikerPosition);
-                        yield return new WaitForSeconds(0.01f);
+                       
                     }
                 }
+                yield return new WaitForSeconds(0.01f);
             }
         }
         else if (myCoin == PlayerCoin.Blue)
@@ -249,9 +252,10 @@ public  class CoinSorter : MonoBehaviour
                     foreach (GameObject hole in holes)
                     {
                         GetCoinInfo(coin, hole, strikerPosition);
-                        yield return new WaitForSeconds(0.01f);
+                       
                     }
                 }
+                yield return new WaitForSeconds(0.01f);
             }
         }
         else if (myCoin == PlayerCoin.Pink)
@@ -263,9 +267,10 @@ public  class CoinSorter : MonoBehaviour
                     foreach (GameObject hole in holes)
                     {
                         GetCoinInfo(coin, hole, strikerPosition);
-                        yield return new WaitForSeconds(0.01f);
+                        
                     }
                 }
+                yield return new WaitForSeconds(0.01f);
             }
         }
         else if (myCoin == PlayerCoin.Black)
@@ -277,9 +282,10 @@ public  class CoinSorter : MonoBehaviour
                     foreach (GameObject hole in holes)
                     {
                         GetCoinInfo(coin, hole, strikerPosition);
-                        yield return new WaitForSeconds(0.01f);
+                      
                     }
                 }
+                yield return new WaitForSeconds(0.01f);
             }
         }
 
@@ -294,7 +300,7 @@ public  class CoinSorter : MonoBehaviour
 
     }
 
-    private void GetCoinInfo(GameObject coin, GameObject hole, Vector3 StrikerPosition)
+    public void GetCoinInfo(GameObject coin, GameObject hole, Vector3 StrikerPosition)
     {
 
         if (coin == null)

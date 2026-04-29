@@ -14,13 +14,13 @@ namespace com.VisionXR.Views
 
 
         [Header("Panels")] 
-        public GameObject HomePanel;
-        public GameObject SettingsPanel;
-        public GameObject RulesPanel;
-        public GameObject LeaderBoardPanel;
-        public GameObject PurchasePanel;
-        public GameObject AchievementPanel;
-        public GameObject RatingPanel;
+        public PanelOnOff GamesPanel;
+        public PanelOnOff SettingsPanel;
+        public PanelOnOff RulesPanel;
+        public PanelOnOff LeaderBoardPanel;
+        public PanelOnOff PurchasePanel;
+        public PanelOnOff AchievementPanel;
+    
 
         [Header("BGImages")]
         public Image HomeSelectionImage;
@@ -36,7 +36,7 @@ namespace com.VisionXR.Views
         {
             ResetImages();
             ResetPanels();
-            HomePanel.SetActive(true);
+            GamesPanel.TurnOnPanel();
             HomeSelectionImage.gameObject.SetActive(true);
         }
 
@@ -46,7 +46,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetImages();
             ResetPanels();
-            HomePanel.SetActive(true);
+            GamesPanel.TurnOnPanel();
             HomeSelectionImage.gameObject.SetActive(true);
         }
 
@@ -55,7 +55,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetImages();
             ResetPanels();
-            SettingsPanel.SetActive(true);
+            SettingsPanel.TurnOnPanel();
             SettingsSelectionImage.gameObject.SetActive(true);
         }
 
@@ -64,7 +64,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetImages();
             ResetPanels();
-            RulesPanel.SetActive(true);
+            RulesPanel.TurnOnPanel();
             RulesSelectionImage.gameObject.SetActive(true);
         }
 
@@ -73,7 +73,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetImages();
             ResetPanels();
-            LeaderBoardPanel.SetActive(true);
+            LeaderBoardPanel.TurnOnPanel();
             LeaderBoardSelectionImage.gameObject.SetActive(true);
         }
 
@@ -82,18 +82,11 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetImages();
             ResetPanels();
-            AchievementPanel.SetActive(true);
+            AchievementPanel.TurnOnPanel();
             AchievementSelectionImage.gameObject.SetActive(true);
         }
 
-        public void RatingPanelClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            ResetImages();
-            ResetPanels();
-            RatingPanel.SetActive(true);
-            RatingSelectionImage.gameObject.SetActive(true);
-        }
+
 
 
         public void PurchasePanelClicked()
@@ -101,7 +94,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetImages();
             ResetPanels();
-            PurchasePanel.SetActive(true);
+            PurchasePanel.TurnOnPanel();
             PurchaseSelectionImage.gameObject.SetActive(true);
         }
 
@@ -109,14 +102,15 @@ namespace com.VisionXR.Views
         private void ResetPanels()
         {
 
-            HomePanel.SetActive(false);
-            SettingsPanel.SetActive(false);
-            RulesPanel.SetActive(false);
-            LeaderBoardPanel.SetActive(false);
-            PurchasePanel.SetActive(false);
-            AchievementPanel.SetActive(false);
-            RatingPanel.SetActive(false);
-   
+         
+            SettingsPanel.TurnOffPanel();
+            RulesPanel.TurnOffPanel();
+            LeaderBoardPanel.TurnOffPanel();
+            PurchasePanel.TurnOffPanel();
+            AchievementPanel.TurnOffPanel();
+            GamesPanel.TurnOffPanel();
+
+
         }
 
         private void ResetImages()

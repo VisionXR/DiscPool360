@@ -18,28 +18,29 @@ namespace com.VisionXR.Views
         public DestinationSO destinationData;
 
         [Header("Game Objects")]
-        public GameObject GamesPanel;
-        public GameObject NavigationPanel;
-        public GameObject singlePlayerPanel;
-        public GameObject multiPlayerPanel;
-        public GameObject internetToastPanel;
+        public PanelOnOff GamesPanel;
+        public PanelOnOff NavigationPanel;
+        public PanelOnOff singlePlayerPanel;
+        public PanelOnOff multiPlayerPanel;
+        public PanelOnOff internetToastPanel;
 
         [Header("Home Panels")]
-        public List<GameObject> homePanels;
+        public List<PanelOnOff> homePanels;
         public GameObject allAssets;
 
 
         private void OnEnable()
         {
-            foreach (GameObject go in homePanels)
+            foreach (PanelOnOff go in homePanels)
             {
-                go.SetActive(false);
+                go.TurnOffPanel();
             }
 
-            NavigationPanel.SetActive(true);
-            GamesPanel.SetActive(true);
-            allAssets.transform.rotation = Quaternion.identity;
+            NavigationPanel.TurnOnPanel();
+            GamesPanel.TurnOnPanel();
 
+
+            allAssets.transform.rotation = Quaternion.identity;
             destinationData.ClearDestination();
 
 
@@ -50,7 +51,7 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.SetGameType(GameType.SinglePlayer);
-            singlePlayerPanel.SetActive(true);
+            singlePlayerPanel.TurnOnPanel();
             gameObject.SetActive(false);
         }
 
@@ -61,7 +62,7 @@ namespace com.VisionXR.Views
             if (Application.internetReachability != NetworkReachability.NotReachable)
             {
                 uiData.SetGameType(GameType.MultiPlayer);
-                multiPlayerPanel.SetActive(true);
+                multiPlayerPanel.TurnOnPanel();
                 gameObject.SetActive(false);
             }
             else
@@ -91,9 +92,9 @@ namespace com.VisionXR.Views
 
         private IEnumerator ShowInternetToast()
         {            
-            internetToastPanel.SetActive(true);
+            internetToastPanel.TurnOnPanel();
             yield return new WaitForSeconds(2);
-            internetToastPanel.SetActive(false);
+            internetToastPanel.TurnOffPanel();
         }
      
     }

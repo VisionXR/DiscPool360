@@ -56,6 +56,15 @@ public class AITestWindow : EditorWindow
                 strikerData.ResetStriker();
                 strikerData.SetFoul(false);
             }
+
+            if (GUILayout.Button(" Strike"))
+            {
+               StrikerShooting  strikerShooting = strikerData.currentStriker.GetComponent<StrikerShooting>();
+                if (strikerShooting != null)
+                {
+                    strikerShooting.Fire(2f); // Example force value for testing
+                }
+            }
         }
 
         if (!Application.isPlaying)

@@ -12,15 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f959e2b85a5608d4185489ab4d1edda8, type: 3}
   m_Name: BoardData
   m_EditorClassIdentifier: 
-  Holes: []
-  StrikerFoulPositions: []
-  SnookerCoinPositions: []
+  Holes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  StrikerFoulPositions:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  SnookerCoinPositions:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Board: {fileID: 0}
   SnookerObject: {fileID: 0}
   EdgeHighlight: {fileID: 0}
   AllCoinsTransform: {fileID: 0}
   StrikerTransform: {fileID: 0}
   BoardId: 0
-  StrikerRadius: 0.0335
-  CoinRadius: 0.02375
+  StrikerRadius: 0.033
+  CoinRadius: 0.024
   isSinglePlayer: 1

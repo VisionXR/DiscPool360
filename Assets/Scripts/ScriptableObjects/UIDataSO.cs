@@ -13,7 +13,7 @@ namespace com.VisionXR.ModelClasses
         public GameMode currentGameMode;
         public AIDifficulty currentAIDifficulty;
         public BoardType currentBoardType;
-
+        public float disableTime = 0.5f;
         // Actions
 
         public Action HomeEvent;
