@@ -1,7 +1,7 @@
-using com.VisionXR.Controllers;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,6 +42,9 @@ public class SnookerScorePanelView : MonoBehaviour
     public Sprite blackSprite;
     public Sprite anyColorSprite;
 
+    [Header("This Objects")]
+    public List<PanelOnOff> panelsToOff;
+
 
     private void OnEnable()
     {
@@ -50,6 +53,7 @@ public class SnookerScorePanelView : MonoBehaviour
         uiData.SetCoinsEvent += SetCoins;
         uiData.UpdateCoinsEvent += RefreshScoresAndCoins;
         SetPlayerData(1);
+        TurnOn();
     }
 
     private void OnDisable()
@@ -135,13 +139,23 @@ public class SnookerScorePanelView : MonoBehaviour
         if (turnId == 1)
         {
             P1TurnIndicatorImage.color = Color.green;
-            P2TurnIndicatorImage.color = Color.white;
+            P2TurnIndicatorImage.color = Color.gray;
         }
         else
         {
             P2TurnIndicatorImage.color = Color.green;
-            P1TurnIndicatorImage.color = Color.white;
+            P1TurnIndicatorImage.color = Color.gray;
         }
+    }
+
+    public void TurnOn()
+    {
+        gameObject.SetActive(true);
+        foreach (PanelOnOff panel in panelsToOff)
+        {
+            panel.TurnOnPanel();
+        }
+
     }
 
 }

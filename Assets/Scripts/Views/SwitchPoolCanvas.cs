@@ -1,4 +1,5 @@
 using com.VisionXR.ModelClasses;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SwitchPoolCanvas : MonoBehaviour
@@ -7,28 +8,30 @@ public class SwitchPoolCanvas : MonoBehaviour
     public UserDataSO userData;
 
     [Header("Pool Score Panel View")]
-     public  PoolScorePanelView FivepoolScorePanelView;
-     public  PoolScorePanelView EightpoolScorePanelView;
+    public  PoolScorePanelView FivepoolScorePanelView;
+    public  PoolScorePanelView EightpoolScorePanelView;
 
     public GameObject leftfivePoolImages;
     public GameObject rightfivePoolImages;
     public GameObject lefteightPoolImages;
     public GameObject righteightPoolImages;
 
+    [Header("Off Panels")]
+    public List<PanelOnOff> panelsToOff;
 
 
-    private void OnEnable()
+    void OnEnable()
     {
         Reset();
-        if(userData.myCoins == 0)
+        if (userData.myCoins == 0)
         {
             EightpoolScorePanelView.enabled = true;
-            FivepoolScorePanelView.enabled = false;     
-            
+            FivepoolScorePanelView.enabled = false;
+
             lefteightPoolImages.SetActive(true);
             righteightPoolImages.SetActive(true);
         }
-        else if(userData.myCoins == 1)
+        else if (userData.myCoins == 1)
         {
             FivepoolScorePanelView.enabled = true;
             EightpoolScorePanelView.enabled = false;
@@ -36,7 +39,20 @@ public class SwitchPoolCanvas : MonoBehaviour
             leftfivePoolImages.SetActive(true);
             rightfivePoolImages.SetActive(true);
         }
+        TurnOn();
     }
+
+
+    public void TurnOn()
+    {
+        gameObject.SetActive(true);
+        foreach (PanelOnOff panel in panelsToOff)
+        {
+            panel.TurnOnPanel();
+        }
+
+    }
+
 
     private void OnDisable()
     {
