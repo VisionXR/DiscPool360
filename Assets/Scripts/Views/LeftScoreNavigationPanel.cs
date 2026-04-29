@@ -15,50 +15,42 @@ namespace com.VisionXR.Views
         public PlayerDataSO playerData;
         public UIDataSO uiData;
 
-        [Header("Local Objects")]
+        [Header("Came View Objects")]
         public CamPositionManager camPositionManager;
-        public GameObject RulesPanel;
-
-        [Header("Sound Sprites")]
-        public Image MicImage;
-        public Sprite MicOn;
-        public Sprite MicOff;
+        public Image CameraViewImage;
+        public Sprite FrontView;
+        public Sprite TopView;
 
 
-
+        private bool isFrontView = true;
         public void ExitBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.ExitButtonClicked();
         }
 
-        public void MicBtnClicked()
+        public void CameraBtnClicked()
         {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            if (MicImage != null && MicImage.sprite == MicOn)
+          
+            
+            if(isFrontView)
             {
-                MicImage.sprite = MicOff;
-                uiData.TurnOffMicEvent?.Invoke();
+                CameraViewImage.sprite = FrontView;
+                TopViewBtnClicked();
+                isFrontView = false;
             }
-            else if (MicImage != null && MicImage.sprite == MicOff)
+            else
             {
-                MicImage.sprite = MicOn;
-                uiData.TurnOnMicEvent?.Invoke();
+                CameraViewImage.sprite = TopView;
+                FrontViewBtnClicked();
+                isFrontView = true;
             }
         }
 
-        public void RulesBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            if (RulesPanel != null)
-            {
-                RulesPanel.SetActive(true);
-            }
-        }
 
         public void TopViewBtnClicked()
         {
-             audioData.PlayAudio(AudioClipType.ButtonClick);
+            audioData.PlayAudio(AudioClipType.ButtonClick);
             Player  mp = playerData.GetMainPlayer();
             camPositionManager.SetTopCamProperties(mp.playerProperties.myId);
 
@@ -71,10 +63,6 @@ namespace com.VisionXR.Views
             camPositionManager.SetFrontCamProperties(mp.playerProperties.myId);
         }
 
-        public void RulesBackBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            RulesPanel.SetActive(false);
-        }
+
     }
 }

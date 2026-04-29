@@ -13,6 +13,7 @@ namespace com.VisionXR.Controllers
         [Header("Scriptable Objects")]
         public InputDataSO inputData;
         public UserDataSO userData;
+        public StrikerDataSO strikerData;
 
 
         [Header("Audio Trigger")]
@@ -24,17 +25,16 @@ namespace com.VisionXR.Controllers
         [Header("Swipe Settings")]
         public float swipeminDistanceThreshold = 100f; // Minimum pixels to register a swipe
         public float swipemaxDistanceThreshold = 400f; // Minimum pixels to register a swipe
-        public float swipeminTimeThreshold = 0.05f; // Minimum time for a swipe (seconds)
+        public float swipeminTimeThreshold = 0.1f; // Minimum time for a swipe (seconds)
         public float swipemaxTimeThreshold = 1; // Maximum time for a swipe (seconds)
 
-        // Gesture type tracking
-        private enum GestureType { None, Zoom, Swipe, Rotation }
-        private GestureType _currentGestureType = GestureType.None;
 
+        //local variables
         private Vector2 swipeStartPosition;
         private float swipeStartTime;
         public float cutoffValue = 0.1f;
-        private float initialPinchDistance;
+        public float rotationSensitivity = 1;
+        public bool isRotationStarted = false;
 
 
 
@@ -136,29 +136,79 @@ namespace com.VisionXR.Controllers
             {
                 if (hit.collider.CompareTag("Edge"))
                 {
-
+                    isRotationStarted = true;
                     inputData.RotationPinchStarted(touch);
                     return;
                 }
             }
 
 
-            inputData.FoulPinchStarted(touch);
+            if (strikerData.isFoul)
+            {
+                inputData.FoulPinchStarted(touch);
+                return;
+            }
+
+            swipeStartPosition = touch;
+            swipeStartTime = Time.time;
 
         }
 
         private void HandleTouchUpdate(Vector2 touch)
         {
+            if (isRotationStarted)
+            {
+                inputData.RotationPinchContinued(touch);
+            }
+            else if (strikerData.isFoul)
+            {
+                inputData.FoulPinchContinued(touch);
+            }
+            else
+            {
+                // 1. Calculate the raw horizontal displacement
+                float horizontalDist = touch.x - swipeStartPosition.x;
+                float absDist = Mathf.Abs(horizontalDist);
+                float swipeTime = Time.time - swipeStartTime;
 
-            inputData.RotationPinchContinued(touch);
-            inputData.FoulPinchContinued(touch);
+                // 2. Check if the distance meets your minimum threshold
+                if (absDist > swipeminDistanceThreshold && swipeTime > 0)
+                {
+                    // 3. Calculate Velocity (Pixels per second)
+                    float velocity = absDist / swipeTime;
+
+                    // 4. Determine Direction
+                    SwipeDirection direction = (horizontalDist > 0) ? SwipeDirection.Right : SwipeDirection.Left;
+
+                    float normalizedVelocity = velocity / Screen.width;
+
+                    // 5. Send data: multiply velocity by your sensitivity
+                    // We pass 'velocity' as the "force" or "value"
+                    inputData.Swiped(direction, normalizedVelocity * rotationSensitivity);
+                    // 6. Reset for continuous swiping (Optional)
+                    // Resetting here allows "continuous" movement. 
+                    // If you want one swipe per touch, don't reset these.
+                    swipeStartPosition = touch;
+                    swipeStartTime = Time.time;
+                }
+            }
         }
+
 
         private void HandleTouchEnded(Vector2 touch)
         {
+            if (isRotationStarted)
+            {
+                inputData.RotationPinchEnded(touch);
+                isRotationStarted = false;
+            }
 
-            inputData.RotationPinchEnded(touch);
-            inputData.FoulPinchEnded(touch);
+
+            if (strikerData.isFoul)
+            {
+                inputData.FoulPinchEnded(touch);
+            }
+           
         }
 
     }

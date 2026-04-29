@@ -59,6 +59,8 @@ namespace com.VisionXR.HelperClasses
         Foul
     }
 
+    public enum SwipeDirection { Up, Down, Left, Right }
+
 
 }
 

@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
 using UnityEngine;
@@ -33,6 +34,7 @@ namespace com.VisionXR.GameElements
             inputData.RotateStrikerAbsoluteEvent += RotateStriker;
             gameData.TurnChangeEvent += SetStriker;
 
+            inputData.SwipedEvent += Swiped;
             inputData.StrikerForceChangedEvent += StrikerForceChanged;
 
         }
@@ -44,8 +46,21 @@ namespace com.VisionXR.GameElements
             inputData.RotateStrikerAbsoluteEvent -= RotateStriker;
             gameData.TurnChangeEvent -= SetStriker;
 
+            inputData.SwipedEvent -= Swiped;
             inputData.StrikerForceChangedEvent -= StrikerForceChanged;
 
+        }
+
+        private void Swiped(SwipeDirection direction, float velocity)
+        {
+            if (direction == SwipeDirection.Left || direction == SwipeDirection.Right)
+            {
+                if (direction == SwipeDirection.Left)
+                {
+                    velocity = -velocity;
+                }
+                strikerMovement.RotateRelative(velocity);
+            }
         }
 
         private void StrikerForceChanged(float obj)
@@ -81,14 +96,7 @@ namespace com.VisionXR.GameElements
             }
         }
 
-        private bool CheckTag(string tag)
-        {
-            if (tag == "Board" || tag == "Solid" || tag == "Stripe" || tag == "BlacK" || tag == "Red" || tag == "Color")
-            {
-                return true;
-            }
-            return false;
-        }
+
 
 
     }
