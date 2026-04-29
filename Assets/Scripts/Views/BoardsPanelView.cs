@@ -147,7 +147,6 @@ namespace com.VisionXR.Views
                 multiPlayerPanelView.TurnOn();
             }
             
-            gameObject.SetActive(false);
         }
 
         private void ResetBoardImages()
