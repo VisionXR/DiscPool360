@@ -28,21 +28,21 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-            SetFrontCamProperties(1);
+            SetTopCamProperties(1);
             uiData.HomeEvent += ResetCamPosition;
-            tableData.SetCamRotationEvent += SetFrontCamProperties;
+            tableData.SetCamRotationEvent += SetTopCamProperties;
         }
 
         private void OnDisable()
         {
             uiData.HomeEvent -= ResetCamPosition;
-            tableData.SetCamRotationEvent -= SetFrontCamProperties;
+            tableData.SetCamRotationEvent -= SetTopCamProperties;
         }
 
 
         private void ResetCamPosition()
         {
-            SetFrontCamProperties(1);
+            SetTopCamProperties(1);
 
         }
 

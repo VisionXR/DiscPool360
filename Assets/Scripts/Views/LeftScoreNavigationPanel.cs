@@ -22,7 +22,7 @@ namespace com.VisionXR.Views
         public Sprite TopView;
 
 
-        private bool isFrontView = true;
+        private bool isFrontView = false;
         public void ExitBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
