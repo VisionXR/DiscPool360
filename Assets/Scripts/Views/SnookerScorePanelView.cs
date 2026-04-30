@@ -92,14 +92,14 @@ public class SnookerScorePanelView : MonoBehaviour
         {
             P1CoinText.text = Enum.GetName(typeof(PlayerCoin), p1.playerProperties.myCoin);
             P1CoinImage.sprite = GetSpriteForPlayerCoin(p1.playerProperties.myCoin);
-            P1CoinImage.enabled = P1CoinImage.sprite != null;
+           // P1CoinImage.enabled = P1CoinImage.sprite != null;
         }
 
         if (p2 != null)
         {
             P2CoinText.text = Enum.GetName(typeof(PlayerCoin), p2.playerProperties.myCoin);
-            P2CoinImage.sprite = GetSpriteForPlayerCoin(p2.playerProperties.myCoin);
-            P2CoinImage.enabled = P2CoinImage.sprite != null;
+          //  P2CoinImage.sprite = GetSpriteForPlayerCoin(p2.playerProperties.myCoin);
+         //   P2CoinImage.enabled = P2CoinImage.sprite != null;
         }
     }
 

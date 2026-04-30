@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd051777a79b50f4ba7060ad2b711ce0, type: 3}
   m_Name: CoinData
   m_EditorClassIdentifier: 
+  redSprite: {fileID: 21300000, guid: 739bf97728449154894bc7b21e7f76f2, type: 3}
+  yellowSprite: {fileID: 21300000, guid: 72a08d76cad5b134fa0fa8de0cf358c4, type: 3}
+  greenSprite: {fileID: 21300000, guid: aa2124a066f2b844996b3ed08287c510, type: 3}
+  brownSprite: {fileID: 21300000, guid: 3fc696bd40a00a94184ba86c5cf7c3aa, type: 3}
+  blueSprite: {fileID: 21300000, guid: d044c5d660bad9842bcb2df9610287b7, type: 3}
+  pinkSprite: {fileID: 21300000, guid: 9020cf109778e5649ade0a0e1e33cbdd, type: 3}
+  blackSprite: {fileID: 21300000, guid: c383e16dc766d0548a8bb2c6bf4406ba, type: 3}
+  anyColorSprite: {fileID: 21300000, guid: 7afe5cb6deab8354b9fe41b768c94012, type: 3}
   stripes: []
   solids: []
   reds: []
