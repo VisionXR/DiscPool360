@@ -9,8 +9,19 @@ namespace com.VisionXR.ModelClasses
     public class CoinDataSO : ScriptableObject
     {
 
+        [Header("Sprites")]
+        public Sprite redSprite;
+        public Sprite yellowSprite;
+        public Sprite greenSprite;
+        public Sprite brownSprite;
+        public Sprite blueSprite;
+        public Sprite pinkSprite;
+        public Sprite blackSprite;
+        public Sprite anyColorSprite;
 
         // Coin Data
+
+        [Header("Coin Data")]
         public List<GameObject> stripes;
         public List<GameObject> solids;
         public List<GameObject> reds;

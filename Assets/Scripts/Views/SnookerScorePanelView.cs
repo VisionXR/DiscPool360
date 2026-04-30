@@ -33,19 +33,13 @@ public class SnookerScorePanelView : MonoBehaviour
     public Image P2PlayerImage;
     public Image P2CoinImage;
 
-    [Header("Sprites")]
-    public Sprite redSprite;
-    public Sprite yellowSprite;
-    public Sprite greenSprite;
-    public Sprite brownSprite;
-    public Sprite blueSprite;
-    public Sprite pinkSprite;
-    public Sprite blackSprite;
-    public Sprite anyColorSprite;
 
     [Header("This Objects")]
+    public GameObject Player1ScorePanel;
+    public GameObject Player2ScorePanel;
     public List<PanelOnOff> panelsToOff;
-
+    public float blinkDelay = 0.2f;
+    public float scaleFactor = 1.1f;
     private Coroutine indicatorCoroutine;
 
 
@@ -125,14 +119,14 @@ public class SnookerScorePanelView : MonoBehaviour
     {
         switch (coin)
         {
-            case PlayerCoin.Red:    return redSprite;
-            case PlayerCoin.Color:  return anyColorSprite;
-            case PlayerCoin.Yellow: return yellowSprite;
-            case PlayerCoin.Green:  return greenSprite;
-            case PlayerCoin.Brown:  return brownSprite;
-            case PlayerCoin.Blue:   return blueSprite;
-            case PlayerCoin.Pink:   return pinkSprite;
-            case PlayerCoin.Black:  return blackSprite;
+            case PlayerCoin.Red:    return coinData.redSprite;
+            case PlayerCoin.Color:  return coinData.anyColorSprite;
+            case PlayerCoin.Yellow: return coinData.yellowSprite;
+            case PlayerCoin.Green:  return coinData.greenSprite;
+            case PlayerCoin.Brown:  return coinData.brownSprite;
+            case PlayerCoin.Blue:   return coinData.blueSprite;
+            case PlayerCoin.Pink:   return coinData.pinkSprite;
+            case PlayerCoin.Black:  return coinData.blackSprite;
             default:                return null;
         }
     }
@@ -141,6 +135,18 @@ public class SnookerScorePanelView : MonoBehaviour
     {
         P1TurnIndicatorImage.color = Color.gray;
         P2TurnIndicatorImage.color = Color.gray;
+
+        if (turnId == 1)
+        {
+            Player1ScorePanel.transform.localScale = Vector3.one * scaleFactor;
+            Player2ScorePanel.transform.localScale = Vector3.one;
+
+        }
+        else
+        {
+            Player1ScorePanel.transform.localScale = Vector3.one;
+            Player2ScorePanel.transform.localScale = Vector3.one * scaleFactor;
+        }
 
         if (indicatorCoroutine != null)
         {
@@ -167,7 +173,7 @@ public class SnookerScorePanelView : MonoBehaviour
 
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(blinkDelay);
 
             if (id == 1)
             {
@@ -180,10 +186,11 @@ public class SnookerScorePanelView : MonoBehaviour
 
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(blinkDelay);
 
         }
     }
+
 
     public void TurnOn()
     {
