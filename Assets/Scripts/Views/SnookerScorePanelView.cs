@@ -194,7 +194,7 @@ public class SnookerScorePanelView : MonoBehaviour
 
     public void TurnOn()
     {
-        gameObject.SetActive(true);
+       
         foreach (PanelOnOff panel in panelsToOff)
         {
             panel.TurnOnPanel();
