@@ -1,6 +1,7 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -44,6 +45,8 @@ public class SnookerScorePanelView : MonoBehaviour
 
     [Header("This Objects")]
     public List<PanelOnOff> panelsToOff;
+
+    private Coroutine indicatorCoroutine;
 
 
     private void OnEnable()
@@ -136,15 +139,49 @@ public class SnookerScorePanelView : MonoBehaviour
 
     private void ShowIndicator(int turnId)
     {
-        if (turnId == 1)
+        P1TurnIndicatorImage.color = Color.gray;
+        P2TurnIndicatorImage.color = Color.gray;
+
+        if (indicatorCoroutine != null)
         {
-            P1TurnIndicatorImage.color = Color.green;
-            P2TurnIndicatorImage.color = Color.gray;
+            StopCoroutine(indicatorCoroutine);
+            indicatorCoroutine = null;
         }
-        else
+
+        indicatorCoroutine = StartCoroutine(ShowInicatorRoutine(turnId));
+    }
+
+    private IEnumerator ShowInicatorRoutine(int id)
+    {
+        while (true)
         {
-            P2TurnIndicatorImage.color = Color.green;
-            P1TurnIndicatorImage.color = Color.gray;
+
+            if (id == 1)
+            {
+                P1TurnIndicatorImage.color = Color.green;
+
+            }
+            else
+            {
+                P2TurnIndicatorImage.color = Color.green;
+
+            }
+
+            yield return new WaitForSeconds(0.1f);
+
+            if (id == 1)
+            {
+                P1TurnIndicatorImage.color = Color.gray;
+
+            }
+            else
+            {
+                P2TurnIndicatorImage.color = Color.gray;
+
+            }
+
+            yield return new WaitForSeconds(0.1f);
+
         }
     }
 

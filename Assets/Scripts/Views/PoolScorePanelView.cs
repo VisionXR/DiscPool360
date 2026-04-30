@@ -3,6 +3,7 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -40,10 +41,10 @@ public class PoolScorePanelView : MonoBehaviour
     public Sprite blackImage;
 
 
-
+    // local variables
     const float activeAlpha = 1f;
     const float inactiveAlpha = 0.1f;
-
+    private Coroutine indicatorCoroutine;
 
     private void OnEnable()
     {
@@ -210,23 +211,56 @@ public class PoolScorePanelView : MonoBehaviour
         
     }
 
-
     private void ShowIndicator(int turnId)
     {
-        
-        if (turnId == 1)
+        P1TurnIndicatorImage.color = Color.gray;
+        P2TurnIndicatorImage.color = Color.gray;
+
+        if (indicatorCoroutine != null)
         {
-            P1TurnIndicatorImage.color = Color.green;
-            P2TurnIndicatorImage.color = Color.white;
+            StopCoroutine(indicatorCoroutine);
+            indicatorCoroutine = null;
         }
-        else
-        {
-            P2TurnIndicatorImage.color = Color.green;
-            P1TurnIndicatorImage.color = Color.white;
-        }
+
+        indicatorCoroutine = StartCoroutine(ShowInicatorRoutine(turnId));
 
         UpdateCoins();
     }
+
+    private IEnumerator ShowInicatorRoutine(int id)
+    {
+        while (true)
+        {
+
+            if (id == 1)
+            {
+                P1TurnIndicatorImage.color = Color.green;
+
+            }
+            else
+            {
+                P2TurnIndicatorImage.color = Color.green;
+
+            }
+
+            yield return new WaitForSeconds(0.1f);
+
+            if (id == 1)
+            {
+                P1TurnIndicatorImage.color = Color.gray;
+
+            }
+            else
+            {
+                P2TurnIndicatorImage.color = Color.gray;
+
+            }
+
+            yield return new WaitForSeconds(0.1f);
+
+        }
+    }
+
 
     private void ResetCoins()
     {
