@@ -39,13 +39,13 @@ public class SwitchPoolCanvas : MonoBehaviour
             leftfivePoolImages.SetActive(true);
             rightfivePoolImages.SetActive(true);
         }
-        TurnOn();
+       TurnOn();
     }
 
 
     public void TurnOn()
     {
-        gameObject.SetActive(true);
+        
         foreach (PanelOnOff panel in panelsToOff)
         {
             panel.TurnOnPanel();
@@ -67,5 +67,10 @@ public class SwitchPoolCanvas : MonoBehaviour
         righteightPoolImages.SetActive(false);
         FivepoolScorePanelView.enabled = false;
         EightpoolScorePanelView.enabled = false;
+
+        foreach (PanelOnOff panel in panelsToOff)
+        {
+            panel.gameObject.transform.localScale = Vector3.zero;
+        }
     }
 }

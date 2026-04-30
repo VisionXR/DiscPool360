@@ -133,10 +133,13 @@ namespace com.VisionXR.Controllers
             firstTurnId = id;
             isFirstCoinPocketed = false;
             _previousTurnId = -1;
-            StartCoroutine(InitialiseGame(firstTurnId));
+           
 
             strikerData.SetFoul(false);
+            pocketedCoins.Clear();
             tableData.ResetPlatform();
+
+            StartCoroutine(InitialiseGame(firstTurnId));
 
         }
 
@@ -208,8 +211,7 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator InitialiseGame(int id)
         {
-            pocketedCoins.Clear();
-            strikerData.SetFoul(false);
+      
 
             strikerData.CreateStriker(boardData.StrikerTransform);
             yield return new WaitForSeconds(0.5f);
@@ -232,7 +234,7 @@ namespace com.VisionXR.Controllers
 
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1f);
             gameData.ChangeTurn(id);
         }
 

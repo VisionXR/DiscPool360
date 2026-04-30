@@ -50,6 +50,7 @@ public class SnookerScorePanelView : MonoBehaviour
         uiData.SetCoinsEvent += SetCoins;
         uiData.UpdateCoinsEvent += RefreshScoresAndCoins;
         SetPlayerData(1);
+        Reset();
         TurnOn();
     }
 
@@ -59,6 +60,7 @@ public class SnookerScorePanelView : MonoBehaviour
         gameData.TurnChangeEvent -= ShowIndicator;
         uiData.SetCoinsEvent -= SetCoins;
         uiData.UpdateCoinsEvent -= RefreshScoresAndCoins;
+        Reset();
     }
 
     private void SetPlayerData(int id)
@@ -136,18 +138,7 @@ public class SnookerScorePanelView : MonoBehaviour
         P1TurnIndicatorImage.color = Color.gray;
         P2TurnIndicatorImage.color = Color.gray;
 
-        if (turnId == 1)
-        {
-            Player1ScorePanel.transform.localScale = Vector3.one * scaleFactor;
-            Player2ScorePanel.transform.localScale = Vector3.one;
-
-        }
-        else
-        {
-            Player1ScorePanel.transform.localScale = Vector3.one;
-            Player2ScorePanel.transform.localScale = Vector3.one * scaleFactor;
-        }
-
+   
         if (indicatorCoroutine != null)
         {
             StopCoroutine(indicatorCoroutine);
@@ -159,6 +150,19 @@ public class SnookerScorePanelView : MonoBehaviour
 
     private IEnumerator ShowInicatorRoutine(int id)
     {
+        yield return new WaitForSeconds(0.1f); // Small initial delay before starting the blinking
+        if (id == 1)
+        {
+            Player1ScorePanel.transform.localScale = Vector3.one * scaleFactor;
+            Player2ScorePanel.transform.localScale = Vector3.one;
+
+        }
+        else
+        {
+            Player1ScorePanel.transform.localScale = Vector3.one;
+            Player2ScorePanel.transform.localScale = Vector3.one * scaleFactor;
+        }
+
         while (true)
         {
 
@@ -200,6 +204,14 @@ public class SnookerScorePanelView : MonoBehaviour
             panel.TurnOnPanel();
         }
 
+    }
+
+    private void Reset()
+    {
+        foreach (PanelOnOff panel in panelsToOff)
+        {
+            panel.gameObject.transform.localScale = Vector3.zero;
+        }
     }
 
 }

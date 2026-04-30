@@ -48,11 +48,6 @@ public class PoolScorePanelView : MonoBehaviour
     public float blinkDelay = 0.2f;
     public float scaleFactor = 1.1f;
     private Coroutine indicatorCoroutine;
-
-
-    // local variables
-    const float activeAlpha = 1f;
-    const float inactiveAlpha = 0.1f;
    
 
     private void OnEnable()

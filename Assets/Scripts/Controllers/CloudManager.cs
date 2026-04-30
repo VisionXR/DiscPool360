@@ -63,7 +63,7 @@ namespace com.VisionXR.Controllers
                 };
 
                 PlayFabClientAPI.UpdateUserData(request,
-                    result => Debug.Log("Cloud Save Successful"),
+                    result => { },
                     OnDataFetchError);
             }
             catch (Exception e)
