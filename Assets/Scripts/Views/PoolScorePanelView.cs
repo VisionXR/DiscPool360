@@ -41,10 +41,19 @@ public class PoolScorePanelView : MonoBehaviour
     public Sprite blackImage;
 
 
+    [Header("This Objects")]
+    public GameObject Player1ScorePanel;
+    public GameObject Player2ScorePanel;
+    public List<PanelOnOff> panelsToOff;
+    public float blinkDelay = 0.2f;
+    public float scaleFactor = 1.1f;
+    private Coroutine indicatorCoroutine;
+
+
     // local variables
     const float activeAlpha = 1f;
     const float inactiveAlpha = 0.1f;
-    private Coroutine indicatorCoroutine;
+   
 
     private void OnEnable()
     {
@@ -216,15 +225,26 @@ public class PoolScorePanelView : MonoBehaviour
         P1TurnIndicatorImage.color = Color.gray;
         P2TurnIndicatorImage.color = Color.gray;
 
+        if (turnId == 1)
+        {
+            Player1ScorePanel.transform.localScale = Vector3.one * scaleFactor;
+            Player2ScorePanel.transform.localScale = Vector3.one;
+
+        }
+        else
+        {
+            Player1ScorePanel.transform.localScale = Vector3.one;
+            Player2ScorePanel.transform.localScale = Vector3.one * scaleFactor;
+        }
+
         if (indicatorCoroutine != null)
         {
             StopCoroutine(indicatorCoroutine);
             indicatorCoroutine = null;
         }
 
-        indicatorCoroutine = StartCoroutine(ShowInicatorRoutine(turnId));
-
         UpdateCoins();
+        indicatorCoroutine = StartCoroutine(ShowInicatorRoutine(turnId));
     }
 
     private IEnumerator ShowInicatorRoutine(int id)
@@ -243,7 +263,7 @@ public class PoolScorePanelView : MonoBehaviour
 
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(blinkDelay);
 
             if (id == 1)
             {
@@ -256,7 +276,7 @@ public class PoolScorePanelView : MonoBehaviour
 
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(blinkDelay);
 
         }
     }
