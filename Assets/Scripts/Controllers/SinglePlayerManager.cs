@@ -30,7 +30,7 @@ namespace com.VisionXR.Controllers
         [Header("Game Objects")]
         public GameObject PoolScoreCanvas;
         public GameObject SnookerScoreCanvas;
-        public InputPanelView InputCanvas;
+        public InputCanvasView InputCanvas;
         public List<GameObject> pocketedCoins = new List<GameObject>();
 
         [Header("Logic")]

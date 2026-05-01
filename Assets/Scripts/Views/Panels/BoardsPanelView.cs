@@ -22,9 +22,6 @@ namespace com.VisionXR.Views
         public List<Image> boardSelectionImages;
         public List<Image> boardLockImages;
 
-        [Header("This Objects")]
-        public List<PanelOnOff> panelsToOff;
-
         [Header("Panel Objects")]
         public PurchasePanelView PurchasePanel;
         public SinglePlayerView singlePlayerView;
@@ -109,8 +106,7 @@ namespace com.VisionXR.Views
             }
             else
             {
-                TurnOff();
-                PurchasePanel.TurnOn();
+               
                 
             }
            
@@ -130,7 +126,7 @@ namespace com.VisionXR.Views
             destinationPanel.TurnOn();
             destinationPanel.ConnectToDestination(destination);
 
-             TurnOff();
+         
         }
         public void BackBtnClicked()
         {
@@ -156,25 +152,7 @@ namespace com.VisionXR.Views
             }
         }
 
-        public void TurnOff()
-        {
-         
-            StartCoroutine(WaitAndTurnOff());
-        }
-
-        private IEnumerator WaitAndTurnOff()
-        {
-            yield return new WaitForSeconds(0.5f);
-            
-        }
-
-
-        public void TurnOn()
-        {
-           
-
-
-        }
+  
     }
 
 }

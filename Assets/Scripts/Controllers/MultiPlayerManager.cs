@@ -33,7 +33,7 @@ namespace com.VisionXR.Controllers
         // local variables
         [Header("Game Objects")]
         public MultiPlayerConnectionManager multiPlayerConnectionManager;
-        public InputPanelView InputPanel;
+        public InputCanvasView InputPanel;
         public GameObject PoolScoreCanvas;
         public GameObject SnookerScoreCanvas;
         public List<GameObject> pocketedCoins = new List<GameObject>();

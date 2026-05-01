@@ -3,6 +3,7 @@ using UnityEngine;
 using com.VisionXR.HelperClasses;
 using System.Collections.Generic;
 using com.VisionXR.Controllers;
+using com.VisionXR.Views;
 
 namespace com.VisionXR.ModelClasses
 {
@@ -10,7 +11,11 @@ namespace com.VisionXR.ModelClasses
     public class UIDataSO : ScriptableObject
     {
         // variables
+        [Header("References")]
         public UIManager uiManager;
+
+
+        [Header("OutPut")]
         public GameType currentGameType;
         public GameMode currentGameMode;
         public AIDifficulty currentAIDifficulty;
@@ -39,6 +44,11 @@ namespace com.VisionXR.ModelClasses
         public Action TurnOffSpeakerEvent;
 
         //Methods
+
+        public void SetUIMachine(UIManager uiManager)
+        {
+            this.uiManager = uiManager;
+        }
 
         public void UpdateCoins()
         {

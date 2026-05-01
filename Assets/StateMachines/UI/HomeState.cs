@@ -16,7 +16,7 @@ public class HomeState : StateMachineBehaviour
         if(uiData.uiManager != null)
         {
             uiData.uiManager.ShowCanvas(0);
-            uiData.uiManager.ShowMainPanel(homePanelId);
+            uiData.uiManager.mainCanvasView.ShowMainPanel(homePanelId);
         }
        
     }
@@ -32,7 +32,7 @@ public class HomeState : StateMachineBehaviour
         if (uiData.uiManager != null)
         {
             
-            uiData.uiManager.HideMainPanel(homePanelId);
+            uiData.uiManager.mainCanvasView.HideMainPanel(homePanelId);
         }
     }
 

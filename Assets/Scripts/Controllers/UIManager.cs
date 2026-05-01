@@ -1,4 +1,6 @@
 using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,20 +12,26 @@ namespace com.VisionXR.Controllers
         public UIDataSO uiData;
         public Animator uiController;
 
+        [Header("All Canvas Views")]
+        public MainCanvasView mainCanvasView;       
+        public PoolCanvasView poolCanvasView;
+        public SnookerCanvasView snookerCanvasView;
+        public TurnAndFoulCanvasView turnAndFoulCanvasView;
+        public InputCanvasView inputCanvasView;
+
         [Header("Canvas Objects")]
         public List<GameObject> allCanvases;
-        public List<GameObject> allMainPanels;
 
-       
+
+        private Coroutine hideRoutine;
        
 
 
         private void Start()
         {
             ResetCanvases();
-            ResetMainPanels();
-
-            uiData.uiManager = this;
+          
+            uiData.SetUIMachine(this);
             uiController.enabled = true;
 
         }
@@ -39,35 +47,33 @@ namespace com.VisionXR.Controllers
            
         }
 
-
         public void ShowCanvas(int id)
         {
-            allCanvases[id].SetActive(true);
-        }
+            if(hideRoutine != null)
+            {
+                Debug.Log("Hiding");
+                StopCoroutine(hideRoutine);
+                hideRoutine = null;
+            }
 
-        public void ShowMainPanel(int id)
-        {
-            Debug.Log("Showing main panel with id: " + id);
-            allMainPanels[id].GetComponent<PanelOnOff>().TurnOnPanel();
+            allCanvases[id].SetActive(true);
         }
 
         public void HideCanvas(int id)
         {
-            allCanvases[id].SetActive(false);
-        }
-
-        public void HideMainPanel(int id)
-        {
-            allMainPanels[id].GetComponent<PanelOnOff>().TurnOffPanel();
-        }
-
-        private void ResetMainPanels()
-        {
-            foreach (GameObject panel in allMainPanels)
+            if (hideRoutine == null)
             {
-                panel.SetActive(false);
+               hideRoutine =  StartCoroutine(WaitAndHide(id));
             }
         }
+
+        private IEnumerator WaitAndHide(int id)
+        {
+            yield return new WaitForSeconds(uiData.disableTime);
+            allCanvases[id].SetActive(false);
+            hideRoutine = null;
+        }
+
 
         private void ResetCanvases()
         {     
