@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using com.VisionXR.HelperClasses;
 using System.Collections.Generic;
+using com.VisionXR.Controllers;
 
 namespace com.VisionXR.ModelClasses
 {
@@ -9,6 +10,7 @@ namespace com.VisionXR.ModelClasses
     public class UIDataSO : ScriptableObject
     {
         // variables
+        public UIManager uiManager;
         public GameType currentGameType;
         public GameMode currentGameMode;
         public AIDifficulty currentAIDifficulty;

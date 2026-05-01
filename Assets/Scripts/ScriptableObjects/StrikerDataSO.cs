@@ -14,6 +14,7 @@ namespace com.VisionXR.ModelClasses
         public bool isFoul = false;
         public float strikeForce = 2.0f;
         public float normalValue = 0;
+        public float aimingDuration = 0.1f;
         public Vector3 strikerDir;
 
         // local

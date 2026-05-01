@@ -46,10 +46,7 @@ public class SwitchPoolCanvas : MonoBehaviour
     public void TurnOn()
     {
         
-        foreach (PanelOnOff panel in panelsToOff)
-        {
-            panel.TurnOnPanel();
-        }
+    
 
     }
 

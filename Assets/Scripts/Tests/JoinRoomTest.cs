@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,8 +13,8 @@ public class JoinRoomTest : MonoBehaviour
     public AudioDataSO audioData;
 
     [Header("Other Objects")]
-    public ChangeDestinationPanel changeDestinationPanel;
-    public DestinationPanel destinationPanel;
+    public ChangeDestinationPanelView changeDestinationPanel;
+    public DestinationPanelView destinationPanel;
     public Destination destination;
 
     [Header("Key Bindings (New Input System)")]

@@ -10,14 +10,7 @@ namespace com.VisionXR.Views
         public List<PanelOnOff> panelsToOff;
         public void TurnOff()
         {
-            if (gameObject.activeInHierarchy)
-            {
-                foreach (PanelOnOff panel in panelsToOff)
-                {
-                    panel.TurnOffPanel();
-                }
-                StartCoroutine(WaitAndTurnOff());
-            }
+           
         }
 
         private IEnumerator WaitAndTurnOff()
@@ -30,10 +23,7 @@ namespace com.VisionXR.Views
         public void TurnOn()
         {
             gameObject.SetActive(true);
-            foreach (PanelOnOff panel in panelsToOff)
-            {
-                panel.TurnOnPanel();
-            }
+       
 
         }
     }

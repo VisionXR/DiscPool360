@@ -53,14 +53,9 @@ namespace com.VisionXR.GameElements
 
         private void Swiped(SwipeDirection direction, float velocity)
         {
-            if (direction == SwipeDirection.Left || direction == SwipeDirection.Right)
-            {
-                if (direction == SwipeDirection.Left)
-                {
-                    velocity = -velocity;
-                }
-                strikerMovement.RotateRelative(velocity);
-            }
+       
+            strikerMovement.RotateRelative(velocity);
+            
         }
 
         private void StrikerForceChanged(float obj)

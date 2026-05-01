@@ -1,4 +1,5 @@
 using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using Photon.Realtime;
@@ -23,7 +24,7 @@ namespace com.VisionXR.Controllers
         public Destination multiPlayerDestination;
         public bool isLoggedIn = false;
         public bool isLink = false;
-        public DestinationPanel destinationPanel;
+        public DestinationPanelView destinationPanel;
 
         private void Awake()
         {

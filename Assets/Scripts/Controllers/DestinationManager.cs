@@ -107,7 +107,7 @@ public class DestinationManager : MonoBehaviour
             currentDestination.lobbyName = "Tutorial";
             currentDestination.roomName = "Tutorial";
             currentDestination.isJoinable = false;
-            uiManager.ShowTutorialPanel();
+          //  uiManager.ShowTutorialPanel();
          
             destinationData.currentDestination = currentDestination;
             OnDestinationSuccessEvent?.Invoke();

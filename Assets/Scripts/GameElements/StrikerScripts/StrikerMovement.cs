@@ -1,5 +1,6 @@
 using com.VisionXR.ModelClasses;
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace com.VisionXR.GameElements
@@ -13,7 +14,7 @@ namespace com.VisionXR.GameElements
 
         // Tracks the last yaw we actually applied (to enforce threshold between updates)
         private float _lastAppliedYaw;
-
+        private Coroutine aimingRoutine;
         private void Awake()
         {
             _lastAppliedYaw = transform.eulerAngles.y;
@@ -40,25 +41,40 @@ namespace com.VisionXR.GameElements
             _lastAppliedYaw = angle;
         }
 
-        /// <summary>
-        /// Rotates the striker by a relative delta around the Y axis.
-        /// Positive delta rotates clockwise, negative delta rotates anticlockwise.
-        /// </summary>
-        /// <param name="delta">The angle delta in degrees.</param>
-        public void RotateRelative(float delta)
+
+        public void RotateRelative(float velocity)
         {
-            var currentEuler = transform.eulerAngles;
-            float newY = currentEuler.y + delta;
-            transform.eulerAngles = new Vector3(0, newY, 0);
-            _lastAppliedYaw = newY;
+            //var currentEuler = transform.eulerAngles;
+            //float newY = currentEuler.y + velocity;
+            //transform.eulerAngles = new Vector3(0, newY, 0);
+            //_lastAppliedYaw = newY;
+
+            if (aimingRoutine == null)
+            {
+                aimingRoutine = StartCoroutine(RotateToDirectionSmoothly(velocity, strikerData.aimingDuration));
+            }
         }
 
-        /// <summary>
-        /// Snap-rotate to the given direction's yaw only when the change exceeds the threshold.
-        /// - If |delta| &gt;= threshold: snap directly to the target yaw.
-        /// - Else: do nothing (ignore minor changes).
-        /// Subsequent updates only occur when the new target deviates from the last applied yaw by the threshold again.
-        /// </summary>
+     
+        private IEnumerator RotateToDirectionSmoothly(float velocity, float duration)
+        {
+            Vector3 currentEuler = transform.eulerAngles;
+            float newY = currentEuler.y + velocity;
+           
+            Vector3 targetEuler = new Vector3(0, newY, 0);
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+                transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetEuler, t);
+                yield return null;
+            }
+            transform.eulerAngles = targetEuler;
+
+            aimingRoutine = null;
+        }
+
         public void RotateTo(Vector3 direction)
         {
             // Ignore invalid/zero directions

@@ -1,5 +1,5 @@
 using com.VisionXR.ModelClasses;
-
+using com.VisionXR.Views;
 using System.Collections;
 using UnityEngine;
 
@@ -22,8 +22,8 @@ namespace com.VisionXR.Controllers
         [Header("Game Objects")]
         
         public UIManager uiManager;
-        public DestinationPanel destinationPanel;
-        public ChangeDestinationPanel changeDestinationPanel;
+        public DestinationPanelView destinationPanel;
+        public ChangeDestinationPanelView changeDestinationPanel;
         public GameObject localAvatar;
       
 

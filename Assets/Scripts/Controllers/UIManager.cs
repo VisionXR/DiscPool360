@@ -1,5 +1,4 @@
 using com.VisionXR.ModelClasses;
-using com.VisionXR.Views;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,80 +7,73 @@ namespace com.VisionXR.Controllers
     public class UIManager : MonoBehaviour
     {
         [Header("Scriptable Objects")]
-        public GameDataSO gameData;
         public UIDataSO uiData;
-        public TableDataSO tableData;
+        public Animator uiController;
 
-        [Header("Game Objects")]
-        public GameObject mainCanvas;
+        [Header("Canvas Objects")]
+        public List<GameObject> allCanvases;
+        public List<GameObject> allMainPanels;
+
+       
+       
 
 
-        [Header("All Panels")]
-        public List<GameObject> allPanels;
-        public GameObject winningPanel;
-        public GameObject exitPanel;
-        public GameObject homePanel;
-        public GameObject tutorialPanel;
-        public GameObject destinationPanel;
+        private void Start()
+        {
+            ResetCanvases();
+            ResetMainPanels();
+
+            uiData.uiManager = this;
+            uiController.enabled = true;
+
+        }
 
 
         private void OnEnable()
         {
-            gameData.GameCompletedEvent += ShowGameCompletedPanel;
-
-            uiData.HomeEvent += ShowHomePanel;
- 
-            uiData.ExitBtnClickedEvent += ShowExitPanel;
-            uiData.ResetAllPanelsEvent += ResetPanels;
+            
         }
 
         private void OnDisable()
         {
-            gameData.GameCompletedEvent -= ShowGameCompletedPanel;
-
-            uiData.HomeEvent -= ShowHomePanel;
-
-
-            uiData.ExitBtnClickedEvent -= ShowExitPanel;      
-            uiData.ResetAllPanelsEvent -= ResetPanels;
+           
         }
 
 
-        private void ShowHomePanel()
+        public void ShowCanvas(int id)
         {
-            ResetPanels();
-            homePanel.GetComponent<HomePanelView>().TurnOn();
+            allCanvases[id].SetActive(true);
         }
 
-        public void ShowTutorialPanel()
+        public void ShowMainPanel(int id)
         {
-            ResetPanels();
-            tutorialPanel.SetActive(true);
+            Debug.Log("Showing main panel with id: " + id);
+            allMainPanels[id].GetComponent<PanelOnOff>().TurnOnPanel();
         }
 
-        private void ShowExitPanel()
+        public void HideCanvas(int id)
         {
-            ResetPanels();
-            exitPanel.SetActive(true);
+            allCanvases[id].SetActive(false);
         }
 
-        public void ShowGameCompletedPanel(int winnerId)
+        public void HideMainPanel(int id)
         {
-            // Show the game completed panel
-            ResetPanels();
-
-            // Activate the winning panel
-            winningPanel.SetActive(true);
-            WinningPanelView winningPanelView = winningPanel.GetComponent<WinningPanelView>();
-            winningPanelView.ShowWinner(winnerId);
+            allMainPanels[id].GetComponent<PanelOnOff>().TurnOffPanel();
         }
 
-
-        public void ResetPanels()
+        private void ResetMainPanels()
         {
-            foreach (GameObject panel in allPanels)
+            foreach (GameObject panel in allMainPanels)
             {
                 panel.SetActive(false);
+            }
+        }
+
+        private void ResetCanvases()
+        {     
+            foreach(GameObject canvas in allCanvases)
+            {
+                canvas.SetActive(false);
             }
         }
 

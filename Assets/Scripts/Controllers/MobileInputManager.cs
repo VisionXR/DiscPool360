@@ -168,14 +168,14 @@ namespace com.VisionXR.Controllers
             {
                 // 1. Calculate the raw horizontal displacement
                 float horizontalDist = touch.x - swipeStartPosition.x;
-                float absDist = Mathf.Abs(horizontalDist);
+                
                 float swipeTime = Time.time - swipeStartTime;
 
                 // 2. Check if the distance meets your minimum threshold
-                if (absDist > swipeminDistanceThreshold && swipeTime > 0)
+                if ( swipeTime > 0)
                 {
                     // 3. Calculate Velocity (Pixels per second)
-                    float velocity = absDist / swipeTime;
+                    float velocity = horizontalDist / swipeTime;
 
                     // 4. Determine Direction
                     SwipeDirection direction = (horizontalDist > 0) ? SwipeDirection.Right : SwipeDirection.Left;

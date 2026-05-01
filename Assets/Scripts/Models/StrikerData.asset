@@ -19,4 +19,5 @@ MonoBehaviour:
   isFoul: 0
   strikeForce: 1.2138518
   normalValue: 0.548687
+  aimingDuration: 0.5
   strikerDir: {x: -0.3263526, y: -0.0000060642697, z: 0.9452481}
