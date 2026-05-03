@@ -412,31 +412,6 @@ MonoBehaviour:
   uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
   MainCanvasId: 0
   destinationPanelId: 14
---- !u!1101 &-358815516456619299
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: CreateRoom
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: -9152983765481555408}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.75
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1101 &-346554774983027071
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -630,7 +605,6 @@ AnimatorState:
   m_Transitions:
   - {fileID: -8679386983677541685}
   - {fileID: -6915355130017351815}
-  - {fileID: -358815516456619299}
   m_StateMachineBehaviours:
   - {fileID: -722342621921254013}
   m_Position: {x: 50, y: 50, z: 0}

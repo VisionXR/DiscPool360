@@ -28,7 +28,6 @@ public class SPState : StateMachineBehaviour
         Debug.Log("Exited SinglePlayer State");
         if (uiData.uiManager != null)
         {
-
             uiData.uiManager.mainCanvasView.HideMainPanel(SinglePlayerPanelId);
         }
     }

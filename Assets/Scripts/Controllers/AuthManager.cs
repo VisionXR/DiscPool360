@@ -143,9 +143,13 @@ namespace com.VisionXR.Controllers
                 // 1. First, set local UI data (Name and Image)
                 string name = Social.localUser.userName;
                 string googleID = Social.localUser.id;
+
+                string imageUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
+                Debug.Log("Image Url " + imageUrl);
                
 
                 playerSettings.SetUserNameAndId(name, googleID);
+                playerSettings.SetProfileUrl(imageUrl);
                 StartCoroutine(LoadProfileImage());
                 isLoggedIn = true;
 
