@@ -302,7 +302,6 @@ MonoBehaviour:
   line: {fileID: 985099783364748265}
   quadCircle: {fileID: 4987739354786882051}
   NormalLine: {fileID: 4126065384207251131}
-  TangentLine: {fileID: 0}
   colliderMask:
     serializedVersion: 2
     m_Bits: 192
@@ -1086,7 +1085,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strikerData: {fileID: 11400000, guid: 8ae96cdacd2423343b0749475230232d, type: 2}
   yawThresholdDegrees: 1
+  velocityFactor: 1
   initialRotation: {x: 0, y: 0, z: 0, w: 1}
+  degreesPerSecond: 135
 --- !u!114 &697385267237695580
 MonoBehaviour:
   m_ObjectHideFlags: 0

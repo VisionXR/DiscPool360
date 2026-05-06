@@ -10,8 +10,9 @@ namespace com.VisionXR.GameElements
         [SerializeField, Tooltip("Minimum yaw change (degrees) required to update rotation.")]
         public StrikerDataSO strikerData;
         public float yawThresholdDegrees = 0.5f;
+        public float velocityFactor = 0.5f;
         public Quaternion initialRotation = Quaternion.identity;
-        private float degreesPerSecond = 30f; // Your target speed
+        public float degreesPerSecond = 60f; // Your target speed
 
 
         // Tracks the last yaw we actually applied (to enforce threshold between updates)
@@ -52,7 +53,7 @@ namespace com.VisionXR.GameElements
             
             // 1. Calculate how many total degrees we should rotate based on velocity
             // You can tweak this multiplier (0.1f) to make it more/less sensitive
-            float totalRotationAmount = velocity * 0.1f;
+            float totalRotationAmount = velocity * velocityFactor;
 
             Quaternion startRotation = transform.rotation;
 

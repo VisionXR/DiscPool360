@@ -45,7 +45,6 @@ namespace com.VisionXR.Views
         [Header("This Objects")]
         public GameObject Player1ScorePanel;
         public GameObject Player2ScorePanel;
-        public List<PanelOnOff> panelsToOff;
         public float blinkDelay = 0.2f;
         public float scaleFactor = 1.1f;
         private Coroutine indicatorCoroutine;
@@ -59,7 +58,7 @@ namespace com.VisionXR.Views
             uiData.UpdateCoinsEvent += UpdateCoins;
             playerData.PlayerImageReceivedEvent += SetPlayerImage;
 
-            SetPlayerData(1);
+            uiData.SetPlayerDataEvent += SetPlayerData;
         }
 
         private void OnDisable()
@@ -69,6 +68,8 @@ namespace com.VisionXR.Views
             uiData.SetCoinsEvent -= SetCoins;
             uiData.UpdateCoinsEvent -= UpdateCoins;
             playerData.PlayerImageReceivedEvent -= SetPlayerImage;
+
+            uiData.SetPlayerDataEvent -= SetPlayerData;
 
         }
 
@@ -84,7 +85,7 @@ namespace com.VisionXR.Views
             }
         }
 
-        private void SetPlayerData(int id)
+        public void SetPlayerData(int id)
         {
             ResetCoins();
 

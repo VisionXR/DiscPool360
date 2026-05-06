@@ -32,6 +32,7 @@ namespace com.VisionXR.ModelClasses
 
         public Action SetCoinsEvent;
         public Action UpdateCoinsEvent;
+        public Action<int> SetPlayerDataEvent;
 
         public Action ExitBtnClickedEvent;
         public Action ResetAllPanelsEvent;
@@ -58,6 +59,11 @@ namespace com.VisionXR.ModelClasses
         public void SetCoins()
         {
             SetCoinsEvent?.Invoke();
+        }
+
+        public void SetPlayerData(int id)
+        {
+            SetPlayerDataEvent?.Invoke(id);
         }
 
         public void ShowFoulHandling()

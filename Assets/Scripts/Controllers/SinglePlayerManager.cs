@@ -151,6 +151,9 @@ namespace com.VisionXR.Controllers
             strikerData.CreateStriker(boardData.StrikerTransform);
             yield return new WaitForSeconds(0.1f);
 
+            uiData.SetPlayerData(1);
+            uiData.SetPlayerData(2);
+
 
             firstTurnId = id;
             isFirstCoinPocketed = false;
@@ -218,6 +221,8 @@ namespace com.VisionXR.Controllers
             yield return StartCoroutine(CreatePlayers());
             yield return new WaitForSeconds(0.1f);
 
+            uiData.SetPlayerData(1);
+            uiData.SetPlayerData(2);
 
             if (uiData.currentGameMode == GameMode.Pool)
             {
