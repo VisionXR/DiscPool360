@@ -14,12 +14,12 @@ namespace com.VisionXR.Views
         public AppPropertiesDataSO appProperties;
 
 
-        [Header("Panels")] 
-        public HomePanelView homePanelView;
-        public PanelOnOff SettingsPanel;
-        public PanelOnOff LeaderBoardPanel;
-        public PanelOnOff PurchasePanel;
-        public PanelOnOff AchievementPanel;
+        [Header("Next Panel bools")]
+        public string settingsPanelstring;
+        public string leaderboardPanelstring;
+        public string achievementPanelstring;
+        public string purchasePanelstring;
+        public string rulePanelstring;
     
 
         
@@ -47,6 +47,13 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
         
+
+        }
+
+        public void RulesBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+
 
         }
 

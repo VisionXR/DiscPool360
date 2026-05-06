@@ -10,40 +10,68 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public AudioDataSO audioData;
         public UIDataSO uiData;
-     
+        public UserDataSO userData;
 
-        private void OnEnable()
+
+        [Header("Next And Previous Panels")]
+        public string gameTypePanel;
+
+        public void EightPoolBtnClciked()
         {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.SetGameMode(GameMode.Pool);
+            userData.myCoins = 0;
 
+            uiData.uiManager.ChangeState(gameTypePanel, true);
+            
+        }
+
+        public void FivePoolBtnClciked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.SetGameMode(GameMode.Pool);
+            userData.myCoins = 1;
+
+            uiData.uiManager.ChangeState(gameTypePanel, true);
+        }
+
+        public void SixSnookerBtnClciked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.SetGameMode(GameMode.Pool);
+            userData.myCoins = 2;
+
+            uiData.uiManager.ChangeState(gameTypePanel, true);
+        }
+
+        public void TenSnookerBtnClciked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.SetGameMode(GameMode.Pool);
+            userData.myCoins = 3;
+
+            uiData.uiManager.ChangeState(gameTypePanel, true);
+        }
+
+        public void CollorChallengeBtnClciked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.SetGameMode(GameMode.Pool);
+            userData.myCoins = 4;
+
+            uiData.uiManager.ChangeState(gameTypePanel, true);
+        }
+
+
+        public void TutorialBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
           
-            
         }
 
-
-        public void SinglePlayerBtnClicked()
+        public void QuitBtnClciked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.SetGameType(GameType.SinglePlayer);        
-           
-            
-           
         }
-
-        public void MultiPlayerBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-
-            if (Application.internetReachability != NetworkReachability.NotReachable)
-            {
-                uiData.SetGameType(GameType.MultiPlayer);           
-              
-            }
-            else
-            {
-                // No internet check
-            }
-        }
-
-
     }
 }

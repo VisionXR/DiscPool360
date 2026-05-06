@@ -24,7 +24,6 @@ namespace com.VisionXR.Views
 
         [Header("Panel Objects")]
         public PurchasePanelView PurchasePanel;
-        public SinglePlayerView singlePlayerView;
         public MultiPlayerPanelView multiPlayerPanelView;
         public DestinationPanelView destinationPanel;
 

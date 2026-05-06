@@ -47,6 +47,12 @@ namespace com.VisionXR.Controllers
            
         }
 
+        public void ChangeState(string stateName,bool value)
+        {
+            uiController.SetBool(stateName,value);
+            Debug.Log("New State is" + stateName + " Value is" + value);
+        }
+
         public void ShowCanvas(int id)
         {
             if(hideRoutine != null)

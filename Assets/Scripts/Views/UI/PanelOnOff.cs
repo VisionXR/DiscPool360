@@ -11,6 +11,16 @@ public class PanelOnOff : MonoBehaviour
     public List<GameObject> subPanels;
     public CanvasGroup panelCanvasGroup;
 
+
+    private void OnEnable()
+    {
+        panelCanvasGroup.alpha = 0;
+        foreach (GameObject panel in subPanels)
+        {
+            panel.transform.localScale = Vector3.zero;
+        }
+    }
+
     public void TurnOnPanel()
     {
         panelCanvasGroup.gameObject.SetActive(true);
