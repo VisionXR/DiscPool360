@@ -17,6 +17,29 @@ namespace com.VisionXR.Views
         public string boardsState;
         public string currentState;
 
+        [Header("Selection Objects")]
+        public GameObject AIEasySelectedImage;
+        public GameObject AIMediumSelectedImage;
+        public GameObject AIHardSelectedImage;
+
+
+        private void OnEnable()
+        {
+            ResetImages();  
+            if(uiData.currentAIDifficulty == AIDifficulty.Easy)
+            {
+                AIEasySelectedImage.SetActive(true);
+            }
+            else if (uiData.currentAIDifficulty == AIDifficulty.Medium)
+            {
+                AIMediumSelectedImage.SetActive(true);
+            }
+            else if (uiData.currentAIDifficulty == AIDifficulty.Hard)
+            {
+                AIHardSelectedImage.SetActive(true);
+            }
+        }
+
         public void NextBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);           
@@ -34,18 +57,29 @@ namespace com.VisionXR.Views
         public void EasyBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
+            AIEasySelectedImage.SetActive(true);
             uiData.SetAIDifficulty(AIDifficulty.Easy);
 
         }
         public void MediumBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
+            AIMediumSelectedImage.SetActive(true);
             uiData.SetAIDifficulty(AIDifficulty.Medium);
         }
         public void HardBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
+            AIHardSelectedImage.SetActive(true);
             uiData.SetAIDifficulty(AIDifficulty.Hard);
+        }
+
+
+        private void ResetImages()
+        {
+            AIEasySelectedImage.SetActive(false);
+            AIHardSelectedImage.SetActive(false);
+            AIMediumSelectedImage.SetActive(false);
         }
     }
 }
