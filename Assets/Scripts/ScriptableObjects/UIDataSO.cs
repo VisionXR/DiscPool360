@@ -35,6 +35,7 @@ namespace com.VisionXR.ModelClasses
         public Action<int> SetPlayerDataEvent;
 
         public Action ExitBtnClickedEvent;
+        public Action QuitBtnClickedEvent;
         public Action ResetAllPanelsEvent;
 
         // Mic and speaker Actions
@@ -109,6 +110,11 @@ namespace com.VisionXR.ModelClasses
         public void ExitButtonClicked()
         {
             ExitBtnClickedEvent?.Invoke();
+        }
+
+        public void QuitBtnClicked()
+        {
+            QuitBtnClickedEvent?.Invoke();
         }
 
         public void ResetAllPanels()

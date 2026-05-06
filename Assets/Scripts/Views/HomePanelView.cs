@@ -14,7 +14,15 @@ namespace com.VisionXR.Views
 
 
         [Header("Next And Previous Panels")]
-        public string gameTypePanel;
+        public string gameTypeState;
+        public string quitAppState;
+
+
+        public void QuitBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);        
+            uiData.uiManager.ChangeState(quitAppState, true);
+        }
 
         public void EightPoolBtnClciked()
         {
@@ -22,7 +30,7 @@ namespace com.VisionXR.Views
             uiData.SetGameMode(GameMode.Pool);
             userData.myCoins = 0;
 
-            uiData.uiManager.ChangeState(gameTypePanel, true);
+            uiData.uiManager.ChangeState(gameTypeState, true);
             
         }
 
@@ -32,7 +40,7 @@ namespace com.VisionXR.Views
             uiData.SetGameMode(GameMode.Pool);
             userData.myCoins = 1;
 
-            uiData.uiManager.ChangeState(gameTypePanel, true);
+            uiData.uiManager.ChangeState(gameTypeState, true);
         }
 
         public void SixSnookerBtnClciked()
@@ -41,7 +49,7 @@ namespace com.VisionXR.Views
             uiData.SetGameMode(GameMode.Pool);
             userData.myCoins = 2;
 
-            uiData.uiManager.ChangeState(gameTypePanel, true);
+            uiData.uiManager.ChangeState(gameTypeState, true);
         }
 
         public void TenSnookerBtnClciked()
@@ -50,7 +58,7 @@ namespace com.VisionXR.Views
             uiData.SetGameMode(GameMode.Pool);
             userData.myCoins = 3;
 
-            uiData.uiManager.ChangeState(gameTypePanel, true);
+            uiData.uiManager.ChangeState(gameTypeState, true);
         }
 
         public void CollorChallengeBtnClciked()
@@ -59,7 +67,7 @@ namespace com.VisionXR.Views
             uiData.SetGameMode(GameMode.Pool);
             userData.myCoins = 4;
 
-            uiData.uiManager.ChangeState(gameTypePanel, true);
+            uiData.uiManager.ChangeState(gameTypeState, true);
         }
 
 

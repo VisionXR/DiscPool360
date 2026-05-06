@@ -87,17 +87,12 @@ public class DestinationManager : MonoBehaviour
         {
           
             singlePlayerManager.gameObject.SetActive(true);
-           
-            currentDestination.lobbyName = "SinglePlayer";
-            currentDestination.roomName = "SinglePlayer";
-            currentDestination.isJoinable = false;
           
             destinationData.currentDestination = currentDestination;
             singlePlayerManager.StartGame(1);
             OnDestinationSuccessEvent?.Invoke();
 
            
-
         }
 
         else if (destination.gameType == GameType.Tutorial)

@@ -1,7 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,7 +24,7 @@ namespace com.VisionXR.Views
         public List<Image> boardLockImages;
 
         [Header("Next And Previous Panels")]
-        public string destinationState;
+        public string singlePlayerStartState;
         public string currentState;
 
 
@@ -122,7 +121,8 @@ namespace com.VisionXR.Views
             destination.aIDifficulty = uiData.currentAIDifficulty;
 
             destinationData.SetDestination(destination);
-            uiData.uiManager.ChangeState(destinationState, true);
+            destinationData.ConnectToDestination(destination, null, null);
+            uiData.uiManager.ChangeState(singlePlayerStartState, true);
            
            
         }
