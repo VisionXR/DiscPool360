@@ -10,7 +10,7 @@ public class GameTypeState : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Entered GameType State");
+        
         if (uiData.uiManager != null)
         {
 
@@ -25,7 +25,7 @@ public class GameTypeState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Exited GameType State");
+        
         if (uiData.uiManager != null)
         {
 

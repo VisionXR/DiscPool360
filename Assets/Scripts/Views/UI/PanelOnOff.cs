@@ -23,6 +23,8 @@ public class PanelOnOff : MonoBehaviour
 
     public void TurnOnPanel()
     {
+      
+
         panelCanvasGroup.gameObject.SetActive(true);
 
         StartCoroutine(TurnOnAlpha());
@@ -35,7 +37,7 @@ public class PanelOnOff : MonoBehaviour
 
     public void TurnOffPanel()
     {
-        if(panelCanvasGroup.gameObject.activeInHierarchy)
+        if(!panelCanvasGroup.gameObject.activeInHierarchy)
         {
             return;
         }

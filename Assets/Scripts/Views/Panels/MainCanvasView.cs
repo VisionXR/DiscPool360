@@ -9,8 +9,7 @@ namespace com.VisionXR.Views
         public List<GameObject> allMainPanels;
 
         public void ShowMainPanel(int id)
-        {
-            
+        {          
             allMainPanels[id].GetComponent<PanelOnOff>().TurnOnPanel();
         }
 
@@ -20,12 +19,5 @@ namespace com.VisionXR.Views
             allMainPanels[id].GetComponent<PanelOnOff>().TurnOffPanel();
         }
 
-        private void ResetMainPanels()
-        {
-            foreach (GameObject panel in allMainPanels)
-            {
-                panel.SetActive(false);
-            }
-        }
     }
 }

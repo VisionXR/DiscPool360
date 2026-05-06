@@ -46,7 +46,15 @@ namespace com.VisionXR.Controllers
         /// </summary>
         public void ResetAllBools()
         {
-            if (uiController == null) return;
+           
+          //  StartCoroutine(WaitAndReset());
+        }
+
+        private IEnumerator WaitAndReset()
+        {
+
+            yield return new WaitForSeconds(0.5f);
+            uiController.enabled = false;
 
             // Iterate through all parameters in the Animator Controller
             foreach (AnimatorControllerParameter parameter in uiController.parameters)
@@ -56,6 +64,8 @@ namespace com.VisionXR.Controllers
                     uiController.SetBool(parameter.name, false);
                 }
             }
+            yield return new WaitForSeconds(0.5f);
+            uiController.enabled = true;
         }
 
         public void ShowCanvas(int id)

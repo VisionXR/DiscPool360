@@ -10,7 +10,7 @@ public class SPStartGame : StateMachineBehaviour
     public int SnookerCanvasId = 2;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Entered Start Game State");
+      
         if (uiData.uiManager != null)
         {
             uiData.uiManager.HideCanvas(0);
@@ -38,7 +38,7 @@ public class SPStartGame : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Exited StartGame State");
+        
         if (uiData.uiManager != null)
         {
             if (uiData.currentGameMode == com.VisionXR.HelperClasses.GameMode.Pool)

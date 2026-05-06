@@ -10,7 +10,7 @@ public class SPState : StateMachineBehaviour
     public int MainCanvasId = 0;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Entered game mode selection State");
+        
         if (uiData.uiManager != null)
         {
             uiData.uiManager.ShowCanvas(MainCanvasId);
@@ -25,7 +25,7 @@ public class SPState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Exited game mode exit State");
+       
         if (uiData.uiManager != null)
         {
             uiData.uiManager.mainCanvasView.HideMainPanel(SinglePlayerPanelId);

@@ -11,7 +11,7 @@ public class HomeState : StateMachineBehaviour
     private bool isControllerFound;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Entered Home State");
+       
 
         if(uiData.uiManager != null)
         {
@@ -28,7 +28,7 @@ public class HomeState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Exit Home State");
+       
         if (uiData.uiManager != null)
         {
             
