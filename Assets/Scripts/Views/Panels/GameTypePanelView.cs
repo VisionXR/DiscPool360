@@ -54,7 +54,7 @@ namespace com.VisionXR.Views
         {
 
             ResetImages();
-            SPSelectedImage.SetActive(true);
+            MPSelectedImage.SetActive(true);
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.SetGameType(GameType.MultiPlayer);
         }

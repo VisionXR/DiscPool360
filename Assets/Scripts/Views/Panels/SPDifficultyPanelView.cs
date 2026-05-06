@@ -57,6 +57,7 @@ namespace com.VisionXR.Views
         public void EasyBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
+            ResetImages();
             AIEasySelectedImage.SetActive(true);
             uiData.SetAIDifficulty(AIDifficulty.Easy);
 
@@ -64,12 +65,14 @@ namespace com.VisionXR.Views
         public void MediumBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
+            ResetImages();
             AIMediumSelectedImage.SetActive(true);
             uiData.SetAIDifficulty(AIDifficulty.Medium);
         }
         public void HardBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
+            ResetImages();
             AIHardSelectedImage.SetActive(true);
             uiData.SetAIDifficulty(AIDifficulty.Hard);
         }
