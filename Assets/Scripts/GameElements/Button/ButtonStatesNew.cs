@@ -11,7 +11,7 @@ public class ButtonStatesNew : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [Header("UI Elements")]
     [SerializeField] private Image HoverImage;
     [SerializeField] private Image ActualImage;
-    [SerializeField] private Image SelectionImage;
+    
     
 
     // local variables
@@ -31,8 +31,8 @@ public class ButtonStatesNew : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (isHovering)
         {
             isHovering = false;
-         //   if (HoverImage != null) HoverImage.gameObject.SetActive(false);
-          
+            if (HoverImage != null) HoverImage.gameObject.SetActive(false);
+
             if (popRoutine != null) { StopCoroutine(popRoutine); popRoutine = null; }
             // reset scale if needed
             if (ActualImage != null)
@@ -46,10 +46,10 @@ public class ButtonStatesNew : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
 
-        if (!isHovering && !SelectionImage.gameObject.activeInHierarchy)
+        if (!isHovering)
         {
             isHovering = true;
-         //   if (HoverImage != null) HoverImage.gameObject.SetActive(true);
+            if (HoverImage != null) HoverImage.gameObject.SetActive(true);
             appPropertiesData.StartVibration();
 
             // scale/pop the actual image slightly toward the user
@@ -69,11 +69,11 @@ public class ButtonStatesNew : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (isHovering)
         {
             isHovering = false;
-            //if (HoverImage != null)
-            //{
-            //    // hide hover visual after reverting scale
-            //    HoverImage.gameObject.SetActive(false);
-            //}
+            if (HoverImage != null)
+            {
+                // hide hover visual after reverting scale
+                HoverImage.gameObject.SetActive(false);
+            }
 
             if (ActualImage != null)
             {

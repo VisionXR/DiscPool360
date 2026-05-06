@@ -2,33 +2,34 @@ using com.VisionXR.ModelClasses;
 using Fusion;
 using UnityEngine;
 
-public class SPState : StateMachineBehaviour
+public class GameTypeState : StateMachineBehaviour
 {
    
     public UIDataSO uiData;
-    public int SinglePlayerPanelId = 1;
-    public int MainCanvasId = 0;
+    public int gameTypepanelId = 1;
+
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Entered game mode selection State");
+        Debug.Log("Entered GameType State");
         if (uiData.uiManager != null)
         {
-            uiData.uiManager.ShowCanvas(MainCanvasId);
-            uiData.uiManager.mainCanvasView.ShowMainPanel(SinglePlayerPanelId);
+
+            uiData.uiManager.mainCanvasView.ShowMainPanel(gameTypepanelId);
         }
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-               
+              
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Exited game mode exit State");
+        Debug.Log("Exited GameType State");
         if (uiData.uiManager != null)
         {
-            uiData.uiManager.mainCanvasView.HideMainPanel(SinglePlayerPanelId);
+
+            uiData.uiManager.mainCanvasView.HideMainPanel(gameTypepanelId);
         }
     }
 
