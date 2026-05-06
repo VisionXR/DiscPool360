@@ -36,28 +36,33 @@ namespace com.VisionXR.Controllers
 
         }
 
-
-        private void OnEnable()
-        {
-            
-        }
-
-        private void OnDisable()
-        {
-           
-        }
-
         public void ChangeState(string stateName,bool value)
         {
             uiController.SetBool(stateName,value);
-            Debug.Log("New State is" + stateName + " Value is" + value);
+           
+        }
+        /// <summary>
+        /// Loops through all parameters and sets every Boolean to false.
+        /// </summary>
+        public void ResetAllBools()
+        {
+            if (uiController == null) return;
+
+            // Iterate through all parameters in the Animator Controller
+            foreach (AnimatorControllerParameter parameter in uiController.parameters)
+            {
+                if (parameter.type == AnimatorControllerParameterType.Bool)
+                {
+                    uiController.SetBool(parameter.name, false);
+                }
+            }
         }
 
         public void ShowCanvas(int id)
         {
             if(hideRoutine != null)
             {
-                Debug.Log("Hiding");
+               
                 StopCoroutine(hideRoutine);
                 hideRoutine = null;
             }

@@ -35,6 +35,10 @@ public class PanelOnOff : MonoBehaviour
 
     public void TurnOffPanel()
     {
+        if(panelCanvasGroup.gameObject.activeInHierarchy)
+        {
+            return;
+        }
 
         foreach (GameObject panel in subPanels)
         {

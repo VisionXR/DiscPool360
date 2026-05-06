@@ -23,7 +23,7 @@ namespace com.VisionXR.Views
         public List<PanelOnOff> panelsToOff;
 
 
-        void OnEnable()
+        public void ShowPoolUI()
         {
             Reset();
 

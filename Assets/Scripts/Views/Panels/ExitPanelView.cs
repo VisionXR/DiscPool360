@@ -10,19 +10,24 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public AudioDataSO audioData;
         public GameDataSO gameData;
-        
+        public UIDataSO uiData;
+
+        [Header("Next And Previous Panels")]
+        public string currentState;
+
         public void ExitBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             gameData.ExitGame();
-            gameObject.SetActive(false);
+            uiData.uiManager.ResetAllBools();
+           
         }
 
         public void ResumeBtnClicked()
         {
            
-            audioData.PlayAudio(AudioClipType.ButtonClick);           
-            gameObject.SetActive(false);
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.uiManager.ChangeState(currentState, false);
         }
 
         

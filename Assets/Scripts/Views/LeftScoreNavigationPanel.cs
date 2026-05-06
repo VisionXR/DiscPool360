@@ -20,13 +20,14 @@ namespace com.VisionXR.Views
         public Image CameraViewImage;
         public Sprite FrontView;
         public Sprite TopView;
-
-
         private bool isFrontView = false;
+
+        [Header("Next And Previous Panels")]
+        public string PauseState;
         public void ExitBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.ExitButtonClicked();
+            uiData.uiManager.ChangeState(PauseState, true);
         }
 
         public void CameraBtnClicked()

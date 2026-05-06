@@ -52,6 +52,8 @@ namespace com.VisionXR.ModelClasses
             this.uiManager = uiManager;
         }
 
+
+
         public void UpdateCoins()
         {
             UpdateCoinsEvent?.Invoke();
