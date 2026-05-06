@@ -15,7 +15,7 @@ namespace com.VisionXR.Views
 
         [Header("Next And Previous Panels")]
         public string boardsState;
-        public string previousState;
+        public string currentState;
 
         public void NextBtnClicked()
         {
@@ -27,7 +27,7 @@ namespace com.VisionXR.Views
         public void BackBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.uiManager.ChangeState(previousState, false);
+            uiData.uiManager.ChangeState(currentState, false);
 
         }
 

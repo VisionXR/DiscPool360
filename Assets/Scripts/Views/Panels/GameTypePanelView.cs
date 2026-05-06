@@ -18,36 +18,24 @@ namespace com.VisionXR.Views
         [Header("Next Objects")]
         public string singlePlayerState;
         public string multiPlayerState;
-        public string previousState;
+        public string currentState;
 
 
-        private void OnEnable()
-        {
-            Initialise();
-
-        }
-
-        private void Initialise()
-        {
-          
-         
-          
-        }
 
         public void SinglePlayerBtnClicked()
         {
 
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.uiManager.ChangeState(singlePlayerState,true);
-         
+            uiData.uiManager.ChangeState(singlePlayerState, true);
+
         }
 
         public void MultiPlayerBtnClicked()
         {
 
             audioData.PlayAudio(AudioClipType.ButtonClick);
-           
 
+            uiData.uiManager.ChangeState(multiPlayerState, true);
         }
 
 
@@ -59,7 +47,7 @@ namespace com.VisionXR.Views
         public void BackBtnClciked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.uiManager.ChangeState(previousState, false);
+            uiData.uiManager.ChangeState(currentState, false);
         }
 
     }

@@ -22,10 +22,10 @@ namespace com.VisionXR.Views
         public List<Image> boardSelectionImages;
         public List<Image> boardLockImages;
 
-        [Header("Panel Objects")]
-        public PurchasePanelView PurchasePanel;
-        public MultiPlayerPanelView multiPlayerPanelView;
-        public DestinationPanelView destinationPanel;
+        [Header("Next And Previous Panels")]
+        public string spStartGameState;
+        public string currentState;
+
 
         void OnEnable()
         {
@@ -99,7 +99,6 @@ namespace com.VisionXR.Views
             {
                 userData.SetBoard(id);
                 ResetBoardImages();
-
                 boardSelectionImages[userData.myBoard].gameObject.SetActive(true);
               
             }
@@ -122,23 +121,13 @@ namespace com.VisionXR.Views
             destination.gameMode = uiData.currentGameMode;
             destination.aIDifficulty = uiData.currentAIDifficulty;
             
-            destinationPanel.TurnOn();
-            destinationPanel.ConnectToDestination(destination);
-
-         
+            
         }
         public void BackBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
 
-            if(uiData.currentGameType == GameType.SinglePlayer)
-            {
-                
-            }
-            else if(uiData.currentGameType == GameType.MultiPlayer)
-            {
-                
-            }
+            uiData.uiManager.ChangeState(currentState, false);
             
         }
 
