@@ -13,7 +13,7 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public UserDataSO userData;
         public AudioDataSO audioData;
-        public SaveAndLoadManager saveAndLoadManager;
+     //   public SaveAndLoadManager saveAndLoadManager;
 
         [Header("Game Objects")]
         public AudioSource BGAudioSource;
@@ -28,13 +28,13 @@ namespace com.VisionXR.Views
             playerNameText.text = userData.MyName;
             playerImage.sprite = userData.MyProfileImage;
 
-            PlayerSettings settings = saveAndLoadManager.LoadSettings();
-            if (settings != null)
-            {
+            //PlayerSettings settings = saveAndLoadManager.LoadSettings();
+            //if (settings != null)
+            //{
                 
-                BGMusicSlider.value = settings.musicVolume;      
+            //    BGMusicSlider.value = settings.musicVolume;      
                
-            }
+            //}
         }
 
         public void BGMusicChanged(float val)
@@ -47,7 +47,7 @@ namespace com.VisionXR.Views
                 dominantHand = userData.myDominantHand,
             };
 
-            saveAndLoadManager.SaveSettings(settings);
+           // saveAndLoadManager.SaveSettings(settings);
         }
 
         public void DominantHandChanged(float val)
@@ -60,7 +60,7 @@ namespace com.VisionXR.Views
                 dominantHand = userData.myDominantHand,
             };
 
-            saveAndLoadManager.SaveSettings(settings);
+          //  saveAndLoadManager.SaveSettings(settings);
         }
 
     }

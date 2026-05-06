@@ -5,12 +5,12 @@ namespace com.VisionXR.Views
 {
     public class MainCanvasView : MonoBehaviour
     {
-
+        [Header("All Panels")]
         public List<GameObject> allMainPanels;
 
         public void ShowMainPanel(int id)
         {
-            Debug.Log("Showing main panel with id: " + id);
+            
             allMainPanels[id].GetComponent<PanelOnOff>().TurnOnPanel();
         }
 

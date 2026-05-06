@@ -21,7 +21,7 @@ namespace com.VisionXR.Views
 
         [Header("This Objects")]
         public HomePanelView homePanelView;
-        public List<PanelOnOff> panelsToOff;
+
 
 
         private void OnEnable()
@@ -78,27 +78,10 @@ namespace com.VisionXR.Views
         public void BackBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            TurnOff();
+            
             
         }
 
-        public void TurnOff()
-        {
-
-            StartCoroutine(WaitAndTurnOff());
-        }
-
-        private IEnumerator WaitAndTurnOff()
-        {
-            yield return new WaitForSeconds(0.5f);
-            gameObject.SetActive(false);
-        }
-
-        public void TurnOn()
-        {
-            gameObject.SetActive(true);
-
-        }
 
 
     }
