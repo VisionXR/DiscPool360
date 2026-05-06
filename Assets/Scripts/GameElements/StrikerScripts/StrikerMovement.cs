@@ -11,6 +11,8 @@ namespace com.VisionXR.GameElements
         public StrikerDataSO strikerData;
         public float yawThresholdDegrees = 0.5f;
         public Quaternion initialRotation = Quaternion.identity;
+        private float degreesPerSecond = 30f; // Your target speed
+
 
         // Tracks the last yaw we actually applied (to enforce threshold between updates)
         private float _lastAppliedYaw;
@@ -19,15 +21,6 @@ namespace com.VisionXR.GameElements
         {
             _lastAppliedYaw = transform.eulerAngles.y;
             initialRotation = transform.rotation;
-        }
-
-
-        public void AimStriker(Vector3 direction)
-        {
-
-            transform.rotation = initialRotation;
-            transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
-            transform.eulerAngles = VectorUtility.RoundPositionUpto3Decimals(transform.eulerAngles);
         }
 
         /// <summary>
@@ -42,77 +35,57 @@ namespace com.VisionXR.GameElements
         }
 
 
-        public void RotateRelative(float velocity)
+        public void RotateRelative(float swipeVelocity)
         {
-            //var currentEuler = transform.eulerAngles;
-            //float newY = currentEuler.y + velocity;
-            //transform.eulerAngles = new Vector3(0, newY, 0);
-            //_lastAppliedYaw = newY;
-
-            if (aimingRoutine == null)
+            // If a routine is running, stop it to start a new "flick"
+            if (aimingRoutine != null)
             {
-                aimingRoutine = StartCoroutine(RotateToDirectionSmoothly(velocity, strikerData.aimingDuration));
+                StopCoroutine(aimingRoutine);
             }
+
+            aimingRoutine = StartCoroutine(RotateWithVelocity(swipeVelocity));
         }
 
-     
-        private IEnumerator RotateToDirectionSmoothly(float velocity, float duration)
+        private IEnumerator RotateWithVelocity(float velocity)
         {
-            Vector3 currentEuler = transform.eulerAngles;
-            float newY = currentEuler.y + velocity;
-           
-            Vector3 targetEuler = new Vector3(0, newY, 0);
-            float elapsed = 0f;
-            while (elapsed < duration)
+
+            
+            // 1. Calculate how many total degrees we should rotate based on velocity
+            // You can tweak this multiplier (0.1f) to make it more/less sensitive
+            float totalRotationAmount = velocity * 0.1f;
+
+            Quaternion startRotation = transform.rotation;
+
+            // 2. Define the final target rotation using Quaternions
+            Quaternion targetRotation = startRotation * Quaternion.Euler(0, totalRotationAmount, 0);
+
+            // 3. Rotate over time until we reach the target
+            // We use RotateTowards for a constant speed, or Slerp for a smooth slow-down
+            while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
             {
-                elapsed += Time.deltaTime;
-                float t = elapsed / duration;
-                transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetEuler, t);
+                // Move towards the target at a constant speed of 30 degrees per second
+                transform.rotation = Quaternion.RotateTowards(
+                    transform.rotation,
+                    targetRotation,
+                    degreesPerSecond * Time.deltaTime
+                );
+
                 yield return null;
             }
-            transform.eulerAngles = targetEuler;
 
+            // Snap to final to be precise
+            transform.rotation = targetRotation;
             aimingRoutine = null;
         }
 
+        // Clean helper for direct direction looking
         public void RotateTo(Vector3 direction)
         {
-            // Ignore invalid/zero directions
-            if (direction.sqrMagnitude < 1e-8f)
+            if (direction != Vector3.zero)
             {
-                return;
+                transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
             }
-
-            // Work on the XZ plane to avoid pitch/roll changes
-            Vector3 flatDir = new Vector3(direction.x, 0f, direction.z);
-            if (flatDir.sqrMagnitude < 1e-8f)
-            {
-                return;
-            }
-            flatDir.Normalize();
-
-            // Compute target yaw
-            float targetYaw = Mathf.Atan2(flatDir.x, flatDir.z) * Mathf.Rad2Deg;
-
-            // Compare against the last yaw we actually applied (not the current noisy rotation)
-            float deltaYawFromLast = Mathf.DeltaAngle(_lastAppliedYaw, targetYaw);
-            if (Mathf.Abs(deltaYawFromLast) < yawThresholdDegrees)
-            {
-                // Below threshold: ignore to minimize shaking
-                return;
-            }
-
-            // Snap directly to the new target yaw
-            var euler = transform.eulerAngles;
-            transform.eulerAngles = new Vector3(euler.x, targetYaw, euler.z);
-
-            // Remember the last applied yaw to enforce threshold on future updates
-            _lastAppliedYaw = targetYaw;
         }
-
-        public void RotateToOld(Vector3 direction)
-        {
-            transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
-        }
+    
     }
 }

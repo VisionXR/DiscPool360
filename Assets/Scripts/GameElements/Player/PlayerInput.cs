@@ -51,11 +51,9 @@ namespace com.VisionXR.GameElements
 
         }
 
-        private void Swiped(SwipeDirection direction, float velocity)
-        {
-       
-            strikerMovement.RotateRelative(velocity);
-            
+        private void Swiped(float velocity)
+        {      
+            strikerMovement.RotateRelative(velocity);         
         }
 
         private void StrikerForceChanged(float obj)

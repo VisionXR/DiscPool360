@@ -7,23 +7,15 @@ namespace com.VisionXR.Views
     public class InputCanvasView : MonoBehaviour
     {
 
-        public List<PanelOnOff> panelsToOff;
+        public List<GameObject> panelsToOff;
         public void TurnOff()
         {
-           
+           gameObject.SetActive(false);
         }
-
-        private IEnumerator WaitAndTurnOff()
-        {
-            yield return new WaitForSeconds(0.5f);
-            gameObject.SetActive(false);
-        }
-
 
         public void TurnOn()
         {
             gameObject.SetActive(true);
-       
 
         }
     }

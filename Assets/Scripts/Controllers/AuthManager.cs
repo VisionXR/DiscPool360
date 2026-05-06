@@ -71,8 +71,8 @@ namespace com.VisionXR.Controllers
             }
 
             uiData.ResetAllPanels();
-            destinationPanel.gameObject.SetActive(true);
-            destinationPanel.ConnectToDestination(multiPlayerDestination);
+            //destinationPanel.gameObject.SetActive(true);
+            //destinationPanel.ConnectToDestination(multiPlayerDestination);
         }
 
         public string ParseDeepLink(string url)

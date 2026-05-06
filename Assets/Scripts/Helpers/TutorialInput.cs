@@ -62,13 +62,6 @@ namespace com.VisionXR.GameElements
             lineRenderer.endColor = Color.green;
         }
 
-        private void RotateTo(Vector3 direction)
-        {
-            if (strikerMovement != null && tutorialData.canIAim)
-            {
-                strikerMovement.RotateTo(direction);
-            }
-        }
 
         private void RotateRelative(float angle)
         {

@@ -45,8 +45,8 @@ public class JoinRoomTest : MonoBehaviour
     public void JoinRoom()
     {
         uiData.ResetAllPanels();
-        destinationPanel.gameObject.SetActive(true);
-        destinationPanel.ConnectToDestination(destination);
+        //destinationPanel.gameObject.SetActive(true);
+        //destinationPanel.ConnectToDestination(destination);
     }
 
     public void ChangeDestination()

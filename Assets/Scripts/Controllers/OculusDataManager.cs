@@ -81,8 +81,8 @@ namespace com.VisionXR.Controllers
                 {
                     currentDestination = tutorialDestination;
                     PlayerPrefs.SetString(Key, "true");
-                    destinationPanel.gameObject.SetActive(true);
-                    destinationPanel.ConnectToDestination(currentDestination);
+                    //destinationPanel.gameObject.SetActive(true);
+                    //destinationPanel.ConnectToDestination(currentDestination);
                 }
 
             }

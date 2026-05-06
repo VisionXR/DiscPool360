@@ -128,7 +128,7 @@ namespace com.VisionXR.GameElements
           //  StartCoroutine(Strike(holes[0].transform.position,1.5f));
 
             Vector3 direction = (holes[0].transform.position  - Striker.transform.position).normalized;
-            Striker.GetComponent<StrikerMovement>().RotateToOld(direction);
+            Striker.GetComponent<StrikerMovement>().RotateTo(direction);
             Striker.GetComponent<StrikerShooting>().Fire(1);
 
         }
@@ -210,7 +210,7 @@ namespace com.VisionXR.GameElements
             Vector3 direction = (finalPosLocal - Striker.transform.position).normalized;
 
 
-            Striker.GetComponent<StrikerMovement>().RotateToOld(direction);
+            Striker.GetComponent<StrikerMovement>().RotateTo(direction);
             aIData.StartRightHandRotation(direction);
             yield return new WaitForSeconds(0.5f);
 

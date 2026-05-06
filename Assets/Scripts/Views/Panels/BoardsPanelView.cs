@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,20 +14,23 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public BoardDataSO boardData;
         public AudioDataSO audioData;
-        public AppPropertiesDataSO appProperties;
+        public DestinationSO destinationData;
         public UserDataSO userData;
         public UIDataSO uiData;
         public PurchaseDataSO purchaseData;
 
         [Header("Board Images")]
+        public DestinationPanelView destinationPanelView;
         public List<Image> boardSelectionImages;
         public List<Image> boardLockImages;
 
         [Header("Next And Previous Panels")]
-        public string spStartGameState;
+        public string destinationState;
         public string currentState;
 
 
+        public Action DestinationSuccessEvent;
+        public Action<string> DestinationFailedEvent;
         void OnEnable()
         {
             ResetBoardImages();
@@ -103,11 +107,6 @@ namespace com.VisionXR.Views
                 boardSelectionImages[userData.myBoard].gameObject.SetActive(true);
               
             }
-            else
-            {
-               
-                
-            }
            
         }
 
@@ -121,8 +120,11 @@ namespace com.VisionXR.Views
             destination.gameType = uiData.currentGameType;
             destination.gameMode = uiData.currentGameMode;
             destination.aIDifficulty = uiData.currentAIDifficulty;
-            
-            
+
+            destinationData.SetDestination(destination);
+            uiData.uiManager.ChangeState(destinationState, true);
+           
+           
         }
         public void BackBtnClicked()
         {

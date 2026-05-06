@@ -25,10 +25,7 @@ public class StrikerMovementTestWindow : EditorWindow
         absoluteAngle = EditorGUILayout.Slider("Absolute Angle (Y)", absoluteAngle, 0f, 360f);
         if (strikerMovement != null)
         {
-            if (GUILayout.Button("Apply Absolute Rotation"))
-            {
-                strikerMovement.RotateAbsolute(absoluteAngle);
-            }
+           
         }
 
         EditorGUILayout.Space();

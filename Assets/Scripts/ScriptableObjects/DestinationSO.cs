@@ -21,8 +21,14 @@ public class DestinationSO : ScriptableObject
     {
         currentDestination = null;
     }
+
+    public void SetDestination(Destination destination)
+    {
+        currentDestination = destination;
+    }
     public void ConnectToDestination(Destination destination,Action OnDestinationSuccess,Action<string> OnDestinationFailed)
     {
+        currentDestination = destination;
         ConnectToDestinationEvent?.Invoke(destination,OnDestinationSuccess,OnDestinationFailed);
     }
 

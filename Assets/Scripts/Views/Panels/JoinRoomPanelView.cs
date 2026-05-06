@@ -27,8 +27,8 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             multiPlayerDestination.roomName = roomCodeInputField.text;
-            destinationPanel.gameObject.SetActive(true);
-            destinationPanel.ConnectToDestination(multiPlayerDestination);
+            //destinationPanel.gameObject.SetActive(true);
+            //destinationPanel.ConnectToDestination(multiPlayerDestination);
             gameObject.SetActive(false);
         }
 

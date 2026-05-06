@@ -16,7 +16,7 @@ namespace com.VisionXR.Views
 
         public void HideMainPanel(int id)
         {
-            Debug.Log("Trying to hide panel" + id);
+           
             allMainPanels[id].GetComponent<PanelOnOff>().TurnOffPanel();
         }
 

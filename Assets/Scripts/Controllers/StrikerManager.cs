@@ -66,7 +66,7 @@ public class StrikerManager : MonoBehaviour
         GameObject strikerPrefab = Resources.Load<GameObject>(path);
 
         currentStriker = Instantiate(strikerPrefab, strikerTransform.transform.position, strikerTransform.transform.rotation);
-        currentStriker.transform.localScale = Vector3.one;
+        currentStriker.transform.localScale = Vector3.one*0.75f;
         currentStriker.transform.SetParent(AllAssets.transform);
     }
 

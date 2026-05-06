@@ -172,22 +172,14 @@ namespace com.VisionXR.Controllers
                 float swipeTime = Time.time - swipeStartTime;
 
                 // 2. Check if the distance meets your minimum threshold
-                if ( swipeTime > 0)
+                if ( swipeTime > 0 && Mathf.Abs(horizontalDist) > swipeminDistanceThreshold)
                 {
                     // 3. Calculate Velocity (Pixels per second)
                     float velocity = horizontalDist / swipeTime;
-
-                    // 4. Determine Direction
-                    SwipeDirection direction = (horizontalDist > 0) ? SwipeDirection.Right : SwipeDirection.Left;
-
                     float normalizedVelocity = velocity / Screen.width;
 
-                    // 5. Send data: multiply velocity by your sensitivity
-                    // We pass 'velocity' as the "force" or "value"
-                    inputData.Swiped(direction, normalizedVelocity * rotationSensitivity);
-                    // 6. Reset for continuous swiping (Optional)
-                    // Resetting here allows "continuous" movement. 
-                    // If you want one swipe per touch, don't reset these.
+                    inputData.Swiped(normalizedVelocity * rotationSensitivity);
+
                     swipeStartPosition = touch;
                     swipeStartTime = Time.time;
                 }
@@ -203,12 +195,31 @@ namespace com.VisionXR.Controllers
                 isRotationStarted = false;
             }
 
-
-            if (strikerData.isFoul)
+            else if (strikerData.isFoul)
             {
                 inputData.FoulPinchEnded(touch);
             }
-           
+            else
+            {
+                // 1. Calculate the raw horizontal displacement
+                float horizontalDist = touch.x - swipeStartPosition.x;
+
+                float swipeTime = Time.time - swipeStartTime;
+
+                // 2. Check if the distance meets your minimum threshold
+                if (swipeTime > 0 && Mathf.Abs(horizontalDist) > swipeminDistanceThreshold)
+                {
+                    // 3. Calculate Velocity (Pixels per second)
+                    float velocity = horizontalDist / swipeTime;
+                    float normalizedVelocity = velocity / Screen.width;
+
+                    inputData.Swiped(normalizedVelocity * rotationSensitivity);
+
+                    swipeStartPosition = touch;
+                    swipeStartTime = Time.time;
+                }
+            }
+
         }
 
     }
