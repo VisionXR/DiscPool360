@@ -2,7 +2,6 @@ using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -14,10 +13,6 @@ namespace com.VisionXR.Views
         public DestinationSO destinationData;
         public AudioDataSO audioData;
         public UIDataSO uiData;
-
-        [Header("This Objects")]
-        public List<PanelOnOff> panelsToOff;
-
 
         [Header("Local Objects")]
         public TMP_Text connectionText;
@@ -101,24 +96,6 @@ namespace com.VisionXR.Views
             RetryBtn.SetActive(false);
 
             ConnectToDestination(currentDestination);
-        }
-
-        public void TurnOff()
-        {
-            
-        }
-
-        private IEnumerator WaitAndTurnOff()
-        {
-            yield return new WaitForSeconds(0.5f);
-            gameObject.SetActive(false);
-        }
-
-
-        public void TurnOn()
-        {
-            
-
         }
 
 

@@ -1347,7 +1347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SinglePlayerBoardsState
   uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
   MainCanvasId: 0
-  BoardsPanelId: 9
+  BoardsPanelId: 8
 --- !u!1101 &6401389169755762746
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

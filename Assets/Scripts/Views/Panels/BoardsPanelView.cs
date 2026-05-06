@@ -29,7 +29,7 @@ namespace com.VisionXR.Views
 
         void OnEnable()
         {
-            boardSelectionImages[userData.myBoard].gameObject.SetActive(true);
+          //  boardSelectionImages[userData.myBoard].gameObject.SetActive(true);
             OpenLock();
         }
 

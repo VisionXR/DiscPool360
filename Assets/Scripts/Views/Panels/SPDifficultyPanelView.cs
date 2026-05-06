@@ -41,8 +41,6 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.SetAIDifficulty(AIDifficulty.Medium);
-
-
         }
         public void HardBtnClicked()
         {
