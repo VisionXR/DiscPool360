@@ -13,6 +13,7 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public UserDataSO userData;
         public AudioDataSO audioData;
+        public UIDataSO uiData;
      //   public SaveAndLoadManager saveAndLoadManager;
 
         [Header("Game Objects")]
@@ -22,11 +23,14 @@ namespace com.VisionXR.Views
         public Slider SoundsSlider;
         public Slider BGMusicSlider;
 
+        [Header("Panel Objects")]
+        public string currentState;
+
 
         private void OnEnable()
         {
-            playerNameText.text = userData.MyName;
-            playerImage.sprite = userData.MyProfileImage;
+            //playerNameText.text = userData.MyName;
+            //playerImage.sprite = userData.MyProfileImage;
 
             //PlayerSettings settings = saveAndLoadManager.LoadSettings();
             //if (settings != null)
@@ -61,6 +65,12 @@ namespace com.VisionXR.Views
             };
 
           //  saveAndLoadManager.SaveSettings(settings);
+        }
+
+        public void BackBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.uiManager.ChangeState(currentState, false);
         }
 
     }

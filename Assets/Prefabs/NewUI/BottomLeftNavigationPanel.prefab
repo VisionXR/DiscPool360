@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 1802950798677482385}
   - component: {fileID: 2515837065814324267}
   - component: {fileID: 8059338062115371581}
-  - component: {fileID: 2292519366724385546}
-  - component: {fileID: 1555495741326016959}
   m_Layer: 5
   m_Name: BottomLeftNavigationPanel
   m_TagString: Untagged
@@ -27,7 +25,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6558069259438024634}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -76,39 +74,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &2292519366724385546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6558069259438024634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb30198aa32dd140b5750692dd48104, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Nobi.UiRoundedCorners::Nobi.UiRoundedCorners.ImageWithRoundedCorners
-  radius: 20
-  image: {fileID: 0}
---- !u!114 &1555495741326016959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6558069259438024634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0543c35eee7acb42973dc6c307238c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioData: {fileID: 11400000, guid: 834278d0e9a08c241bb4c0490eefc52c, type: 2}
-  appProperties: {fileID: 11400000, guid: db275355743c10341a9fce199295fbff, type: 2}
-  settingsPanelstring: 
-  leaderboardPanelstring: 
-  achievementPanelstring: 
-  purchasePanelstring: 
-  rulePanelstring: 
 --- !u!1001 &6457751609023947775
 PrefabInstance:
   m_ObjectHideFlags: 0

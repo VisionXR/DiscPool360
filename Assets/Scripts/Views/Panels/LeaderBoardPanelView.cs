@@ -13,6 +13,11 @@ namespace com.VisionXR.Views
         public UserDataSO settings;
         public LeaderBoardSO leaderBoard;
         public AudioDataSO audioData;
+        public UIDataSO uiData;
+
+
+        [Header("Panel Objects")]
+        public string currentState;
 
         [Header(" Game Objects")]
      
@@ -25,10 +30,6 @@ namespace com.VisionXR.Views
         public List<TMP_Text> Names;
         public List<TMP_Text> Ranks;
         public List<TMP_Text> Points;
-
-        [Header("This Objects")]
-        public HomePanelView homePanelView;
-        public List<PanelOnOff> panelsToOff;
 
 
 
@@ -102,24 +103,9 @@ namespace com.VisionXR.Views
         public void BackBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-
+            uiData.uiManager.ChangeState(currentState, false);
         }
 
-        public void TurnOff()
-        {
-
-        }
-
-        private IEnumerator WaitAndTurnOff()
-        {
-            yield return new WaitForSeconds(0.5f);
-            gameObject.SetActive(false);
-        }
-
-        public void TurnOn()
-        {
-            
-        }
     }
 
 

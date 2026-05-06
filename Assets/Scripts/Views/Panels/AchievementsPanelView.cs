@@ -1,7 +1,5 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace com.VisionXR.Views
@@ -12,6 +10,11 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public AchievementsDataSO achievementData;
         public AudioDataSO audioData;
+        public UIDataSO uiData;
+
+
+        [Header("Panel Objects")]
+        public string currentState;
 
 
         [Header("UI Objects")]
@@ -28,9 +31,8 @@ namespace com.VisionXR.Views
         public GameObject multiPlayerSelectionImage;
         public GameObject generalSelectionImage;
 
-        [Header("This Objects")]
-        public HomePanelView homePanelView;
-        public List<PanelOnOff> panelsToOff;
+
+       
         void OnEnable()
         {
             Initialise();
@@ -149,28 +151,6 @@ namespace com.VisionXR.Views
             generalScrollView.SetActive(true);
         }
 
-        public void BackBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-          
-        }
-
-        public void TurnOff()
-        {
-           
-        }
-
-        private IEnumerator WaitAndTurnOff()
-        {
-            yield return new WaitForSeconds(0.5f);
-            gameObject.SetActive(false);
-        }
-
-        public void TurnOn()
-        {
-           
-        }
-
 
         private void DisableContent()
         {
@@ -184,6 +164,12 @@ namespace com.VisionXR.Views
             singlePlayerSelectionImage.SetActive(false);
             multiPlayerSelectionImage.SetActive(false);
             generalSelectionImage.SetActive(false);
+        }
+
+        public void BackBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.uiManager.ChangeState(currentState, false);
         }
     }
 }

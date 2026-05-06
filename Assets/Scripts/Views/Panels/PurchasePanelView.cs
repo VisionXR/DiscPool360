@@ -1,6 +1,5 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,14 +12,17 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public PurchaseDataSO purchaseData;
         public AudioDataSO audioData;
+        public UIDataSO uiData;
+
+
+        [Header("Panel Objects")]
+        public string currentState;
 
 
         [Header("List Elements")]
         public GameObject boardsPanel;
         public List<TMP_Text> boardPriceTexts;
 
-        [Header("This Objects")]
-        public HomePanelView homePanelView;
 
 
 
@@ -29,7 +31,7 @@ namespace com.VisionXR.Views
 
             purchaseData.BoardAssetPurchasedEvent += SetProductPrices;
 
-            SetProductPrices();
+           // SetProductPrices();
         }
 
         private void OnDisable()
@@ -78,7 +80,7 @@ namespace com.VisionXR.Views
         public void BackBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            
+            uiData.uiManager.ChangeState(currentState,false);
             
         }
 

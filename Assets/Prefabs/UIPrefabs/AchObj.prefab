@@ -906,7 +906,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 900, y: 175}
+  m_SizeDelta: {x: 1400, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3084158445493761211
 CanvasRenderer:
@@ -1188,7 +1188,6 @@ MonoBehaviour:
   appPropertiesData: {fileID: 11400000, guid: db275355743c10341a9fce199295fbff, type: 2}
   HoverImage: {fileID: 5158892938001513656}
   ActualImage: {fileID: 5749138375963411234}
-  SelectionImage: {fileID: 4947042051140396385}
   isHovering: 0
   popScale: 1.08
   popDuration: 0.12
@@ -2412,7 +2411,6 @@ MonoBehaviour:
   appPropertiesData: {fileID: 11400000, guid: db275355743c10341a9fce199295fbff, type: 2}
   HoverImage: {fileID: 6834267838002269536}
   ActualImage: {fileID: 7486681283300267034}
-  SelectionImage: {fileID: 4039035766464459363}
   isHovering: 0
   popScale: 1.08
   popDuration: 0.12
