@@ -43,7 +43,7 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState(gameTypeState, true);
         }
 
-        public void SixSnookerBtnClciked()
+        public void TenSnookerBtnClciked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.SetGameMode(GameMode.Pool);
@@ -51,8 +51,7 @@ namespace com.VisionXR.Views
 
             uiData.uiManager.ChangeState(gameTypeState, true);
         }
-
-        public void TenSnookerBtnClciked()
+        public void SixSnookerBtnClciked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.SetGameMode(GameMode.Pool);
@@ -60,6 +59,8 @@ namespace com.VisionXR.Views
 
             uiData.uiManager.ChangeState(gameTypeState, true);
         }
+
+
 
         public void CollorChallengeBtnClciked()
         {
