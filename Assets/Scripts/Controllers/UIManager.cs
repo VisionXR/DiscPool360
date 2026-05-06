@@ -47,25 +47,23 @@ namespace com.VisionXR.Controllers
         public void ResetAllBools()
         {
            
-          //  StartCoroutine(WaitAndReset());
+            StartCoroutine(WaitAndReset());
         }
 
         private IEnumerator WaitAndReset()
         {
 
             yield return new WaitForSeconds(0.5f);
-            uiController.enabled = false;
 
             // Iterate through all parameters in the Animator Controller
             foreach (AnimatorControllerParameter parameter in uiController.parameters)
             {
-                if (parameter.type == AnimatorControllerParameterType.Bool)
+                if (parameter.type == AnimatorControllerParameterType.Bool && parameter.name != "GameType")
                 {
                     uiController.SetBool(parameter.name, false);
                 }
             }
-            yield return new WaitForSeconds(0.5f);
-            uiController.enabled = true;
+
         }
 
         public void ShowCanvas(int id)
