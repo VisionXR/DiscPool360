@@ -17,19 +17,25 @@ namespace com.VisionXR.Views
         [Header("game Objects")]
         public Destination multiPlayerDestination;
         public TMP_InputField roomCodeInputField;
-        public DestinationPanelView destinationPanel;
-        public GameObject multiPlayerPanel;
+        public DestinationPanelView destinationPanelView;
+       
 
-        [Header("This Objects")]
-        public MultiPlayerPanelView multiPlayerPanelView;
-        public List<PanelOnOff> panelsToOff;
+
+
+        [Header("Next And Previous Panels")]
+        public string destinationState;
+        public string currentState;
+
+
         public void JoinRoomBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             multiPlayerDestination.roomName = roomCodeInputField.text;
-            //destinationPanel.gameObject.SetActive(true);
-            //destinationPanel.ConnectToDestination(multiPlayerDestination);
-            gameObject.SetActive(false);
+            multiPlayerDestination.gameMode = uiData.currentGameMode;
+
+            destinationPanelView.SetDestination(multiPlayerDestination);
+            uiData.uiManager.ChangeState(destinationState, true);
+
         }
 
         public void BackBtnClicked()
