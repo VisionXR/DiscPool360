@@ -18,6 +18,7 @@ public class MPStartGame : StateMachineBehaviour
             if(uiData.currentGameMode == com.VisionXR.HelperClasses.GameMode.Pool)
             {
                 uiData.uiManager.ShowCanvas(poolCanvasId);
+                uiData.uiManager.poolCanvasView.ShowPoolUI();
                 uiData.uiManager.poolCanvasView.TurnOn();
             }
             else if(uiData.currentGameMode == com.VisionXR.HelperClasses.GameMode.Snooker)
