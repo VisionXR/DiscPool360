@@ -89,7 +89,7 @@ namespace com.VisionXR.Controllers
                         string json = result.Data[userDataKey].Value;
                         achievementsData.userData = JsonUtility.FromJson<UserData>(json);
 
-                        Debug.Log("Cloud Data Loaded Successfully" + json);
+                        Debug.Log("Cloud Data Loaded Successfully");
                     }
                     else
                     {
