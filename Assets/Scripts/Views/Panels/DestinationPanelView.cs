@@ -16,13 +16,14 @@ namespace com.VisionXR.Views
 
         [Header("Local Objects")]
         public TMP_Text connectionText;
+        public GameObject rotationImage;
         public GameObject HomeBtn;
         public GameObject RetryBtn;
 
         // local actions
         private Action DestinationSuccessEvent;
         private Action<string> DestinationFailureEvent;
-        private Destination currentDestination;
+        public Destination currentDestination;
 
         private Coroutine connectionRoutine = null;
 
@@ -31,6 +32,7 @@ namespace com.VisionXR.Views
         public string singlePlayerState;
         public string multiPlayerState;
         public string currentState;
+        public string lobbyState;
 
 
         private void OnEnable()
@@ -53,6 +55,7 @@ namespace com.VisionXR.Views
 
         private IEnumerator WaitAndConnect()
         {
+          
             yield return new WaitForSeconds(0.5f);
             ConnectToDestination();
         }
@@ -66,16 +69,8 @@ namespace com.VisionXR.Views
                 connectionRoutine = null;
             }
 
-
-            if(uiData.currentGameType == GameType.SinglePlayer)
-            {
-                uiData.uiManager.ChangeState(singlePlayerState, true);
-            }
-            else if (uiData.currentGameType == GameType.MultiPlayer)
-            {
-                uiData.uiManager.ChangeState(multiPlayerState, true);
-            }
-            
+            connectionText.text = "Connected";
+            uiData.uiManager.ChangeState(lobbyState, true);      
         }
 
         private void OnFailure(string msg)
@@ -90,20 +85,30 @@ namespace com.VisionXR.Views
             RetryBtn.SetActive(true);
         }
 
+
+        public void SetDestination(Destination destination)
+        {
+            
+            currentDestination = destination;   
+       
+        }
+
+
         public void ConnectToDestination()
         {
-            if (destinationData.currentDestination != null)
+            if (currentDestination != null)
             {
-                currentDestination = destinationData.currentDestination;
+              
+          
                 if (connectionRoutine == null)
                 {
                     connectionRoutine = StartCoroutine(ShowConnectionStatus());
                 }
                
-                destinationData.ConnectToDestination(destinationData.currentDestination, DestinationSuccessEvent, DestinationFailureEvent);
-
+                destinationData.ConnectToDestination(currentDestination, DestinationSuccessEvent, DestinationFailureEvent);
 
             }
+
         }
 
         public void HomeBtnClicked()

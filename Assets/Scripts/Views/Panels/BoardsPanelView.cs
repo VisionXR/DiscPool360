@@ -25,11 +25,10 @@ namespace com.VisionXR.Views
 
         [Header("Next And Previous Panels")]
         public string singlePlayerStartState;
+        public string destinationState;
         public string currentState;
 
 
-        public Action DestinationSuccessEvent;
-        public Action<string> DestinationFailedEvent;
         void OnEnable()
         {
             ResetBoardImages();
@@ -120,11 +119,22 @@ namespace com.VisionXR.Views
             destination.gameMode = uiData.currentGameMode;
             destination.aIDifficulty = uiData.currentAIDifficulty;
 
-            destinationData.SetDestination(destination);
-            destinationData.ConnectToDestination(destination, null, null);
-            uiData.uiManager.ChangeState(singlePlayerStartState, true);
-           
-           
+            
+
+            if (uiData.currentGameType == GameType.SinglePlayer)
+            {
+                destinationData.ConnectToDestination(destination, null, null);
+                uiData.uiManager.ChangeState(singlePlayerStartState, true);
+            }
+            else if (uiData.currentGameType == GameType.MultiPlayer)
+            {
+                Debug.Log("hmmmm");
+                destinationPanelView.SetDestination(destination);
+                uiData.uiManager.ChangeState(destinationState, true);
+               
+            }
+
+
         }
         public void BackBtnClicked()
         {
