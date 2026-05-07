@@ -12,7 +12,7 @@ namespace com.VisionXR.GameElements
         public float yawThresholdDegrees = 0.5f;
         public float velocityFactor = 0.5f;
         public Quaternion initialRotation = Quaternion.identity;
-        public float degreesPerSecond = 60f; // Your target speed
+        public float degreesPerSecond = 360f; // Your target speed
 
 
         // Tracks the last yaw we actually applied (to enforce threshold between updates)
