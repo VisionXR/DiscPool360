@@ -128,7 +128,7 @@ namespace com.VisionXR.Views
             }
             else if (uiData.currentGameType == GameType.MultiPlayer)
             {
-                Debug.Log("hmmmm");
+                
                 destinationPanelView.SetDestination(destination);
                 uiData.uiManager.ChangeState(destinationState, true);
                

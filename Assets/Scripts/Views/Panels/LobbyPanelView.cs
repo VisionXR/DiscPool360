@@ -301,7 +301,7 @@ namespace com.VisionXR.Views
             {
                 sendPlayerData.RPC_StartGame(2, userData.myCoins);
             }
-            gameObject.SetActive(false);
+            
         }
 
         public void ExitBtnClicked()

@@ -51,7 +51,7 @@ namespace com.VisionXR.Views
             gameData.TurnChangeEvent += ShowIndicator;
             uiData.SetCoinsEvent += SetCoins;
             uiData.UpdateCoinsEvent += RefreshScoresAndCoins;
-            SetPlayerData(1);
+            uiData.SetPlayerDataEvent += SetPlayerData;
          
           
         }
@@ -62,7 +62,7 @@ namespace com.VisionXR.Views
             gameData.TurnChangeEvent -= ShowIndicator;
             uiData.SetCoinsEvent -= SetCoins;
             uiData.UpdateCoinsEvent -= RefreshScoresAndCoins;
-            
+            uiData.SetPlayerDataEvent -= SetPlayerData;
         }
 
         private void SetPlayerData(int id)

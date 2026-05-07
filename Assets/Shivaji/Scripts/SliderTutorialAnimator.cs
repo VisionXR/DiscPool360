@@ -18,6 +18,7 @@ public class SliderTutorialAnimator : MonoBehaviour
     [Header("Right Arrow Pulse Settings")]
     [SerializeField] private float pulseSpeed = 5f;
     [SerializeField] private float pulseAmount = 0.15f;
+    [SerializeField] private float loopTime = 3f;
 
     private CanvasGroup _handCanvasGroup;
     private Vector3 _handInitialLocalPos;
@@ -90,7 +91,7 @@ public class SliderTutorialAnimator : MonoBehaviour
             // 4. LIFT (Scale Up + Fade Out)
             yield return StartCoroutine(LerpHand(pressedScale, startScale, 1, 0, 0.4f / animationSpeed, false));
 
-            yield return new WaitForSeconds(0.6f); // Wait before looping
+            yield return new WaitForSeconds(loopTime); // Wait before looping
         }
     }
 

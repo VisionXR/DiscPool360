@@ -51,6 +51,8 @@ namespace com.VisionXR.Controllers
         {
             gameData.firstTurnId = -1;
 
+           
+
             networkOutputData.StartGameEvent += StartGame;
             networkOutputData.SetWinnerEvent += SetWinner;
             networkOutputData.SetPlayerCoinsEvent += SetCoins;
@@ -97,7 +99,8 @@ namespace com.VisionXR.Controllers
 
         public void StartGame(int playerId,int coinsId)
         {
-            
+            uiData.uiManager.ChangeState("MultiPlayerStartGame", true);
+
             _previousTurnId = -1;
             gameData.firstTurnId = playerId;
             userData.myCoins = coinsId;
@@ -111,7 +114,7 @@ namespace com.VisionXR.Controllers
                 uiData.currentGameMode = GameMode.Snooker;
             }
 
-            uiData.ResetAllPanels();
+            
             tableData.ResetPlatform();
             
             isFirstCoinPocketed = false;        
