@@ -11,12 +11,17 @@ namespace com.VisionXR.Views
         public UIDataSO uiData;
         public GameDataSO gameData;
 
+        [Header("Next And Previous Panels")]
+        public string currentState;
+
         public void HomeBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
 
             gameData.ExitGame();
-            gameObject.SetActive(false);
+            uiData.uiManager.ChangeState("GameType", false);
+            uiData.uiManager.ChangeState(currentState, false);
+            uiData.uiManager.ResetAllBools();
         }
     }
 }

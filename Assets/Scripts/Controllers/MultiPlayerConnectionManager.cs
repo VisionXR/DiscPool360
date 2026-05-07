@@ -1,8 +1,6 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using Fusion;
-using System;
 using UnityEngine;
 
 namespace com.VisionXR.Controllers
@@ -10,6 +8,7 @@ namespace com.VisionXR.Controllers
     public class MultiPlayerConnectionManager : MonoBehaviour
     {
         [Header("Scriptable Objects")]
+        public UIDataSO uiData;
         public NetworkInputDataSO networkInputData;
         public NetworkOutputDataSO networkOutputData;
         public PlayerDataSO playerData;
@@ -21,7 +20,9 @@ namespace com.VisionXR.Controllers
         public GameObject clientDisconnectedPanel;
         public bool isPlaying = false;
 
-
+        [Header("Next And Previous Panels")]
+        public string playerLeftState;
+   
 
         private void OnEnable()
         {
@@ -168,7 +169,7 @@ namespace com.VisionXR.Controllers
             {
                 Reset();
                 isPlaying = false;
-                clientDisconnectedPanel.SetActive(true);
+                uiData.uiManager.ChangeState(playerLeftState, true);
                 Debug.Log(" Player left after game starts");
             }
             else
