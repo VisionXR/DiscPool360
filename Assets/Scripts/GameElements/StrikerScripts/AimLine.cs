@@ -12,7 +12,7 @@ public class AimLine : MonoBehaviour
     public Renderer lineRenderer;
     public GameObject line;
     public GameObject quadCircle;
-    public GameObject NormalLine;
+//    public GameObject NormalLine;
     
 
     [Header("Properties")]
@@ -49,14 +49,14 @@ public class AimLine : MonoBehaviour
         {
                line.SetActive(false);
                quadCircle.SetActive(false);
-               NormalLine.SetActive(false);
+             //  NormalLine.SetActive(false);
               
             return;
         }
 
         line.SetActive(true);
         quadCircle.SetActive(true);
-        NormalLine.SetActive(true);
+     //   NormalLine.SetActive(true);
 
         Vector3 rayOrigin = transform.position;
         Vector3 rayDirection = transform.forward;
@@ -71,10 +71,10 @@ public class AimLine : MonoBehaviour
 
             Transform coin = hit.collider.transform;
 
-            NormalLine.transform.position = hit.collider.transform.position; // Position at the hit point
+     //       NormalLine.transform.position = hit.collider.transform.position; // Position at the hit point
            
 
-            NormalLine.transform.rotation = Quaternion.LookRotation(-Vector3.up,-hit.normal);
+     //       NormalLine.transform.rotation = Quaternion.LookRotation(-Vector3.up,-hit.normal);
            
         }
      

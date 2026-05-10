@@ -29,6 +29,17 @@ namespace com.VisionXR.Views
         public Image Player2Winner;
         public Image Player2Image;
 
+
+        private void OnEnable()
+        {
+            gameData.GameCompletedEvent += ShowWinner;
+        }
+
+        private void OnDisable()
+        {
+            gameData.GameCompletedEvent -= ShowWinner;
+        }
+
         public void ShowWinner(int winnerId)
         {
             GameModeText.text = Enum.GetName(typeof(GameMode), uiData.currentGameMode);
@@ -56,16 +67,18 @@ namespace com.VisionXR.Views
         public void HomeBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-          
             gameData.ExitGame();
-            gameObject.SetActive(false);
+            uiData.uiManager.ChangeState("GameType", false);
+            uiData.uiManager.ChangeState("Home", true);
+            uiData.uiManager.ResetAllBools();
         }
 
         public void PlayAgainBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             gameData.PlayAgain();
-            gameObject.SetActive(false);
+            uiData.uiManager.ChangeState("MultiPlayerStartGame", false);
+            uiData.uiManager.ChangeState("GameCompleted", false);
         }
 
         

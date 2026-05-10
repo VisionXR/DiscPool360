@@ -28,7 +28,7 @@ namespace com.VisionXR.Controllers
         {
             networkOutputData.OnPlayerJoinedEvent += OnPlayerJoined;
             networkOutputData.OnPlayerLeftEvent += OnPlayerLeft;
-            ShowWaitingPanels();
+            
             networkOutputData.SetHostReady(true);
             networkOutputData.SetClientReady(true);
         }
@@ -127,14 +127,6 @@ namespace com.VisionXR.Controllers
             networkData.RPC_SetAssignedCoins(coin1, coin2);
         }
 
-
-        private void ShowWaitingPanels()
-        {
-
-            Reset();
-            lobbyPanel.SetActive(true);
-        }
-
         public void OnPlayerJoined()
         {
 
@@ -144,9 +136,8 @@ namespace com.VisionXR.Controllers
 
         public void PlayAgain()
         {
-            Reset();
-            lobbyPanel.SetActive(true);
-
+          
+           
             if (networkOutputData.IsHostStatus())
             {
                 Player p = playerData.GetMainPlayer();
@@ -167,7 +158,7 @@ namespace com.VisionXR.Controllers
         {
             if ((isPlaying))
             {
-                Reset();
+                
                 isPlaying = false;
                 uiData.uiManager.ChangeState(playerLeftState, true);
                 Debug.Log(" Player left after game starts");
@@ -177,13 +168,6 @@ namespace com.VisionXR.Controllers
 
             }
 
-        }
-
-        private void Reset()
-        {
-
-            lobbyPanel.SetActive(false);
-            clientDisconnectedPanel.SetActive(false);
         }
 
 

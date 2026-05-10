@@ -60,8 +60,6 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState(gameTypeState, true);
         }
 
-
-
         public void CollorChallengeBtnClciked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);

@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace com.VisionXR.Views
 {
@@ -13,6 +14,8 @@ namespace com.VisionXR.Views
         public DestinationSO destinationData;
         public AudioDataSO audioData;
         public UIDataSO uiData;
+        public GameDataSO gameData;
+        public UserDataSO userData;
 
         [Header("Local Objects")]
         public TMP_Text connectionText;
@@ -20,12 +23,24 @@ namespace com.VisionXR.Views
         public GameObject HomeBtn;
         public GameObject RetryBtn;
 
+        [Header("Icons")]
+        public Sprite EightPoolIcon;
+        public Sprite FivePoolIcon;
+        public Sprite TenSnookerIcon;
+        public Sprite SixSnookerIcon;
+        public Sprite ColorChallengeIcon;
+
+        [Header("Rotation Settings")]
+        public float rotationSpeed = 360f; // Degrees per second
+
+        private Coroutine connectionRoutine = null;
+        private Coroutine rotationRoutine = null;
+
         // local actions
         private Action DestinationSuccessEvent;
         private Action<string> DestinationFailureEvent;
         public Destination currentDestination;
 
-        private Coroutine connectionRoutine = null;
 
 
         [Header("Next And Previous Panels")]
@@ -42,6 +57,29 @@ namespace com.VisionXR.Views
 
             HomeBtn.SetActive(false);
             RetryBtn.SetActive(false);
+
+            if(userData.myCoins == 0)
+            {
+                rotationImage.GetComponent<Image>().sprite = EightPoolIcon;
+            }
+            else if (userData.myCoins == 1)
+            {
+                rotationImage.GetComponent<Image>().sprite = FivePoolIcon;
+            }
+            else if (userData.myCoins == 2)
+            {
+                rotationImage.GetComponent<Image>().sprite = TenSnookerIcon;
+            }
+
+            else if (userData.myCoins == 3)
+            {
+                rotationImage.GetComponent<Image>().sprite = SixSnookerIcon;
+            }
+            else if (userData.myCoins == 4)
+            {
+                rotationImage.GetComponent<Image>().sprite = ColorChallengeIcon;
+            }
+
 
             StartCoroutine(WaitAndConnect());
         }
@@ -66,18 +104,22 @@ namespace com.VisionXR.Views
             if (connectionRoutine != null)
             {
                 StopCoroutine(connectionRoutine);
+                StopCoroutine(rotationRoutine);
+                rotationImage.transform.localRotation = Quaternion.identity;    
                 connectionRoutine = null;
             }
 
             connectionText.text = "Connected";
             uiData.uiManager.ChangeState(lobbyState, true);      
         }
-
+            
         private void OnFailure(string msg)
         {
             if (connectionRoutine != null)
             {
                 StopCoroutine(connectionRoutine);
+                StopCoroutine(rotationRoutine);
+                rotationImage.transform.localRotation = Quaternion.identity;
                 connectionRoutine = null;
             }
 
@@ -103,6 +145,7 @@ namespace com.VisionXR.Views
                 if (connectionRoutine == null)
                 {
                     connectionRoutine = StartCoroutine(ShowConnectionStatus());
+                    rotationRoutine = StartCoroutine(RotateImage());
                 }
                
                 destinationData.ConnectToDestination(currentDestination, DestinationSuccessEvent, DestinationFailureEvent);
@@ -117,7 +160,10 @@ namespace com.VisionXR.Views
             HomeBtn.SetActive(false);
             RetryBtn.SetActive(false);
 
-            uiData.TriggerHomeEvent();
+            gameData.ExitGame();
+            uiData.uiManager.ChangeState("GameType", false);
+            uiData.uiManager.ChangeState("Home", true);
+            uiData.uiManager.ResetAllBools();
         }
 
         public void RetryBtnClicked()
@@ -145,5 +191,15 @@ namespace com.VisionXR.Views
                 yield return new WaitForSeconds(0.2f);
             }
         }
+
+        private IEnumerator RotateImage()
+        {
+            while (true)
+            {
+                rotationImage.transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+                yield return null;
+            }
+        }
     }
 }
+

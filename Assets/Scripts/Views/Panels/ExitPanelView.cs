@@ -20,7 +20,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             gameData.ExitGame();
             uiData.uiManager.ChangeState("GameType", false);
-            uiData.uiManager.ChangeState(currentState, false);
+            uiData.uiManager.ChangeState("Home", true);
             uiData.uiManager.ResetAllBools();
            
         }

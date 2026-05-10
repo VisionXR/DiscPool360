@@ -175,7 +175,8 @@ namespace com.VisionXR.Views
 
                     if (!clientWaitingObject.activeInHierarchy)
                     {
-
+                        hostStartObject.SetActive(false);
+                        clientStartObject.SetActive(false);
                         clientWaitingObject.SetActive(true);
                     }
 
@@ -185,6 +186,8 @@ namespace com.VisionXR.Views
 
                     if (!hostWaitingOBject.activeInHierarchy)
                     {
+                        hostStartObject.SetActive(false);
+                        clientStartObject.SetActive(false);
                         hostWaitingOBject.SetActive(true);
                     }
                 }
@@ -308,7 +311,9 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             gameData.ExitGame();
-            gameObject.SetActive(false);
+            uiData.uiManager.ChangeState("GameType", false);
+            uiData.uiManager.ChangeState("Home", true);
+            uiData.uiManager.ResetAllBools();
         }
 
         public void BackBtnClicked()

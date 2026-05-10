@@ -13,6 +13,9 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public AudioDataSO audioData;
         public UIDataSO uiData;
+        public UserDataSO userData;
+
+        [Header("UI Objects")]
         public TMP_Text headingText;
 
         [Header("Selection Objects")]
@@ -35,8 +38,29 @@ namespace com.VisionXR.Views
             else if (uiData.currentGameType == GameType.MultiPlayer)
             {
                 MPSelectedImage.SetActive(true);
-            }   
+            }
 
+            if (userData.myCoins == 0)
+            {
+                headingText.text = "EightPool";
+            }
+            else if (userData.myCoins == 1)
+            {
+                headingText.text = "FivePool";
+            }
+            else if (userData.myCoins == 2)
+            {
+                headingText.text = "TenSnooker";
+            }
+
+            else if (userData.myCoins == 3)
+            {
+                headingText.text = "SixSnooker";
+            }
+            else if (userData.myCoins == 4)
+            {
+                headingText.text = "ColorChallenge";
+            }
         }
 
 

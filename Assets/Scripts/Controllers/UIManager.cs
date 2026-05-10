@@ -36,6 +36,11 @@ namespace com.VisionXR.Controllers
 
         }
 
+        private void OnEnable()
+        {
+            ResetAllBools();
+        }
+
         public void ChangeState(string stateName,bool value)
         {
             uiController.SetBool(stateName,value);

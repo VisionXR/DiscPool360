@@ -151,9 +151,7 @@ namespace com.VisionXR.Controllers
             strikerData.CreateStriker(boardData.StrikerTransform);
             yield return new WaitForSeconds(0.1f);
 
-            uiData.SetPlayerData(1);
-            uiData.SetPlayerData(2);
-
+          
 
             firstTurnId = id;
             isFirstCoinPocketed = false;
@@ -203,6 +201,9 @@ namespace com.VisionXR.Controllers
             strikerData.SetFoul(false);
 
             yield return new WaitForSeconds(1);
+            uiData.SetPlayerData(1);
+            uiData.SetPlayerData(2);
+
             gameData.ChangeTurn(id);
         }
 
@@ -221,8 +222,7 @@ namespace com.VisionXR.Controllers
             yield return StartCoroutine(CreatePlayers());
             yield return new WaitForSeconds(0.1f);
 
-            uiData.SetPlayerData(1);
-            uiData.SetPlayerData(2);
+          
 
             if (uiData.currentGameMode == GameMode.Pool)
             {
@@ -238,8 +238,10 @@ namespace com.VisionXR.Controllers
                 snookerLogic.StartGame();
 
             }
-
+    
             yield return new WaitForSeconds(1f);
+            uiData.SetPlayerData(1);
+            uiData.SetPlayerData(2);
             gameData.ChangeTurn(id);
         }
 
@@ -598,7 +600,9 @@ namespace com.VisionXR.Controllers
 
             }
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
+            uiData.uiManager.ChangeState("GameCompleted", true);
+            yield return new WaitForSeconds(0.5f);
             gameData.GameCompleted(id);
             coinData.DestroyCoins();
             PoolScoreCanvas.SetActive(false);
