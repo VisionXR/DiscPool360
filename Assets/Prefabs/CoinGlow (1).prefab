@@ -63,7 +63,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 4576df1bdd454e14ca1f648fb7be27da, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (1)

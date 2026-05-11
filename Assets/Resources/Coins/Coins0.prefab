@@ -63,7 +63,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (8)
@@ -150,7 +150,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (2)
@@ -237,7 +237,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow
@@ -324,7 +324,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (9)
@@ -411,7 +411,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (11)
@@ -498,7 +498,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (3)
@@ -585,7 +585,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (4)
@@ -672,7 +672,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (14)
@@ -759,7 +759,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (7)
@@ -839,6 +839,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1498199379843881393, guid: 6820f2056cd99cb459957b26900279e2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -917,7 +921,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (13)
@@ -1004,7 +1008,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (6)
@@ -1682,7 +1686,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4701095639483609636, guid: 6b711674f97344e48ae47dfe2dcad5c7, type: 3}
       propertyPath: m_Name
-      value: PoolCoinsPrefab
+      value: Coins0
       objectReference: {fileID: 0}
     - target: {fileID: 4701095639483609636, guid: 6b711674f97344e48ae47dfe2dcad5c7, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -2977,7 +2981,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (10)
@@ -3064,7 +3068,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (12)
@@ -3151,7 +3155,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c2a06037ca3eea94aac652146fb36839, type: 2}
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 919132149155446097, guid: 6136c964256614d4ba702bff060e7b2d, type: 3}
       propertyPath: m_Name
       value: CoinGlow (5)

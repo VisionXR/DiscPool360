@@ -8,11 +8,43 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 147734139894960812, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 640742120289115073, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 644540821252842712, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1110570373524095254, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
+    - target: {fileID: 1515961804270861349, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1530439828183732211, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1998845129524707777, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567519882895118779, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2734598336706392628, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
+    - target: {fileID: 2923445229149702723, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -56,14 +88,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3547746937625315749, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
+    - target: {fileID: 3849059282461582919, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 4446612836082462694, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
       propertyPath: m_Name
-      value: PoolCoins1
+      value: Coins1
       objectReference: {fileID: 0}
+    - target: {fileID: 4568655400179105851, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 5403188800631645729, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
       propertyPath: m_TagString
       value: Stripe
       objectReference: {fileID: 0}
+    - target: {fileID: 5787251077897002800, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
+    - target: {fileID: 5841829784996531710, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 5906181659946714644, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -72,9 +124,25 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Solid
       objectReference: {fileID: 0}
+    - target: {fileID: 5944600768412920489, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
+    - target: {fileID: 6544037207019127145, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2cf4077a686d36243a9a9e03417d91ff, type: 2}
     - target: {fileID: 6729017825527740399, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
       propertyPath: m_TagString
       value: Stripe
+      objectReference: {fileID: 0}
+    - target: {fileID: 7614480645813417964, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7647412550782243595, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8044343118477075993, guid: c336ef45f8176ce45879f5b7f45bd161, type: 3}
       propertyPath: m_IsActive
