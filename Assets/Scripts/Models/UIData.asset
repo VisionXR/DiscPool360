@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c2f2df64031a9144b01340f9d9a8617, type: 3}
   m_Name: UIData
   m_EditorClassIdentifier: 
-  currentGameType: 0
+  uiManager: {fileID: 0}
+  currentGameType: 1
   currentGameMode: 0
   currentAIDifficulty: 2
   currentBoardType: 0
-  disableTime: 0.5
+  disableTime: 0.3
   selectionColor: {r: 0, g: 0, b: 0.49019608, a: 0.5882353}
   defaultColor: {r: 0.49019608, g: 0.49019608, b: 0.49019608, a: 0.5882353}

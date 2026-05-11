@@ -16,6 +16,7 @@ namespace com.VisionXR.Views
         public GameDataSO gameData;
         public UIDataSO uiData;
         public PlayerDataSO playerData;
+        public UserDataSO userData;
 
         [Header("Other Elements")]
         public TMP_Text GameModeText;
@@ -42,7 +43,27 @@ namespace com.VisionXR.Views
 
         public void ShowWinner(int winnerId)
         {
-            GameModeText.text = Enum.GetName(typeof(GameMode), uiData.currentGameMode);
+            if (userData.myCoins == 0)
+            {
+                GameModeText.text = "8 Pool";
+            }
+            else if (userData.myCoins == 1)
+            {
+                GameModeText.text = "5 Pool";
+            }
+            else if (userData.myCoins == 2)
+            {
+                GameModeText.text = "10 Snooker";
+            }
+
+            else if (userData.myCoins == 3)
+            {
+                GameModeText.text = "6 Snooker";
+            }
+            else if (userData.myCoins == 4)
+            {
+                GameModeText.text = "Color Challenge";
+            }
 
             Player p1 = playerData.GetPlayerById(1);
             Player1Image.sprite = p1.playerProperties.myImage;

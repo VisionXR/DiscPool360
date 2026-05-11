@@ -40,8 +40,8 @@ namespace com.VisionXR.Views
 
         public void BackBtnClicked()
         {
-            audioData.PlayAudio(AudioClipType.ButtonClick);          
- 
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.uiManager.ChangeState(currentState, false);
         }
 
     }

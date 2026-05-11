@@ -42,24 +42,24 @@ namespace com.VisionXR.Views
 
             if (userData.myCoins == 0)
             {
-                headingText.text = "EightPool";
+                headingText.text = "8 Pool";
             }
             else if (userData.myCoins == 1)
             {
-                headingText.text = "FivePool";
+                headingText.text = "5 Pool";
             }
             else if (userData.myCoins == 2)
             {
-                headingText.text = "TenSnooker";
+                headingText.text = "10 Snooker";
             }
 
             else if (userData.myCoins == 3)
             {
-                headingText.text = "SixSnooker";
+                headingText.text = "6 Snooker";
             }
             else if (userData.myCoins == 4)
             {
-                headingText.text = "ColorChallenge";
+                headingText.text = "Color Challenge";
             }
         }
 

@@ -26,7 +26,8 @@ namespace com.VisionXR.Views
         [Header("Next And Previous Panels")]
         public string singlePlayerStartState;
         public string destinationState;
-        public string currentState;
+        public string singlePlayerState;
+        public string multiPlayerState;
 
 
         void OnEnable()
@@ -140,7 +141,8 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
 
-            uiData.uiManager.ChangeState(currentState, false);
+            uiData.uiManager.ChangeState(singlePlayerState, false);
+            uiData.uiManager.ChangeState(multiPlayerState, false);
             
         }
 
