@@ -18,11 +18,14 @@ namespace com.VisionXR.Views
         public void ExitBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            gameData.ExitGame();
-            uiData.uiManager.ChangeState("GameType", false);
+          
+            uiData.uiManager.ChangeState("SinglePlayer", false);
+            uiData.uiManager.ChangeState("MultiPlayer", false);
             uiData.uiManager.ChangeState("Home", true);
             uiData.uiManager.ResetAllBools();
-           
+
+            gameData.ExitGame();
+
         }
 
         public void ResumeBtnClicked()

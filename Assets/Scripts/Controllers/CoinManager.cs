@@ -99,7 +99,7 @@ public class CoinManager : MonoBehaviour
 
         }
 
-        string path = resourceFolderPath + "Coins" + userData.myCoins;
+        string path = resourceFolderPath + "Coins" + (int)userData.myCoins;
 
         
         GameObject coinsPrefab = Resources.Load<GameObject>(path);

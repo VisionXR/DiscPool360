@@ -11,10 +11,11 @@ namespace com.VisionXR.Views
         public AudioDataSO audioData;
         public UIDataSO uiData;
         public UserDataSO userData;
-
+        public DestinationSO destinationData;
 
         [Header("Next And Previous Panels")]
-        public string boardsState;
+        public Destination SPDestination;
+        public string startGameState;
         public string currentState;
 
         [Header("Selection Objects")]
@@ -43,8 +44,10 @@ namespace com.VisionXR.Views
         public void NextBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);           
-            uiData.uiManager.ChangeState(boardsState, true);
+            uiData.uiManager.ChangeState(startGameState, true);
 
+            SPDestination.gameMode = uiData.currentGameMode;
+            destinationData.ConnectToDestination(SPDestination, null, null);
         }
 
         public void BackBtnClicked()

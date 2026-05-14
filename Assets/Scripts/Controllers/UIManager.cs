@@ -46,20 +46,10 @@ namespace com.VisionXR.Controllers
             uiController.SetBool(stateName,value);
            
         }
-        /// <summary>
-        /// Loops through all parameters and sets every Boolean to false.
-        /// </summary>
-        public void ResetAllBools()
-        {
-           
-            StartCoroutine(WaitAndReset());
-        }
 
         private IEnumerator WaitAndReset()
         {
-
-            yield return new WaitForSeconds(0.5f);
-
+            yield return new WaitForSeconds(uiData.disableTime);
             // Iterate through all parameters in the Animator Controller
             foreach (AnimatorControllerParameter parameter in uiController.parameters)
             {
@@ -69,6 +59,13 @@ namespace com.VisionXR.Controllers
                 }
             }
 
+        }
+        /// <summary>
+        /// Loops through all parameters and sets every Boolean to false.
+        /// </summary>
+        public void ResetAllBools()
+        {
+            StartCoroutine(WaitAndReset());
         }
 
         public void ShowCanvas(int id)

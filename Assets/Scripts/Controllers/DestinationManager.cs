@@ -65,8 +65,6 @@ public class DestinationManager : MonoBehaviour
         OnDestinationSuccessEvent = OnSuccess;
         OnDestinationFailedEvent = OnFailure;
 
-        uiData.SetGameMode(destination.gameMode);
-        uiData.SetGameType(destination.gameType);
 
         ResetManagers();
       

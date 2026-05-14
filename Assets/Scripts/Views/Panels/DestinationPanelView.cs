@@ -161,7 +161,8 @@ namespace com.VisionXR.Views
             RetryBtn.SetActive(false);
 
             gameData.ExitGame();
-            uiData.uiManager.ChangeState("GameType", false);
+            uiData.uiManager.ChangeState("SinglePlayer", false);
+            uiData.uiManager.ChangeState("MultiPlayer", false);
             uiData.uiManager.ChangeState("Home", true);
             uiData.uiManager.ResetAllBools();
         }

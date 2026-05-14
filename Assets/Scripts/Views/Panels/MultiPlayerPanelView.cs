@@ -11,6 +11,7 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public AudioDataSO audioData;
         public UIDataSO uiData;
+        public DestinationSO destinationData;
 
 
         [Header("Selection Objects")]
@@ -19,12 +20,15 @@ namespace com.VisionXR.Views
 
 
         [Header("Next And Previous Panels")]
+        public DestinationPanelView destinationPanelView;
+        public Destination MPDestination;
         public string currentState;
         public string createRoomState;
         public string joinRoomState;
 
         private void OnEnable()
         {
+            MPDestination.gameMode = uiData.currentGameMode;
             ResteImages();
             if (uiData.currentLobbyType == LobbyType.Create)
             {
@@ -43,6 +47,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResteImages();
             CreateSelectedImage.SetActive(true);
+            MPDestination.gameMode = uiData.currentGameMode;
             uiData.SetLobbyType(LobbyType.Create);
         }
 
@@ -51,6 +56,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResteImages();
             JoinSelectedImage.SetActive(true);
+            MPDestination.gameMode = uiData.currentGameMode;
             uiData.SetLobbyType(LobbyType.Join);
         }
 
@@ -65,7 +71,17 @@ namespace com.VisionXR.Views
         public void NextBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            
+            destinationPanelView.SetDestination(MPDestination);
+            destinationData.SetDestination(MPDestination);
+            if (uiData.currentLobbyType == LobbyType.Create)
+            {
+                uiData.uiManager.ChangeState(createRoomState, true);
+
+            }
+            else if (uiData.currentLobbyType == LobbyType.Join)
+            {
+                uiData.uiManager.ChangeState(joinRoomState, true);
+            }
         }
 
         private void ResteImages()
