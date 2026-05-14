@@ -75,6 +75,7 @@ namespace com.VisionXR.Views
             destinationData.SetDestination(MPDestination);
             if (uiData.currentLobbyType == LobbyType.Create)
             {
+                MPDestination.roomName = "";
                 uiData.uiManager.ChangeState(createRoomState, true);
 
             }

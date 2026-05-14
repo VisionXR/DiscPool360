@@ -63,7 +63,7 @@ namespace com.VisionXR.Controllers
 
         private void LateUpdate()
         {
-            if (EventSystem.current.IsPointerOverGameObject()) return;
+            if (EventSystem.current.IsPointerOverGameObject() || !inputData.isInputEnabled) return;
 
 
             HandleTouchInput();
