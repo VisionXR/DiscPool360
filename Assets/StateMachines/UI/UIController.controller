@@ -30,7 +30,7 @@ MonoBehaviour:
   mainCanvasId: 0
   poolCanvasId: 1
   SnookerCanvasId: 2
-  pauseState: 17
+  pauseState: 15
 --- !u!1101 &-8999451539791161964
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
