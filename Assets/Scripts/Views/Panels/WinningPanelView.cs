@@ -34,6 +34,27 @@ namespace com.VisionXR.Views
         private void OnEnable()
         {
             gameData.GameCompletedEvent += ShowWinner;
+
+            if(userData.myCoins == CoinsType.EightPool)
+            {
+                GameModeText.text = "8 Pool";
+            }
+            else if (userData.myCoins == CoinsType.FivePool)
+            {
+                GameModeText.text = "5 Pool";
+            }
+            else if (userData.myCoins == CoinsType.TenSnooker)
+            {
+                GameModeText.text = "10 Snooker";
+            }
+            else if (userData.myCoins == CoinsType.SixSnooker)
+            {
+                GameModeText.text = "6 Snooker";
+            }
+            else if (userData.myCoins == CoinsType.ColorChallenge)
+            {
+                GameModeText.text = "Color Challenge";
+            }
         }
 
         private void OnDisable()
@@ -69,7 +90,8 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             gameData.ExitGame();
-            uiData.uiManager.ChangeState("GameType", false);
+            uiData.uiManager.ChangeState("SinglePlayer", false);
+            uiData.uiManager.ChangeState("MultiPlayer", false);
             uiData.uiManager.ChangeState("Home", true);
             uiData.uiManager.ResetAllBools();
         }
