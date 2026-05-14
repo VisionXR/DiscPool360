@@ -17,7 +17,7 @@ namespace com.VisionXR.ModelClasses
         public DominantHand myDominantHand;
         public float bgMusicVolume = 1f;
         public int myBoard = 0;
-        public int myCoins = 0;
+        public CoinsType myCoins;
         public ServerRegion myServerRegion = ServerRegion.any;
         public string linkAPI = "801d8b68de6c89601e1787f26b272080";
         public List<Sprite> AIImages;
@@ -78,7 +78,12 @@ namespace com.VisionXR.ModelClasses
 
         public void SetMyCoins(int id)
         {
-            myCoins = id;
+            myCoins = (CoinsType)id;
+        }
+
+        public CoinsType GetMyCoins()
+        {
+            return myCoins;
         }
 
         public void CreateSameBoard()

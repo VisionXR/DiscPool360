@@ -33,6 +33,9 @@ namespace com.VisionXR.HelperClasses
     }
     public enum Team { TeamA, TeamB }
     public enum GameType { SinglePlayer, MultiPlayer, Tutorial}
+
+    public enum LobbyType { Create,Join}
+
     public enum GameMode { Pool, Snooker }
 
     public enum BoardType { Circle6, Square4, Hexagon4, Octagon4, Triangle3, Hexagon6, Circle4 }
@@ -41,7 +44,7 @@ namespace com.VisionXR.HelperClasses
     public enum RoomType { Public,Private}
     public enum AudioType { Coin, Edge, Hole }
 
-
+    public enum CoinsType { EightPool,FivePool,TenSnooker,SixSnooker,ColorChallenge}
     public enum ServerRegion { any, us, @in, eu, asia, au, uae, jp, kr, cae, hk, sa, tr, ussc, usw }
 
     public enum AchievementSection { SinglePlayer, MultiPlayer, General }

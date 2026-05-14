@@ -298,11 +298,11 @@ namespace com.VisionXR.Views
             SendPlayerData sendPlayerData = playerData.GetMainPlayer().GetComponent<SendPlayerData>();
             if (gameData.firstTurnId == -1 || gameData.firstTurnId == 2)
             {
-                sendPlayerData.RPC_StartGame(1, userData.myCoins);
+                sendPlayerData.RPC_StartGame(1, (int)userData.myCoins);
             }
             else
             {
-                sendPlayerData.RPC_StartGame(2, userData.myCoins);
+                sendPlayerData.RPC_StartGame(2, (int)userData.myCoins);
             }
             
         }

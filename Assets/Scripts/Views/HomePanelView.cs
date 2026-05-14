@@ -1,6 +1,7 @@
 
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace com.VisionXR.Views
@@ -12,73 +13,44 @@ namespace com.VisionXR.Views
         public UIDataSO uiData;
         public UserDataSO userData;
 
-
-        [Header("Next And Previous Panels")]
-        public string gameTypeState;
-        public string quitAppState;
+        [Header("Selection Objects")]
+        public List<GameObject> selectedImages;
 
 
-        public void QuitBtnClicked()
+        [Header("Next Objects")]
+        public string singlePlayerState;
+        public string multiPlayerState;
+        public string currentState;
+
+
+        private void OnEnable()
         {
-            audioData.PlayAudio(AudioClipType.ButtonClick);        
-            uiData.uiManager.ChangeState(quitAppState, true);
+            ResetImages();
+            int id = (int)userData.myCoins;
+            selectedImages[id].SetActive(true);
         }
 
-        public void EightPoolBtnClciked()
+        public void GameModeBtnClicked(int id)
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.SetGameMode(GameMode.Pool);
-            userData.myCoins = 0;
-
-            uiData.uiManager.ChangeState(gameTypeState, true);
-            
+            userData.SetMyCoins(id);
+            ResetImages();
+            selectedImages[id].SetActive(true);
         }
 
-        public void FivePoolBtnClciked()
+        public void NextBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.SetGameMode(GameMode.Pool);
-            userData.myCoins = 1;
 
-            uiData.uiManager.ChangeState(gameTypeState, true);
+
         }
 
-        public void TenSnookerBtnClciked()
+        private void ResetImages()
         {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.SetGameMode(GameMode.Snooker);
-            userData.myCoins = 2;
-
-            uiData.uiManager.ChangeState(gameTypeState, true);
-        }
-        public void SixSnookerBtnClciked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.SetGameMode(GameMode.Snooker);
-            userData.myCoins = 3;
-
-            uiData.uiManager.ChangeState(gameTypeState, true);
-        }
-
-        public void CollorChallengeBtnClciked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.SetGameMode(GameMode.Snooker);
-            userData.myCoins = 4;
-
-            uiData.uiManager.ChangeState(gameTypeState, true);
-        }
-
-
-        public void TutorialBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-          
-        }
-
-        public void QuitBtnClciked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
+            foreach (var item in selectedImages)
+            {
+                item.SetActive(false);
+            }
         }
     }
 }

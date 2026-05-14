@@ -20,6 +20,7 @@ namespace com.VisionXR.ModelClasses
         public GameMode currentGameMode;
         public AIDifficulty currentAIDifficulty;
         public BoardType currentBoardType;
+        public LobbyType currentLobbyType;
         public float disableTime = 0.5f;
         public Color selectionColor;
         public Color defaultColor;
@@ -97,6 +98,11 @@ namespace com.VisionXR.ModelClasses
         public void SetGameMode(GameMode gameMode)
         {
             currentGameMode = gameMode;
+        }
+
+        public void SetLobbyType(LobbyType lobbyType)
+        {
+            currentLobbyType = lobbyType;
         }
 
         public void SetAIDifficulty(AIDifficulty aiDifficulty)

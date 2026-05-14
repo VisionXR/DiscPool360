@@ -301,7 +301,6 @@ MonoBehaviour:
   lineRenderer: {fileID: 1856086865280085762}
   line: {fileID: 985099783364748265}
   quadCircle: {fileID: 4987739354786882051}
-  NormalLine: {fileID: 4126065384207251131}
   colliderMask:
     serializedVersion: 2
     m_Bits: 192
@@ -1087,7 +1086,7 @@ MonoBehaviour:
   yawThresholdDegrees: 1
   velocityFactor: 1
   initialRotation: {x: 0, y: 0, z: 0, w: 1}
-  degreesPerSecond: 180
+  degreesPerSecond: 360
 --- !u!114 &697385267237695580
 MonoBehaviour:
   m_ObjectHideFlags: 0

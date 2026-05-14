@@ -58,24 +58,24 @@ namespace com.VisionXR.Views
             HomeBtn.SetActive(false);
             RetryBtn.SetActive(false);
 
-            if(userData.myCoins == 0)
+            if(userData.myCoins == CoinsType.EightPool)
             {
                 rotationImage.GetComponent<Image>().sprite = EightPoolIcon;
             }
-            else if (userData.myCoins == 1)
+            else if (userData.myCoins == CoinsType.FivePool)
             {
                 rotationImage.GetComponent<Image>().sprite = FivePoolIcon;
             }
-            else if (userData.myCoins == 2)
+            else if (userData.myCoins == CoinsType.TenSnooker)
             {
                 rotationImage.GetComponent<Image>().sprite = TenSnookerIcon;
             }
 
-            else if (userData.myCoins == 3)
+            else if (userData.myCoins == CoinsType.SixSnooker)
             {
                 rotationImage.GetComponent<Image>().sprite = SixSnookerIcon;
             }
-            else if (userData.myCoins == 4)
+            else if (userData.myCoins == CoinsType.ColorChallenge)
             {
                 rotationImage.GetComponent<Image>().sprite = ColorChallengeIcon;
             }

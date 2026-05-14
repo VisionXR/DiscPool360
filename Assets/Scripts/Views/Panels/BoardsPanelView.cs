@@ -1,6 +1,5 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,15 +18,9 @@ namespace com.VisionXR.Views
         public PurchaseDataSO purchaseData;
 
         [Header("Board Images")]
-        public DestinationPanelView destinationPanelView;
         public List<Image> boardSelectionImages;
         public List<Image> boardLockImages;
 
-        [Header("Next And Previous Panels")]
-        public string singlePlayerStartState;
-        public string destinationState;
-        public string singlePlayerState;
-        public string multiPlayerState;
 
 
         void OnEnable()
@@ -107,43 +100,6 @@ namespace com.VisionXR.Views
               
             }
            
-        }
-
-        public void StartGameBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-
-            Destination destination = new Destination();
-            destination.region = ServerRegion.asia;
-            destination.lobbyName = "asia";
-            destination.gameType = uiData.currentGameType;
-            destination.gameMode = uiData.currentGameMode;
-            destination.aIDifficulty = uiData.currentAIDifficulty;
-
-            
-
-            if (uiData.currentGameType == GameType.SinglePlayer)
-            {
-                destinationData.ConnectToDestination(destination, null, null);
-                uiData.uiManager.ChangeState(singlePlayerStartState, true);
-            }
-            else if (uiData.currentGameType == GameType.MultiPlayer)
-            {
-                
-                destinationPanelView.SetDestination(destination);
-                uiData.uiManager.ChangeState(destinationState, true);
-               
-            }
-
-
-        }
-        public void BackBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-
-            uiData.uiManager.ChangeState(singlePlayerState, false);
-            uiData.uiManager.ChangeState(multiPlayerState, false);
-            
         }
 
         private void ResetBoardImages()

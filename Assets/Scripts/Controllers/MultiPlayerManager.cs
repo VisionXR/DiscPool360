@@ -103,7 +103,7 @@ namespace com.VisionXR.Controllers
 
             _previousTurnId = -1;
             gameData.firstTurnId = playerId;
-            userData.myCoins = coinsId;
+            userData.myCoins = (CoinsType)coinsId;
             if (coinsId == 0 || coinsId == 1)
             {
                 uiData.currentGameMode = GameMode.Pool;

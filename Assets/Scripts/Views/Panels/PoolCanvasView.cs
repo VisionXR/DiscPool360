@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +28,7 @@ namespace com.VisionXR.Views
         {
             Reset();
 
-            if (userData.myCoins == 0)
+            if (userData.myCoins == CoinsType.EightPool)
             {
                 EightpoolScorePanelView.enabled = true;
                 FivepoolScorePanelView.enabled = false;
@@ -35,7 +36,7 @@ namespace com.VisionXR.Views
                 lefteightPoolImages.SetActive(true);
                 righteightPoolImages.SetActive(true);
             }
-            else if (userData.myCoins == 1)
+            else if (userData.myCoins == CoinsType.FivePool)
             {
                 FivepoolScorePanelView.enabled = true;
                 EightpoolScorePanelView.enabled = false;
