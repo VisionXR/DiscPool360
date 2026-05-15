@@ -28,6 +28,15 @@ namespace com.VisionXR.Views
             ResetImages();
             int id = (int)userData.myCoins;
             selectedImages[id].SetActive(true);
+
+            if(id == 0 || id == 1)
+            {
+                uiData.SetGameMode(GameMode.Pool);
+            }
+            else
+            {
+                uiData.SetGameMode(GameMode.Snooker);
+            }
         }
 
         public void GameModeBtnClicked(int id)
@@ -36,6 +45,15 @@ namespace com.VisionXR.Views
             userData.SetMyCoins(id);
             ResetImages();
             selectedImages[id].SetActive(true);
+
+            if (id == 0 || id == 1)
+            {
+                uiData.SetGameMode(GameMode.Pool);
+            }
+            else
+            {
+                uiData.SetGameMode(GameMode.Snooker);
+            }
         }
 
         public void NextBtnClicked()

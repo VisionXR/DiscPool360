@@ -43,7 +43,7 @@ public  class CoinSorter : MonoBehaviour
 
     public void SortAllSnookerCoins(int id, PlayerCoin myCoin, List<GameObject> holes, Vector3 strikerPosition)
     {
-
+        
         coinInfoList.Clear();
         this.id = id;
 
