@@ -11,20 +11,30 @@ namespace com.VisionXR.Controllers
     {
         [Header("Scriptable Objects")]
         public UserDataSO userData;
+        public SaveDataSO saveData;
+
+        [Header("Other Objects")]
         public AudioSource BGAudioSource;
         public string settingsKey = "DiscPoolSettings";
 
 
+        private void OnEnable()
+        {
+            saveData.SaveSettingsEvent += SaveSettings;
+            saveData.LoadSettingsEvent += LoadSettings;
+        }
+
+        private void OnDisable()
+        {
+            saveData.SaveSettingsEvent -= SaveSettings;
+            saveData.LoadSettingsEvent -= LoadSettings;
+        }
+
         IEnumerator Start()
         {
             yield return new WaitForSeconds(1);
-            PlayerSettings settings = LoadSettings();
-            if (settings != null)
-            {
-                BGAudioSource.volume = settings.musicVolume;
-                userData.SetDominantHand(settings.dominantHand);
-                
-            }
+            LoadSettings();
+           
         }
 
         public void SaveSettings(PlayerSettings playerSettings)
@@ -42,7 +52,7 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        public PlayerSettings LoadSettings()
+        public void LoadSettings()
         {
             PlayerSettings settings = null;
             try
@@ -62,15 +72,15 @@ namespace com.VisionXR.Controllers
                 Debug.LogError($"Failed to load user data from file: {e.Message}");
 
             }
-            return settings;
+
+            if (settings != null)
+            {
+                BGAudioSource.volume = settings.musicVolume;
+
+
+            }
         }
     }
 
-    [Serializable]
-    public class PlayerSettings
-    {
-        public float musicVolume;
-        public DominantHand dominantHand;
 
-    }
 }

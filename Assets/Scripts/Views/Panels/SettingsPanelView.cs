@@ -1,6 +1,7 @@
-using com.VisionXR.Controllers;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using NUnit.Framework;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,11 @@ namespace com.VisionXR.Views
         public UserDataSO userData;
         public AudioDataSO audioData;
         public UIDataSO uiData;
-     //   public SaveAndLoadManager saveAndLoadManager;
+        public SaveDataSO saveData;
+
+        [Header("Tab Objects")]
+        public List<GameObject> SelectionImages;
+        public List<GameObject> TabPanels;
 
         [Header("Game Objects")]
         public AudioSource BGAudioSource;
@@ -41,6 +46,26 @@ namespace com.VisionXR.Views
             //}
         }
 
+        public void TabButtonClicked(int id)
+        {
+            ResetTabs();
+            TabPanels[id].SetActive(true);
+            SelectionImages[id].SetActive(true);
+        }
+
+        private void ResetTabs()
+        {
+            foreach (var tab in TabPanels)
+            {
+                tab.SetActive(false);
+            }
+
+            foreach (var img in SelectionImages)
+            {
+                img.SetActive(false);
+            }
+        }
+
         public void BGMusicChanged(float val)
         {
             BGAudioSource.volume = val;
@@ -48,24 +73,12 @@ namespace com.VisionXR.Views
             PlayerSettings settings = new PlayerSettings
             {
                 musicVolume = val,
-                dominantHand = userData.myDominantHand,
+               
             };
 
-           // saveAndLoadManager.SaveSettings(settings);
+           saveData.SaveSettings(settings);
         }
 
-        public void DominantHandChanged(float val)
-        {
-            userData.SetDominantHand((DominantHand)val);
-
-            PlayerSettings settings = new PlayerSettings
-            {
-                musicVolume = BGAudioSource.volume,
-                dominantHand = userData.myDominantHand,
-            };
-
-          //  saveAndLoadManager.SaveSettings(settings);
-        }
 
         public void BackBtnClicked()
         {

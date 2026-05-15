@@ -28,6 +28,14 @@ namespace com.VisionXR.HelperClasses
          
     }
 
+    [Serializable]
+    public class PlayerSettings
+    {
+        public float musicVolume;
+
+
+    }
+
 
     [Serializable]
     public class CoinData

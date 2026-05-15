@@ -14,7 +14,6 @@ namespace com.VisionXR.ModelClasses
         public Sprite MyProfileImage;
         public string MyImageUrl;
         public string MyOculusId;
-        public DominantHand myDominantHand;
         public float bgMusicVolume = 1f;
         public int myBoard = 0;
         public CoinsType myCoins;
@@ -24,19 +23,13 @@ namespace com.VisionXR.ModelClasses
         public Action<int> BoardChangedEvent;
         public Action CreateSameBoardEvent;
 
-        // Events
+        // Methods
 
-        public void SetMyName(string Name)
-        {
-            MyName = Name;
-        }
-
+      
         public void SetUserNameAndId(string userName, string Id)
-        {
-            Debug.Log("Setting User Name and Id: " + userName + " | " + Id);
+        {     
             MyName = userName;
             MyOculusId = Id;
-
         }
 
         public void SetProfileUrl(string url)
@@ -50,26 +43,6 @@ namespace com.VisionXR.ModelClasses
 
         }
 
-        public string GetMyName()
-        {
-            return MyName;
-        }
-
-        public string GetMyImage()
-        {
-            return MyImageUrl;
-        }
-
-       public void SetVolume(float volume)
-        {
-            bgMusicVolume = volume;
-        }
-
-        public void SetDominantHand(DominantHand hand)
-        {
-            myDominantHand = hand;
-        }
-
         public void SetBoard(int id)
         {
             myBoard = id;
@@ -81,20 +54,10 @@ namespace com.VisionXR.ModelClasses
             myCoins = (CoinsType)id;
         }
 
-        public CoinsType GetMyCoins()
-        {
-            return myCoins;
-        }
-
         public void CreateSameBoard()
         {
 
             CreateSameBoardEvent?.Invoke();
-        }
-
-        public void SetServerRegion(ServerRegion region)
-        {
-            myServerRegion = region;
         }
     }
 }
