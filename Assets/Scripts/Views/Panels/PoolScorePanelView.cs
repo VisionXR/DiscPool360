@@ -40,6 +40,7 @@ namespace com.VisionXR.Views
         public List<Sprite> solidImages;
         public List<Sprite> stripeImages;
         public Sprite blackImage;
+        public Sprite defaultImage;
 
 
         [Header("This Objects")]
@@ -284,13 +285,13 @@ namespace com.VisionXR.Views
 
             foreach (Image image1 in P1Coins)
             {
-                image1.sprite = null;
+                image1.sprite = defaultImage;
                 image1.color = Color.white;
             }
 
             foreach (Image image2 in P2Coins)
             {
-                image2.sprite = null;
+                image2.sprite = defaultImage;
                 image2.color = Color.white;
             }
 

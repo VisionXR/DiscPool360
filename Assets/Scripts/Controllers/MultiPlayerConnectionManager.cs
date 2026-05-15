@@ -163,10 +163,6 @@ namespace com.VisionXR.Controllers
                 uiData.uiManager.ChangeState(playerLeftState, true);
                 Debug.Log(" Player left after game starts");
             }
-            else
-            {
-
-            }
 
         }
 

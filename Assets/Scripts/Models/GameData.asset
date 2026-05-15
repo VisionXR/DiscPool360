@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   currentTurnId: 1
-  firstTurnId: 1
+  firstTurnId: -1
   Player1SnookerScore: 0
   Player2SnookerScore: 0
   snookerWinnerId: 1
