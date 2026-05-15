@@ -20,8 +20,8 @@ namespace com.VisionXR.Views
         public UserDataSO userData;
 
         [Header("Navigation Panels")]
-        public GameObject leftSideNavigation;
-        public GameObject rightSideNavigation;
+        public PanelOnOff leftSideNavigation;
+        public PanelOnOff rightSideNavigation;
 
 
         [Header("P1 References")]
@@ -59,16 +59,7 @@ namespace com.VisionXR.Views
             uiData.SetPlayerDataEvent += SetPlayerData;
 
 
-            if (userData.myDominantHand == DominantHand.Left)
-            {
-                leftSideNavigation.SetActive(false);
-                rightSideNavigation.SetActive(true);
-            }
-            else if (userData.myDominantHand == DominantHand.Right)
-            {
-                leftSideNavigation.SetActive(true);
-                rightSideNavigation.SetActive(false);
-            }
+          
         }
 
         private void OnDisable()
@@ -218,6 +209,19 @@ namespace com.VisionXR.Views
             foreach (var item in panelsToOff)
             {
                 item.TurnOnPanel();
+            }
+
+            if (userData.myDominantHand == DominantHand.Left)
+            {
+                leftSideNavigation.gameObject.SetActive(false);
+                rightSideNavigation.gameObject.SetActive(false);
+                rightSideNavigation.TurnOnPanel();
+            }
+            else if (userData.myDominantHand == DominantHand.Right)
+            {
+                leftSideNavigation.gameObject.SetActive(false);
+                rightSideNavigation.gameObject.SetActive(false);
+                leftSideNavigation.TurnOnPanel();
             }
         }
 
