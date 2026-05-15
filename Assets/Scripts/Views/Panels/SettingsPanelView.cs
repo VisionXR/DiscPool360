@@ -39,7 +39,8 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
-            if(userData.myGuide == GuideType.Guide)
+
+            if (userData.myGuide == GuideType.Guide)
             {
                 GuideSelectedImage.SetActive(true);
                 NoGuideSelectedImage.SetActive(false);
@@ -50,8 +51,7 @@ namespace com.VisionXR.Views
                 NoGuideSelectedImage.SetActive(true);
             }
 
-
-            if(userData.myDominantHand == DominantHand.Right)
+            if (userData.myDominantHand == DominantHand.Right)
             {
                 LeftSideSelectedImage.SetActive(false);
                 RightSideSelectedImage.SetActive(true);
@@ -71,6 +71,7 @@ namespace com.VisionXR.Views
             ResetTabs();
             TabPanels[id].SetActive(true);
             SelectionImages[id].SetActive(true);
+
         }
 
         private void ResetTabs()
