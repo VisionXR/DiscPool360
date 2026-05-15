@@ -17,6 +17,8 @@ namespace com.VisionXR.ModelClasses
         public float bgMusicVolume = 1f;
         public int myBoard = 0;
         public CoinsType myCoins;
+        public GuideType myGuide;
+        public DominantHand myDominantHand;
         public ServerRegion myServerRegion = ServerRegion.any;
         public string linkAPI = "801d8b68de6c89601e1787f26b272080";
         public List<Sprite> AIImages;
@@ -56,8 +58,17 @@ namespace com.VisionXR.ModelClasses
 
         public void CreateSameBoard()
         {
-
             CreateSameBoardEvent?.Invoke();
+        }
+
+        public void SetGuideType(GuideType guide)
+        {
+            myGuide = guide;
+        }
+
+        public void SetDominantHand(DominantHand hand)
+        {
+            myDominantHand = hand;
         }
     }
 }

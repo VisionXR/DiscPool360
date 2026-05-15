@@ -45,6 +45,8 @@ namespace com.VisionXR.HelperClasses
     public enum AudioType { Coin, Edge, Hole }
 
     public enum CoinsType { EightPool,FivePool,TenSnooker,SixSnooker,ColorChallenge}
+
+    public enum GuideType { Guide,NoGuide}
     public enum ServerRegion { any, us, @in, eu, asia, au, uae, jp, kr, cae, hk, sa, tr, ussc, usw }
 
     public enum AchievementSection { SinglePlayer, MultiPlayer, General }

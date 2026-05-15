@@ -9,7 +9,7 @@ namespace com.VisionXR.ModelClasses
     {
         // variables
         public int currentTurnId = 1;
-        public int firstTurnId = 1;
+        private int firstTurnId = 1;
         public int Player1SnookerScore;
         public int Player2SnookerScore;
         public int snookerWinnerId = 1;
@@ -87,14 +87,6 @@ namespace com.VisionXR.ModelClasses
 
         public void PlayAgain()
         {
-            if (firstTurnId == 1)
-            {
-                firstTurnId = 2;
-            }
-            else
-            {
-                firstTurnId = 1;
-            }
 
             PlayAgainEvent?.Invoke(firstTurnId);
         }
@@ -103,6 +95,16 @@ namespace com.VisionXR.ModelClasses
         {
             currentTurnId = id;
             TurnChangeEvent?.Invoke(currentTurnId);
+        }
+
+        public void SetFirstTurnId(int id)
+        {
+            firstTurnId = id;
+        }
+
+        public int GetFirstTurnId()
+        {
+            return firstTurnId;
         }
 
     }

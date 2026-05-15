@@ -49,10 +49,9 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-            gameData.firstTurnId = -1;
+            gameData.SetFirstTurnId(-1);
 
            
-
             networkOutputData.StartGameEvent += StartGame;
             networkOutputData.SetWinnerEvent += SetWinner;
             networkOutputData.SetPlayerCoinsEvent += SetCoins;
@@ -100,9 +99,8 @@ namespace com.VisionXR.Controllers
         public void StartGame(int playerId,int coinsId)
         {
             
-
             _previousTurnId = -1;
-            gameData.firstTurnId = playerId;
+            gameData.SetFirstTurnId(playerId);
             userData.myCoins = (CoinsType)coinsId;
             if (coinsId == 0 || coinsId == 1)
             {

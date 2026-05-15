@@ -17,6 +17,11 @@ namespace com.VisionXR.Views
         public PlayerDataSO playerData;
         public UIDataSO uiData;
         public CoinDataSO coinData;
+        public UserDataSO userData;
+
+        [Header("Navigation Panels")]
+        public GameObject leftSideNavigation;
+        public GameObject rightSideNavigation;
 
 
         [Header("P1 References")]
@@ -52,8 +57,18 @@ namespace com.VisionXR.Views
             uiData.SetCoinsEvent += SetCoins;
             uiData.UpdateCoinsEvent += RefreshScoresAndCoins;
             uiData.SetPlayerDataEvent += SetPlayerData;
-         
-          
+
+
+            if (userData.myDominantHand == DominantHand.Left)
+            {
+                leftSideNavigation.SetActive(false);
+                rightSideNavigation.SetActive(true);
+            }
+            else if (userData.myDominantHand == DominantHand.Right)
+            {
+                leftSideNavigation.SetActive(true);
+                rightSideNavigation.SetActive(false);
+            }
         }
 
         private void OnDisable()

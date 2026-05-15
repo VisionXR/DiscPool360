@@ -1,8 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using NUnit.Framework;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,12 +19,19 @@ namespace com.VisionXR.Views
         public List<GameObject> SelectionImages;
         public List<GameObject> TabPanels;
 
-        [Header("Game Objects")]
+        [Header("Guide Selection Images")]
+        public GameObject GuideSelectedImage;
+        public GameObject NoGuideSelectedImage;
+
+        [Header("Force Selection Images")]
+        public GameObject LeftSideSelectedImage;
+        public GameObject RightSideSelectedImage;
+
+
+        [Header("Audio Objects")]
+        public Slider bgSlider;
         public AudioSource BGAudioSource;
-        public TMP_Text playerNameText;
-        public Image playerImage;
-        public Slider SoundsSlider;
-        public Slider BGMusicSlider;
+
 
         [Header("Panel Objects")]
         public string currentState;
@@ -34,16 +39,30 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
-            //playerNameText.text = userData.MyName;
-            //playerImage.sprite = userData.MyProfileImage;
+            if(userData.myGuide == GuideType.Guide)
+            {
+                GuideSelectedImage.SetActive(true);
+                NoGuideSelectedImage.SetActive(false);
+            }
+            else
+            {
+                GuideSelectedImage.SetActive(false);
+                NoGuideSelectedImage.SetActive(true);
+            }
 
-            //PlayerSettings settings = saveAndLoadManager.LoadSettings();
-            //if (settings != null)
-            //{
-                
-            //    BGMusicSlider.value = settings.musicVolume;      
-               
-            //}
+
+            if(userData.myDominantHand == DominantHand.Right)
+            {
+                LeftSideSelectedImage.SetActive(false);
+                RightSideSelectedImage.SetActive(true);
+            }
+            else
+            {
+                LeftSideSelectedImage.SetActive(true);
+                RightSideSelectedImage.SetActive(false);
+            }
+
+            bgSlider.value = BGAudioSource.volume;
         }
 
         public void TabButtonClicked(int id)
@@ -67,17 +86,42 @@ namespace com.VisionXR.Views
             }
         }
 
+        public void GuideBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            GuideSelectedImage.SetActive(true);
+            NoGuideSelectedImage.SetActive(false);
+            userData.SetGuideType(GuideType.Guide);
+        }
+
+        public void NoGuideBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            GuideSelectedImage.SetActive(false);
+            NoGuideSelectedImage.SetActive(true);
+            userData.SetGuideType(GuideType.NoGuide);
+        }
+
+        public void RightBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            RightSideSelectedImage.SetActive(true);
+            LeftSideSelectedImage.SetActive(false);
+            userData.SetDominantHand(DominantHand.Right);
+        }
+        
+
+        public void LeftBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            RightSideSelectedImage.SetActive(false);
+            LeftSideSelectedImage.SetActive(true);
+            userData.SetDominantHand(DominantHand.Left);
+        }
+
         public void BGMusicChanged(float val)
         {
             BGAudioSource.volume = val;
-
-            PlayerSettings settings = new PlayerSettings
-            {
-                musicVolume = val,
-               
-            };
-
-           saveData.SaveSettings(settings);
         }
 
 

@@ -20,9 +20,20 @@ namespace com.VisionXR.Views
         public GameObject lefteightPoolImages;
         public GameObject righteightPoolImages;
 
+        [Header("Navigation Panels")]
+        public PanelOnOff leftSideNavigation;
+        public PanelOnOff rightSideNavigation;
+
         [Header("Off Panels")]
         public List<PanelOnOff> panelsToOff;
 
+
+        private void OnEnable()
+        {
+           
+
+
+        }
 
         public void ShowPoolUI()
         {
@@ -44,6 +55,7 @@ namespace com.VisionXR.Views
                 leftfivePoolImages.SetActive(true);
                 rightfivePoolImages.SetActive(true);
             }
+
          
         }
 
@@ -53,6 +65,19 @@ namespace com.VisionXR.Views
             {
                 item.TurnOnPanel();
             }
+
+            if (userData.myDominantHand == DominantHand.Left)
+            {
+              
+                rightSideNavigation.TurnOnPanel();
+               
+            }
+            else if (userData.myDominantHand == DominantHand.Right)
+            {
+  
+                leftSideNavigation.TurnOnPanel();
+  
+            }
         }
 
         public void TurnOff()
@@ -60,6 +85,20 @@ namespace com.VisionXR.Views
             foreach (var item in panelsToOff)
             {
                 item.TurnOffPanel();
+            }
+
+
+            if (userData.myDominantHand == DominantHand.Left)
+            {
+
+                rightSideNavigation.TurnOffPanel();
+
+            }
+            else if (userData.myDominantHand == DominantHand.Right)
+            {
+
+                leftSideNavigation.TurnOffPanel();
+
             }
         }
 

@@ -295,7 +295,10 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             SendPlayerData sendPlayerData = playerData.GetMainPlayer().GetComponent<SendPlayerData>();
-            if (gameData.firstTurnId == -1 || gameData.firstTurnId == 2)
+
+            Debug.Log(" Last id is " + gameData.GetFirstTurnId());
+
+            if (gameData.GetFirstTurnId() == -1 || gameData.GetFirstTurnId() == 2)
             {
                 sendPlayerData.RPC_StartGame(1, (int)userData.myCoins);
             }

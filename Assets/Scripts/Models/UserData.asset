@@ -15,11 +15,12 @@ MonoBehaviour:
   MyName: Guest_Player
   MyProfileImage: {fileID: 0}
   MyImageUrl: 
-  MyOculusId: 9942
-  myDominantHand: 0
+  MyOculusId: 5358
   bgMusicVolume: 0.1
   myBoard: 0
   myCoins: 0
+  myGuide: 1
+  myDominantHand: 1
   myServerRegion: 4
   linkAPI: TIXmZGV747Ll8yGEQKdUSF8owF1YK1r3i8iyb8V4oxBMFtgBBXbyvZpbwqyc
   AIImages:
