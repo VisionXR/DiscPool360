@@ -27,7 +27,6 @@ namespace com.VisionXR.Views
         public TMP_Text player2Name;
 
         [Header("Local Objects")]
-        public GameObject QuitLobbyPanel;
         public TMP_Text timeText;
         public TMP_Text roomNameText;
 
@@ -307,19 +306,10 @@ namespace com.VisionXR.Views
             
         }
 
-        public void ExitBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            gameData.ExitGame();
-            uiData.uiManager.ChangeState("GameType", false);
-            uiData.uiManager.ChangeState("Home", true);
-            uiData.uiManager.ResetAllBools();
-        }
-
         public void BackBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            QuitLobbyPanel.SetActive(true);
+            uiData.uiManager.ChangeState("Pause", true);
         }
     }
 }
