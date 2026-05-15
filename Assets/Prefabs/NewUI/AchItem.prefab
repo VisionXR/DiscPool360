@@ -1348,7 +1348,7 @@ MonoBehaviour:
   title: {fileID: 2803282190624153684}
   description: {fileID: 5246227237526824773}
   simpleObject: {fileID: 7004652180989492314}
-  LockedObject: {fileID: 3405815397532133892}
+  LockedObject: {fileID: 2555663097294223246}
   UnLockedObject: {fileID: 8715031495462021833}
   progressObject: {fileID: 3405815397532133892}
   progressSlider: {fileID: 5839398066361742938}

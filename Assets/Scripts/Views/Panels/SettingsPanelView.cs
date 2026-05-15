@@ -48,6 +48,7 @@ namespace com.VisionXR.Views
 
         public void TabButtonClicked(int id)
         {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetTabs();
             TabPanels[id].SetActive(true);
             SelectionImages[id].SetActive(true);

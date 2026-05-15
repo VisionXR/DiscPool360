@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace com.VisionXR.Views
@@ -12,6 +13,9 @@ namespace com.VisionXR.Views
         public AudioDataSO audioData;
         public UIDataSO uiData;
 
+        [Header("Tab Objects")]
+        public List<GameObject> SelectionImages;
+        public List<GameObject> TabPanels;
 
         [Header("Panel Objects")]
         public string currentState;
@@ -22,14 +26,6 @@ namespace com.VisionXR.Views
         public Transform generalContentTransform;
         public Transform singlePlayerContentTransform;
         public Transform multiPlayerContentTransform;
-        public GameObject generalScrollView;
-        public GameObject singlePlayerScrollView;
-        public GameObject multiPlayerScrollView;
-
-        [Header("Selection Images")]
-        public GameObject singlePlayerSelectionImage;
-        public GameObject multiPlayerSelectionImage;
-        public GameObject generalSelectionImage;
 
 
        
@@ -43,6 +39,27 @@ namespace com.VisionXR.Views
         private void OnDisable()
         {
             achievementData.GotAllAchievementsEvent -= Initialise;
+        }
+
+        public void TabButtonClicked(int id)
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            ResetTabs();
+            TabPanels[id].SetActive(true);
+            SelectionImages[id].SetActive(true);
+        }
+
+        private void ResetTabs()
+        {
+            foreach (var tab in TabPanels)
+            {
+                tab.SetActive(false);
+            }
+
+            foreach (var img in SelectionImages)
+            {
+                img.SetActive(false);
+            }
         }
 
         public void Initialise()
@@ -121,49 +138,6 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             achievementData.GetAllAchievemnets();
-        }
-
-
-        public void SinglePlayerBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            DisableContent();
-            ResetImages();
-            singlePlayerSelectionImage.SetActive(true);
-            singlePlayerScrollView.SetActive(true);
-        }
-
-        public void MultiPlayerBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            DisableContent();
-            ResetImages();
-            multiPlayerSelectionImage.SetActive(true);
-            multiPlayerScrollView.SetActive(true);
-        }
-
-        public void GeneralBtnClicked()
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            DisableContent();
-            ResetImages();
-            generalSelectionImage.SetActive(true);
-            generalScrollView.SetActive(true);
-        }
-
-
-        private void DisableContent()
-        {
-            generalScrollView.SetActive(false);
-            multiPlayerScrollView.SetActive(false);
-            singlePlayerScrollView.SetActive(false);
-        }
-
-        private void ResetImages()
-        {
-            singlePlayerSelectionImage.SetActive(false);
-            multiPlayerSelectionImage.SetActive(false);
-            generalSelectionImage.SetActive(false);
         }
 
         public void BackBtnClicked()
