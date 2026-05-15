@@ -56,7 +56,7 @@ public class AimLine : MonoBehaviour
             currentDistance = hit.distance;
            
             hitDistance = currentDistance / distanceFactor;
-            Debug.Log("hit Distance " + hitDistance);
+           
             if (hitDistance < 1)
             {
                 line.SetActive(false);
@@ -69,7 +69,7 @@ public class AimLine : MonoBehaviour
                 quadCircle.transform.position = hit.point + hit.normal * (boardData.StrikerRadius - strikerOffset); // Slightly above the surface to avoid z-fighting
                                                                                                                     // 3. Scale the Line (Assuming Y-axis is the "length" of your line object)
                 currentDistance = Vector3.Distance(line.transform.position, quadCircle.transform.position);
-                Debug.Log("current Distance " + currentDistance);
+                
                 currentDistance = currentDistance / 0.75f;// Adjust the scale to match the distance
                 line.transform.localScale = new Vector3(LineThickness, currentDistance - lineOffset, LineThickness);
             }
