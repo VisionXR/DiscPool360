@@ -14,20 +14,27 @@ namespace com.VisionXR.ModelClasses
         // Action
         //public Action<string, LeaderboardStartAt> GetTop10EntriesEvent;
         public Action GetMyPointsEvent;
-   
+        public Action<string, int> SetMyPointsEvent;
+        public Action<string> GetTop10EntriesEvent;
         public Action<List<string>, List<int>, List<int>> ShowLeaderBoardDataEvent;
 
 
         // Methods
 
-        //public void GetTop10Entries(string apiName, LeaderboardStartAt leaderboardStartAt)
-        //{
-        //    GetTop10EntriesEvent?.Invoke(apiName, leaderboardStartAt);
-        //}
 
         public void GetMyPoints()
         {
             GetMyPointsEvent?.Invoke();
+        }
+
+        public void SetMyPoints(string apiName, int points)
+        {
+            SetMyPointsEvent?.Invoke(apiName, points);
+        }
+
+        public void GetTop10Entries(string apiName)
+        {
+            GetTop10EntriesEvent?.Invoke(apiName);
         }
 
         public void ShowLeaderBoardData(List<string> names,List<int> ranks,List<int> points)
@@ -48,11 +55,15 @@ namespace com.VisionXR.ModelClasses
         }
 
         public int GetRankByApiName(int id)
-        {
-          
+        {         
             return leaderBoardPoints[id].rank;
         }
-        public void SetMyPoints(string apiName, int points)
+
+        public string GetApiNameById(int id)
+        {
+            return leaderBoardPoints[id].apiName;
+        }
+        public void SavePointsData(string apiName, int points)
         {
             
             foreach (var item in leaderBoardPoints)
@@ -66,7 +77,7 @@ namespace com.VisionXR.ModelClasses
 
         }
 
-        public void SetMyRank(string apiName, int rank)
+        public void SaveRankData(string apiName, int rank)
         {
             foreach (var item in leaderBoardPoints)
             {
@@ -83,6 +94,7 @@ namespace com.VisionXR.ModelClasses
     [Serializable]
     public class  LeaderBoardPoints
     {
+        public string name;
         public string apiName;
         public int wins;
         public int rank;

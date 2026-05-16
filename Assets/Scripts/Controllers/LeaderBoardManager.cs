@@ -1,125 +1,159 @@
-//using com.VisionXR.GameElements;
-//using com.VisionXR.HelperClasses;
-//using com.VisionXR.ModelClasses;
-//using Oculus.Platform;
-//using Oculus.Platform.Models;
-//using System;
-//using System.Collections.Generic;
-//using UnityEngine;
+using com.VisionXR.ModelClasses;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+// Added for Google Play Games Services
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+using UnityEngine.SocialPlatforms;
 
-//namespace com.VisionXR.Controllers
-//{
-//    public class LeaderBoardManager : MonoBehaviour
-//    {
-//        [Header(" Scriptable Objects")]
-//        public LeaderBoardSO leaderboard;
-//        public UserDataSO settings;
-//        public GameDataSO gameData;
-//        public PlayerDataSO playerData;
-//        public DestinationSO destinationData;
+namespace com.VisionXR.Controllers
+{
+    public class LeaderBoardManager : MonoBehaviour
+    {
+        [Header("Scriptable Objects")]
+        public LeaderBoardSO leaderboard;
 
+        private void OnEnable()
+        {
+            leaderboard.GetMyPointsEvent += GetMyPoints;
+            leaderboard.SetMyPointsEvent += WriteToLeaderBoard;
+            leaderboard.GetTop10EntriesEvent += GetTopTenEntries;
+        }
 
+        private void OnDisable()
+        {
+            leaderboard.GetMyPointsEvent -= GetMyPoints;
+            leaderboard.SetMyPointsEvent -= WriteToLeaderBoard;
+            leaderboard.GetTop10EntriesEvent -= GetTopTenEntries;
+        }
 
-//        private void OnEnable()
-//        {
-            
-//            leaderboard.GetTop10EntriesEvent += GetTopTenEntries;
-//            leaderboard.GetMyPointsEvent += GetMyPoints;
+        private void SetPoints(int id)
+        {
+            // Handle parsing your event if needed
+        }
 
-//            gameData.GameCompletedEvent += SetPoints;
-//        }
+        /// <summary>
+        /// Writes/Reports score to specified GPGS Leaderboard ID
+        /// </summary>
+        public void WriteToLeaderBoard(string apiName, int points)
+        {
+            try
+            {
+                if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
 
-//        private void OnDisable()
-//        {
-          
-//            leaderboard.GetTop10EntriesEvent -= GetTopTenEntries;
-//            leaderboard.GetMyPointsEvent -= GetMyPoints;
+                // GPGS handles overriding lower scores automatically based on console configuration
+                // If you want to accumulate points manually instead, calculate it via local cached values first
+                int finalScore = leaderboard.GetPointsByApiName(apiName) + points;
 
-//            gameData.GameCompletedEvent -= SetPoints;
-//        }
+                Social.ReportScore(finalScore, apiName, (bool success) =>
+                {
+                    if (success)
+                    {
+                        Debug.Log($"Successfully reported score: {finalScore} to leaderboard: {apiName}");
+                    }
+                    else
+                    {
+                        Debug.LogError($"Failed to report score to leaderboard: {apiName}");
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error writing to leaderboard: " + e.Message);
+            }
+        }
 
-//        private void SetPoints(int id)
-//        {
-//            Player p = playerData.GetMainPlayer();
+        /// <summary>
+        /// Fetches top 10 global user entries
+        /// </summary>
+        public void GetTopTenEntries(string apiName)
+        {
+            if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
 
-//            if (p != null && p.playerProperties.myId == id)
-//            {
-//                if(destinationData.currentDestination.gameType == GameType.SinglePlayer)
-//                {
-//                    WriteToLeaderBoard("SinglePlayer", 1);
-//                }
-//                else if (destinationData.currentDestination.gameType == GameType.MultiPlayer)
-//                {
-//                    WriteToLeaderBoard("MultiPlayer", 1);
-//                }
-//            }
-//        }
+            // Load scores starting from the top entry globally
+            PlayGamesPlatform.Instance.LoadScores(
+                apiName,
+                LeaderboardStart.TopScores,
+                10,
+                LeaderboardCollection.Public,
+                LeaderboardTimeSpan.AllTime,
+                (LeaderboardScoreData data) =>
+                {
+                    ProcessTopEntriesCallback(data);
+                }
+            );
+        }
 
-//        public void WriteToLeaderBoard(string ApiName,int points)
-//        {
-//            try
-//            {
-//                Leaderboards.WriteEntry(ApiName, leaderboard.GetPointsByApiName(ApiName) + points);
+        /// <summary>
+        /// Iterates through your 3 configured API tracking configurations to find user data
+        /// </summary>
+        public void GetMyPoints()
+        {
+            if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
 
-//            }
-//            catch (Exception e)
-//            {
-//                Debug.Log(" Some error " + e.Message);
-//            }
-//        }
+            foreach (var item in leaderboard.leaderBoardPoints)
+            {
+                string trackingApiName = item.apiName; // Capture reference variable for the asynchronous callback closure
 
-//        public void GetTopTenEntries(string apiName, LeaderboardStartAt leaderboardStartAt)
-//        {
-//            Leaderboards.GetEntries(apiName, 10, LeaderboardFilterType.None, leaderboardStartAt).OnComplete(GetTop10Callback);
-//        }
+                // CenteredOnPlayer extracts a batch of rows with the local user directly in focus
+                PlayGamesPlatform.Instance.LoadScores(
+                    trackingApiName,
+                    LeaderboardStart.PlayerCentered,
+                    1,
+                    LeaderboardCollection.Public,
+                    LeaderboardTimeSpan.AllTime,
+                    (LeaderboardScoreData data) =>
+                    {
+                        ProcessUserPointsCallback(data, trackingApiName);
+                    }
+                );
+            }
+        }
 
+        private void ProcessTopEntriesCallback(LeaderboardScoreData data)
+        {
+            List<string> names = new List<string>();
+            List<int> ranks = new List<int>();
+            List<int> points = new List<int>();
 
+            if (data.Status == ResponseStatus.Success || data.Status == ResponseStatus.SuccessWithStale)
+            {
+                foreach (IScore score in data.Scores)
+                {
+                    names.Add(score.userID); // GPGS returns User ID string. For Display Names, use metadata or local user profile matching if loaded
+                    ranks.Add(score.rank);
+                    points.Add((int)score.value);
+                }
+            }
+            else
+            {
+                Debug.LogError("GPGS failed to fetch top entries. Status code: " + data.Status);
+            }
 
-//        public void GetMyPoints()
-//        {
-//            foreach (var item in leaderboard.leaderBoardPoints)
-//            {
-//                Leaderboards.GetEntries(item.apiName, 1, LeaderboardFilterType.None, LeaderboardStartAt.CenteredOnViewer).OnComplete(msg => GetUserPoints(msg, item.apiName));
-//            }
+            leaderboard.ShowLeaderBoardData(names, ranks, points);
+        }
 
-//        }
+        private void ProcessUserPointsCallback(LeaderboardScoreData data, string apiName)
+        {
+            if (data.Status == ResponseStatus.Success || data.Status == ResponseStatus.SuccessWithStale)
+            {
+                // Verify if the dataset populated valid local user structural records
+                if (data.PlayerScore != null)
+                {
+                    int myValue = (int)data.PlayerScore.value;
+                    int myRank = data.PlayerScore.rank;
 
+                    leaderboard.SavePointsData(apiName, myValue);
+                    leaderboard.SaveRankData(apiName, myRank);
 
-//        void GetTop10Callback(Message<LeaderboardEntryList> msg)
-//        {
-//            List<string> names = new List<string>();
-//            List<int> ranks = new List<int>();
-//            List<int> points = new List<int>();
-//            if (!msg.IsError)
-//            {
-//                foreach (var entry in msg.Data)
-//                {
-//                    names.Add(entry.User.DisplayName);
-//                    ranks.Add(entry.Rank);
-//                    points.Add((int)entry.Score);
-
-//                }
-//            }
-
-//            leaderboard.ShowLeaderBoardData(names, ranks, points);
-//        }
-
-//        void GetUserPoints(Message<LeaderboardEntryList> msg, string apiName)
-//        {
-
-//            if (!msg.IsError)
-//            {
-//                foreach (var entry in msg.Data)
-//                {
-//                    if (settings.MyOculusId == entry.User.ID)
-//                    {
-//                        leaderboard.SetMyPoints(apiName, (int)entry.Score);
-//                        leaderboard.SetMyRank(apiName, entry.Rank);
-
-//                    }
-//                }
-//            }
-//        }
-
-//    }
-//}
+                    Debug.Log($"GPGS loaded player score for leaderboard: {apiName}. Points: {myValue}, Rank: {myRank}");
+                }
+            }
+            else
+            {
+                Debug.LogError($"GPGS failed loading player scores for leaderboard: {apiName}. Status: {data.Status}");
+            }
+        }
+    }
+}

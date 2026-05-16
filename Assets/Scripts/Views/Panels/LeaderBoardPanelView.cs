@@ -17,25 +17,9 @@ namespace com.VisionXR.Views
 
         [Header("Tab Objects")]
         public List<GameObject> SelectionImages;
-        public List<GameObject> TabPanels;
-
 
         [Header("Panel Objects")]
         public string currentState;
-
-        [Header(" Game Objects")]
-     
-        public TMP_Text myRankText;
-        public TMP_Dropdown ApiDD;
-
-
-        [Header(" Local Objects")]
-        public List<GameObject> playerObjects;
-        public List<TMP_Text> Names;
-        public List<TMP_Text> Ranks;
-        public List<TMP_Text> Points;
-
-
 
         public string apiName = "MultiPlayer";
 
@@ -54,17 +38,13 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetTabs();
-            TabPanels[id].SetActive(true);
             SelectionImages[id].SetActive(true);
+            ApiNameChanged(0);
+            
         }
 
         private void ResetTabs()
         {
-            foreach (var tab in TabPanels)
-            {
-                tab.SetActive(false);
-            }
-
             foreach (var img in SelectionImages)
             {
                 img.SetActive(false);
@@ -73,30 +53,16 @@ namespace com.VisionXR.Views
         public void ShowLeaderBoard(List<string> names, List<int> ranks, List<int> points)
         {
           
-            myRankText.text = "My Rank : " + leaderBoard.GetRankByApiName(ApiDD.value);
-            ClearAllText();
-            for (int i = 0; i < names.Count; i++)
-            {
-                playerObjects[i].SetActive(true);
-                Names[i].text = names[i];
-                Ranks[i].text = ranks[i].ToString();
-                Points[i].text = points[i].ToString();
-            }
+          
         }
 
         private void ClearAllText()
         {
-            for (int i = 0; i < Names.Count; i++)
-            {
-                playerObjects[i].SetActive(false);
-                Names[i].text = "";
-                Ranks[i].text = "";
-                Points[i].text = "";
-            }
+        
         }
 
 
-        public void ApiDDChanged(int value)
+        public void ApiNameChanged(int value)
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
 
@@ -112,8 +78,7 @@ namespace com.VisionXR.Views
             {
                 apiName = "TotalGames";
             }
-
-          
+     
         }
 
 

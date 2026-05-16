@@ -24,7 +24,7 @@ namespace com.VisionXR.Controllers
         public UIDataSO uiData;
         public AIDataSO aiData;
         public TableDataSO tableData;
-
+        public LeaderBoardSO leaderboardData;
 
         // local variables
         [Header("Game Objects")]
@@ -589,7 +589,8 @@ namespace com.VisionXR.Controllers
             if (id == 1)
             {
                 audioData.PlayAudio(AudioClipType.Winning);
-
+                leaderboardData.SetMyPoints(leaderboardData.GetApiNameById(0), 1);
+                leaderboardData.SetMyPoints(leaderboardData.GetApiNameById(2), 1);
                 aiData.PlayHandAnimation("Loose", true);
 
             }
