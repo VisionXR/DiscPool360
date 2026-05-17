@@ -28,11 +28,6 @@ namespace com.VisionXR.Controllers
             leaderboard.GetTop10EntriesEvent -= GetTopTenEntries;
         }
 
-        private void SetPoints(int id)
-        {
-            // Handle parsing your event if needed
-        }
-
         /// <summary>
         /// Writes/Reports score to specified GPGS Leaderboard ID
         /// </summary>
@@ -95,7 +90,7 @@ namespace com.VisionXR.Controllers
             foreach (var item in leaderboard.leaderBoardPoints)
             {
                 string trackingApiName = item.apiName; // Capture reference variable for the asynchronous callback closure
-
+                Debug.Log($"Attempting to load player-centered score for leaderboard: {trackingApiName}");
                 // CenteredOnPlayer extracts a batch of rows with the local user directly in focus
                 PlayGamesPlatform.Instance.LoadScores(
                     trackingApiName,
