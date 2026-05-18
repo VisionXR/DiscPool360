@@ -43,6 +43,8 @@ namespace com.VisionXR.Views
             SelectionImages[id].SetActive(true);
           
             currentId = id;
+            // 1. Wipe current list clean
+            ClearAllText();
             leaderBoard.GetTop10Entries(leaderBoard.GetApiNameById(currentId)); // Fetch new data based on the selected tab's API name
         }
 
@@ -59,8 +61,7 @@ namespace com.VisionXR.Views
         /// </summary>
         public void ShowLeaderBoard(List<string> names, List<int> ranks, List<int> points)
         {
-            // 1. Wipe current list clean
-            ClearAllText();
+           
 
             // 2. Safety check bounds to make sure structural array sizes align cleanly
             if (names == null || ranks == null || points == null ||

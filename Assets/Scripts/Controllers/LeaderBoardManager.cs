@@ -56,6 +56,9 @@ namespace com.VisionXR.Controllers
 
                         // Update your local ScriptableObject cache tracking for this specific API
                         leaderboard.AddPoints(currentApiName, pointsToAdd);
+                        PlayGamesPlatform.Instance.ShowLeaderboardUI(currentApiName);
+
+
                     }
                     else
                     {
@@ -81,7 +84,7 @@ namespace com.VisionXR.Controllers
                 apiName,
                 LeaderboardStart.TopScores,
                 10,
-                LeaderboardCollection.Social,
+                LeaderboardCollection.Public,
                 LeaderboardTimeSpan.AllTime,
                 (LeaderboardScoreData data) =>
                 {
@@ -93,36 +96,14 @@ namespace com.VisionXR.Controllers
         /// <summary>
         /// Iterates through your 3 configured API tracking configurations to find user data
         /// </summary>
-        public void GetMyPoints()
-        {
-            if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
 
-            foreach (var item in leaderboard.leaderBoardPoints)
-            {
-                string trackingApiName = item.apiName; // Capture reference variable for the asynchronous callback closure
-                Debug.Log($"Attempting to load player-centered score for leaderboard: {trackingApiName}");
-                // CenteredOnPlayer extracts a batch of rows with the local user directly in focus
-                PlayGamesPlatform.Instance.LoadScores(
-                    trackingApiName,
-                    LeaderboardStart.PlayerCentered,
-                    1,
-                    LeaderboardCollection.Public,
-                    LeaderboardTimeSpan.AllTime,
-                    (LeaderboardScoreData data) =>
-                    {
-                        ProcessUserPointsCallback(data, trackingApiName);
-                    }
-                );
-            }
-        }
 
         private void ProcessTopEntriesCallback(LeaderboardScoreData data)
         {
             if (data.Status != ResponseStatus.Success && data.Status != ResponseStatus.SuccessWithStale)
             {
                 Debug.LogError("GPGS failed to fetch top entries. Status code: " + data.Status);
-                // Fallback: send empty lists to clean the panel
-                leaderboard.ShowLeaderBoardData(new List<string>(), new List<int>(), new List<int>());
+                
                 return;
             }
 
@@ -207,6 +188,29 @@ namespace com.VisionXR.Controllers
             else
             {
                 Debug.LogError($"GPGS failed loading player scores for leaderboard: {apiName}. Status: {data.Status}");
+            }
+        }
+
+        public void GetMyPoints()
+        {
+            if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
+
+            foreach (var item in leaderboard.leaderBoardPoints)
+            {
+                string trackingApiName = item.apiName; // Capture reference variable for the asynchronous callback closure
+                Debug.Log($"Attempting to load player-centered score for leaderboard: {trackingApiName}");
+                // CenteredOnPlayer extracts a batch of rows with the local user directly in focus
+                PlayGamesPlatform.Instance.LoadScores(
+                    trackingApiName,
+                    LeaderboardStart.PlayerCentered,
+                    1,
+                    LeaderboardCollection.Public,
+                    LeaderboardTimeSpan.AllTime,
+                    (LeaderboardScoreData data) =>
+                    {
+                        ProcessUserPointsCallback(data, trackingApiName);
+                    }
+                );
             }
         }
     }
