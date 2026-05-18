@@ -27,13 +27,13 @@ namespace com.VisionXR.Views
             gameObject.SetActive(true);
             if (userData.myDominantHand == DominantHand.Right)
             {
-                Debug.Log("Right Handed User");
+               
                 rightSidePanel.SetActive(true);
                 leftSidePanel.SetActive(false);
             }
             else
             {
-                Debug.Log("Left Handed User");
+               
                 rightSidePanel.SetActive(false);
                 leftSidePanel.SetActive(true);
             }

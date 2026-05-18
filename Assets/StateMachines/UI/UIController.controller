@@ -1145,7 +1145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GenericState
   uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
-  nextPanelId: 12
+  nextPanelId: 17
 --- !u!1101 &-932063465688174401
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
