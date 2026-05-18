@@ -37,31 +37,35 @@ namespace com.VisionXR.Controllers
             {
                 if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
 
-                // GPGS handles overriding lower scores automatically based on console configuration
-                // If you want to accumulate points manually instead, calculate it via local cached values first
-                int finalScore = leaderboard.GetPointsByApiName(apiName) + points;
+                // CRITICAL: Force a local copy creation of your parameters.
+                // This isolates the memory reference so different simultaneous 
+                // leaderboard calls don't accidentally override each other's data variables.
+                string currentApiName = apiName;
+                int pointsToAdd = points;
 
-                Debug.Log("Final Score " + finalScore);
+                // Calculate the unique final score for this specific API track
+                int finalScore = leaderboard.GetPointsByApiName(currentApiName) + pointsToAdd;
 
-                Social.ReportScore(finalScore, apiName, (bool success) =>
+                Debug.Log($"[Leaderboard] Preparing to send score. Tracking ID: {currentApiName} | Value: {finalScore}");
+
+                Social.ReportScore(finalScore, currentApiName, (bool success) =>
                 {
                     if (success)
                     {
-                        Debug.Log($"Successfully reported score: {finalScore} to leaderboard: {apiName}");
-                        //// This forces Android to slide up the live, real-time leaderboard overlay
-                        //PlayGamesPlatform.Instance.ShowLeaderboardUI(apiName);
+                        Debug.Log($"Successfully reported score: {finalScore} to leaderboard: {currentApiName}");
 
-                        leaderboard.AddPoints(apiName, points); // Update local cache with new points after successful report
+                        // Update your local ScriptableObject cache tracking for this specific API
+                        leaderboard.AddPoints(currentApiName, pointsToAdd);
                     }
                     else
                     {
-                        Debug.Log($"Failed to report score to leaderboard: {apiName}");
+                        Debug.LogError($"Failed to report score to leaderboard: {currentApiName}");
                     }
                 });
             }
             catch (Exception e)
             {
-                Debug.Log("Error writing to leaderboard: " + e.Message);
+                Debug.LogError("Error writing to leaderboard: " + e.Message);
             }
         }
 

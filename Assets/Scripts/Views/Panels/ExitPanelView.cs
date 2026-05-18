@@ -35,6 +35,20 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState(currentState, false);
         }
 
-        
+        public void SettingsBtnClicked()
+        {
+
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.uiManager.ChangeState("Settings", true);
+        }
+
+        public void RulesBtnClicked()
+        {
+
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.uiManager.ChangeState("Rules", true);
+        }
+
+
     }
 }

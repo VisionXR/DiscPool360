@@ -104,6 +104,11 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState("GameCompleted", false);
         }
 
-        
+        public void LeaderboardBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.uiManager.ChangeState("LeaderBoard", true);
+        }
+
     }
 }
