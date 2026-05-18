@@ -41,21 +41,27 @@ namespace com.VisionXR.Controllers
                 // If you want to accumulate points manually instead, calculate it via local cached values first
                 int finalScore = leaderboard.GetPointsByApiName(apiName) + points;
 
+                Debug.Log("Final Score " + finalScore);
+
                 Social.ReportScore(finalScore, apiName, (bool success) =>
                 {
                     if (success)
                     {
                         Debug.Log($"Successfully reported score: {finalScore} to leaderboard: {apiName}");
+                        //// This forces Android to slide up the live, real-time leaderboard overlay
+                        //PlayGamesPlatform.Instance.ShowLeaderboardUI(apiName);
+
+                        leaderboard.AddPoints(apiName, points); // Update local cache with new points after successful report
                     }
                     else
                     {
-                        Debug.LogError($"Failed to report score to leaderboard: {apiName}");
+                        Debug.Log($"Failed to report score to leaderboard: {apiName}");
                     }
                 });
             }
             catch (Exception e)
             {
-                Debug.LogError("Error writing to leaderboard: " + e.Message);
+                Debug.Log("Error writing to leaderboard: " + e.Message);
             }
         }
 
@@ -71,7 +77,7 @@ namespace com.VisionXR.Controllers
                 apiName,
                 LeaderboardStart.TopScores,
                 10,
-                LeaderboardCollection.Public,
+                LeaderboardCollection.Social,
                 LeaderboardTimeSpan.AllTime,
                 (LeaderboardScoreData data) =>
                 {
@@ -108,25 +114,74 @@ namespace com.VisionXR.Controllers
 
         private void ProcessTopEntriesCallback(LeaderboardScoreData data)
         {
-            List<string> names = new List<string>();
-            List<int> ranks = new List<int>();
-            List<int> points = new List<int>();
-
-            if (data.Status == ResponseStatus.Success || data.Status == ResponseStatus.SuccessWithStale)
+            if (data.Status != ResponseStatus.Success && data.Status != ResponseStatus.SuccessWithStale)
             {
+                Debug.LogError("GPGS failed to fetch top entries. Status code: " + data.Status);
+                // Fallback: send empty lists to clean the panel
+                leaderboard.ShowLeaderBoardData(new List<string>(), new List<int>(), new List<int>());
+                return;
+            }
+
+            // 1. Gather all unique User IDs from the loaded scores
+            List<string> userIds = new List<string>();
+            foreach (IScore score in data.Scores)
+            {
+                if (!string.IsNullOrEmpty(score.userID))
+                {
+                    userIds.Add(score.userID);
+                }
+            }
+
+            // 2. Batch load profiles for all these user IDs from Google's servers
+            Social.LoadUsers(userIds.ToArray(), (IUserProfile[] profiles) =>
+            {
+                // Map user IDs to their Display Names using a dictionary for quick lookup
+                Dictionary<string, string> userIdToNameMap = new Dictionary<string, string>();
+
+                if (profiles != null)
+                {
+                    foreach (IUserProfile profile in profiles)
+                    {
+                        if (!userIdToNameMap.ContainsKey(profile.id))
+                        {
+                            userIdToNameMap.Add(profile.id, profile.userName);
+                        }
+                    }
+                }
+
+                List<string> names = new List<string>();
+                List<int> ranks = new List<int>();
+                List<int> points = new List<int>();
+
+                // 3. Match usernames to their ranks and scores
                 foreach (IScore score in data.Scores)
                 {
-                    names.Add(score.userID); // GPGS returns User ID string. For Display Names, use metadata or local user profile matching if loaded
+                    string displayName = "Unknown Player";
+
+                    // Check if we successfully found a username matching this score's user ID
+                    if (userIdToNameMap.TryGetValue(score.userID, out string mappedName))
+                    {
+                        displayName = mappedName;
+                    }
+                    else if (score.userID == Social.localUser.id)
+                    {
+                        // Simple shortcut fallback check if it's the local active player
+                        displayName = Social.localUser.userName;
+                    }
+                    else
+                    {
+                        // Fallback text if user profile data is hidden by player privacy settings
+                        displayName = $"Player_{score.userID.Substring(0, Mathf.Min(5, score.userID.Length))}";
+                    }
+
+                    names.Add(displayName);
                     ranks.Add(score.rank);
                     points.Add((int)score.value);
                 }
-            }
-            else
-            {
-                Debug.LogError("GPGS failed to fetch top entries. Status code: " + data.Status);
-            }
 
-            leaderboard.ShowLeaderBoardData(names, ranks, points);
+                // 4. Send the compiled names, ranks, and points over to update your UI panels
+                leaderboard.ShowLeaderBoardData(names, ranks, points);
+            });
         }
 
         private void ProcessUserPointsCallback(LeaderboardScoreData data, string apiName)

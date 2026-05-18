@@ -21,6 +21,7 @@ namespace com.VisionXR.Views
         public string achievementPanelState;
         public string purchasePanelState;
         public string rulePanelState;
+        public string testPanelState;
     
 
         
@@ -57,6 +58,14 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.uiManager.ChangeState(rulePanelState, true);
+
+        }
+
+
+        public void TestBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.uiManager.ChangeState(testPanelState, true);
 
         }
 

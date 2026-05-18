@@ -42,6 +42,18 @@ namespace com.VisionXR.ModelClasses
             ShowLeaderBoardDataEvent?.Invoke(names, ranks, points);
         }
 
+        public void AddPoints(string apiName ,int points)
+        {
+            foreach (var item in leaderBoardPoints)
+            {
+                if (item.apiName == apiName)
+                {
+                    item.wins += points;
+                    break;
+                }
+            }
+        }
+
         public int GetPointsByApiName(string apiName)
         {
             foreach (var item in leaderBoardPoints)

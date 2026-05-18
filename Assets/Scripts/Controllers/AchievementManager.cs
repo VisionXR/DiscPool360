@@ -74,7 +74,7 @@ public class AchievementManager : MonoBehaviour
                     achievementData.UnLockLocal(achievement.id);
                 }
                
-                Debug.Log($"Achievement: {achievement.id}, Completed: {achievement.completed}, percentCompleted: {achievement.percentCompleted}");
+              //  Debug.Log($"Achievement: {achievement.id}, Completed: {achievement.completed}, percentCompleted: {achievement.percentCompleted}");
             }
 
         });

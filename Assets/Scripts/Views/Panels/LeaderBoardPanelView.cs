@@ -9,24 +9,26 @@ namespace com.VisionXR.Views
 {
     public class LeaderBoardPanelView : MonoBehaviour
     {
-        [Header(" Scriptable Objects")]
+        [Header("Scriptable Objects")]
         public UserDataSO settings;
         public LeaderBoardSO leaderBoard;
         public AudioDataSO audioData;
         public UIDataSO uiData;
 
         [Header("Tab Objects")]
+        public GameObject leaderBoardItem; // Prefab representing a row entry
+        public Transform leaderBoardItemParent; // Grid layout group or vertical panel parent
         public List<GameObject> SelectionImages;
 
         [Header("Panel Objects")]
         public string currentState;
 
-        public string apiName = "MultiPlayer";
+        private int  currentId = 0;
 
         private void OnEnable()
         {
             leaderBoard.ShowLeaderBoardDataEvent += ShowLeaderBoard;
-
+            TabButtonClicked(0);
         }
 
         private void OnDisable()
@@ -39,8 +41,9 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ResetTabs();
             SelectionImages[id].SetActive(true);
-            ApiNameChanged(0);
-            
+          
+            currentId = id;
+            leaderBoard.GetTop10Entries(leaderBoard.GetApiNameById(currentId)); // Fetch new data based on the selected tab's API name
         }
 
         private void ResetTabs()
@@ -50,43 +53,53 @@ namespace com.VisionXR.Views
                 img.SetActive(false);
             }
         }
+
+        /// <summary>
+        /// Clears old runtime row clones and instantiates a new leaderboard list
+        /// </summary>
         public void ShowLeaderBoard(List<string> names, List<int> ranks, List<int> points)
         {
-          
-          
+            // 1. Wipe current list clean
+            ClearAllText();
+
+            // 2. Safety check bounds to make sure structural array sizes align cleanly
+            if (names == null || ranks == null || points == null ||
+                names.Count != ranks.Count || names.Count != points.Count)
+            {
+                Debug.LogError("Leaderboard population data collections have mismatched index counts!");
+                return;
+            }
+
+            // 3. Loop through your retrieved rows and populate rows dynamically
+            for (int i = 0; i < names.Count; i++)
+            {
+                // Instantiate runtime prefab container under target transform parent layout
+                GameObject itemInstance = Instantiate(leaderBoardItem, leaderBoardItemParent);
+
+                LeaderBoardItem item = itemInstance.GetComponent<LeaderBoardItem>();
+                item.SetLeaderBoardData(names[i], ranks[i], points[i]);
+           
+            }
         }
 
+        /// <summary>
+        /// Clears the items under the parent container safely by iterating backwards
+        /// </summary>
         private void ClearAllText()
         {
-        
+            // We loop backwards using a standard integer loop to avoid enumeration mutation crashes
+            for (int i = leaderBoardItemParent.childCount - 1; i >= 0; i--)
+            {
+                Transform child = leaderBoardItemParent.GetChild(i);
+                Destroy(child.gameObject);
+            }
         }
-
-
-        public void ApiNameChanged(int value)
-        {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-
-            if (value==0)
-            {
-                apiName = "MultiPlayer";
-            }
-            else if(value==1)
-            {
-                apiName = "SinglePlayer";
-            }
-            else if(value==2)
-            {
-                apiName = "TotalGames";
-            }
-     
-        }
-
 
         public void RefreshBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             leaderBoard.GetMyPoints();
-          
+            leaderBoard.GetTop10Entries(leaderBoard.GetApiNameById(currentId)); // Fetch new data based on the selected tab's API name
         }
 
         public void BackBtnClicked()
@@ -94,9 +107,5 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.uiManager.ChangeState(currentState, false);
         }
-
     }
-
-
 }
-
