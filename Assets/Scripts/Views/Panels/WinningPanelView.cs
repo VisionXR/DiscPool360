@@ -98,10 +98,10 @@ namespace com.VisionXR.Views
 
         public void PlayAgainBtnClicked()
         {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            gameData.PlayAgain();
+            audioData.PlayAudio(AudioClipType.ButtonClick);    
             uiData.uiManager.ChangeState("MultiPlayerStartGame", false);
             uiData.uiManager.ChangeState("GameCompleted", false);
+            gameData.PlayAgain();
         }
 
         public void LeaderboardBtnClicked()

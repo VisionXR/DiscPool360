@@ -27,6 +27,7 @@ namespace com.VisionXR.Controllers
         public TableDataSO tableData;
         public NetworkOutputDataSO networkOutputData;
         public NetworkInputDataSO networkInputData;
+        public LeaderBoardSO leaderBoardData;
 
 
 
@@ -465,7 +466,8 @@ namespace com.VisionXR.Controllers
             if (player.playerProperties.myId == id)
             {
                 audioData.PlayAudio(AudioClipType.Winning);
-
+                leaderBoardData.SetMyPointsEvent(leaderBoardData.GetApiNameById(1), 1);
+                leaderBoardData.SetMyPointsEvent(leaderBoardData.GetApiNameById(2), 1);
 
             }
             else // its AI

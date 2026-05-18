@@ -58,7 +58,6 @@ namespace com.VisionXR.Controllers
                         leaderboard.AddPoints(currentApiName, pointsToAdd);
                         PlayGamesPlatform.Instance.ShowLeaderboardUI(currentApiName);
 
-
                     }
                     else
                     {

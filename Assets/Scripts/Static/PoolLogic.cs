@@ -34,7 +34,7 @@ public class PoolLogic : MonoBehaviour
             var c = coinData.black;
             if (c != null && c.activeInHierarchy) return true;
         }
-        else if(myCoin == PlayerCoin.AllPool)
+        else if (myCoin == PlayerCoin.AllPool)
         {
             for (int i = 0; i < coinData.stripes.Count; i++)
             {
@@ -50,12 +50,17 @@ public class PoolLogic : MonoBehaviour
             if (black != null && black.activeInHierarchy) return true;
         }
 
-            return false;
+        return false;
     }
 
     public bool HasPocketedMyCoin(List<GameObject> pocketedCoins, PlayerCoin myCoin)
     {
-        string myTag = myCoin == PlayerCoin.Stripe ? "Stripe" : "Solid";
+        string myTag;
+        if (myCoin == PlayerCoin.Stripe) myTag = "Stripe";
+        else if (myCoin == PlayerCoin.Solid) myTag = "Solid";
+        else myTag = "Black";
+
+
         for (int i = 0; i < pocketedCoins.Count; i++)
         {
             var go = pocketedCoins[i];
