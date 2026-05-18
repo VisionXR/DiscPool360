@@ -48,6 +48,7 @@ namespace com.VisionXR.Views
         public float blinkDelay = 0.2f;
         public float scaleFactor = 1.1f;
         private Coroutine indicatorCoroutine;
+        public Sprite defaultImage;
 
 
         private void OnEnable()
@@ -137,7 +138,7 @@ namespace com.VisionXR.Views
                 case PlayerCoin.Blue: return coinData.blueSprite;
                 case PlayerCoin.Pink: return coinData.pinkSprite;
                 case PlayerCoin.Black: return coinData.blackSprite;
-                default: return null;
+                default: return defaultImage;
             }
         }
 

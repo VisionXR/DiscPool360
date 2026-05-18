@@ -38,11 +38,7 @@ public class PoolScorePanelView : MonoBehaviour
     public List<Sprite> solidImages;
     public List<Sprite> stripeImages;
     public Sprite blackImage;
-
-
-
-    const float activeAlpha = 1f;
-    const float inactiveAlpha = 0.1f;
+    public Sprite defaultImage;
 
 
     private void OnEnable()
@@ -247,13 +243,13 @@ public class PoolScorePanelView : MonoBehaviour
 
         foreach (Image image1 in P1Coins)
         {
-            image1.sprite = null;
+            image1.sprite = defaultImage;
             image1.color = Color.white;
         }
 
         foreach (Image image2 in P2Coins)
         {
-            image2.sprite = null;
+            image2.sprite = defaultImage;
             image2.color = Color.white;
         }
 

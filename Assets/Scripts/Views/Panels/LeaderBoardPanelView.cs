@@ -99,6 +99,7 @@ namespace com.VisionXR.Views
         public void RefreshBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
+            ClearAllText();
             leaderBoard.GetMyPoints();
             leaderBoard.GetTop10Entries(leaderBoard.GetApiNameById(currentId)); // Fetch new data based on the selected tab's API name
         }
