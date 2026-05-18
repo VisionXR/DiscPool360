@@ -48,7 +48,7 @@ public class PoolScorePanelView : MonoBehaviour
         uiData.SetCoinsEvent += SetCoins;
         uiData.UpdateCoinsEvent += UpdateCoins;
         playerData.PlayerImageReceivedEvent += SetPlayerImage;
-
+        uiData.SetPlayerDataEvent += SetPlayerData;
         SetPlayerData(1);
     }
 
@@ -59,6 +59,7 @@ public class PoolScorePanelView : MonoBehaviour
         uiData.SetCoinsEvent -= SetCoins;
         uiData.UpdateCoinsEvent -= UpdateCoins;
         playerData.PlayerImageReceivedEvent -= SetPlayerImage;
+        uiData.SetPlayerDataEvent -= SetPlayerData;
 
     }
 
