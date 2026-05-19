@@ -27,7 +27,7 @@ namespace com.VisionXR.Views
         public GameObject SpeakerPanel;
         public GameObject MicrophonePanel;
         public Image speakerImage;
-        public GameObject microphoneImage;
+        public Image microphoneImage;
         public Sprite speakerOnImage;
         public Sprite microphoneOnImage;
         public Sprite speakerOffImage;
@@ -143,13 +143,34 @@ namespace com.VisionXR.Views
         public void SpeakerBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            UiData.TurnOffSpeakerEvent?.Invoke();
+
+            if(speakerImage.sprite == speakerOnImage)
+            {
+                speakerImage.sprite = speakerOffImage;
+                UiData.TurnOffSpeakerEvent?.Invoke();
+            }
+            else
+            {
+                speakerImage.sprite = speakerOnImage;
+                UiData.TurnOnSpeakerEvent?.Invoke();
+            }
+           
         }
 
         public void MicBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            UiData.TurnOffMicEvent?.Invoke();
+           
+            if (microphoneImage.sprite == microphoneOnImage)
+            {
+                microphoneImage.sprite = microphoneOffImage;
+                UiData.TurnOffMicEvent?.Invoke();
+            }
+            else
+            {
+                microphoneImage.sprite = microphoneOnImage;
+                UiData.TurnOnMicEvent?.Invoke();
+            }
         }
     }
 }
