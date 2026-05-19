@@ -24,14 +24,16 @@ namespace com.VisionXR.Views
         public GameObject righteightPoolImages;
 
         [Header("Speaker And MicroPhone  Panels")]
-        public GameObject SpeakerPanel;
-        public GameObject MicrophonePanel;
+       
         public Image speakerImage;
         public Image microphoneImage;
         public Sprite speakerOnImage;
         public Sprite microphoneOnImage;
         public Sprite speakerOffImage;
         public Sprite microphoneOffImage;
+
+        public PanelOnOff SpeakerPanel;
+        public PanelOnOff MicrophonePanel;
 
         [Header("Navigation Panels")]
         public PanelOnOff leftSideNavigation;
@@ -72,13 +74,13 @@ namespace com.VisionXR.Views
 
             if(UiData.currentGameType == GameType.MultiPlayer)
             {
-                SpeakerPanel.SetActive(true);
-                MicrophonePanel.SetActive(true);
+                SpeakerPanel.TurnOnPanel();
+                MicrophonePanel.TurnOnPanel();
             }
             else
             {
-                SpeakerPanel.SetActive(false);
-                MicrophonePanel.SetActive(false);
+                SpeakerPanel.gameObject.SetActive(false);
+                MicrophonePanel.gameObject.SetActive(false);
             }
          
         }

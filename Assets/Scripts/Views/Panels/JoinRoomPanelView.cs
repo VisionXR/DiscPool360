@@ -28,6 +28,8 @@ namespace com.VisionXR.Views
         public void JoinRoomBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
+            
+
             multiPlayerDestination.roomName = roomCodeInputField.text;
             multiPlayerDestination.gameMode = uiData.currentGameMode;
 
