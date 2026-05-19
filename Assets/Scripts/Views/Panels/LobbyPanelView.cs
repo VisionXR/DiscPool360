@@ -228,6 +228,8 @@ namespace com.VisionXR.Views
         public void LaunchInvitePanel()
         {
             string roomId = networkOutPutData.runner.SessionInfo.Name;
+
+            Debug.Log("Room id is " + roomId);
             string wixBaseUrl = "https://visionxr.co.in/join";
 
             // Map CoinsType enum onto your lowercase Wix assets configuration dictionary keys
@@ -255,7 +257,7 @@ namespace com.VisionXR.Views
             string escapedRoomId = UnityWebRequest.EscapeURL(roomId);
 
             // Construct link payload string
-            string shareUrl = $"{wixBaseUrl}?room={escapedRoomId}&game={gameMode}&playerName={userData.MyName}";
+            string shareUrl = $"{wixBaseUrl}?room={roomId}&game={gameMode}&playerName={userData.MyName}";
 
             Debug.Log($"[Invite System] Outbound link generated for mode '{userData.myCoins}': {shareUrl}");
 
