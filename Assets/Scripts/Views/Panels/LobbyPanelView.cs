@@ -228,8 +228,42 @@ namespace com.VisionXR.Views
         public void LaunchInvitePanel()
         {
             string roomId = networkOutPutData.runner.SessionInfo.Name;
-            // Start the process of generating and sharing the link
-            StartCoroutine(GenerateAndShare(roomId));
+            string wixBaseUrl = "https://visionxr.co.in/join";
+
+            // Map CoinsType enum onto your lowercase Wix assets configuration dictionary keys
+            string gameMode = "default";
+            switch (userData.myCoins)
+            {
+                case CoinsType.EightPool:
+                    gameMode = "8pool";
+                    break;
+                case CoinsType.FivePool:
+                    gameMode = "5pool";
+                    break;
+                case CoinsType.TenSnooker:
+                    gameMode = "10snooker";
+                    break;
+                case CoinsType.SixSnooker:
+                    gameMode = "6snooker";
+                    break;
+                case CoinsType.ColorChallenge:
+                    gameMode = "colorchallenge";
+                    break;
+            }
+
+            // Escape Room ID to keep URL formatting valid
+            string escapedRoomId = UnityWebRequest.EscapeURL(roomId);
+
+            // Construct link payload string
+            string shareUrl = $"{wixBaseUrl}?room={escapedRoomId}&game={gameMode}&playerName={userData.MyName}";
+
+            Debug.Log($"[Invite System] Outbound link generated for mode '{userData.myCoins}': {shareUrl}");
+
+            // Call Native platform window share card handler sheet instantly
+            new NativeShare()
+                .SetSubject("DiscPool 360 Challenge")
+                .SetText($"Can you beat me?  Click to join my room in Disc Pool 360: {shareUrl}")
+                .Share();
         }
 
         IEnumerator GenerateAndShare(string roomID)
