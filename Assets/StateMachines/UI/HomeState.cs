@@ -17,6 +17,7 @@ public class HomeState : StateMachineBehaviour
         {
             uiData.uiManager.ShowCanvas(0);
             uiData.uiManager.mainCanvasView.ShowMainPanel(homePanelId);
+            uiData.uiManager.ChangeState("Home", false);
         }
        
     }

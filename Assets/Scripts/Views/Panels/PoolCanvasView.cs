@@ -10,6 +10,7 @@ namespace com.VisionXR.Views
     {
         [Header("Scriptable Objects")]
         public UserDataSO userData;
+        public UIDataSO UiData;
 
         [Header("Pool Score Panel View")]
         public PoolScorePanelView FivepoolScorePanelView;
@@ -19,6 +20,10 @@ namespace com.VisionXR.Views
         public GameObject rightfivePoolImages;
         public GameObject lefteightPoolImages;
         public GameObject righteightPoolImages;
+
+        [Header("Speaker And MicroPhone  Panels")]
+        public GameObject SpeakerPanel;
+        public GameObject MicrophonePanel;
 
         [Header("Navigation Panels")]
         public PanelOnOff leftSideNavigation;
@@ -56,6 +61,17 @@ namespace com.VisionXR.Views
                 rightfivePoolImages.SetActive(true);
             }
 
+
+            if(UiData.currentGameType == GameType.MultiPlayer)
+            {
+                SpeakerPanel.SetActive(true);
+                MicrophonePanel.SetActive(true);
+            }
+            else
+            {
+                SpeakerPanel.SetActive(false);
+                MicrophonePanel.SetActive(false);
+            }
          
         }
 
