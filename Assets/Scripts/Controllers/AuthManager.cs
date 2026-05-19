@@ -2,7 +2,6 @@ using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
-using Photon.Realtime;
 using PlayFab;
 using PlayFab.ClientModels;
 using System;
@@ -25,7 +24,7 @@ namespace com.VisionXR.Controllers
         public Destination multiPlayerDestination;
         public bool isLoggedIn = false;
         public bool isLink = false;
-        public DestinationPanelView destinationPanel;
+        public DestinationPanelView destinationPanelView;
 
         private void Awake()
         {
@@ -35,10 +34,7 @@ namespace com.VisionXR.Controllers
             {
                 OnDeepLinkActivated(Application.absoluteURL);
             }
-            else
-            {
 
-            }
 
             if (Application.isEditor)
             {
@@ -71,9 +67,10 @@ namespace com.VisionXR.Controllers
 
             }
 
-            uiData.ResetAllPanels();
-            //destinationPanel.gameObject.SetActive(true);
-            //destinationPanel.ConnectToDestination(multiPlayerDestination);
+
+            destinationPanelView.SetDestination(multiPlayerDestination);
+            uiData.uiManager.ChangeState("Link", true);
+
         }
 
         public string ParseDeepLink(string url)
@@ -104,7 +101,6 @@ namespace com.VisionXR.Controllers
             // Simplified Editor Mock
             playerSettings.SetUserNameAndId("Guest_Player",UnityEngine.Random.Range(0, 9999).ToString());
            
-
             // If in Editor, use a fixed string so you always log into the same test account
             // If on Mobile, use the unique Device ID
             string customId = Application.isEditor ? "Editor_Test_User" : SystemInfo.deviceUniqueIdentifier;
@@ -120,7 +116,8 @@ namespace com.VisionXR.Controllers
 
             if (!isLink)
             {
-                uiData.TriggerHomeEvent();
+                // code here
+                uiData.uiManager.ChangeState("Home", true);
             }
 
             PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
@@ -130,8 +127,8 @@ namespace com.VisionXR.Controllers
         public void GoogleLogin()
         {
                 
-                PlayGamesPlatform.Activate();
-                PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
+            PlayGamesPlatform.Activate();
+            PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
             
         }
 
@@ -161,7 +158,8 @@ namespace com.VisionXR.Controllers
 
                 if(!isLink)
                 {
-                    uiData.TriggerHomeEvent();
+                    // code here
+                    uiData.uiManager.ChangeState("Home", true);
                 }
             }
 
