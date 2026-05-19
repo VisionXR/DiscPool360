@@ -2,6 +2,7 @@ using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace com.VisionXR.Views
@@ -11,6 +12,7 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public UserDataSO userData;
         public UIDataSO UiData;
+        public AudioDataSO audioData;
 
         [Header("Pool Score Panel View")]
         public PoolScorePanelView FivepoolScorePanelView;
@@ -24,6 +26,12 @@ namespace com.VisionXR.Views
         [Header("Speaker And MicroPhone  Panels")]
         public GameObject SpeakerPanel;
         public GameObject MicrophonePanel;
+        public Image speakerImage;
+        public GameObject microphoneImage;
+        public Sprite speakerOnImage;
+        public Sprite microphoneOnImage;
+        public Sprite speakerOffImage;
+        public Sprite microphoneOffImage;
 
         [Header("Navigation Panels")]
         public PanelOnOff leftSideNavigation;
@@ -129,6 +137,19 @@ namespace com.VisionXR.Views
             FivepoolScorePanelView.enabled = false;
             EightpoolScorePanelView.enabled = false;
 
+        }
+
+
+        public void SpeakerBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            UiData.TurnOffSpeakerEvent?.Invoke();
+        }
+
+        public void MicBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            UiData.TurnOffMicEvent?.Invoke();
         }
     }
 }

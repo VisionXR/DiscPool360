@@ -131666,6 +131666,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SwitchPoolCanvas
   userData: {fileID: 11400000, guid: c3388b89caee67446b98ab64fc26a36e, type: 2}
   UiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
+  audioData: {fileID: 11400000, guid: 834278d0e9a08c241bb4c0490eefc52c, type: 2}
   FivepoolScorePanelView: {fileID: 2051683614433903324}
   EightpoolScorePanelView: {fileID: 5396298782087906295}
   leftfivePoolImages: {fileID: 8984936505242086513}
@@ -131674,6 +131675,12 @@ MonoBehaviour:
   righteightPoolImages: {fileID: 2202607827890636797}
   SpeakerPanel: {fileID: 1845128083}
   MicrophonePanel: {fileID: 1043294868}
+  speakerImage: {fileID: 804668451}
+  microphoneImage: {fileID: 1281633215}
+  speakerOnImage: {fileID: 21300000, guid: 57fcc4b5f3dc38b4baba23a7115be301, type: 3}
+  microphoneOnImage: {fileID: 21300000, guid: 848e227471e86114182f0b30e5ef1c89, type: 3}
+  speakerOffImage: {fileID: 21300000, guid: a003d992ef2dc42429ccc9a10ede7208, type: 3}
+  microphoneOffImage: {fileID: 21300000, guid: cd49dde6b1cb4ee419e7576fbd82c95f, type: 3}
   leftSideNavigation: {fileID: 1029196441}
   rightSideNavigation: {fileID: 363057254}
   panelsToOff:
