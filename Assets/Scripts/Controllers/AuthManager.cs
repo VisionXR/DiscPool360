@@ -53,7 +53,7 @@ namespace com.VisionXR.Controllers
 
             string roomId = ParseDeepLink(url);
 
-            Debug.Log("Room id is " + roomId");
+            Debug.Log("Room id is " + roomId);
 
             multiPlayerDestination.roomName = roomId;
 
