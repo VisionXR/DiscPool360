@@ -523,9 +523,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8456028675087358826}
-        m_TargetAssemblyTypeName: com.VisionXR.Views.LeftScoreNavigationPanel, Assembly-CSharp
-        m_MethodName: ExitBtnClicked
+      - m_Target: {fileID: 2995973599369399359}
+        m_TargetAssemblyTypeName: com.VisionXR.Views.PoolCanvasView, Assembly-CSharp
+        m_MethodName: MicBtnClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -29855,9 +29855,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8456028675087358826}
-        m_TargetAssemblyTypeName: com.VisionXR.Views.LeftScoreNavigationPanel, Assembly-CSharp
-        m_MethodName: ExitBtnClicked
+      - m_Target: {fileID: 2995973599369399359}
+        m_TargetAssemblyTypeName: com.VisionXR.Views.PoolCanvasView, Assembly-CSharp
+        m_MethodName: SpeakerBtnClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -131676,7 +131676,7 @@ MonoBehaviour:
   SpeakerPanel: {fileID: 1845128083}
   MicrophonePanel: {fileID: 1043294868}
   speakerImage: {fileID: 804668451}
-  microphoneImage: {fileID: 1281633215}
+  microphoneImage: {fileID: 1281633217}
   speakerOnImage: {fileID: 21300000, guid: 57fcc4b5f3dc38b4baba23a7115be301, type: 3}
   microphoneOnImage: {fileID: 21300000, guid: 848e227471e86114182f0b30e5ef1c89, type: 3}
   speakerOffImage: {fileID: 21300000, guid: a003d992ef2dc42429ccc9a10ede7208, type: 3}
