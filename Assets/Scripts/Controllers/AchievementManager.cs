@@ -102,7 +102,7 @@ public class AchievementManager : MonoBehaviour
     public void GameCompleted(int id)
     {
         Destination d = destinationData.currentDestination;
-        com.VisionXR.GameElements.Player mp = playerData.GetMainPlayer();
+        Player mp = playerData.GetMainPlayer();
         if (d != null && mp.playerProperties.myId == id)
         {
             if (d.gameType == GameType.SinglePlayer)

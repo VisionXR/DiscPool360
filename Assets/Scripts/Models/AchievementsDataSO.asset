@@ -779,7 +779,7 @@ MonoBehaviour:
     actual: 0
     target: 50
   userData:
-    lastLoginDate: 
+    lastLoginDate: 0
     totalLogins: 0
     spTotalGames: 0
     spTotalWins: 0

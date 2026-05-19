@@ -3,6 +3,7 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -39,6 +40,13 @@ public class PoolScorePanelView : MonoBehaviour
     public List<Sprite> stripeImages;
     public Sprite blackImage;
     public Sprite defaultImage;
+
+    [Header("This Objects")]
+    public GameObject Player1ScorePanel;
+    public GameObject Player2ScorePanel;
+    public float blinkDelay = 0.2f;
+    public float scaleFactor = 1.1f;
+    private Coroutine indicatorCoroutine;
 
 
     private void OnEnable()
@@ -225,18 +233,66 @@ public class PoolScorePanelView : MonoBehaviour
     private void ShowIndicator(int turnId)
     {
 
-        if (turnId == 1)
+        P1TurnIndicatorImage.color = Color.gray;
+        P2TurnIndicatorImage.color = Color.gray;
+
+
+        if (indicatorCoroutine != null)
         {
-            P1TurnIndicatorImage.color = Color.green;
-            P2TurnIndicatorImage.color = Color.white;
+            StopCoroutine(indicatorCoroutine);
+            indicatorCoroutine = null;
+        }
+
+        indicatorCoroutine = StartCoroutine(ShowInicatorRoutine(turnId));
+
+        UpdateCoins();
+    }
+
+    private IEnumerator ShowInicatorRoutine(int id)
+    {
+        yield return new WaitForSeconds(0.1f); // Small initial delay before starting the blinking
+        if (id == 1)
+        {
+            Player1ScorePanel.transform.localScale = Vector3.one * scaleFactor;
+            Player2ScorePanel.transform.localScale = Vector3.one;
+
         }
         else
         {
-            P2TurnIndicatorImage.color = Color.green;
-            P1TurnIndicatorImage.color = Color.white;
+            Player1ScorePanel.transform.localScale = Vector3.one;
+            Player2ScorePanel.transform.localScale = Vector3.one * scaleFactor;
         }
 
-        UpdateCoins();
+        while (true)
+        {
+
+            if (id == 1)
+            {
+                P1TurnIndicatorImage.color = Color.green;
+
+            }
+            else
+            {
+                P2TurnIndicatorImage.color = Color.green;
+
+            }
+
+            yield return new WaitForSeconds(blinkDelay);
+
+            if (id == 1)
+            {
+                P1TurnIndicatorImage.color = Color.gray;
+
+            }
+            else
+            {
+                P2TurnIndicatorImage.color = Color.gray;
+
+            }
+
+            yield return new WaitForSeconds(blinkDelay);
+
+        }
     }
 
     private void ResetCoins()
