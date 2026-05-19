@@ -50,6 +50,18 @@ namespace com.VisionXR.Views
         private Coroutine indicatorCoroutine;
         public Sprite defaultImage;
 
+        [Header("Speaker And MicroPhone  Panels")]
+
+        public Image speakerImage;
+        public Image microphoneImage;
+        public Sprite speakerOnImage;
+        public Sprite microphoneOnImage;
+        public Sprite speakerOffImage;
+        public Sprite microphoneOffImage;
+
+        public PanelOnOff SpeakerPanel;
+        public PanelOnOff MicrophonePanel;
+
 
         private void OnEnable()
         {
@@ -60,7 +72,17 @@ namespace com.VisionXR.Views
             uiData.SetPlayerDataEvent += SetPlayerData;
 
 
-          
+            if (uiData.currentGameType == GameType.MultiPlayer)
+            {
+                SpeakerPanel.TurnOnPanel();
+                MicrophonePanel.TurnOnPanel();
+            }
+            else
+            {
+                SpeakerPanel.gameObject.SetActive(false);
+                MicrophonePanel.gameObject.SetActive(false);
+            }
+
         }
 
         private void OnDisable()
@@ -234,6 +256,38 @@ namespace com.VisionXR.Views
             }
         }
 
+        public void SpeakerBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+
+            if (speakerImage.sprite == speakerOnImage)
+            {
+                speakerImage.sprite = speakerOffImage;
+                uiData.TurnOffSpeakerEvent?.Invoke();
+            }
+            else
+            {
+                speakerImage.sprite = speakerOnImage;
+                uiData.TurnOnSpeakerEvent?.Invoke();
+            }
+
+        }
+
+        public void MicBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+
+            if (microphoneImage.sprite == microphoneOnImage)
+            {
+                microphoneImage.sprite = microphoneOffImage;
+                uiData.TurnOffMicEvent?.Invoke();
+            }
+            else
+            {
+                microphoneImage.sprite = microphoneOnImage;
+                uiData.TurnOnMicEvent?.Invoke();
+            }
+        }
 
     }
 }

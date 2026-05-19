@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
 using GooglePlayGames;
@@ -55,6 +56,7 @@ namespace com.VisionXR.Controllers
 
             Debug.Log("Room id is " + roomId);
 
+            uiData.SetGameType(GameType.MultiPlayer);
             multiPlayerDestination.roomName = roomId;
 
             StartCoroutine(WaitAndConnect());
