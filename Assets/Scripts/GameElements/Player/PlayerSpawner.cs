@@ -41,7 +41,8 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
    
 
         if (Runner.LocalPlayer == player)
-        {      
+        {
+            Debug.Log(" I Left");
             DespawnPlayer();
         }
         else
