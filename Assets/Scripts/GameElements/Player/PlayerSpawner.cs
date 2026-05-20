@@ -1,6 +1,7 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using Fusion;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
@@ -23,8 +24,6 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
     public void PlayerJoined(PlayerRef player)
     {
        
-
-
         if (Runner.LocalPlayer == player)
         {
             SpawnPlayer(player);
@@ -39,7 +38,6 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
     public void PlayerLeft(PlayerRef player)
     {
    
-
         if (Runner.LocalPlayer == player)
         {
             Debug.Log(" I Left");
@@ -50,6 +48,30 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
            networkOutputData.OnPlayerLeft();
         }
 
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            // --- APP WENT TO BACKGROUND ---
+            Debug.Log("App minimized. Photon will hold connection as long as OS permits.");
+        }
+        else
+        {
+            // --- APP RETURNED TO FOREGROUND ---
+            Debug.Log("App restored! Verifying Photon connection status...");
+
+            // Check if we got dropped while we were away
+            if (!PhotonNetwork.IsConnected && PhotonNetwork.InRoom)
+            {
+                Debug.Log("Photon disconnected in background. Initiating fast reconnect/rejoin...");
+
+                // Reconnects to the master server and automatically puts the player 
+                // right back into their previous match room without going through the lobby
+                PhotonNetwork.ReconnectAndRejoin();
+            }
+        }
     }
 
     public void SpawnPlayer(PlayerRef playerRef)
