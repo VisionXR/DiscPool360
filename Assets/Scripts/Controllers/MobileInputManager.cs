@@ -166,20 +166,25 @@ namespace com.VisionXR.Controllers
             }
             else
             {
-                // 1. Calculate the raw horizontal displacement
-                float horizontalDist = touch.x - swipeStartPosition.x;
-                
+                // 1. Calculate absolute vector distance from start position (accounts for any direction diagonal/vertical)
+                float totalDistance = Vector2.Distance(touch, swipeStartPosition);
                 float swipeTime = Time.time - swipeStartTime;
 
-                // 2. Check if the distance meets your minimum threshold
-                if ( swipeTime > 0 && Mathf.Abs(horizontalDist) > swipeminDistanceThreshold)
+                // 2. Check if the overall physical movement breaks your minimum distance threshold
+                if (swipeTime > 0 && totalDistance > swipeminDistanceThreshold)
                 {
-                    // 3. Calculate Velocity (Pixels per second)
-                    float velocity = horizontalDist / swipeTime;
-                    float normalizedVelocity = velocity / Screen.width;
+                    // 3. Determine if the touch position is left or right relative to the starting touch down spot
+                    float directionSign = (touch.x >= swipeStartPosition.x) ? 1f : -1f;
+
+                    // 4. Calculate total velocity path magnitude, then apply direction sign layout rules
+                    float velocityMagnitude = totalDistance / swipeTime;
+                    float signedVelocity = velocityMagnitude * directionSign;
+
+                    float normalizedVelocity = signedVelocity / Screen.width;
 
                     inputData.Swiped(normalizedVelocity * rotationSensitivity);
 
+                    // Reset markers to continue relative calculations seamlessly
                     swipeStartPosition = touch;
                     swipeStartTime = Time.time;
                 }
@@ -201,20 +206,25 @@ namespace com.VisionXR.Controllers
             }
             else
             {
-                // 1. Calculate the raw horizontal displacement
-                float horizontalDist = touch.x - swipeStartPosition.x;
-
+                // 1. Calculate absolute vector distance from start position (accounts for any direction diagonal/vertical)
+                float totalDistance = Vector2.Distance(touch, swipeStartPosition);
                 float swipeTime = Time.time - swipeStartTime;
 
-                // 2. Check if the distance meets your minimum threshold
-                if (swipeTime > 0 && Mathf.Abs(horizontalDist) > swipeminDistanceThreshold)
+                // 2. Check if the overall physical movement breaks your minimum distance threshold
+                if (swipeTime > 0 && totalDistance > swipeminDistanceThreshold)
                 {
-                    // 3. Calculate Velocity (Pixels per second)
-                    float velocity = horizontalDist / swipeTime;
-                    float normalizedVelocity = velocity / Screen.width;
+                    // 3. Determine if the touch position is left or right relative to the starting touch down spot
+                    float directionSign = (touch.x >= swipeStartPosition.x) ? 1f : -1f;
+
+                    // 4. Calculate total velocity path magnitude, then apply direction sign layout rules
+                    float velocityMagnitude = totalDistance / swipeTime;
+                    float signedVelocity = velocityMagnitude * directionSign;
+
+                    float normalizedVelocity = signedVelocity / Screen.width;
 
                     inputData.Swiped(normalizedVelocity * rotationSensitivity);
 
+                    // Reset markers to continue relative calculations seamlessly
                     swipeStartPosition = touch;
                     swipeStartTime = Time.time;
                 }

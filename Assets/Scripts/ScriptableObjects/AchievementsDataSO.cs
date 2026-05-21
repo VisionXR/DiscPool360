@@ -11,6 +11,7 @@ namespace com.VisionXR.ModelClasses
         // Variables
         public List<AchievementInfo> AllAchievementInfo;
         public UserData userData;
+        public BoardWinsStats boardWinsStats;
 
 
         // Actions
@@ -42,11 +43,25 @@ namespace com.VisionXR.ModelClasses
             }
         }
 
-        public bool IsAchievementUnlocked(string apiName)
+
+        public AchievementInfo GetAchievementByName(string name)
         {
             foreach (AchievementInfo info in AllAchievementInfo)
             {
-                if (info.apiName == apiName)
+                if (info.name == name)
+                {
+                    return info;
+                }
+            }
+
+            return null;
+        }
+
+        public bool IsAchievementUnlockedByName(string Name)
+        {
+            foreach (AchievementInfo info in AllAchievementInfo)
+            {
+                if (info.name == Name)
                 {
                     return info.isAchieved;
                 }

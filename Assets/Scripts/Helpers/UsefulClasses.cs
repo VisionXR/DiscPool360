@@ -270,6 +270,26 @@ namespace com.VisionXR.HelperClasses
 
 
     [Serializable]
+    public class BoardWinsStats
+    {
+        public List<BoardStats> boardStats;
+        public List<string> clientNames;
+
+    }
+
+    [Serializable]
+    public class BoardStats
+    {
+        public BoardType boardType;
+        public int spPoolWins;
+        public int spSnookerWins;
+        public int mpPoolWins;
+        public int mpSnookerWins;
+
+    }
+
+
+    [Serializable]
     public class AudioClipData
     {
         public AudioClipType audioClipType;
