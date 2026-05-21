@@ -20,6 +20,7 @@ public class AchievementManager : MonoBehaviour
     public CloudDataSO cloudData;
 
     [Header("Local Objects")]
+
     public string userDataKey = "DiscPoolUserData";
     public string boardWinsStatsKey = "DiscPoolBoardWinsStats";
     public AudioSource achievementAS;
@@ -33,20 +34,15 @@ public class AchievementManager : MonoBehaviour
     {
         LoadUserData();
         AddLogin();
-
+    
         achievementData.GetAllAchievementsEvent += GetAllAchievements;
-
-
         gameData.StartGameEvent += GameStarted;
         gameData.GameCompletedEvent += GameCompleted;
-
-
     }
 
     private void OnDisable()
     {
         achievementData.GetAllAchievementsEvent -= GetAllAchievements;
-
         gameData.StartGameEvent -= GameStarted;
         gameData.GameCompletedEvent -= GameCompleted;
 
@@ -71,13 +67,13 @@ public class AchievementManager : MonoBehaviour
             // Update achievement data with fetched achievements
             foreach (var achievement in achievements)
             {
-                if(achievement.completed)
+                if (achievement.completed)
                 {
-                    
+
                     achievementData.UnLockLocal(achievement.id);
                 }
-               
-              //  Debug.Log($"Achievement: {achievement.id}, Completed: {achievement.completed}, percentCompleted: {achievement.percentCompleted}");
+
+                //  Debug.Log($"Achievement: {achievement.id}, Completed: {achievement.completed}, percentCompleted: {achievement.percentCompleted}");
             }
 
         });
@@ -94,10 +90,22 @@ public class AchievementManager : MonoBehaviour
                 achievementData.userData.spTotalGames++;
                 SaveUserData();
             }
-            else if (d.gameType == GameType.MultiPlayer)
+
+            if (d.gameType == GameType.MultiPlayer)
             {
                 achievementData.userData.mpTotalGames++;
                 SaveUserData();
+            }
+
+
+            if (d.gameType == GameType.MultiPlayer)
+            {
+                Player otherPlayer = playerData.GetOpponentPlayer();
+                if (otherPlayer != null)
+                {
+                    AddClient(otherPlayer.playerProperties.myOculusID);
+                }
+
             }
         }
     }
@@ -107,7 +115,7 @@ public class AchievementManager : MonoBehaviour
         Destination d = destinationData.currentDestination;
         Player mp = playerData.GetMainPlayer();
 
-        if (uiData.currentBoardType != BoardType.Circle6/* && mp.playerProperties.myId == id*/)
+        if (uiData.currentBoardType != BoardType.Circle6 && mp.playerProperties.myId == id)
         {
             BoardStats currentBoardStats;
 
@@ -141,17 +149,14 @@ public class AchievementManager : MonoBehaviour
                     break;
                 }
             }
-            SetTotalWins();
-            SaveUserData();
-            StartCoroutine(UnLockBoardAchievements());
-            StartCoroutine(UnLockOverallAchievements());
+          
+            StartCoroutine(UnLockWin());
+
             return;
         }
 
-
-
-        //if (d != null && mp.playerProperties.myId == id)
-        //{
+        if (d != null && mp.playerProperties.myId == id)
+        {
             if (d.gameType == GameType.SinglePlayer)
             {
                 if (d.aIDifficulty == AIDifficulty.Easy)
@@ -208,14 +213,18 @@ public class AchievementManager : MonoBehaviour
                 }
             }
 
-            SetTotalWins();
-            SaveUserData();
-            StartCoroutine(UnLockWinAchievements());
-            StartCoroutine(UnLockOverallAchievements());
+            StartCoroutine(UnLockWin());
 
+        }
+    }
 
-      //  }
-
+    private IEnumerator UnLockWin()
+    {
+        SetTotalWins();
+        SaveUserData();
+        yield return StartCoroutine(UnLockWinAchievements());
+        yield return StartCoroutine(UnLockBoardAchievements());
+        yield return StartCoroutine(UnLockOverallAchievements());
     }
 
 
@@ -227,7 +236,7 @@ public class AchievementManager : MonoBehaviour
     {
 
         string achievementId = info.apiName;
-        Debug.Log("Trying to unlock" + info.name);
+    //    Debug.Log("Trying to unlock" + info.name);
 
         if (!PlayGamesPlatform.Instance.IsAuthenticated())
         {
@@ -354,9 +363,11 @@ public class AchievementManager : MonoBehaviour
 
         achievementData.userData.mpTotalWins = achievementData.userData.mpPoolWins + achievementData.userData.mpSnookerWins;
 
+    
+
 
         SaveUserData();
-        // StartCoroutine(UnLockLoginAchievements());
+        StartCoroutine(UnLockLoginAchievements());
     }
 
     public void AddClient(string clientId)
@@ -379,6 +390,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("login1");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -389,6 +401,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("login3");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -399,18 +412,20 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("login5");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
 
         if (achievementData.userData.totalLogins <= 10)
         {
-            
+
             if (!achievementData.IsAchievementUnlockedByName("login10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("login10");
                 info.actual = achievementData.userData.totalLogins;
-                UpdateIncrementalAchievement(info,info.actual,info.target);
+                UpdateIncrementalAchievement(info, info.actual, info.target);
+                yield return new WaitForSeconds(1);
             }
 
         }
@@ -426,6 +441,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("invite1");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -436,6 +452,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("invite3");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -445,6 +462,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("invite5");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -456,6 +474,7 @@ public class AchievementManager : MonoBehaviour
                 AchievementInfo info = achievementData.GetAchievementByName("invite10");
                 info.actual = achievementData.userData.totalLogins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
+                yield return new WaitForSeconds(1);
             }
 
         }
@@ -466,11 +485,12 @@ public class AchievementManager : MonoBehaviour
         yield return null;
 
         if (achievementData.userData.spPoolEasyWins >= 1)
-        { 
+        {
             if (!achievementData.IsAchievementUnlockedByName("spPoolEasyWins1"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spPoolEasyWins1");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -482,6 +502,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spPoolMediumWins1");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -493,6 +514,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spPoolHardWins1");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
 
         }
@@ -504,6 +526,7 @@ public class AchievementManager : MonoBehaviour
                 AchievementInfo info = achievementData.GetAchievementByName("spPoolHardWins10");
                 info.actual = achievementData.userData.totalLogins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
+                yield return new WaitForSeconds(1);
             }
 
         }
@@ -512,11 +535,12 @@ public class AchievementManager : MonoBehaviour
 
         if (achievementData.userData.spSnookerEasyWins >= 1)
         {
-         
+
             if (!achievementData.IsAchievementUnlockedByName("spSnookerEasyWins1"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spSnookerEasyWins1");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -528,6 +552,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spSnookerMediumWins1");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -539,6 +564,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spSnookerHardWins1");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
 
         }
@@ -551,6 +577,7 @@ public class AchievementManager : MonoBehaviour
                 AchievementInfo info = achievementData.GetAchievementByName("spSnookerHardWins10");
                 info.actual = achievementData.userData.totalLogins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -562,15 +589,17 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins1");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
         if (achievementData.userData.mpPoolWins >= 3)
         {
-            
+
             if (!achievementData.IsAchievementUnlockedByName("mpPoolWins3"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins3");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
         if (achievementData.userData.mpPoolWins >= 5)
@@ -580,6 +609,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins5");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -591,6 +621,7 @@ public class AchievementManager : MonoBehaviour
                 AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins10");
                 info.actual = achievementData.userData.mpPoolWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -601,6 +632,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins1");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
         if (achievementData.userData.mpSnookerWins >= 3)
@@ -610,6 +642,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins3");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
         if (achievementData.userData.mpSnookerWins >= 5)
@@ -619,6 +652,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins5");
                 UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -630,6 +664,7 @@ public class AchievementManager : MonoBehaviour
                 AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins10");
                 info.actual = achievementData.userData.mpSnookerWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -647,6 +682,7 @@ public class AchievementManager : MonoBehaviour
                 AchievementInfo info = achievementData.GetAchievementByName("spTotalWins50");
                 info.actual = achievementData.userData.totalLogins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -658,6 +694,7 @@ public class AchievementManager : MonoBehaviour
                 AchievementInfo info = achievementData.GetAchievementByName("mpTotalWins50");
                 info.actual = achievementData.userData.totalLogins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -671,6 +708,7 @@ public class AchievementManager : MonoBehaviour
                 AchievementInfo info = achievementData.GetAchievementByName("GrandChampion");
                 info.actual = achievementData.userData.totalLogins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -693,6 +731,7 @@ public class AchievementManager : MonoBehaviour
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
                         UnlockSimpleAchievement(achievementInfo);
+                        yield return new WaitForSeconds(1);
                     }
                 }
 
@@ -707,6 +746,7 @@ public class AchievementManager : MonoBehaviour
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
                         UnlockSimpleAchievement(achievementInfo);
+                        yield return new WaitForSeconds(1);
                     }
                 }
 
@@ -721,6 +761,7 @@ public class AchievementManager : MonoBehaviour
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
                         UnlockSimpleAchievement(achievementInfo);
+                        yield return new WaitForSeconds(1);
                     }
                 }
 
@@ -735,6 +776,7 @@ public class AchievementManager : MonoBehaviour
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
                         UnlockSimpleAchievement(achievementInfo);
+                        yield return new WaitForSeconds(1);
                     }
                 }
 
@@ -802,5 +844,35 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    public void ClearData()
+    {
+        try
+        {
+            string userDataPath = Path.Combine(UnityEngine.Application.persistentDataPath, userDataKey + ".txt");
+            if (File.Exists(userDataPath))
+            {
+                File.Delete(userDataPath);
+                Debug.Log($"Successfully deleted user data file: {userDataPath}");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to delete user data file: {e.Message}");
+        }
+
+        try
+        {
+            string boardWinsStatsPath = Path.Combine(UnityEngine.Application.persistentDataPath, boardWinsStatsKey + ".txt");
+            if (File.Exists(boardWinsStatsPath))
+            {
+                File.Delete(boardWinsStatsPath);
+                Debug.Log($"Successfully deleted board wins stats file: {boardWinsStatsPath}");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to delete board wins stats file: {e.Message}");
+        }
+    }
 }
 

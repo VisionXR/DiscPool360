@@ -17,6 +17,7 @@ MonoBehaviour:
   currentGameMode: 0
   currentAIDifficulty: 2
   currentBoardType: 0
+  currentLobbyType: 0
   disableTime: 0.3
   selectionColor: {r: 0, g: 0, b: 0.49019608, a: 0.5882353}
   defaultColor: {r: 0.49019608, g: 0.49019608, b: 0.49019608, a: 0.5882353}

@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,11 +16,21 @@ public class AchievementTest : MonoBehaviour
     public string achievementName;
     public AchievementInfo achievementInfo;
     public Destination destination;
+    public UserData userData;
+    public BoardWinsStats boardWinsStats;
 
 
     [Header("Key Bindings (New Input System)")]
     public Key GetKey = Key.G;
     public Key SetAchievementKey = Key.A;
+
+
+    public IEnumerator Start()
+    {
+        yield return new WaitForSeconds(5);
+        userData = achievementsData.userData;
+        boardWinsStats = achievementsData.boardWinsStats;
+    }
 
     void Update()
     {
@@ -34,8 +45,11 @@ public class AchievementTest : MonoBehaviour
 
         if( kb[SetAchievementKey].wasPressedThisFrame)
         {
-            destinationData.SetDestination(destination);
-            achievementManager.GameCompleted(1);
+
+            //destinationData.SetDestination(destination);
+            //achievementManager.GameCompleted(1);
+
+            StartCoroutine(achievementManager.UnLockOverallAchievements());
         }
     }
 }
