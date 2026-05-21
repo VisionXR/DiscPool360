@@ -2768,7 +2768,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2776,7 +2776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2816,11 +2816,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 230
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -65
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -27115,7 +27115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchorMin.x
@@ -27123,7 +27123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_SizeDelta.x
@@ -27163,11 +27163,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 730
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -65
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -57384,6 +57384,7 @@ MonoBehaviour:
   destinationData: {fileID: 11400000, guid: b1c217472703cc14eb7c750eff3156d1, type: 2}
   cloudData: {fileID: 11400000, guid: e87a4d3bbbce81a488d5e0b513882699, type: 2}
   userDataKey: DiscPoolUserData
+  boardWinsStatsKey: DiscPoolBoardWinsStats
   achievementAS: {fileID: 1228989032}
 --- !u!82 &1228989032
 AudioSource:
@@ -57613,7 +57614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1230680382
 RectTransform:
   m_ObjectHideFlags: 0
@@ -83114,7 +83115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchorMin.x
@@ -83122,7 +83123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_SizeDelta.x
@@ -83162,11 +83163,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 1230
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -65
       objectReference: {fileID: 0}
     - target: {fileID: 5895567167262279016, guid: 70d46cfb2b2af2449a19a00aca3fcfd2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -154894,6 +154895,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7222514881741937499}
   - component: {fileID: 7222514881741937500}
+  - component: {fileID: 7222514881741937501}
   m_Layer: 0
   m_Name: TestManager
   m_TagString: EditorOnly
@@ -156164,7 +156166,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6842247990249685336}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa6ec39a2f7e53344abc68402c26f5fd, type: 3}
   m_Name: 
@@ -156176,6 +156178,37 @@ MonoBehaviour:
   testCoin: {fileID: 0}
   testHole: 1
   PlaceStrikerKey: 20
+--- !u!114 &7222514881741937501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6842247990249685336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af622c172f122a346821128d3b5da20b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AchievementTest
+  achievementsData: {fileID: 11400000, guid: df5b6baa4cd683d4dbbd14f2191ecccc, type: 2}
+  achievementName: 
+  achievementInfo:
+    id: 0
+    icon: {fileID: 0}
+    name: 
+    apiName: 
+    achievementName: 
+    description: 
+    type: 0
+    mode: 0
+    boardType: 0
+    difficulty: 0
+    achievementSection: 0
+    achievementType: 0
+    isAchieved: 0
+    actual: 0
+    target: 0
+  GetKey: 21
 --- !u!222 &7246826910767109082
 CanvasRenderer:
   m_ObjectHideFlags: 0
