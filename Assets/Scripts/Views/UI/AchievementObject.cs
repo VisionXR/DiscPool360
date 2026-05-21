@@ -38,6 +38,8 @@ namespace com.VisionXR.Views
             Icon.sprite = achievementInfo.icon;
             title.text = achievementInfo.achievementName;
             description.text = achievementInfo.description;
+          
+
             if (achievementInfo.achievementType == AchievementType.Simple)
             {
                 simpleObject.SetActive(true);

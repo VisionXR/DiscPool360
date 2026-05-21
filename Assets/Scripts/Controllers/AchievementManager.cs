@@ -73,6 +73,7 @@ public class AchievementManager : MonoBehaviour
             {
                 if(achievement.completed)
                 {
+                    
                     achievementData.UnLockLocal(achievement.id);
                 }
                
@@ -106,7 +107,7 @@ public class AchievementManager : MonoBehaviour
         Destination d = destinationData.currentDestination;
         Player mp = playerData.GetMainPlayer();
 
-        if (uiData.currentBoardType != BoardType.Circle6)
+        if (uiData.currentBoardType != BoardType.Circle6/* && mp.playerProperties.myId == id*/)
         {
             BoardStats currentBoardStats;
 
@@ -149,8 +150,8 @@ public class AchievementManager : MonoBehaviour
 
 
 
-        if (d != null && mp.playerProperties.myId == id)
-        {
+        //if (d != null && mp.playerProperties.myId == id)
+        //{
             if (d.gameType == GameType.SinglePlayer)
             {
                 if (d.aIDifficulty == AIDifficulty.Easy)
@@ -213,7 +214,7 @@ public class AchievementManager : MonoBehaviour
             StartCoroutine(UnLockOverallAchievements());
 
 
-        }
+      //  }
 
     }
 
@@ -222,8 +223,12 @@ public class AchievementManager : MonoBehaviour
     /// Instantly unlocks a standard, one-time achievement.
     /// </summary>
     /// <param name="achievementId">The exact alphanumeric string ID from the Google Play Console</param>
-    public void UnlockSimpleAchievement(string achievementId)
+    public void UnlockSimpleAchievement(AchievementInfo info)
     {
+
+        string achievementId = info.apiName;
+        Debug.Log("Trying to unlock" + info.name);
+
         if (!PlayGamesPlatform.Instance.IsAuthenticated())
         {
             Debug.LogWarning($"[Achievements] User not authenticated. Cannot unlock ID: {achievementId}");
@@ -260,8 +265,11 @@ public class AchievementManager : MonoBehaviour
     /// <param name="achievementId">The exact alphanumeric string ID from the Google Play Console</param>
     /// <param name="currentCount">The current absolute total step count</param>
     /// <param name="targetCount">The unlock threshold for this achievement (e.g., 10 for 10 wins)</param>
-    public void UpdateIncrementalAchievement(string achievementId, int currentCount, int targetCount)
+    public void UpdateIncrementalAchievement(AchievementInfo info, int currentCount, int targetCount)
     {
+        string achievementId = info.apiName;
+        Debug.Log("Trying to unlock" + info.name);
+
         if (!PlayGamesPlatform.Instance.IsAuthenticated())
         {
             Debug.LogWarning($"[Achievements] User not authenticated. Cannot update incremental ID: {achievementId}");
@@ -369,7 +377,8 @@ public class AchievementManager : MonoBehaviour
         {
             if (!achievementData.IsAchievementUnlockedByName("login1"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("login1").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("login1");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -378,7 +387,8 @@ public class AchievementManager : MonoBehaviour
         {
             if (!achievementData.IsAchievementUnlockedByName("login3"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("login3").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("login3");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -387,7 +397,8 @@ public class AchievementManager : MonoBehaviour
         {
             if (!achievementData.IsAchievementUnlockedByName("login5"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("login5").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("login5");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -399,7 +410,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("login10");
                 info.actual = achievementData.userData.totalLogins;
-                UpdateIncrementalAchievement(info.apiName,info.actual,info.target);
+                UpdateIncrementalAchievement(info,info.actual,info.target);
             }
 
         }
@@ -413,7 +424,8 @@ public class AchievementManager : MonoBehaviour
         {
             if (!achievementData.IsAchievementUnlockedByName("invite1"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("invite1").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("invite1");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -422,7 +434,8 @@ public class AchievementManager : MonoBehaviour
         {
             if (!achievementData.IsAchievementUnlockedByName("invite3"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("invite3").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("invite3");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -430,7 +443,8 @@ public class AchievementManager : MonoBehaviour
         {
             if (!achievementData.IsAchievementUnlockedByName("invite5"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("invite5").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("invite5");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -441,7 +455,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("invite10");
                 info.actual = achievementData.userData.totalLogins;
-                UpdateIncrementalAchievement(info.apiName, info.actual, info.target);
+                UpdateIncrementalAchievement(info, info.actual, info.target);
             }
 
         }
@@ -455,7 +469,8 @@ public class AchievementManager : MonoBehaviour
         { 
             if (!achievementData.IsAchievementUnlockedByName("spPoolEasyWins1"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("spPoolEasyWins1").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("spPoolEasyWins1");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -465,7 +480,8 @@ public class AchievementManager : MonoBehaviour
 
             if (!achievementData.IsAchievementUnlockedByName("spPoolMediumWins1"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("spPoolMediumWins1").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("spPoolMediumWins1");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -475,7 +491,8 @@ public class AchievementManager : MonoBehaviour
 
             if (!achievementData.IsAchievementUnlockedByName("spPoolHardWins1"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("spPoolHardWins1").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("spPoolHardWins1");
+                UnlockSimpleAchievement(info);
             }
 
         }
@@ -486,7 +503,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spPoolHardWins10");
                 info.actual = achievementData.userData.totalLogins;
-                UpdateIncrementalAchievement(info.apiName, info.actual, info.target);
+                UpdateIncrementalAchievement(info, info.actual, info.target);
             }
 
         }
@@ -498,7 +515,8 @@ public class AchievementManager : MonoBehaviour
          
             if (!achievementData.IsAchievementUnlockedByName("spSnookerEasyWins1"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("spSnookerEasyWins1").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("spSnookerEasyWins1");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -508,7 +526,8 @@ public class AchievementManager : MonoBehaviour
 
             if (!achievementData.IsAchievementUnlockedByName("spSnookerMediumWins1"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("spSnookerMediumWins1").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("spSnookerMediumWins1");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -518,7 +537,8 @@ public class AchievementManager : MonoBehaviour
 
             if (!achievementData.IsAchievementUnlockedByName("spSnookerHardWins1"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("spSnookerHardWins1").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("spSnookerHardWins1");
+                UnlockSimpleAchievement(info);
             }
 
         }
@@ -530,7 +550,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spSnookerHardWins10");
                 info.actual = achievementData.userData.totalLogins;
-                UpdateIncrementalAchievement(info.apiName, info.actual, info.target);
+                UpdateIncrementalAchievement(info, info.actual, info.target);
             }
         }
 
@@ -540,7 +560,8 @@ public class AchievementManager : MonoBehaviour
         {
             if (!achievementData.IsAchievementUnlockedByName("mpPoolWins1"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("mpPoolWins1").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins1");
+                UnlockSimpleAchievement(info);
             }
         }
         if (achievementData.userData.mpPoolWins >= 3)
@@ -548,7 +569,8 @@ public class AchievementManager : MonoBehaviour
             
             if (!achievementData.IsAchievementUnlockedByName("mpPoolWins3"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("mpPoolWins3").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins3");
+                UnlockSimpleAchievement(info);
             }
         }
         if (achievementData.userData.mpPoolWins >= 5)
@@ -556,7 +578,8 @@ public class AchievementManager : MonoBehaviour
 
             if (!achievementData.IsAchievementUnlockedByName("mpPoolWins5"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("mpPoolWins5").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins5");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -566,8 +589,8 @@ public class AchievementManager : MonoBehaviour
             if (!achievementData.IsAchievementUnlockedByName("mpPoolWins10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins10");
-                info.actual = achievementData.userData.totalLogins;
-                UpdateIncrementalAchievement(info.apiName, info.actual, info.target);
+                info.actual = achievementData.userData.mpPoolWins;
+                UpdateIncrementalAchievement(info, info.actual, info.target);
             }
         }
 
@@ -576,7 +599,8 @@ public class AchievementManager : MonoBehaviour
         {
             if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins1"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("mpSnookerWins1").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins1");
+                UnlockSimpleAchievement(info);
             }
         }
         if (achievementData.userData.mpSnookerWins >= 3)
@@ -584,7 +608,8 @@ public class AchievementManager : MonoBehaviour
 
             if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins3"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("mpSnookerWins3").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins3");
+                UnlockSimpleAchievement(info);
             }
         }
         if (achievementData.userData.mpSnookerWins >= 5)
@@ -592,7 +617,8 @@ public class AchievementManager : MonoBehaviour
 
             if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins5"))
             {
-                UnlockSimpleAchievement(achievementData.GetAchievementByName("mpSnookerWins3").apiName);
+                AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins5");
+                UnlockSimpleAchievement(info);
             }
         }
 
@@ -602,8 +628,8 @@ public class AchievementManager : MonoBehaviour
             if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins10");
-                info.actual = achievementData.userData.totalLogins;
-                UpdateIncrementalAchievement(info.apiName, info.actual, info.target);
+                info.actual = achievementData.userData.mpSnookerWins;
+                UpdateIncrementalAchievement(info, info.actual, info.target);
             }
         }
 
@@ -620,7 +646,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spTotalWins50");
                 info.actual = achievementData.userData.totalLogins;
-                UpdateIncrementalAchievement(info.apiName, info.actual, info.target);
+                UpdateIncrementalAchievement(info, info.actual, info.target);
             }
         }
 
@@ -631,7 +657,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpTotalWins50");
                 info.actual = achievementData.userData.totalLogins;
-                UpdateIncrementalAchievement(info.apiName, info.actual, info.target);
+                UpdateIncrementalAchievement(info, info.actual, info.target);
             }
         }
 
@@ -640,11 +666,11 @@ public class AchievementManager : MonoBehaviour
         if (totalWins <= 100)
         {
 
-            if (!achievementData.IsAchievementUnlockedByName("totalWins100"))
+            if (!achievementData.IsAchievementUnlockedByName("GrandChampion"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("totalWins100");
+                AchievementInfo info = achievementData.GetAchievementByName("GrandChampion");
                 info.actual = achievementData.userData.totalLogins;
-                UpdateIncrementalAchievement(info.apiName, info.actual, info.target);
+                UpdateIncrementalAchievement(info, info.actual, info.target);
             }
         }
 
@@ -666,7 +692,7 @@ public class AchievementManager : MonoBehaviour
                 {
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
-                        UnlockSimpleAchievement(achievementInfo.apiName);
+                        UnlockSimpleAchievement(achievementInfo);
                     }
                 }
 
@@ -680,7 +706,7 @@ public class AchievementManager : MonoBehaviour
                 {
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
-                        UnlockSimpleAchievement(achievementInfo.apiName);
+                        UnlockSimpleAchievement(achievementInfo);
                     }
                 }
 
@@ -694,7 +720,7 @@ public class AchievementManager : MonoBehaviour
                 {
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
-                        UnlockSimpleAchievement(achievementInfo.apiName);
+                        UnlockSimpleAchievement(achievementInfo);
                     }
                 }
 
@@ -708,7 +734,7 @@ public class AchievementManager : MonoBehaviour
                 {
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
-                        UnlockSimpleAchievement(achievementInfo.apiName);
+                        UnlockSimpleAchievement(achievementInfo);
                     }
                 }
 

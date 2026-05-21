@@ -5,13 +5,21 @@ using UnityEngine.InputSystem;
 
 public class AchievementTest : MonoBehaviour
 {
+    [Header("Scriptable Objects")]
     public AchievementsDataSO achievementsData;
+    public UIDataSO uiData;
+    public DestinationSO destinationData;
+
+    [Header("Local Objects")]
+    public AchievementManager achievementManager;
     public string achievementName;
     public AchievementInfo achievementInfo;
+    public Destination destination;
 
 
     [Header("Key Bindings (New Input System)")]
     public Key GetKey = Key.G;
+    public Key SetAchievementKey = Key.A;
 
     void Update()
     {
@@ -22,6 +30,12 @@ public class AchievementTest : MonoBehaviour
         if ( kb[GetKey].wasPressedThisFrame)
         {
             achievementInfo = achievementsData.GetAchievementByName(achievementName);
+        }
+
+        if( kb[SetAchievementKey].wasPressedThisFrame)
+        {
+            destinationData.SetDestination(destination);
+            achievementManager.GameCompleted(1);
         }
     }
 }
