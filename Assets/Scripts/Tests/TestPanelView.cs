@@ -21,18 +21,20 @@ public class TestPanelView : MonoBehaviour
     public void SPBtnClicked()
     {
         audioData.PlayAudio(AudioClipType.ButtonClick);
-    
+        achievementManager.UnlockSimpleAchievement(achievementsData.GetAchievementByName("login1").apiName);
     }
 
     public void MPBtnClicked()
     {
         audioData.PlayAudio(AudioClipType.ButtonClick);
-       
+        achievementManager.UnlockSimpleAchievement(achievementsData.GetAchievementByName("login3").apiName);
+
     }
 
     public void TotalClicked()
     {
         audioData.PlayAudio(AudioClipType.ButtonClick);
-        
+        achievementManager.UnlockSimpleAchievement(achievementsData.GetAchievementByName("login5").apiName);
+
     }
 }
