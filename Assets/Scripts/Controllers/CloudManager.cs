@@ -14,7 +14,8 @@ namespace com.VisionXR.Controllers
         public CloudDataSO cloudData;
         public AchievementsDataSO achievementsData;
         public string userDataKey = "DiscPoolUserData";
-      
+        public string boardWinsStatsKey = "DiscPoolBoardWinsStats";
+
 
         // Actions
         private Action OnDataFetchSuccessEvent;
@@ -68,6 +69,30 @@ namespace com.VisionXR.Controllers
             }
             catch (Exception e)
             {
+                Debug.Log("Error saving user data: " + e.Message); 
+            }
+
+            try
+            {
+
+                // Convert your UserData class to JSON string
+                string jsonString = JsonUtility.ToJson(achievementsData.boardWinsStats);
+
+                var request = new UpdateUserDataRequest
+                {
+                    Data = new Dictionary<string, string> {
+                    { boardWinsStatsKey, jsonString }
+                },
+
+                };
+
+                PlayFabClientAPI.UpdateUserData(request,
+                    result => { },
+                    OnDataFetchError);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Error saving board stats data: " + e.Message);
             }
         }
 
@@ -76,7 +101,7 @@ namespace com.VisionXR.Controllers
         {
             var request = new GetUserDataRequest
             {
-                Keys = new List<string> { userDataKey }
+                Keys = new List<string> { userDataKey, boardWinsStatsKey }
             };
 
             try
@@ -89,12 +114,19 @@ namespace com.VisionXR.Controllers
                         string json = result.Data[userDataKey].Value;
                         achievementsData.userData = JsonUtility.FromJson<UserData>(json);
 
-                        Debug.Log("Cloud Data Loaded Successfully");
+                        Debug.Log("user Data Loaded Successfully");
                     }
-                    else
+
+                    if (result.Data != null && result.Data.ContainsKey(boardWinsStatsKey))
                     {
-                        Debug.Log("No existing cloud data found for this key. Starting fresh.");
+                        // Convert the JSON string back into your BoardWinsStats object
+                        string json = result.Data[boardWinsStatsKey].Value;
+                        achievementsData.boardWinsStats = JsonUtility.FromJson<BoardWinsStats>(json);
+
+                        Debug.Log("board stats Data Loaded Successfully");
                     }
+
+
 
                     OnDataFetchSuccessEvent?.Invoke();
 

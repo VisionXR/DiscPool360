@@ -105,6 +105,50 @@ public class AchievementManager : MonoBehaviour
     {
         Destination d = destinationData.currentDestination;
         Player mp = playerData.GetMainPlayer();
+
+        if (uiData.currentBoardType != BoardType.Circle6)
+        {
+            BoardStats currentBoardStats;
+
+            foreach (BoardStats stats in achievementData.boardWinsStats.boardStats)
+            {
+                if (stats.boardType == uiData.currentBoardType)
+                {
+                    currentBoardStats = stats;
+                    if (d.gameMode == GameMode.Pool)
+                    {
+                        if (d.gameType == GameType.MultiPlayer)
+                        {
+                            currentBoardStats.mpPoolWins++;
+                        }
+                        else if (d.gameType == GameType.SinglePlayer)
+                        {
+                            currentBoardStats.spPoolWins++;
+                        }
+                    }
+                    else if (d.gameMode == GameMode.Snooker)
+                    {
+                        if (d.gameType == GameType.MultiPlayer)
+                        {
+                            currentBoardStats.mpSnookerWins++;
+                        }
+                        else if (d.gameType == GameType.SinglePlayer)
+                        {
+                            currentBoardStats.spSnookerWins++;
+                        }
+                    }
+                    break;
+                }
+            }
+            SetTotalWins();
+            SaveUserData();
+            StartCoroutine(UnLockBoardAchievements());
+            StartCoroutine(UnLockOverallAchievements());
+            return;
+        }
+
+
+
         if (d != null && mp.playerProperties.myId == id)
         {
             if (d.gameType == GameType.SinglePlayer)
@@ -163,8 +207,14 @@ public class AchievementManager : MonoBehaviour
                 }
             }
 
+            SetTotalWins();
             SaveUserData();
+            StartCoroutine(UnLockWinAchievements());
+            StartCoroutine(UnLockOverallAchievements());
+
+
         }
+
     }
 
 

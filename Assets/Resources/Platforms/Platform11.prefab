@@ -235,6 +235,7 @@ MonoBehaviour:
   tableData: {fileID: 11400000, guid: ab3e04cb2b741b14a9f15b44f81c74c9, type: 2}
   strikerData: {fileID: 11400000, guid: 8ae96cdacd2423343b0749475230232d, type: 2}
   playersData: {fileID: 11400000, guid: 611cb01e46ac62b478c980e6a529cd2d, type: 2}
+  boardType: 3
   EdgeHighLight: {fileID: 8920548106802268403}
   grabbableComponent: {fileID: 6653866573309682424}
   allEdgeColliders:

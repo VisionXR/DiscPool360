@@ -1,4 +1,5 @@
 using com.VisionXR.GameElements;
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ public class Platform : MonoBehaviour
     public PlayerDataSO playersData;
 
     [Header("Game Objects")]
+    public BoardType boardType;
     public GameObject EdgeHighLight;
     public GameObject grabbableComponent;
     public List<GameObject> allEdgeColliders;
@@ -50,6 +52,8 @@ public class Platform : MonoBehaviour
         inputData.RotationPinchEndedEvent += PinchEnded;
 
         tableData.SetPlatform(this);
+
+        uiData.SetBoardType(boardType);
     }
 
     private void OnDisable()
