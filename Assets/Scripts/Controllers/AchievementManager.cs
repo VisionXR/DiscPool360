@@ -354,6 +354,8 @@ public class AchievementManager : MonoBehaviour
         {
             achievementData.userData.lastLoginDate = DateTime.Now.ToLongDateString();
             achievementData.userData.totalLogins += 1;
+            StartCoroutine(UnLockLoginAchievements());
+            SaveUserData();
 
         }
 
@@ -363,11 +365,8 @@ public class AchievementManager : MonoBehaviour
 
         achievementData.userData.mpTotalWins = achievementData.userData.mpPoolWins + achievementData.userData.mpSnookerWins;
 
-    
-
-
-        SaveUserData();
-        StartCoroutine(UnLockLoginAchievements());
+        StartCoroutine(UnLockWin());
+          
     }
 
     public void AddClient(string clientId)
@@ -524,7 +523,7 @@ public class AchievementManager : MonoBehaviour
             if (!achievementData.IsAchievementUnlockedByName("spPoolHardWins10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spPoolHardWins10");
-                info.actual = achievementData.userData.totalLogins;
+                info.actual = achievementData.userData.spPoolHardWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
@@ -575,7 +574,7 @@ public class AchievementManager : MonoBehaviour
             if (!achievementData.IsAchievementUnlockedByName("spSnookerHardWins10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spSnookerHardWins10");
-                info.actual = achievementData.userData.totalLogins;
+                info.actual = achievementData.userData.spSnookerHardWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
@@ -680,7 +679,7 @@ public class AchievementManager : MonoBehaviour
             if (!achievementData.IsAchievementUnlockedByName("spTotalWins50"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spTotalWins50");
-                info.actual = achievementData.userData.totalLogins;
+                info.actual = achievementData.userData.spTotalWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
@@ -692,7 +691,7 @@ public class AchievementManager : MonoBehaviour
             if (!achievementData.IsAchievementUnlockedByName("mpTotalWins50"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpTotalWins50");
-                info.actual = achievementData.userData.totalLogins;
+                info.actual = achievementData.userData.mpTotalWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
@@ -706,7 +705,7 @@ public class AchievementManager : MonoBehaviour
             if (!achievementData.IsAchievementUnlockedByName("GrandChampion"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("GrandChampion");
-                info.actual = achievementData.userData.totalLogins;
+                info.actual = totalWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
