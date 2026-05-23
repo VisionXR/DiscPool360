@@ -13,7 +13,7 @@ public class JoinRoomTest : MonoBehaviour
     public AudioDataSO audioData;
 
     [Header("Other Objects")]
-    public ChangeDestinationPanelView changeDestinationPanel;
+    public ChangeDestinationView changeDestinationPanel;
     public DestinationPanelView destinationPanel;
     public Destination destination;
 
@@ -53,9 +53,9 @@ public class JoinRoomTest : MonoBehaviour
     {
         if(destinationData.currentDestination != null)
         {
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            changeDestinationPanel.gameObject.SetActive(true);
+            audioData.PlayAudio(AudioClipType.ButtonClick);       
             changeDestinationPanel.SetDestination(destination);
+            uiData.uiManager.GoToState(StateName.ChangeDestinationState);
         }
     }
 }

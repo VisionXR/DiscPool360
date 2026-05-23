@@ -66,6 +66,7 @@ namespace com.VisionXR.Controllers
             }
             else
             {
+                              
                 changeDestinationPanelView.SetDestination(multiPlayerDestination);
                 uiData.uiManager.GoToState(StateName.ChangeDestinationState);
                 isLink = false;
@@ -118,9 +119,12 @@ namespace com.VisionXR.Controllers
             {
                 // code here
                 uiData.uiManager.ChangeState("Home", true);
+                isFirstTime = false;
             }
             else
             {
+               
+                
                 destinationPanelView.SetDestination(multiPlayerDestination);
                 uiData.uiManager.ChangeState("Link", true);
                 isLink = false;
@@ -141,14 +145,14 @@ namespace com.VisionXR.Controllers
         {
             if (status == SignInStatus.Success)
             {
-                Debug.Log("Disc Pool: Google Login Successful!");
+                Debug.Log("Login Successful!");
 
                 // 1. First, set local UI data (Name and Image)
                 string name = Social.localUser.userName;
                 string googleID = Social.localUser.id;
 
                 string imageUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
-                Debug.Log("Image Url " + imageUrl);
+               
                
 
                 playerSettings.SetUserNameAndId(name, googleID);
@@ -164,10 +168,14 @@ namespace com.VisionXR.Controllers
                 if(!isLink)
                 {
                     // code here
+                    Debug.Log("No link");
                     uiData.uiManager.ChangeState("Home", true);
+                    isFirstTime = false;
                 }
                 else
                 {
+                    Debug.Log("link");            
+                    
                     destinationPanelView.SetDestination(multiPlayerDestination);
                     uiData.uiManager.ChangeState("Link", true);
                     isLink = false;

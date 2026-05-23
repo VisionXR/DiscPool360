@@ -32,6 +32,7 @@ namespace com.VisionXR.Views
 
         public GameObject hostStartObject;
         public GameObject clientStartObject;
+
         public GameObject clientWaitingObject;
         public GameObject hostWaitingOBject;
 
@@ -80,6 +81,9 @@ namespace com.VisionXR.Views
             networkOutPutData.SetClientReady(false);
             isHostJoined = false;
             isClientJoined = false;
+
+            ResetTexts();
+            ResetTime();
         }
 
         private IEnumerator ShowTime()
@@ -216,6 +220,7 @@ namespace com.VisionXR.Views
 
             hostStartObject.SetActive(false);
             clientStartObject.SetActive(false);
+
             hostWaitingOBject.SetActive(false);
             clientWaitingObject.gameObject.SetActive(false);
 
@@ -309,6 +314,17 @@ namespace com.VisionXR.Views
                 sendPlayerData.RPC_StartGame(2, (int)userData.myCoins);
             }
             
+        }
+
+        public void ExitBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.uiManager.ChangeState("SinglePlayer", false);
+            uiData.uiManager.ChangeState("MultiPlayer", false);
+            uiData.uiManager.ChangeState("Home", true);
+            uiData.uiManager.ResetAllBools();
+
+            gameData.ExitGame();
         }
 
         public void BackBtnClicked()

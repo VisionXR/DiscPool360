@@ -94,7 +94,7 @@ namespace com.VisionXR.Views
         private IEnumerator WaitAndConnect()
         {
           
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(uiData.disableTime);
             ConnectToDestination();
         }
 
@@ -129,25 +129,20 @@ namespace com.VisionXR.Views
 
 
         public void SetDestination(Destination destination)
-        {
-            
-            currentDestination = destination;   
-       
+        {          
+            currentDestination = destination;     
         }
-
-
         public void ConnectToDestination()
         {
             if (currentDestination != null)
-            {
-              
-          
+            {        
                 if (connectionRoutine == null)
                 {
                     connectionRoutine = StartCoroutine(ShowConnectionStatus());
                     rotationRoutine = StartCoroutine(RotateImage());
                 }
-               
+
+                Debug.Log(" connecting to dest " + currentDestination.roomName);
                 destinationData.ConnectToDestination(currentDestination, DestinationSuccessEvent, DestinationFailureEvent);
 
             }

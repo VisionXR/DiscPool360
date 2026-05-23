@@ -33,7 +33,7 @@ namespace com.VisionXR.Controllers
 
         private void Start()
         {
-            ResetCanvases();
+          
           
             uiData.SetUIMachine(this);
             uiController.enabled = true;
@@ -45,9 +45,14 @@ namespace com.VisionXR.Controllers
             ResetAllBools();
         }
 
-        public void SetStateName(StateName stateName)
+        public void SetCurrentStateName(StateName stateName)
         {
             currentStateName = stateName;
+        }
+
+        public void SetPreviousStateName(StateName stateName)
+        {
+            previousStateName = stateName;
         }
 
         public void ChangeState(string stateVariable,bool value)
@@ -58,9 +63,8 @@ namespace com.VisionXR.Controllers
 
         public void GoToState(StateName newStateName)
         {
-            previousStateName = currentStateName;
+          
             string name = Enum.GetName(typeof(StateName),newStateName);
-            Debug.Log(name);
             uiData.uiManager.uiController.Play(name);
         }
 

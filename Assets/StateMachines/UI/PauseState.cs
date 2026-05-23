@@ -20,7 +20,7 @@ public class PauseState : StateMachineBehaviour
             uiData.uiManager.HideCanvas(SnookerCanvasId);
             uiData.uiManager.ShowCanvas(mainCanvasId);
             uiData.uiManager.mainCanvasView.ShowMainPanel(pauseState);
-            uiData.uiManager.SetStateName(currentStateName);
+            uiData.uiManager.SetCurrentStateName(currentStateName);
         }
     }
 
@@ -35,6 +35,7 @@ public class PauseState : StateMachineBehaviour
         if (uiData.uiManager != null)
         {
             uiData.uiManager.mainCanvasView.HideMainPanel(pauseState);
+            uiData.uiManager.SetPreviousStateName(currentStateName);
         }
     }
 

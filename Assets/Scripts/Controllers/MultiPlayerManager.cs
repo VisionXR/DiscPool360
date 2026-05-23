@@ -498,15 +498,13 @@ namespace com.VisionXR.Controllers
             coinData.DestroyCoins();
             InputPanel.TurnOff();
             multiPlayerConnectionManager.SetPlayStatus(false);
-
+            networkInputData.LeaveRoom();
             yield return new WaitForSeconds(0.1f);
             strikerData.DestroyStriker();
             playerData.DestroyAllPlayers();
             boardData.TurnOffInteractable();
             yield return new WaitForSeconds(0.1f);
-            networkInputData.LeaveRoom();
-
-            yield return new WaitForSeconds(0.1f);
+           
             PoolScoreCanvas.SetActive(false);
             SnookerScoreCanvas.SetActive(false);
             strikerData.SetFoul(false);

@@ -29,7 +29,7 @@ public class StartGame : StateMachineBehaviour
                 uiData.uiManager.snookerCanvasView.TurnOn();
             }
 
-            uiData.uiManager.SetStateName(currentStateName);
+            uiData.uiManager.SetCurrentStateName(currentStateName);
         }
     }
 
@@ -54,7 +54,7 @@ public class StartGame : StateMachineBehaviour
                 uiData.uiManager.snookerCanvasView.TurnOff();
             }
 
-
+            uiData.uiManager.SetPreviousStateName(currentStateName);
         }
     }
 
