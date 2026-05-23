@@ -66,12 +66,14 @@ namespace com.VisionXR.Views
             }
             else if (uiData.currentGameType == GameType.MultiPlayer)
             {
-                if (Application.internetReachability != NetworkReachability.NotReachable)
+                if (Application.internetReachability == NetworkReachability.NotReachable)
                 {
+                   
                     StartCoroutine(CheckInternetAndProceed());
                 }
                 else
                 {
+                    
                     uiData.uiManager.ChangeState(multiPlayerState, true);
                 }
             }
