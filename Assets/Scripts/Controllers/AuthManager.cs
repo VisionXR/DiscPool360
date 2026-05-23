@@ -25,7 +25,9 @@ namespace com.VisionXR.Controllers
         public Destination multiPlayerDestination;
         public bool isLoggedIn = false;
         public bool isLink = false;
+        private bool isFirstTime = true;
         public DestinationPanelView destinationPanelView;
+        public ChangeDestinationView changeDestinationPanelView;
 
         private void Awake()
         {
@@ -54,27 +56,22 @@ namespace com.VisionXR.Controllers
         {
             
             isLink = true;
-
             string roomId = ParseDeepLink(url);
-
             uiData.SetGameType(GameType.MultiPlayer);
             multiPlayerDestination.roomName = roomId;
-
-            StartCoroutine(WaitAndConnect());
-
-        }
-
-        private IEnumerator WaitAndConnect()
-        {
-            while (!isLoggedIn)
+            if (isFirstTime)
             {
-                yield return new WaitForSeconds(1);
-
+                isFirstTime = false;
+                
             }
-
-            destinationPanelView.SetDestination(multiPlayerDestination);
-            uiData.uiManager.ChangeState("Link", true);
+            else
+            {
+                changeDestinationPanelView.SetDestination(multiPlayerDestination);
+                uiData.uiManager.GoToState(StateName.ChangeDestinationState);
+                isLink = false;
+            }
         }
+
 
         public string ParseDeepLink(string url)
         {
@@ -116,14 +113,19 @@ namespace com.VisionXR.Controllers
             };
 
             isLoggedIn = true;
-
+            PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
             if (!isLink)
             {
                 // code here
                 uiData.uiManager.ChangeState("Home", true);
             }
-
-            PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
+            else
+            {
+                destinationPanelView.SetDestination(multiPlayerDestination);
+                uiData.uiManager.ChangeState("Link", true);
+                isLink = false;
+            }
+     
         }
 
 
@@ -163,6 +165,12 @@ namespace com.VisionXR.Controllers
                 {
                     // code here
                     uiData.uiManager.ChangeState("Home", true);
+                }
+                else
+                {
+                    destinationPanelView.SetDestination(multiPlayerDestination);
+                    uiData.uiManager.ChangeState("Link", true);
+                    isLink = false;
                 }
             }
 

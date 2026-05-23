@@ -12,8 +12,15 @@ namespace com.VisionXR.Views
         public GameDataSO gameData;
         public UIDataSO uiData;
 
-        [Header("Next And Previous Panels")]
-        public string currentState;
+        [Header(" Local ")]
+        public Destination newDestination;
+        public DestinationPanelView destinationPanelView;
+
+
+        public void SetDestination(Destination destination)
+        {
+            newDestination = destination;
+        }
 
         public void JoinBtnClicked()
         {
@@ -21,10 +28,11 @@ namespace com.VisionXR.Views
           
             uiData.uiManager.ChangeState("SinglePlayer", false);
             uiData.uiManager.ChangeState("MultiPlayer", false);
-            uiData.uiManager.ChangeState("Home", true);
             uiData.uiManager.ResetAllBools();
-
             gameData.ExitGame();
+
+            destinationPanelView.SetDestination(newDestination);
+            uiData.uiManager.GoToState(StateName.MPDestinationState);
 
         }
 
@@ -34,21 +42,6 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.uiManager.GoToState(uiData.uiManager.previousStateName);
         }
-
-        public void SettingsBtnClicked()
-        {
-
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.uiManager.ChangeState("Settings", true);
-        }
-
-        public void RulesBtnClicked()
-        {
-
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.uiManager.ChangeState("Rules", true);
-        }
-
 
     }
 }
