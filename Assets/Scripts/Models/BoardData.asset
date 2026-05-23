@@ -39,6 +39,6 @@ MonoBehaviour:
   AllCoinsTransform: {fileID: 0}
   StrikerTransform: {fileID: 0}
   BoardId: 0
-  StrikerRadius: 0.033
-  CoinRadius: 0.024
-  isSinglePlayer: 1
+  StrikerRadius: 0.031
+  CoinRadius: 0.0233
+  isSinglePlayer: 0

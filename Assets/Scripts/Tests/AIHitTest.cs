@@ -19,6 +19,7 @@ public class AIHitTest : MonoBehaviour
     public Key ShootStriker = Key.L;
     public Key ResetKey = Key.R;
     public Key SaveKey = Key.S;
+    public Key DrawKey = Key.D;
 
 
     private Vector3 strikerInitPos;
@@ -52,6 +53,23 @@ public class AIHitTest : MonoBehaviour
             StrikerShooting strikerShooting = striker.GetComponent<StrikerShooting>();
             Vector3 dir = (info.finalPosition - striker.transform.position).normalized;
             strikerShooting.SetForceAndDir(2, dir);
+        }
+
+        if (testCoin != null && kb[DrawKey].wasPressedThisFrame)
+
+        {
+            CoinInfo info = GetInfo(testCoin, testHole, strikerData.currentStriker.transform.position);
+            if (info != null)
+            {
+                lineRenderer.positionCount = 3;
+                lineRenderer.SetPosition(0, strikerData.currentStriker.transform.position);
+                lineRenderer.SetPosition(1, info.finalPosition);
+                lineRenderer.SetPosition(2, info.Hole.transform.position);
+            }
+
+            StrikerShooting strikerShooting = striker.GetComponent<StrikerShooting>();
+            Vector3 dir = (info.finalPosition - striker.transform.position).normalized;
+            striker.transform.forward = dir;
         }
 
         if (testCoin != null && kb[SaveKey].wasPressedThisFrame)
