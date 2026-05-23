@@ -28,6 +28,7 @@ namespace com.VisionXR.Views
           
             uiData.uiManager.ChangeState("SinglePlayer", false);
             uiData.uiManager.ChangeState("MultiPlayer", false);
+            uiData.uiManager.ChangeState("JoinedLobby", false);
             uiData.uiManager.ResetAllBools();
             gameData.ExitGame();
 
