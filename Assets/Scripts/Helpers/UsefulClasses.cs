@@ -306,5 +306,32 @@ namespace com.VisionXR.HelperClasses
 
     }
 
+    [Serializable]
+
+    public class StateDetails
+    {
+        public StateName stateName;
+        public string stateVariable;
+    }
+
+
+    [Serializable]
+    public class Destination
+    {
+        public ServerRegion region;
+        public GameType gameType;
+        public GameMode gameMode;
+        public AIDifficulty aIDifficulty;
+        public string lobbyName;
+        public string roomName;
+        public bool isJoinable;
+
+        public ServerRegion GetRegion()
+        {
+            return Enum.TryParse(lobbyName, true, out ServerRegion serverRegion) ? serverRegion : ServerRegion.any;
+        }
+
+    }
+
 
 }

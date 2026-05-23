@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
 using System.Collections;
@@ -11,6 +12,7 @@ namespace com.VisionXR.Controllers
         [Header("Scriptable Objects")]
         public UIDataSO uiData;
         public Animator uiController;
+        public StateName currentStateName;
 
         [Header("All Canvas Views")]
         public MainCanvasView mainCanvasView;       
@@ -24,7 +26,7 @@ namespace com.VisionXR.Controllers
 
 
         private Coroutine hideRoutine;
-       
+        
 
 
         private void Start()
@@ -41,9 +43,14 @@ namespace com.VisionXR.Controllers
             ResetAllBools();
         }
 
-        public void ChangeState(string stateName,bool value)
+        public void SetStateName(StateName stateName)
         {
-            uiController.SetBool(stateName,value);
+            currentStateName = stateName;
+        }
+
+        public void ChangeState(string stateVariable,bool value)
+        {
+            uiController.SetBool(stateVariable, value);
            
         }
 

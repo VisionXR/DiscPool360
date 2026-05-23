@@ -30,6 +30,14 @@ public class TestPanelView : MonoBehaviour
     {
         audioData.PlayAudio(AudioClipType.ButtonClick);
         Debug.Log("mp clicked");
+        AnimatorStateInfo stateInfo = uiData.uiManager.uiController.GetCurrentAnimatorStateInfo(0);
+
+        if (stateInfo.IsName("TestState"))
+        {
+            Debug.Log("We are currently on a test screen state!");
+        }
+
+        
         uiData.uiManager.uiController.Play("ChangeDestinationState");
     }
 

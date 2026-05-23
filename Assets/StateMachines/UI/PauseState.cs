@@ -1,7 +1,8 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
 
-public class SPPauseState : StateMachineBehaviour
+public class PauseState : StateMachineBehaviour
 {
    
     public UIDataSO uiData;
@@ -9,6 +10,7 @@ public class SPPauseState : StateMachineBehaviour
     public int poolCanvasId = 1;
     public int SnookerCanvasId = 2;
     public int pauseState = 20;
+    public StateName currentStateName;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
      
@@ -18,7 +20,7 @@ public class SPPauseState : StateMachineBehaviour
             uiData.uiManager.HideCanvas(SnookerCanvasId);
             uiData.uiManager.ShowCanvas(mainCanvasId);
             uiData.uiManager.mainCanvasView.ShowMainPanel(pauseState);
-
+            uiData.uiManager.SetStateName(currentStateName);
         }
     }
 

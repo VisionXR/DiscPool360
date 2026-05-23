@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public class GenericState : StateMachineBehaviour
 {
     public UIDataSO uiData;
     public int nextPanelId = 1;
+    public StateName currentStateName;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -13,6 +15,7 @@ public class GenericState : StateMachineBehaviour
         {
 
             uiData.uiManager.mainCanvasView.ShowMainPanel(nextPanelId);
+            uiData.uiManager.SetStateName(currentStateName);
         }
     }
 

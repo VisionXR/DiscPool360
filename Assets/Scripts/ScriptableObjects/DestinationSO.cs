@@ -42,21 +42,3 @@ public class DestinationSO : ScriptableObject
 }
 
 
-
-[Serializable]
-public class Destination
-{
-    public ServerRegion region;
-    public GameType gameType;
-    public GameMode gameMode;
-    public AIDifficulty aIDifficulty;
-    public string lobbyName;
-    public string roomName;
-    public bool isJoinable;
-    
-    public ServerRegion GetRegion()
-    {
-        return Enum.TryParse(lobbyName, true, out ServerRegion serverRegion) ? serverRegion : ServerRegion.any;
-    }
-
-}
