@@ -1,40 +1,78 @@
+using com.VisionXR.GameElements;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public class AIHitTest : MonoBehaviour
 {
+    [Header("Scriptable Objects")]
     public BoardDataSO boardData;
     public StrikerDataSO strikerData;
     public LineRenderer lineRenderer;
     public CoinSorter coinSorter;
 
     public GameObject testCoin;
+    public GameObject striker;
     public int testHole;
 
     [Header("Key Bindings (New Input System)")]
-    public Key PlaceStrikerKey = Key.F;
+    public Key ShootStriker = Key.L;
+    public Key ResetKey = Key.R;
+    public Key SaveKey = Key.S;
+
+
+    private Vector3 strikerInitPos;
+    private Vector3 coinInitPos;
+
+
+    private void Start()
+    {
+        lineRenderer.startWidth = 0.005f;
+        lineRenderer.endWidth = 0.005f;
+    }
+
     void Update()
     {
         var kb = Keyboard.current;
         if (kb == null)
             return;
 
-        if (testCoin != null && kb[PlaceStrikerKey].wasPressedThisFrame)
-     
+        if (testCoin != null && kb[ShootStriker].wasPressedThisFrame)
+
         {
-             CoinInfo info = GetInfo(testCoin,testHole,strikerData.currentStriker.transform.position);
+            CoinInfo info = GetInfo(testCoin, testHole, strikerData.currentStriker.transform.position);
             if (info != null)
             {
                 lineRenderer.positionCount = 3;
                 lineRenderer.SetPosition(0, strikerData.currentStriker.transform.position);
-                lineRenderer.SetPosition(1, info.finalPosition);                
+                lineRenderer.SetPosition(1, info.finalPosition);
                 lineRenderer.SetPosition(2, info.Hole.transform.position);
             }
 
-            StrikerShooting strikerShooting = strikerData.currentStriker.GetComponent<StrikerShooting>();
-            strikerShooting.SetForceAndDir(2, info.finalBoardDirection);
+            StrikerShooting strikerShooting = striker.GetComponent<StrikerShooting>();
+            Vector3 dir = (info.finalPosition - striker.transform.position).normalized;
+            strikerShooting.SetForceAndDir(2, dir);
+        }
+
+        if (testCoin != null && kb[SaveKey].wasPressedThisFrame)
+        {
+            strikerInitPos = striker.transform.position;
+            coinInitPos = testCoin.transform.position;
+            striker.SetActive(true);
+            testCoin.SetActive(true);
+            testCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+        }
+
+        if (testCoin != null && kb[ResetKey].wasPressedThisFrame)
+        {
+            striker.transform.position = strikerInitPos;
+            striker.transform.rotation = Quaternion.identity;
+            testCoin.transform.position = coinInitPos;
+            testCoin.transform.rotation = Quaternion.identity;
+            lineRenderer.positionCount = 0;
+            striker.SetActive(true);
+            testCoin.SetActive(true);
+            testCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         }
     }
 
