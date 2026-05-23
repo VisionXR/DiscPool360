@@ -32,7 +32,7 @@ namespace com.VisionXR.Views
         {
            
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.uiManager.ChangeState(currentState, false);
+            uiData.uiManager.GoToState(uiData.uiManager.previousStateName);
         }
 
         public void SettingsBtnClicked()

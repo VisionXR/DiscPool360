@@ -1,6 +1,7 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace com.VisionXR.Controllers
         public UIDataSO uiData;
         public Animator uiController;
         public StateName currentStateName;
+        public StateName previousStateName;
 
         [Header("All Canvas Views")]
         public MainCanvasView mainCanvasView;       
@@ -52,6 +54,14 @@ namespace com.VisionXR.Controllers
         {
             uiController.SetBool(stateVariable, value);
            
+        }
+
+        public void GoToState(StateName newStateName)
+        {
+            previousStateName = currentStateName;
+            string name = Enum.GetName(typeof(StateName),newStateName);
+            Debug.Log(name);
+            uiData.uiManager.uiController.Play(name);
         }
 
         private IEnumerator WaitAndReset()

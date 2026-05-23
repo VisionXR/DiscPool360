@@ -10,12 +10,15 @@ public class TestPanelView : MonoBehaviour
     public UIDataSO uiData;
     public AchievementsDataSO achievementsData;
     public AchievementManager achievementManager;
-  
+
+    private StateName currentState;
 
     public void BackBtnClicked()
     {
         audioData.PlayAudio(AudioClipType.ButtonClick);
         uiData.uiManager.ChangeState("Test", false);
+
+        uiData.uiManager.uiController.Play("ChangeDestinationState");
     }
 
     public void SPBtnClicked()
@@ -29,16 +32,8 @@ public class TestPanelView : MonoBehaviour
     public void MPBtnClicked()
     {
         audioData.PlayAudio(AudioClipType.ButtonClick);
-        Debug.Log("mp clicked");
-        AnimatorStateInfo stateInfo = uiData.uiManager.uiController.GetCurrentAnimatorStateInfo(0);
-
-        if (stateInfo.IsName("TestState"))
-        {
-            Debug.Log("We are currently on a test screen state!");
-        }
-
-        
-        uiData.uiManager.uiController.Play("ChangeDestinationState");
+        Debug.Log("change state clicked");
+        uiData.uiManager.GoToState(StateName.ChangeDestinationState);
     }
 
     public void TotalClicked()
