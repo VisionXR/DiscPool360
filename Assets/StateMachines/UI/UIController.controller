@@ -113,7 +113,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LeaderBoard
+  m_Name: LeaderBoardState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -141,7 +141,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SinglePlayer
+  m_Name: SinglePlayerState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -211,7 +211,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LeaderBoard 0
+  m_Name: SPLeaderBoardState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -239,7 +239,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LeaderBoard 0 0
+  m_Name: MPLeaderBoardState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -367,7 +367,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MPHostDisconnected
+  m_Name: MPHostDisconnectedState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -498,7 +498,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test
+  m_Name: TestState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -526,7 +526,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MPInGame
+  m_Name: MPInGameState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -741,7 +741,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SPInGame
+  m_Name: SPInGameState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -795,7 +795,7 @@ AnimatorStateMachine:
     m_Position: {x: 540, y: 860, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8381140117320881801}
-    m_Position: {x: 70, y: 500, z: 0}
+    m_Position: {x: 50, y: 470, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5167369091166655414}
     m_Position: {x: -650, y: 420, z: 0}
@@ -859,6 +859,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -7301324277845596524}
     m_Position: {x: 1180, y: 810, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5013834975350121898}
+    m_Position: {x: 1120, y: 280, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions:
@@ -1016,7 +1019,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Purchase
+  m_Name: PurchaseState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1037,6 +1040,23 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-2872503658344150315
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce7fa19e5a67944eae9fe2d0222aed8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SPPauseState
+  uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
+  mainCanvasId: 0
+  poolCanvasId: 1
+  SnookerCanvasId: 2
+  pauseState: 19
 --- !u!1102 &-2578223262346305599
 AnimatorState:
   serializedVersion: 6
@@ -1044,7 +1064,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rules 0
+  m_Name: SPRulesState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1328,7 +1348,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Settings 0 0
+  m_Name: MPSettingsState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1870,7 +1890,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GameCompleted 0
+  m_Name: MPGameCompletedState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1900,7 +1920,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GameCompleted
+  m_Name: SPGameCompletedState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -2086,7 +2106,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rules 0 0
+  m_Name: MPRulesState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -2194,7 +2214,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Settings
+  m_Name: SettingsState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -2363,6 +2383,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GenericState
   uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
   nextPanelId: 3
+--- !u!1102 &5013834975350121898
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ChangeDestinationState
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours:
+  - {fileID: -2872503658344150315}
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 0}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &5167369091166655414
 AnimatorState:
   serializedVersion: 6
@@ -2370,7 +2417,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Achievements
+  m_Name: AchievementsState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -2462,7 +2509,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Settings 0
+  m_Name: SPSettingsState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -2724,7 +2771,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rules
+  m_Name: RulesState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -2889,7 +2936,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MPClientDisconnect
+  m_Name: MPClientDisconnectState
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

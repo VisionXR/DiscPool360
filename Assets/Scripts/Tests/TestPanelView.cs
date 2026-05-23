@@ -21,15 +21,16 @@ public class TestPanelView : MonoBehaviour
     public void SPBtnClicked()
     {
         audioData.PlayAudio(AudioClipType.ButtonClick);
-
-        
+        Debug.Log("sp clicked");
+        uiData.uiManager.ChangeState("Test", false);
+        uiData.uiManager.uiController.Play("SinglePlayer");
     }
 
     public void MPBtnClicked()
     {
         audioData.PlayAudio(AudioClipType.ButtonClick);
-     
-
+        Debug.Log("mp clicked");
+        uiData.uiManager.uiController.Play("ChangeDestinationState");
     }
 
     public void TotalClicked()
