@@ -46,17 +46,13 @@ namespace com.VisionXR.Controllers
                 // Calculate the unique final score for this specific API track
                 int finalScore = leaderboard.GetPointsByApiName(currentApiName) + pointsToAdd;
 
-                Debug.Log($"[Leaderboard] Preparing to send score. Tracking ID: {currentApiName} | Value: {finalScore}");
-
                 Social.ReportScore(finalScore, currentApiName, (bool success) =>
                 {
                     if (success)
                     {
-                        Debug.Log($"Successfully reported score: {finalScore} to leaderboard: {currentApiName}");
-
                         // Update your local ScriptableObject cache tracking for this specific API
                         leaderboard.AddPoints(currentApiName, pointsToAdd);
-                        PlayGamesPlatform.Instance.ShowLeaderboardUI(currentApiName);
+                      //  PlayGamesPlatform.Instance.ShowLeaderboardUI(currentApiName);
 
                     }
                     else

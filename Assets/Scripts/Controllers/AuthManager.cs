@@ -123,8 +123,7 @@ namespace com.VisionXR.Controllers
             }
             else
             {
-               
-                
+                             
                 destinationPanelView.SetDestination(multiPlayerDestination);
                 uiData.uiManager.ChangeState("Link", true);
                 isLink = false;

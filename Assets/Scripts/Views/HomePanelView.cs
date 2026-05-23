@@ -38,6 +38,8 @@ namespace com.VisionXR.Views
             {
                 uiData.SetGameMode(GameMode.Snooker);
             }
+
+            uiData.uiManager.ChangeState("Home", false);
         }
 
         public void GameModeBtnClicked(int id)
