@@ -83,6 +83,9 @@ namespace com.VisionXR.Views
                 MicrophonePanel.gameObject.SetActive(false);
             }
 
+            speakerImage.sprite = speakerOnImage;
+            microphoneImage.sprite = microphoneOnImage;
+
         }
 
         private void OnDisable()

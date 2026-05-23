@@ -45,9 +45,8 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
-           
-
-
+            speakerImage.sprite = speakerOnImage;
+            microphoneImage.sprite = microphoneOnImage;
         }
 
         public void ShowPoolUI()

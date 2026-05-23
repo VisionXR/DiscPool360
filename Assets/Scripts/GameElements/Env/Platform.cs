@@ -29,11 +29,10 @@ public class Platform : MonoBehaviour
 
     [Header("Pinch Settings")]
     public float pinchThreshold = 0.1f;         // meters
-    public float rotationSensitivity = 1.0f;    // degrees per meter of horizontal pinch displacement
+    public float rotationSensitivity = 0.2f;    // Adjusted lower since frame deltas are more responsive
 
     private bool isPinchStarted = false;
-    private Vector3 pinchStartPos;
-    private float initialYRotation = 0f;
+    private Vector2 lastFramePosition;          // Changed to Vector2 to keep screen space math native
     private GameObject allAssets;
     private Player mainPlayer;
     private GameObject cam;
@@ -72,29 +71,23 @@ public class Platform : MonoBehaviour
 
     private void PinchStarted(Vector2 startPosition)
     {
-        // 1. Basic UI/Lock guards
         if (!grabbableComponent.activeInHierarchy) return;
 
-        if(allAssets == null)
+        if (allAssets == null)
         {
             allAssets = tableData.allAssets;
         }
 
-        // 2. Raycast from the 2D pinch/touch position
         Ray ray = Camera.main.ScreenPointToRay(startPosition);
         RaycastHit hit;
 
-        // 3. Check if we hit the "Edge" tag
         if (Physics.Raycast(ray, out hit))
         {
             if (hit.collider.CompareTag("Edge"))
             {
-                // Start the rotation logic
                 isPinchStarted = true;
-                pinchStartPos = new Vector3(startPosition.x, 0, startPosition.y); // Use Y for Z in 3D math
-                initialYRotation = transform.eulerAngles.y;
+                lastFramePosition = startPosition; // Store the exact start position vector
 
-                // Parenting assets to platform so they rotate together
                 if (allAssets != null)
                 {
                     allAssets.transform.SetParent(this.transform, true);
@@ -111,26 +104,22 @@ public class Platform : MonoBehaviour
     {
         if (!isPinchStarted) return;
 
-        // 1. Calculate the horizontal displacement in screen pixels
-        // Moving right (positive) usually means rotating clockwise or counter-clockwise
-        float deltaX = position.x - pinchStartPos.x;
+        // 1. Calculate how far the finger/pointer moved since the previous frame
+        float deltaX = position.x - lastFramePosition.x;
 
-        float sign = Mathf.Sign(deltaX);
+        // 2. Compute rotation modifier step based purely on this frame's horizontal change
+        float rotationDelta = deltaX * rotationSensitivity;
 
-        float distance = Vector2.Distance(position, pinchStartPos);
+        // 3. Construct rotation step using modern Quaternions
+        Quaternion rotationModifier = Quaternion.AngleAxis(-rotationDelta, Vector3.up);
 
-        // 2. Compute rotation in degrees
-        // Using deltaX * sensitivity allows for a "swipe to spin" feel
-        float rotationDelta = distance * rotationSensitivity * sign;
+        // Multiply step directly into current rotation object to keep updates seamless
+        transform.rotation = transform.rotation * rotationModifier;
 
-        // 3. Apply rotation relative to the initial rotation captured at Start
-        float newY = initialYRotation - rotationDelta;
+        // 4. Update memory cache position to evaluate the next frame correctly
+        lastFramePosition = position;
 
-        // Apply the rotation to the platform transform
-        Vector3 currentRot = transform.eulerAngles;
-        transform.eulerAngles = new Vector3(currentRot.x, newY, currentRot.z);
-
-        // 4. Notify other systems (like UI or Network) of the change
+        // 5. Fire off event metrics
         tableData.PlatformRotationChanged(transform.eulerAngles);
     }
 
@@ -138,21 +127,15 @@ public class Platform : MonoBehaviour
     {
         if (!isPinchStarted) return;
 
-        // 1. Detach assets so they are no longer children of the rotating platform
-        // 'true' maintains their current world-space position/rotation
         if (allAssets != null)
         {
             allAssets.transform.SetParent(null, true);
         }
 
-        // 2. Reset state flags
         isPinchStarted = false;
 
-        // 3. Visuals and Physics cleanup
         TurnOffBoardHighlight();
         inputData.PlatformHighlight(false);
-
-        // 4. Trigger event for game logic (e.g., checking if striker is in valid spot)
         tableData.PlatformRotationEnded();
     }
 
@@ -176,19 +159,18 @@ public class Platform : MonoBehaviour
     {
         grabbableComponent.SetActive(false);
     }
+
     public void TurnOnBoardHighlight()
     {
         EdgeHighLight.SetActive(true);
 
-        if(!strikerData.isFoul)
+        if (!strikerData.isFoul)
         {
             strikerData.TurnOffRigidBody();
         }
 
         coinData.TurnOffRigidBodies();
         inputData.BoardGrabbed();
-       
-      //  pickupTrigger.Play();
     }
 
     public void TurnOffBoardHighlight()
@@ -201,7 +183,5 @@ public class Platform : MonoBehaviour
         {
             strikerData.TurnOnRigidBody();
         }
-
-      //  dropTrigger.Play();
     }
 }
