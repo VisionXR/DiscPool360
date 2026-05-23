@@ -14,8 +14,12 @@ namespace com.VisionXR.ModelClasses
         public NetworkRunner runner;
         public bool isHost = false;
 
-        public Action OnPlayerJoinedEvent;
-        public Action OnPlayerLeftEvent;
+        public Action OnOpponentPlayerJoinedEvent;
+        public Action OnOpponentPlayerLeftEvent;
+        public Action OnMainPlayerJoinedEvent;
+        public Action OnMainPlayerLeftEvent;
+
+
         public Action<int,int> StartGameEvent;
         public Action HostReadyEvent;
         public Action ClientReadyEvent;
@@ -61,14 +65,24 @@ namespace com.VisionXR.ModelClasses
             StartGameEvent?.Invoke(playerId,coinsId);
         }
 
-        public void OnPlayerJoined()
+        public void OnOpponentPlayerJoined()
         {
-            OnPlayerJoinedEvent?.Invoke();
+            OnOpponentPlayerJoinedEvent?.Invoke();
         }
 
-        public void OnPlayerLeft()
+        public void OnOpponentPlayerLeft()
         {
-            OnPlayerLeftEvent?.Invoke();
+            OnOpponentPlayerLeftEvent?.Invoke();
+        }
+
+        public void OnMainPlayerJoined()
+        {
+            OnMainPlayerJoinedEvent?.Invoke();
+        }
+
+        public void OnMainPlayerLeft()
+        {
+            OnMainPlayerLeftEvent?.Invoke();
         }
 
         public void SetRunner(NetworkRunner networkRunner)

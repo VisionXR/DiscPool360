@@ -15,19 +15,19 @@ namespace com.VisionXR.Controllers
         public CoinDataSO coinData;
         public StrikerDataSO strikerData;
 
-        [Header(" Ui Elements")]
-        public GameObject lobbyPanel;
-        public GameObject clientDisconnectedPanel;
-        public bool isPlaying = false;
 
         [Header("Next And Previous Panels")]
-        public string playerLeftState;
-   
+        public string opponentPlayerLeftState;
+        public string mainPlayerLeftState;
+        public bool isPlaying = false;
+
 
         private void OnEnable()
         {
-            networkOutputData.OnPlayerJoinedEvent += OnPlayerJoined;
-            networkOutputData.OnPlayerLeftEvent += OnPlayerLeft;
+            networkOutputData.OnOpponentPlayerJoinedEvent += OnOpponentPlayerJoined;
+            networkOutputData.OnOpponentPlayerLeftEvent += OnOpponentPlayerLeft;
+
+            networkOutputData.OnMainPlayerLeftEvent += OnMainPlayerLeft;
             
             networkOutputData.SetHostReady(true);
             networkOutputData.SetClientReady(true);
@@ -35,8 +35,10 @@ namespace com.VisionXR.Controllers
 
         private void OnDisable()
         {
-            networkOutputData.OnPlayerJoinedEvent -= OnPlayerJoined;
-            networkOutputData.OnPlayerLeftEvent -= OnPlayerLeft;
+            networkOutputData.OnOpponentPlayerJoinedEvent -= OnOpponentPlayerJoined;
+            networkOutputData.OnOpponentPlayerLeftEvent -= OnOpponentPlayerLeft;
+
+            networkOutputData.OnMainPlayerLeftEvent -= OnMainPlayerLeft;
         }
 
         public void SetPlayStatus(bool playStatus)
@@ -127,13 +129,37 @@ namespace com.VisionXR.Controllers
             networkData.RPC_SetAssignedCoins(coin1, coin2);
         }
 
-        public void OnPlayerJoined()
+        public void OnOpponentPlayerJoined()
         {
 
 
 
         }
+        public void OnOpponentPlayerLeft()
+        {
+            if ((isPlaying))
+            {
 
+                isPlaying = false;
+                uiData.uiManager.ChangeState(opponentPlayerLeftState, true);
+                Debug.Log(" Opponenet Player left after game starts");
+            }
+
+        }
+
+        public void OnMainPlayerLeft()
+        {
+            if ((isPlaying))
+            {
+                isPlaying = false;
+                uiData.uiManager.ChangeState(mainPlayerLeftState, true);
+                Debug.Log(" main Player left after game starts");
+            }
+            else
+            {
+
+            }
+        }
         public void PlayAgain()
         {
           
@@ -154,17 +180,6 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        private void OnPlayerLeft()
-        {
-            if ((isPlaying))
-            {
-                
-                isPlaying = false;
-                uiData.uiManager.ChangeState(playerLeftState, true);
-                Debug.Log(" Player left after game starts");
-            }
-
-        }
 
 
     }

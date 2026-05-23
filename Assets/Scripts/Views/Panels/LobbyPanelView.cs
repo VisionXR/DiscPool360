@@ -190,6 +190,17 @@ namespace com.VisionXR.Views
                         hostWaitingOBject.SetActive(true);
                     }
                 }
+                else if (!isHostJoined && !isClientJoined)
+                {
+
+                    if (!hostWaitingOBject.activeInHierarchy)
+                    {
+                        hostStartObject.SetActive(false);
+                        clientStartObject.SetActive(false);
+                        hostWaitingOBject.SetActive(true);
+                        clientWaitingObject.SetActive(false);
+                    }
+                }
 
                 // Wait for the next frame before continuing the loop
                 yield return new WaitForEndOfFrame();
@@ -266,51 +277,6 @@ namespace com.VisionXR.Views
                 .SetSubject("DiscPool 360 Challenge")
                 .SetText($"Can you beat me?  Click to join my room in Disc Pool 360: {shareUrl}")
                 .Share();
-        }
-
-        IEnumerator GenerateAndShare(string roomID)
-        {
-            string apiURL = "https://api.tinyurl.com/create";
-            string deepLink = "discpool://" + roomID;
-
-            // TinyURL's simple payload
-            string jsonPayload = $"{{\"url\": \"{deepLink}\", \"domain\": \"tinyurl.com\"}}";
-
-            UnityWebRequest request = new UnityWebRequest(apiURL, "POST");
-            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonPayload);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-
-            request.SetRequestHeader("Content-Type", "application/json");
-            // Use your TinyURL Token here
-            request.SetRequestHeader("Authorization", "Bearer " + userData.linkAPI);
-
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                // Response format: {"data": {"tiny_url": "https://tinyurl.com/xyz"}}
-                string shortLink = ExtractTinyUrl(request.downloadHandler.text);
-
-                Debug.Log("Generated TinyURL: " + shortLink);
-
-                new NativeShare()
-                    .SetSubject("DiscPool PvP Invite")
-                    .SetText($"Join my match in DiscPool! Tap to play: {shortLink}")
-                    .Share();
-            }
-            else
-            {
-                Debug.LogError("TinyURL Error: " + request.error);
-            }
-        }
-
-        private string ExtractTinyUrl(string json)
-        {
-            // Simple helper to grab the "tiny_url" field
-            int start = json.IndexOf("tiny_url\":\"") + 11;
-            int end = json.IndexOf("\"", start);
-            return json.Substring(start, end - start).Replace("\\/", "/");
         }
 
 

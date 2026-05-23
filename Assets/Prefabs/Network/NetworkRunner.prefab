@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1347669146201356114}
   - component: {fileID: 4535372993230830010}
   - component: {fileID: 3809397758933302714}
-  - component: {fileID: 4196569550984784056}
   - component: {fileID: 7963819532352531480}
   m_Layer: 0
   m_Name: NetworkRunner
@@ -88,23 +87,6 @@ MonoBehaviour:
   AutoConnectAndJoin: 1
   UseFusionAppSettings: 1
   UseFusionAuthValues: 1
---- !u!114 &4196569550984784056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4253487403445890261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42a3fdf9a532f1f478ad187c66aec85d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  networkOutputData: {fileID: 11400000, guid: 289fac58cfc97be4cadcd83f3e34a806, type: 2}
-  UserData: {fileID: 11400000, guid: c3388b89caee67446b98ab64fc26a36e, type: 2}
-  uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
-  playersData: {fileID: 11400000, guid: 611cb01e46ac62b478c980e6a529cd2d, type: 2}
-  NetworkPlayer: {fileID: 9017803295949359465, guid: 42d110d420ec4f44f96fd2fdbc92bd8a, type: 3}
 --- !u!114 &7963819532352531480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,3 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkOutputData: {fileID: 11400000, guid: 289fac58cfc97be4cadcd83f3e34a806, type: 2}
+  UserData: {fileID: 11400000, guid: c3388b89caee67446b98ab64fc26a36e, type: 2}
+  uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
+  playersData: {fileID: 11400000, guid: 611cb01e46ac62b478c980e6a529cd2d, type: 2}
+  NetworkPlayer: {fileID: 9017803295949359465, guid: 42d110d420ec4f44f96fd2fdbc92bd8a, type: 3}

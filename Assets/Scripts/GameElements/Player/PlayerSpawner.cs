@@ -30,7 +30,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         }
         else
         {
-            networkOutputData.OnPlayerJoined();
+            networkOutputData.OnOpponentPlayerLeft();
         }
            
     }
@@ -41,11 +41,12 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         if (Runner.LocalPlayer == player)
         {
             Debug.Log(" I Left");
-            DespawnPlayer();
+           // DespawnPlayer();
         }
         else
         {
-           networkOutputData.OnPlayerLeft();
+            Debug.Log("Other player left");
+            networkOutputData.OnOpponentPlayerLeft();
         }
 
     }

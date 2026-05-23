@@ -172,7 +172,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: PlayerLeft
+    m_ConditionEvent: OPPlayerLeft
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8793168990139773988}
@@ -360,6 +360,34 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &-7301324277845596524
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MPHostDisconnected
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -4115368432369514225}
+  m_StateMachineBehaviours:
+  - {fileID: 4041842284941829625}
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 0}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1101 &-7201213260836413077
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -505,6 +533,7 @@ AnimatorState:
   - {fileID: -1616355497870598936}
   - {fileID: -8351475150214288378}
   - {fileID: 8402237303324316890}
+  - {fileID: -6127539637369176523}
   m_StateMachineBehaviours:
   - {fileID: 6117047820230466428}
   m_Position: {x: 50, y: 50, z: 0}
@@ -535,6 +564,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GenericState
   uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
   nextPanelId: 16
+--- !u!1101 &-6127539637369176523
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: MPPlayerLeft
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -7301324277845596524}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &-5838913598784725290
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -802,6 +856,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 870273829407101339}
     m_Position: {x: 200, y: 170, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7301324277845596524}
+    m_Position: {x: 1180, y: 810, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions:
@@ -852,6 +909,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GenericState
   uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
   nextPanelId: 1
+--- !u!1101 &-4115368432369514225
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Home
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 870273829407101339}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &-3864012970467258799
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1470,7 +1552,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: PlayerLeft
+  - m_Name: OPPlayerLeft
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1495,6 +1577,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: Link
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: MPPlayerLeft
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -2180,6 +2268,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GenericState
   uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
   nextPanelId: 2
+--- !u!114 &4041842284941829625
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce7fa19e5a67944eae9fe2d0222aed8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SPPauseState
+  uiData: {fileID: 11400000, guid: 3b736a3f5708a9843a8ad2b4657f6536, type: 2}
+  mainCanvasId: 0
+  poolCanvasId: 1
+  SnookerCanvasId: 2
+  pauseState: 18
 --- !u!114 &4238362080555366852
 MonoBehaviour:
   m_ObjectHideFlags: 1

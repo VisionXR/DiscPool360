@@ -93,6 +93,11 @@ public class NetworkManager : MonoBehaviour
         JoinGame(roomName, RoomSuccessEvent, RoomFailedEvent);
     }
 
+    public void ReconnectAndJoin()
+    {
+
+    }
+
     /// <summary>
     /// Starts a new game session, setting properties and configurations based on UI and player settings.
     /// </summary>
@@ -118,6 +123,7 @@ public class NetworkManager : MonoBehaviour
             AuthValues = new AuthenticationValues(userData.MyOculusId.ToString()),
             CustomLobbyName = "DiscPoolLobby",
             PlayerCount = 2,
+            
             SessionName = UnityEngine.Random.Range(1000, 9999).ToString() // Generate a random session name if not provided
         });
 
@@ -148,7 +154,9 @@ public class NetworkManager : MonoBehaviour
         {
             GameMode = Fusion.GameMode.Shared,
             CustomLobbyName = "DiscPoolLobby",
-            SessionName = roomName
+            SessionName = roomName,
+
+          
         });
 
         if (result.Ok)
@@ -212,6 +220,7 @@ public class NetworkManager : MonoBehaviour
         runner = tmpObject.GetComponent<NetworkRunner>();
         runner.ProvideInput = true;
         networkOutputData.SetRunner(runner);
+     
 
     }
 

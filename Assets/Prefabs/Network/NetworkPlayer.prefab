@@ -209,7 +209,7 @@ MonoBehaviour:
   aecHighPass: 0
   agc: 1
   agcCompressionGain: 12
-  agcTargetLevel: 1
+  agcTargetLevel: 3
   vad: 1
   highPass: 0
   noiseSuppression: 1

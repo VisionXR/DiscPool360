@@ -35,8 +35,11 @@ namespace com.VisionXR.Controllers
             {
                 OnDeepLinkActivated(Application.absoluteURL);
             }
+            
+        }
 
-
+        private void Start()
+        {
             if (Application.isEditor)
             {
                 EditorLogin();
@@ -54,8 +57,6 @@ namespace com.VisionXR.Controllers
 
             string roomId = ParseDeepLink(url);
 
-            Debug.Log("Room id is " + roomId);
-
             uiData.SetGameType(GameType.MultiPlayer);
             multiPlayerDestination.roomName = roomId;
 
@@ -71,10 +72,8 @@ namespace com.VisionXR.Controllers
 
             }
 
-
             destinationPanelView.SetDestination(multiPlayerDestination);
             uiData.uiManager.ChangeState("Link", true);
-
         }
 
         public string ParseDeepLink(string url)
