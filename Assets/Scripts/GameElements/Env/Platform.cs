@@ -115,9 +115,13 @@ public class Platform : MonoBehaviour
         // Moving right (positive) usually means rotating clockwise or counter-clockwise
         float deltaX = position.x - pinchStartPos.x;
 
+        float sign = Mathf.Sign(deltaX);
+
+        float distance = Vector2.Distance(position, pinchStartPos);
+
         // 2. Compute rotation in degrees
         // Using deltaX * sensitivity allows for a "swipe to spin" feel
-        float rotationDelta = deltaX * rotationSensitivity;
+        float rotationDelta = distance * rotationSensitivity * sign;
 
         // 3. Apply rotation relative to the initial rotation captured at Start
         float newY = initialYRotation - rotationDelta;
