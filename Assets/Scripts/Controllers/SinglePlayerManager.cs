@@ -3,6 +3,7 @@ using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
 using Newtonsoft.Json.Bson;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,6 +56,8 @@ namespace com.VisionXR.Controllers
             strikerData.StrikerPocketedEvent += StrikePocketed;
             strikerData.StrikerFellOnGroundEvent += StrikeFellOnGround;
 
+            strikerData.FoulCompleteEvent += FoulComplete;
+
 
             gameData.PlayAgainEvent += PlayAgain;
             gameData.GamePausedEvent += PauseGame;
@@ -70,7 +73,7 @@ namespace com.VisionXR.Controllers
 
             strikerData.StrikerStartedEvent -= StrikeStarted;
             strikerData.StrikerStoppedEvent -= StrikeStopped;
-
+            strikerData.FoulCompleteEvent -= FoulComplete;
             strikerData.StrikerPocketedEvent -= StrikePocketed;
             strikerData.StrikerFellOnGroundEvent -= StrikeFellOnGround;
 
@@ -79,6 +82,14 @@ namespace com.VisionXR.Controllers
             gameData.GameResumedEvent += ResumeGame;
             gameData.ExitGameEvent -= EndGame;
             gameData.TurnChangeEvent -= OnTurnChangedAssignCoins;
+        }
+
+        private void FoulComplete()
+        {
+            if (inputData.isInputEnabled)
+            {
+                InputCanvas.TurnOn();
+            }
         }
 
         private void PauseGame()
@@ -113,7 +124,10 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     poolLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputCanvas.TurnOn();
+                    if (!strikerData.isFoul)
+                    {
+                        InputCanvas.TurnOn();
+                    }
                 }
             }
             else
@@ -137,9 +151,11 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     snookerLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputCanvas.TurnOn() ;
+                    if (!strikerData.isFoul)
+                    {
+                        InputCanvas.TurnOn();
+                    }
                 }
-
             }
         }
 

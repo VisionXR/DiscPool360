@@ -30,6 +30,7 @@ namespace com.VisionXR.ModelClasses
         public Action<int> ShowTurnEvent;
         public Action ShowFoulEvent;
         public Action ShowFoulHandlingEvent;
+        public Action PlaceStrikerEvent;
 
         public Action SetCoinsEvent;
         public Action UpdateCoinsEvent;
@@ -52,8 +53,6 @@ namespace com.VisionXR.ModelClasses
         {
             this.uiManager = uiManager;
         }
-
-
 
         public void UpdateCoins()
         {
@@ -123,6 +122,11 @@ namespace com.VisionXR.ModelClasses
         public void QuitBtnClicked()
         {
             QuitBtnClickedEvent?.Invoke();
+        }
+
+        public void PlaceStriker()
+        {
+            PlaceStrikerEvent?.Invoke();
         }
 
         public void ResetAllPanels()

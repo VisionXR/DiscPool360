@@ -194,7 +194,10 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     poolLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputCanvas.TurnOn();
+                    if (!strikerData.isFoul)
+                    {
+                        InputCanvas.TurnOn();
+                    }
 
                 }
 
@@ -222,7 +225,10 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     snookerLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputCanvas.TurnOn();
+                    if (!strikerData.isFoul)
+                    {
+                        InputCanvas.TurnOn();
+                    }
                 }
 
             }

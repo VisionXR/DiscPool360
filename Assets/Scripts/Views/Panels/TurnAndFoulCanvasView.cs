@@ -33,7 +33,7 @@ namespace com.VisionXR.Views
         {
             uiData.ShowTurnEvent += ShowPlayerName;
             uiData.ShowFoulEvent += ShowFoul;
-            uiData.ShowFoulHandlingEvent += ShowFoulHandling;
+
 
             strikerData.FoulCompleteEvent += HideFoulHandlingPanel;
         }
@@ -42,7 +42,7 @@ namespace com.VisionXR.Views
         {
             uiData.ShowTurnEvent -= ShowPlayerName;
             uiData.ShowFoulEvent -= ShowFoul;
-            uiData.ShowFoulHandlingEvent -= ShowFoulHandling;
+
 
             strikerData.FoulCompleteEvent -= HideFoulHandlingPanel;
         }

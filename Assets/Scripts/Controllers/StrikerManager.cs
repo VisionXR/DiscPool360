@@ -14,6 +14,10 @@ public class StrikerManager : MonoBehaviour
     private GameObject currentStriker;
 
     public string resourceFolderPath = "Strikers/";
+    public LayerMask placementLayerMask; // Layer mask to specify which layers to check for placement
+    public float raycastDistance = 2.0f;
+    public float boardLift = 0.01f;
+    public float placeRadius = 0.25f;
 
     private void OnEnable()
     {
@@ -87,5 +91,7 @@ public class StrikerManager : MonoBehaviour
             currentStriker.transform.rotation = boardData.StrikerTransform.transform.rotation;
         }
     }
+
+
 
 }
