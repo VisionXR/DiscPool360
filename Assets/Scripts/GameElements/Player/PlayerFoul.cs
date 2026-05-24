@@ -242,14 +242,6 @@ namespace com.VisionXR.GameElements
                 out RaycastHit hitInfo      
             );
 
-            if (hitSomethingBelow)
-            {
-                Debug.Log("Hit " + hitInfo.collider.gameObject.name);
-            }
-            else
-            {
-                Debug.Log("Not hit");
-            }
 
             if(hitSomethingBelow && hitInfo.collider.CompareTag("Board"))
             {
@@ -320,11 +312,14 @@ namespace com.VisionXR.GameElements
         {
             if (isPinchStarted)
             {
+                Debug.Log("finalising");
                 strikerData.SetFoul(false);
                 strikerData.FoulComplete();
                 Reset();
+                currentStriker.transform.rotation = Quaternion.identity;
+                Rigidbody rb = currentStriker.GetComponent<Rigidbody>();
+                if (rb != null) rb.isKinematic = false;
 
-                
             }
         }
     }

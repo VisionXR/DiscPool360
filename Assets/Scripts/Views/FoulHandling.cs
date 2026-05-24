@@ -1,6 +1,7 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace com.VisionXR.Views
@@ -29,6 +30,12 @@ namespace com.VisionXR.Views
 
         private void ShowFoulPanel()
         {
+            StartCoroutine(WaitAndShow());
+        }
+
+        private IEnumerator  WaitAndShow()
+        {
+            yield return new WaitForSeconds(3);
             foulPanel.SetActive(true);
         }
 
@@ -40,6 +47,8 @@ namespace com.VisionXR.Views
         public void CorrectBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
+            strikerData.FoulComplete();
+            HideFoulPanel();
         }
     }
 }
