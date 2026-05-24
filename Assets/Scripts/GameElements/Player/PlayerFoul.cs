@@ -314,11 +314,12 @@ namespace com.VisionXR.GameElements
             {
                 Debug.Log("finalising");
                 strikerData.SetFoul(false);
-                strikerData.FoulComplete();
+              
                 Reset();
                 currentStriker.transform.rotation = Quaternion.identity;
                 Rigidbody rb = currentStriker.GetComponent<Rigidbody>();
                 if (rb != null) rb.isKinematic = false;
+                strikerData.FoulComplete();
 
             }
         }

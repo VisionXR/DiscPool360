@@ -255,6 +255,10 @@ namespace com.VisionXR.Controllers
 
         private void FoulCompleted()
         {
+            if (inputData.isInputEnabled)
+            {
+                InputCanvas.TurnOn();
+            }
             multiPlayerConnectionManager.SendFoulComplete();
         }
 
