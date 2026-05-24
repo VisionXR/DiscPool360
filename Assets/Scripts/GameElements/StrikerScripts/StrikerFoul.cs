@@ -39,6 +39,7 @@ public class StrikerFoul : MonoBehaviour
         {
             StopCoroutine(glowRoutine);
             glowRoutine = null;
+            GlowStriker.SetActive(false);
         }
     }
 
