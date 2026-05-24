@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HoverColor: {r: 0.8784314, g: 0.6901961, b: 1, a: 1}
   IdleColor: {r: 0.5568628, g: 0.1764706, b: 0.8862745, a: 1}
-  vibrationDuration: 0.1
+  vibrationDuration: 0.05
   vibrationAmplitude: 0.2
   vibrationFrequency: 0.2
   strikingVibrationFrequency: 1

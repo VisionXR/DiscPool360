@@ -975,6 +975,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strikerData: {fileID: 11400000, guid: 8ae96cdacd2423343b0749475230232d, type: 2}
   inputData: {fileID: 11400000, guid: 886a3cfd97839fc428e81ec670c805d2, type: 2}
+  appPropertiesData: {fileID: 11400000, guid: db275355743c10341a9fce199295fbff, type: 2}
   strikerArrow: {fileID: 2409958208472385468}
   strikerRigidbody: {fileID: 8616717779063074513}
   cutOffValue: 0.01

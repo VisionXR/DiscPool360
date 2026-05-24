@@ -9,6 +9,7 @@ public class StrikerShooting : MonoBehaviour
     [Header("Scriptable Object)")]
     public StrikerDataSO strikerData;
     public InputDataSO inputData;
+    public AppPropertiesDataSO appPropertiesData;
   
 
     [Header(" Local variables ")]
@@ -53,6 +54,7 @@ public class StrikerShooting : MonoBehaviour
             strikerData.strikerDir = transform.forward;
 
             strikerRigidbody.AddForce(transform.forward * strikeForce, ForceMode.VelocityChange);
+            appPropertiesData.StartStrikingVibration();
             inputData.DisableInput();
             strikerData.StrikerStarted();
 
@@ -73,6 +75,7 @@ public class StrikerShooting : MonoBehaviour
         strikerData.strikerDir = transform.forward;
         strikerRigidbody.AddForce(transform.forward * force, ForceMode.VelocityChange);
         strikerData.StrikerStarted();
+        appPropertiesData.StartStrikingVibration();
         if (WaitRoutine == null)
         {
             WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
@@ -88,6 +91,7 @@ public class StrikerShooting : MonoBehaviour
             strikerRigidbody.AddForce(transform.forward * strikerData.strikeForce, ForceMode.VelocityChange);
             strikerData.StrikerStarted();
             strikerArrow.TurnOffArrow();
+            appPropertiesData.StartStrikingVibration();
             if (WaitRoutine == null)
             {
                 WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
@@ -124,6 +128,7 @@ public class StrikerShooting : MonoBehaviour
         strikeForce = force;
         transform.forward = dir;
         strikerRigidbody.AddForce(dir * force, ForceMode.VelocityChange);
+        appPropertiesData.StartStrikingVibration();
     }
 
     private IEnumerator WaituntilStrikeFinished()
@@ -137,37 +142,11 @@ public class StrikerShooting : MonoBehaviour
 
     }
 
-
-
     public void TurnOffArrow()
     {
         strikerArrow.TurnOffArrow();
 
 
     }
-
-    private IEnumerator WaitAndChangeArrow()
-    {
-        while (true)
-        {
-            yield return new WaitForEndOfFrame();
-            float timeSinceStart = Time.time - startTime;
-            float period = 2f; // Time taken to complete one full cycle
-            float t = timeSinceStart / period; // Normalized time between 0 and 1
-
-            // Linearly interpolate between 0 and 1 and then back to 0
-            float normalizedValue = Mathf.PingPong(t, 1f);
-
-            strikerData.normalValue = normalizedValue;
-
-            // Map the normalized value to the desired range
-            float range = strikerData.forceUpperLimit - strikerData.forceLowerLimit;
-            strikeForce = strikerData.forceLowerLimit + normalizedValue * range;
-            strikerData.strikeForce = strikeForce;
-            strikerArrow.ChangeColorOfArrow(normalizedValue);
-        }
-    }
-
-
    
 }
