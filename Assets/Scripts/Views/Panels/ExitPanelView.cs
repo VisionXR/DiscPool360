@@ -33,6 +33,7 @@ namespace com.VisionXR.Views
            
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.uiManager.ChangeState(currentState, false);
+            gameData.GameResumed();
         }
 
         public void SettingsBtnClicked()

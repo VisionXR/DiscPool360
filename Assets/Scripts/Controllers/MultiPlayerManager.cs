@@ -34,7 +34,7 @@ namespace com.VisionXR.Controllers
         // local variables
         [Header("Game Objects")]
         public MultiPlayerConnectionManager multiPlayerConnectionManager;
-        public InputCanvasView InputPanel;
+        public InputCanvasView InputCanvas;
         public GameObject PoolScoreCanvas;
         public GameObject SnookerScoreCanvas;
         public List<GameObject> pocketedCoins = new List<GameObject>();
@@ -71,6 +71,8 @@ namespace com.VisionXR.Controllers
 
             gameData.PlayAgainEvent += PlayAgain;
             gameData.ExitGameEvent += EndGame;
+            gameData.GamePausedEvent += PauseGame;
+            gameData.GameResumedEvent += ResumeGame;
             gameData.TurnChangeEvent += OnTurnChangedAssignCoins;
         }
 
@@ -93,9 +95,27 @@ namespace com.VisionXR.Controllers
 
             gameData.PlayAgainEvent -= PlayAgain;
             gameData.ExitGameEvent -= EndGame;
+            gameData.GamePausedEvent -= PauseGame;
+            gameData.GameResumedEvent -= ResumeGame;
             gameData.TurnChangeEvent -= OnTurnChangedAssignCoins;
 
-        }       
+        }
+
+        private void PauseGame()
+        {
+            if (inputData.isInputEnabled)
+            {
+                InputCanvas.TurnOff();
+            }
+        }
+
+        private void ResumeGame()
+        {
+            if (inputData.isInputEnabled)
+            {
+                InputCanvas.TurnOn();
+            }
+        }
 
         public void StartGame(int playerId,int coinsId)
         {
@@ -174,7 +194,7 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     poolLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputPanel.TurnOn();
+                    InputCanvas.TurnOn();
 
                 }
 
@@ -202,7 +222,7 @@ namespace com.VisionXR.Controllers
                 if (mp.playerProperties.myId == cp.playerProperties.myId)
                 {
                     snookerLogic.GlowCoins(cp.playerProperties.myCoin);
-                    InputPanel.TurnOn();
+                    InputCanvas.TurnOn();
                 }
 
             }
@@ -280,7 +300,7 @@ namespace com.VisionXR.Controllers
         {
             inputData.DisableInput();
             boardData.TurnOffInteractable();
-            InputPanel.TurnOff();
+            InputCanvas.TurnOff();
 
             multiPlayerConnectionManager.SendStrikeStarted();
         }
@@ -496,7 +516,7 @@ namespace com.VisionXR.Controllers
         {
             pocketedCoins.Clear();
             coinData.DestroyCoins();
-            InputPanel.TurnOff();
+            InputCanvas.TurnOff();
             multiPlayerConnectionManager.SetPlayStatus(false);
             networkInputData.LeaveRoom();
             yield return new WaitForSeconds(0.1f);

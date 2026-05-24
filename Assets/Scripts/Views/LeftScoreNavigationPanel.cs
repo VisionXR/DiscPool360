@@ -14,10 +14,12 @@ namespace com.VisionXR.Views
         public AudioDataSO audioData;
         public PlayerDataSO playerData;
         public UIDataSO uiData;
+        public GameDataSO gameData;
 
         [Header("Came View Objects")]
         public CamPositionManager camPositionManager;
-        public Image CameraViewImage;
+        public Image LeftCameraViewImage;
+        public Image RightCameraViewImage;
         public Sprite FrontView;
         public Sprite TopView;
         private bool isFrontView = false;
@@ -28,6 +30,7 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             uiData.uiManager.ChangeState(PauseState, true);
+            gameData.GamePaused();
         }
 
         public void CameraBtnClicked()
@@ -36,13 +39,15 @@ namespace com.VisionXR.Views
             
             if(isFrontView)
             {
-                CameraViewImage.sprite = FrontView;
+                LeftCameraViewImage.sprite = FrontView;
+                RightCameraViewImage.sprite = FrontView;
                 TopViewBtnClicked();
                 isFrontView = false;
             }
             else
             {
-                CameraViewImage.sprite = TopView;
+                LeftCameraViewImage.sprite = TopView;
+                RightCameraViewImage.sprite = TopView;
                 FrontViewBtnClicked();
                 isFrontView = true;
             }

@@ -2,6 +2,7 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,7 +57,8 @@ namespace com.VisionXR.Controllers
 
 
             gameData.PlayAgainEvent += PlayAgain;
-
+            gameData.GamePausedEvent += PauseGame;
+            gameData.GameResumedEvent += ResumeGame;
             gameData.ExitGameEvent += EndGame;
             gameData.TurnChangeEvent += OnTurnChangedAssignCoins;
         }
@@ -73,10 +75,28 @@ namespace com.VisionXR.Controllers
             strikerData.StrikerFellOnGroundEvent -= StrikeFellOnGround;
 
             gameData.PlayAgainEvent -= PlayAgain;
-
+            gameData.GamePausedEvent += PauseGame;
+            gameData.GameResumedEvent += ResumeGame;
             gameData.ExitGameEvent -= EndGame;
             gameData.TurnChangeEvent -= OnTurnChangedAssignCoins;
         }
+
+        private void PauseGame()
+        {
+            if(inputData.isInputEnabled)
+            {
+                InputCanvas.TurnOff();
+            }
+        }
+
+        private void ResumeGame()
+        {
+            if (inputData.isInputEnabled)
+            {
+                InputCanvas.TurnOn();
+            }
+        }
+
 
         // Called whenever turn changes to keep AI/UI in sync for snooker
         private void OnTurnChangedAssignCoins(int newTurnId)
@@ -149,9 +169,7 @@ namespace com.VisionXR.Controllers
             _previousTurnId = -1;
             userData.CreateSameBoard();
             strikerData.CreateStriker(boardData.StrikerTransform);
-            yield return new WaitForSeconds(0.1f);
-
-          
+            yield return new WaitForSeconds(0.1f);        
 
             firstTurnId = id;
             isFirstCoinPocketed = false;

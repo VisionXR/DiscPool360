@@ -100,26 +100,26 @@ namespace com.VisionXR.GameElements
         public void ExecuteShot(PlayerCoin coin)
         {
 
-            if (!isExcecuting)
-            {
-                isExcecuting = true;
-                playerCoin = coin;
-                hitCoinList.Clear();
+            //if (!isExcecuting)
+            //{
+            //    isExcecuting = true;
+            //    playerCoin = coin;
+            //    hitCoinList.Clear();
 
 
-                if (uiData.currentGameMode == GameMode.Pool)
-                {
+            //    if (uiData.currentGameMode == GameMode.Pool)
+            //    {
 
-                    CoinSorter.instance.SortAllPoolCoins(MyId, playerCoin, holes, Striker.transform.position);
-                }
-                else if (uiData.currentGameMode == GameMode.Snooker)
-                {
-                    CoinSorter.instance.SortAllSnookerCoins(MyId, playerCoin, holes, Striker.transform.position);
-                }
+            //        CoinSorter.instance.SortAllPoolCoins(MyId, playerCoin, holes, Striker.transform.position);
+            //    }
+            //    else if (uiData.currentGameMode == GameMode.Snooker)
+            //    {
+            //        CoinSorter.instance.SortAllSnookerCoins(MyId, playerCoin, holes, Striker.transform.position);
+            //    }
 
-            }
+            //}
 
-            // ExecuteFoul();
+             ExecuteFoul();
         }
 
         public void ExecuteFoul()

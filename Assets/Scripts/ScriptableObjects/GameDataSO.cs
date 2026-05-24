@@ -19,7 +19,8 @@ namespace com.VisionXR.ModelClasses
         public Action ExitGameEvent;
         public Action<int> GameCompletedEvent;
         public Action<int> PlayAgainEvent;
-
+        public Action GamePausedEvent;
+        public Action GameResumedEvent;
         public Action<int> TurnChangeEvent;
       
         
@@ -89,6 +90,16 @@ namespace com.VisionXR.ModelClasses
         {
 
             PlayAgainEvent?.Invoke(firstTurnId);
+        }
+
+        public void GamePaused()
+        {
+            GamePausedEvent?.Invoke(); 
+        }
+
+        public void GameResumed()
+        {
+            GameResumedEvent?.Invoke(); 
         }
 
         public void ChangeTurn(int id)
