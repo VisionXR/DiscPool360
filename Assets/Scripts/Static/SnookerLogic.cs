@@ -171,7 +171,11 @@ public class SnookerLogic : MonoBehaviour
                 for (int i = 0; i < pocketed.Count; i++)
                 {
                     var go = pocketed[i];
-                    if (IsColor(go)) colorPoints += GetSnookerPoints(go);
+                    if (IsColor(go))
+                    {
+                        colorPoints += GetSnookerPoints(go);
+                        break;
+                    }
                 }
                 if (colorPoints > 0) AddScoreToCurrent(colorPoints);
 
