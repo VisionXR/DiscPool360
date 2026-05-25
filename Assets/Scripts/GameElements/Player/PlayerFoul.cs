@@ -312,7 +312,7 @@ namespace com.VisionXR.GameElements
         {
             if (isPinchStarted)
             {
-                Debug.Log("finalising");
+               
                 strikerData.SetFoul(false);
               
                 Reset();

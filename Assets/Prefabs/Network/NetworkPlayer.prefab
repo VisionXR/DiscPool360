@@ -505,12 +505,12 @@ MonoBehaviour:
     m_Bits: 64
   raycastDistance: 2
   boardLift: 0.01
-  heightLift: 0.1
+  heightLift: 0.05
   placeRadius: 0.25
   yOffset: 150
   isPlacingStriker: 0
   pinchThreshold: 0.1
-  swipeSensitivity: 0.0003
+  swipeSensitivity: 0.0005
 --- !u!114 &7188178982219978534
 MonoBehaviour:
   m_ObjectHideFlags: 0

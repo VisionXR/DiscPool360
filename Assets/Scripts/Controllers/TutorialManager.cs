@@ -11,8 +11,6 @@ namespace com.VisionXR.Controllers
     public class TutorialManager : MonoBehaviour
     {
         [Header("Scriptable Objects")]
-        public List<TutorialStep> handTutorialSteps;
-        public List<TutorialStep> controllerTutorialSteps;
         public List<TutorialStep> tutorialSteps;
         public TutorialDataSO tutorialData;
         public TableDataSO tableData;
@@ -138,7 +136,7 @@ namespace com.VisionXR.Controllers
             yield return new WaitForSeconds(1);
 
 
-            for (int i = 0; i < controllerTutorialSteps.Count; i++)
+            for (int i = 0; i < tutorialSteps.Count; i++)
             {
                 if (_tutorialSkipped)
                 {
@@ -147,11 +145,6 @@ namespace com.VisionXR.Controllers
 
                 _currentStepIndex = i;
                 _stepCompleted = false;
-
-             
-                    tutorialSteps = controllerTutorialSteps;
-                
-
 
                 // Optional: if your TutorialStep has enter/exit hooks, you can call them here
                 // tutorialSteps[i].BeginStep();
