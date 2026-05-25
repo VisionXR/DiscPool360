@@ -272,15 +272,17 @@ namespace com.VisionXR.Views
             // Escape Room ID to keep URL formatting valid
             string escapedRoomId = UnityWebRequest.EscapeURL(roomId);
 
-            // Construct link payload string
             string shareUrl = $"{wixBaseUrl}?room={roomId}&game={gameMode}&playerName={userData.MyName}";
 
-            Debug.Log($"[Invite System] Outbound link generated for mode '{userData.myCoins}': {shareUrl}");
+            // Craft a clean message. Line breaks (\n) push the ugly link out of focus.
+            // Messaging apps will read the URL at the bottom, build the OG card, and look clean.
+            string inviteMessage = $"🕹️ *Can you beat me?*\n" +
+                                   $"Click the invite card below to join my room in Disc Pool 360!\n\n" +
+                                   $"{shareUrl}";
 
-            // Call Native platform window share card handler sheet instantly
             new NativeShare()
                 .SetSubject("DiscPool 360 Challenge")
-                .SetText($"Can you beat me?  Click to join my room in Disc Pool 360: {shareUrl}")
+                .SetText(inviteMessage)
                 .Share();
         }
 

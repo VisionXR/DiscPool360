@@ -510,7 +510,7 @@ MonoBehaviour:
   yOffset: 150
   isPlacingStriker: 0
   pinchThreshold: 0.1
-  swipeSensitivity: 0.0002
+  swipeSensitivity: 0.0003
 --- !u!114 &7188178982219978534
 MonoBehaviour:
   m_ObjectHideFlags: 0
