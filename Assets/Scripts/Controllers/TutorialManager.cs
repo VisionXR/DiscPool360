@@ -113,7 +113,7 @@ namespace com.VisionXR.Controllers
         private void PlayBtnClicked()
         {
             Reset();
-            uiData.TriggerHomeEvent();
+            uiData.uiManager.ChangeState("Tutorial", false);
             gameObject.SetActive(false);
         }
 
@@ -127,7 +127,7 @@ namespace com.VisionXR.Controllers
         {
 
             Reset();
-            uiData.TriggerHomeEvent();
+            uiData.uiManager.ChangeState("Tutorial", false);
             gameObject.SetActive(false);
         }
 
