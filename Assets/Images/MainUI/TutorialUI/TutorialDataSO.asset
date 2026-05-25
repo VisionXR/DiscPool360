@@ -17,4 +17,4 @@ MonoBehaviour:
   canIAim: 0
   canIFire: 0
   canIPlaceStriker: 0
-  totalSteps: 12
+  totalSteps: 5

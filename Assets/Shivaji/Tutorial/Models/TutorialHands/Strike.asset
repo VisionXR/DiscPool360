@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3799f2e46894ad441ba06c7e07693731, type: 3}
   m_Name: Strike
   m_EditorClassIdentifier: 
-  stepNumber: 7
+  stepNumber: 4
   stepText: "Now let\u2019s learn how to strike.\nAim the coin just like you did
     in previous step and use force bar to strike."
-  stepVideo: {fileID: 32900000, guid: 1b7c3418e26f2304eaee8cf3ec14f55a, type: 3}
-  stepAudio: {fileID: 8300000, guid: 96dc2fdacf56336498701dd19ceec079, type: 3}
+  stepAudio: {fileID: 8300000, guid: 331b59576fcfa3247987f13ba1035de3, type: 3}
   interactiveStepType: 4
   successText: Well played! That was a perfect hit.
   failureText: Take a moment and aim for a better shot.

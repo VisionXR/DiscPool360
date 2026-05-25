@@ -8,21 +8,20 @@ namespace com.VisionXR.ModelClasses
     public class TutorialDataSO : ScriptableObject
     {
         // variables
-        public bool canIMoveTable;
+       
         public bool canIRotatePlatform;
         public bool canIAim;
         public bool canIFire;
-        public bool canIPlaceStriker;
-        public int totalSteps = 8;
+        public int totalSteps = 5;
 
         // Events
-        public Action CheckTableMoveEvent;
+        
         public Action CheckRotatePlatformEvent;
         public Action CheckAimEvent;
         public Action CheckStrikeEvent;
 
 
-        public Action<int, string, AudioClip, VideoClip,InteractiveStepType> ShowTutorialStepEvent;
+        public Action<int, string, AudioClip,InteractiveStepType> ShowTutorialStepEvent;
         public Action<string, AudioClip> ShowTutorialStepSuccessEvent;
         public Action<string, AudioClip> ShowTutorialStepFailedEvent;
         public Action NextBtnClcikedEvent;
@@ -35,15 +34,15 @@ namespace com.VisionXR.ModelClasses
 
         public void ResetVariables()
         {
-            canIMoveTable = false;
+           
             canIRotatePlatform = false;
             canIAim = false;
             canIFire = false;
         }
 
-        public void ShowTutorialStep(int stepNumber, string contentText, AudioClip audioClip, VideoClip videoClip,InteractiveStepType stepType,float time)
+        public void ShowTutorialStep(int stepNumber, string contentText, AudioClip audioClip,InteractiveStepType stepType,float time)
         {
-            ShowTutorialStepEvent?.Invoke(stepNumber, contentText, audioClip, videoClip,stepType);
+            ShowTutorialStepEvent?.Invoke(stepNumber, contentText, audioClip,stepType);
         }
 
         public void ShowTutorialStepSuccess(string contentText, AudioClip audioClip)
@@ -54,11 +53,6 @@ namespace com.VisionXR.ModelClasses
         public void ShowTutorialStepFailed(string contentText, AudioClip audioClip)
         {
             ShowTutorialStepFailedEvent?.Invoke(contentText, audioClip);
-        }
-
-        public void SetCanIMoveTable(bool value)
-        {
-            canIMoveTable = value;
         }
 
         public void SetCanIRotatePlatform(bool value)
@@ -74,14 +68,6 @@ namespace com.VisionXR.ModelClasses
         public void SetCanIFire(bool value)
         {
             canIFire = value;
-        }
-
-        public void CheckTableMovement()
-        {
-            if (canIMoveTable)
-            {
-                CheckTableMoveEvent?.Invoke();
-            }
         }
 
         public void CheckPlatformRotation()

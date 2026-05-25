@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -17,8 +18,7 @@ namespace com.VisionXR.Views
 
 
         [Header("Selection Objects")]
-        public GameObject SPSelectedImage;
-        public GameObject MPSelectedImage;
+        public List<GameObject> selectedImages;
 
 
         private void OnEnable()
@@ -26,39 +26,48 @@ namespace com.VisionXR.Views
             ResetImages();
             if(uiData.currentGameType == GameType.SinglePlayer)
             {
-                SPSelectedImage.SetActive(true);
+                selectedImages[0].SetActive(true);
             }
             else if (uiData.currentGameType == GameType.MultiPlayer)
             {
-                MPSelectedImage.SetActive(true);
+                selectedImages[1].SetActive(true);
+            }
+            else if (uiData.currentGameType == GameType.Tutorial)
+            {
+                selectedImages[2].SetActive(true);
             }
 
         }
 
 
-        public void SinglePlayerBtnClicked()
+        public void GameTypeBtnClicked(int id)
         {
             ResetImages();
-            SPSelectedImage.SetActive(true);
+            selectedImages[id].SetActive(true);
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.SetGameType(GameType.SinglePlayer);
-           
+            if (id == 0)
+            {
+                uiData.SetGameType(GameType.SinglePlayer);
+            }
+            else if(id == 1)
+            {
+                uiData.SetGameType(GameType.MultiPlayer);
+            }
+            else if (id == 2)
+            {
+                uiData.SetGameType(GameType.Tutorial);
+            }
 
         }
 
-        public void MultiPlayerBtnClicked()
-        {
 
-            ResetImages();
-            MPSelectedImage.SetActive(true);
-            audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.SetGameType(GameType.MultiPlayer);
-        }
 
         private void ResetImages()
         {
-            SPSelectedImage.SetActive(false);
-            MPSelectedImage.SetActive(false);
+            foreach (var image in selectedImages)
+            {
+                image.SetActive(false);
+            }
         }
 
     }

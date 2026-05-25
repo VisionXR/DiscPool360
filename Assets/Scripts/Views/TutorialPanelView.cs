@@ -24,7 +24,6 @@ namespace com.VisionXR.Views
         public TMP_Text StepNumberText;
         public TMP_Text SuccessFailurerText;
         public TMP_Text ContentText;
-        public VideoPlayer videoPlayer;
         public AudioSource audioSource;
 
         public GameObject NextBtn;
@@ -51,10 +50,7 @@ namespace com.VisionXR.Views
             {
                 audioSource.Pause();
             }
-            if (videoPlayer != null)
-            {
-                videoPlayer.Pause();
-            }
+
         }
 
         private void ShowTutorialStepFailed(string content, AudioClip clip)
@@ -81,7 +77,7 @@ namespace com.VisionXR.Views
             NextBtn.SetActive(true);
         }
 
-        private void ShowTutorialStep(int stepNumber, string contentText, AudioClip audioClip, VideoClip videoClip, InteractiveStepType stepType)
+        private void ShowTutorialStep(int stepNumber, string contentText, AudioClip audioClip,  InteractiveStepType stepType)
         {
             StepNumberText.text = "Step " + stepNumber + "/"+tutorialData.totalSteps;
             ContentText.text = contentText;
@@ -92,11 +88,6 @@ namespace com.VisionXR.Views
                 audioSource.Play();
             }
 
-            if (videoClip != null)
-            {
-                videoPlayer.clip = videoClip;
-                videoPlayer.Play();
-            }
 
             if (stepType == InteractiveStepType.None)
             {

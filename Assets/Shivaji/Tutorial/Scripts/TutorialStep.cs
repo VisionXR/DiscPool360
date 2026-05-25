@@ -9,7 +9,6 @@ public class TutorialStep : ScriptableObject
     [TextArea(3, 10)]
     public string stepText;          // The description for the step
 
-    public VideoClip stepVideo;      // The video clip associated with the step
     public AudioClip stepAudio;      // The audio clip associated with the step
     public InteractiveStepType interactiveStepType;
     

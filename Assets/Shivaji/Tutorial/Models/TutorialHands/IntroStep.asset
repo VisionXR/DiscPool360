@@ -18,8 +18,7 @@ MonoBehaviour:
     playing with discs, and instead of a cue ball, you\u2019ll use a striker. \nThe
     board is compact and rotates like a lazy-Susan, giving you full 360-degree control.
     \nThis is a brand-new experience. Let\u2019s begin."
-  stepVideo: {fileID: 32900000, guid: 4f2477ab9f433044898ce0d0a6040822, type: 3}
-  stepAudio: {fileID: 8300000, guid: 324803694a3fe1f48ad5be39181cf0b9, type: 3}
+  stepAudio: {fileID: 8300000, guid: 331b59576fcfa3247987f13ba1035de3, type: 3}
   interactiveStepType: 0
   successText: 
   failureText: 

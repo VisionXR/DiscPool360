@@ -91,13 +91,7 @@ namespace com.VisionXR.GameElements
 
         private void PinchStarted(Vector3 origin)
         {
-            if (tutorialData.canIPlaceStriker)
-            {
-                // Handle the pinch start while placing the striker
-                _isHeld = true;
-                TryPlaceWhileHeld(origin);
 
-            }
         }
 
         private void PinchContinued(Vector3 origin)

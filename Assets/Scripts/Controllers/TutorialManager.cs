@@ -56,7 +56,7 @@ namespace com.VisionXR.Controllers
 
             strikerData.StrikerStartedEvent += StrikeStarted;
             strikerData.StrikerStoppedEvent += StrikeCompleted;
-            strikerData.FoulCompleteEvent += FoulComplete;
+          
 
             boardCreation.StartTutorial();
             tutorialBoard.SetActive(true);
@@ -77,7 +77,7 @@ namespace com.VisionXR.Controllers
             coinData.CoinPocketedEvent -= CoinPocketed;
             strikerData.StrikerStoppedEvent -= StrikeCompleted;
             strikerData.StrikerStartedEvent -= StrikeStarted;
-            strikerData.FoulCompleteEvent -= FoulComplete;
+        
 
             boardCreation.EndTutorial();
         }
@@ -149,16 +149,27 @@ namespace com.VisionXR.Controllers
                 // Optional: if your TutorialStep has enter/exit hooks, you can call them here
                 // tutorialSteps[i].BeginStep();
 
+                currentStep = tutorialSteps[i];
+
+                Debug.Log("Step " + i);
+                // 1. Check if the audio clip actually EXISTS in Unity's memory
+                float audioDuration = 10f;
+
+                // Using explicit false check against true null/destroyed state
+                if (tutorialSteps[i].stepAudio)
+                {
+                    audioDuration = tutorialSteps[i].stepAudio.length;
+                }
+
                 tutorialData.ShowTutorialStep(
                     i + 1,
                     tutorialSteps[i].stepText,
                     tutorialSteps[i].stepAudio,
-                    tutorialSteps[i].stepVideo,
                     tutorialSteps[i].interactiveStepType,
-                    tutorialSteps[i].stepAudio.length
+                    audioDuration
                 );
 
-                currentStep = tutorialSteps[i];
+               
 
 
                 if (currentStep.interactiveStepType == InteractiveStepType.BoardRotation)
@@ -178,23 +189,6 @@ namespace com.VisionXR.Controllers
                     glowStriker.transform.localEulerAngles = currentStep.aimingStrikerRotation;
                     inputData.EnableInput();
                     tutorialData.canIAim = true;
-                }
-
-
-                else if (currentStep.interactiveStepType == InteractiveStepType.Foul)
-                {
-                    platform.transform.localEulerAngles = Vector3.zero;
-                    tutorialStriker.SetActive(true);
-                    tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-                    tutorialStriker.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
-                    tutorialStriker.transform.position = boardData.StrikerFoulPositions[3].position;
-                    tutorialStriker.transform.rotation = boardData.StrikerFoulPositions[3].rotation;
-                    tutorialStriker.GetComponent<Rigidbody>().isKinematic = true;
-                    strikerData.SetFoul(true);
-                    tutorialData.canIPlaceStriker = true;
-                    
-                   
                 }
 
                 else if (currentStep.interactiveStepType == InteractiveStepType.Striking)
@@ -261,15 +255,6 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        private void FoulComplete()
-        {
-            if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Foul)
-            {
-                tutorialData.canIPlaceStriker = false;
-                tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
-
-            }
-        }
 
         private void Tapped(float val)
         {

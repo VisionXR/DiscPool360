@@ -17,10 +17,12 @@ namespace com.VisionXR.Views
         [Header("Selection Objects")]
         public List<GameObject> selectedImages;
         public PanelOnOff internetToastPanel;
+        public GameObject tutorialManager;
 
         [Header("Next Objects")]
         public string singlePlayerState;
         public string multiPlayerState;
+        public string tutorialState;
         
 
 
@@ -62,7 +64,7 @@ namespace com.VisionXR.Views
         public void NextBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            if(uiData.currentGameType == GameType.SinglePlayer)
+            if (uiData.currentGameType == GameType.SinglePlayer)
             {
                 uiData.uiManager.ChangeState(singlePlayerState, true);
             }
@@ -70,16 +72,21 @@ namespace com.VisionXR.Views
             {
                 if (Application.internetReachability == NetworkReachability.NotReachable)
                 {
-                   
+
                     StartCoroutine(CheckInternetAndProceed());
                 }
                 else
                 {
-                    
+
                     uiData.uiManager.ChangeState(multiPlayerState, true);
                 }
             }
-
+            else if (uiData.currentGameType == GameType.Tutorial)
+            {
+                Debug.Log("Tutorial started");
+                tutorialManager.SetActive(true);
+                uiData.uiManager.ChangeState(tutorialState, true);
+            }
         }
 
        private IEnumerator CheckInternetAndProceed()

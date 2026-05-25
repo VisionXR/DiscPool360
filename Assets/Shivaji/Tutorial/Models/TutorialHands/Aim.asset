@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3799f2e46894ad441ba06c7e07693731, type: 3}
   m_Name: Aim
   m_EditorClassIdentifier: 
-  stepNumber: 5
+  stepNumber: 3
   stepText: 'To aim, press anywhere except on board and swipe left/right to rotate
     the striker.
 
     Now you try it. '
-  stepVideo: {fileID: 32900000, guid: 9a018dbb1634e534fa9cfd7dd5a6f87d, type: 3}
-  stepAudio: {fileID: 8300000, guid: 076e817dd4182f74e821492dec9bf834, type: 3}
+  stepAudio: {fileID: 8300000, guid: 331b59576fcfa3247987f13ba1035de3, type: 3}
   interactiveStepType: 3
   successText: Well Done!
   failureText: Give it another try.
