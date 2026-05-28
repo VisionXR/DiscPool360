@@ -21,6 +21,7 @@ public class PurchaseDataSO : ScriptableObject
     public Action GetPurchasedItemsEvent;
     public Action GetAllItemsEvent;
     public Action RefreshDataEvent;
+    public Action<string> BuyProductEvent;
 
     // Methods
 
@@ -65,7 +66,7 @@ public class PurchaseDataSO : ScriptableObject
                 if(board.productId == id.productId)
                 {
                     board.isPurchased = true;
-                    Debug.Log("Purchased Item " + board.skuName);
+               
                 }
             }
 
@@ -82,7 +83,7 @@ public class PurchaseDataSO : ScriptableObject
                 if (board.productId == id.productId)
                 {
                     board.Price = id.Price;
-                    Debug.Log("Price Item " + board.Price);
+                
                 }
             }
 
@@ -96,5 +97,13 @@ public class PurchaseDataSO : ScriptableObject
     public void GetAllItems()
     {
         GetAllItemsEvent?.Invoke();
+    }
+
+    public void BuyProduct(string productId)
+    {
+        // This method can be called from your UI when a purchase button is clicked
+        // It will trigger the purchase flow in your PurchaseManager
+        // You can pass the productId to identify which item to buy
+        BuyProductEvent?.Invoke(productId);
     }
 }

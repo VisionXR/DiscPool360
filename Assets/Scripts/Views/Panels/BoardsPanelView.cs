@@ -18,16 +18,40 @@ namespace com.VisionXR.Views
         public PurchaseDataSO purchaseData;
 
         [Header("Board Images")]
-        public List<Image> boardSelectionImages;
-        public List<Image> boardLockImages;
+        public List<GameObject> allButtons;
+        public List<GameObject> boardSelectionImages;
+        public List<GameObject> boardLockImages;
+
+        public string purchaseState;
 
 
+        void Start()
+        {
+            foreach (GameObject button in allButtons)
+            {
+                boardSelectionImages.Add(button.transform.GetChild(1).transform.gameObject); // Assuming the selection image is the first child
+                boardLockImages.Add(button.transform.GetChild(6).transform.gameObject); // Assuming the lock image is the second child
+            }
+
+            ResetBoardImages();
+            if (boardSelectionImages.Count > userData.myBoard)
+            {
+                boardSelectionImages[userData.myBoard].SetActive(true);
+            }
+
+            OpenLock();
+        }
 
         void OnEnable()
         {
             ResetBoardImages();
-            boardSelectionImages[userData.myBoard].gameObject.SetActive(true);
-            OpenLock();
+            if(boardSelectionImages.Count > userData.myBoard)
+            {
+                boardSelectionImages[userData.myBoard].SetActive(true);
+                OpenLock();
+            }
+           
+           
         }
 
 
@@ -74,7 +98,7 @@ namespace com.VisionXR.Views
                 }
             }
 
-                UnlockBoards(0, 20); // for testing now remove later
+             //   UnlockBoards(0, 20); // for testing now remove later
             
 
         }
@@ -99,15 +123,19 @@ namespace com.VisionXR.Views
                 boardSelectionImages[userData.myBoard].gameObject.SetActive(true);
               
             }
+            else
+            {
+                uiData.uiManager.ChangeState(purchaseState, true);
+            }
            
         }
 
         private void ResetBoardImages()
         {
 
-            foreach (Image boardImage in boardSelectionImages)
+            foreach (GameObject boardImage in boardSelectionImages)
             {
-                boardImage.gameObject.SetActive(false);
+                boardImage.SetActive(false);
             }
         }
 

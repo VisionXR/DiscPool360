@@ -16,31 +16,31 @@ MonoBehaviour:
   - skuName: Square Pocket 4 Bundle
     productId: square_pocket_4_bundle
     isPurchased: 0
-    Price: 0.99$
-  - skuName: ' Hexagon Pocket 6 Bundle'
-    productId: ' hexagon_pocket_6_bundle'
+    Price: $0.01
+  - skuName: Hexagon Pocket 6 Bundle
+    productId: hexagon_pocket_6_bundle
     isPurchased: 0
-    Price: 0.99$
-  - skuName: Hexagon Pocket 4 Bundle
-    productId: hexagon_pocket_4_bundle
-    isPurchased: 0
-    Price: 0.99$
+    Price: $0.01
   - skuName: Octagon Pocket 4 Bundle
     productId: octagon_pocket_4_bundle
     isPurchased: 0
-    Price: 0.99$
+    Price: $0.01
   - skuName: ' Circle Pocket 4 Bundle'
     productId: circle_pocket_4_bundle
     isPurchased: 0
-    Price: 0.99$
+    Price: $0.01
+  - skuName: Hexagon Pocket 4 Bundle
+    productId: hexagon_pocket_4_bundle
+    isPurchased: 0
+    Price: $0.01
   - skuName: ' Triangle Pocket 3 Bundle'
     productId: triangle_pocket_3_bundle
     isPurchased: 0
-    Price: 0.99$
+    Price: $0.01
   allSkusData:
   - square_pocket_4_bundle
-  - ' hexagon_pocket_6_bundle'
-  - hexagon_pocket_4_bundle
+  - hexagon_pocket_6_bundle
   - octagon_pocket_4_bundle
   - circle_pocket_4_bundle
+  - hexagon_pocket_4_bundle
   - triangle_pocket_3_bundle

@@ -41,8 +41,10 @@ namespace com.VisionXR.Controllers
             
         }
 
-        private void Start()
+        private IEnumerator Start()
         {
+            yield return new WaitForSeconds(0.5f); // Small delay to ensure everything is initialized
+
             if (Application.isEditor)
             {
                 EditorLogin();
@@ -163,22 +165,23 @@ namespace com.VisionXR.Controllers
               
                 achievementData.GetAllAchievemnets();
                 leaderBoardData.GetMyPoints();
-                RequestTokenAndLoginToPlayFab();
+               
 
                 purchaseData.GetAllItems();
                 purchaseData.GetPurchasedItems();
 
-                if(!isLink)
+                RequestTokenAndLoginToPlayFab();
+
+                if (!isLink)
                 {
                     // code here
-                    Debug.Log("No link");
+                   
                     uiData.uiManager.ChangeState("Home", true);
                     isFirstTime = false;
                 }
                 else
                 {
-                    Debug.Log("link");            
-                    
+                           
                     destinationPanelView.SetDestination(multiPlayerDestination);
                     uiData.uiManager.ChangeState("Link", true);
                     isLink = false;

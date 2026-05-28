@@ -17,21 +17,19 @@ namespace com.VisionXR.Views
 
         [Header("Panel Objects")]
         public string currentState;
+       
 
 
         [Header("List Elements")]
-        public GameObject boardsPanel;
+     
         public List<TMP_Text> boardPriceTexts;
-
-
-
 
         private void OnEnable()
         {
 
             purchaseData.BoardAssetPurchasedEvent += SetProductPrices;
 
-           // SetProductPrices();
+            SetProductPrices();
         }
 
         private void OnDisable()
@@ -44,8 +42,8 @@ namespace com.VisionXR.Views
         public void BoardBundleClicked(int id)
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            string sku = purchaseData.BoardsData[id].skuName;
-
+            string productId = purchaseData.BoardsData[id].productId;
+            purchaseData.BuyProduct(productId);
         }
 
         public void RefreshButtonClicked()
@@ -84,7 +82,12 @@ namespace com.VisionXR.Views
             
         }
 
+        public void RefreshBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            purchaseData.GetPurchasedItems();
 
+        }
 
     }
 }

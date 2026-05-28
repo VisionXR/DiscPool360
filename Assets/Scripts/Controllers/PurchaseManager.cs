@@ -22,6 +22,8 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         purchaseData.GetPurchasedItemsEvent += GetPurchasedItems;
         purchaseData.GetAllItemsEvent += GetAllItems;
         purchaseData.RefreshDataEvent += RefreshData;
+
+        purchaseData.BuyProductEvent += BuyProduct;
     }
 
     private void OnDisable()
@@ -29,6 +31,8 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         purchaseData.GetPurchasedItemsEvent -= GetPurchasedItems;
         purchaseData.GetAllItemsEvent -= GetAllItems;
         purchaseData.RefreshDataEvent -= RefreshData;
+
+        purchaseData.BuyProductEvent -= BuyProduct;
     }
 
     private void InitializeUnityIAP()
@@ -47,6 +51,9 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
 
         // Kick off asynchronous initialization
         UnityPurchasing.Initialize(this, builder);
+
+        //GetPurchasedItems();
+        // GetAllItems();
     }
 
     public void RefreshData()
@@ -64,6 +71,8 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
             return;
         }
 
+        Debug.Log("Get purchased items called. Checking owned products...");
+
         List<string> purchasedSkus = new List<string>();
 
 
@@ -79,11 +88,12 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
             {
                 data.isPurchased = true;
                 assetDatas.Add(data);
-                
+                Debug.Log("Purchased "+ purchaseData.GetBoardByProductId(data.productId).skuName);
             }
+
         }
 
-        Debug.Log("Got all purchases");
+        
         // Send the owned SKUs back to your ScriptableObject data holder
         purchaseData.SetPurchasedItems(assetDatas);
     }
@@ -106,11 +116,11 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
           
             // metadata.localizedPriceString automatically handles local currency conversion (e.g., "$4.99", "€4.99")
             data.Price = product.metadata.localizedPriceString;
-
+            //Debug.Log(" Got price for " + purchaseData.GetBoardByProductId(data.productId).skuName+" : "+data.Price);
             assetDatas.Add(data);
         }
 
-        Debug.Log("Got all items");
+    
         purchaseData.SetPriceOfItems(assetDatas);
     }
 
