@@ -13,12 +13,10 @@ MonoBehaviour:
   m_Name: IntroStep
   m_EditorClassIdentifier: 
   stepNumber: 1
-  stepText: "Welcome to Disc Pool \u2014 a fresh blend of Pool and Snooker rules,
-    played with the flick mechanics of Carrom. \nInstead of balls, you\u2019ll be
-    playing with discs, and instead of a cue ball, you\u2019ll use a striker. \nThe
-    board is compact and rotates like a lazy-Susan, giving you full 360-degree control.
-    \nThis is a brand-new experience. Let\u2019s begin."
-  stepAudio: {fileID: 8300000, guid: 331b59576fcfa3247987f13ba1035de3, type: 3}
+  stepText: "Welcome to Carrom Pool 360 \u2014 a mix of Pool, Snooker, and Carrom.
+    Play with discs and a striker on a rotating board with full 360\xB0 control.
+    Let\u2019s begin!"
+  stepAudio: {fileID: 8300000, guid: 43c31649a6c9925408d53333d531597a, type: 3}
   interactiveStepType: 0
   successText: 
   failureText: 

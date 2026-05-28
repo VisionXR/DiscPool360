@@ -51,12 +51,12 @@ namespace com.VisionXR.Controllers
             tableData.PlatformRotationStartedEvent += PlatformRotationStarted;
             tableData.PlatformRotationEndedEvent += PlatformRotationEnded;
 
-            
+
             coinData.CoinPocketedEvent += CoinPocketed;
 
             strikerData.StrikerStartedEvent += StrikeStarted;
             strikerData.StrikerStoppedEvent += StrikeCompleted;
-          
+
 
             boardCreation.StartTutorial();
             tutorialBoard.SetActive(true);
@@ -73,11 +73,11 @@ namespace com.VisionXR.Controllers
             tableData.PlatformRotationStartedEvent -= PlatformRotationStarted;
             tableData.PlatformRotationEndedEvent -= PlatformRotationEnded;
 
-            
+
             coinData.CoinPocketedEvent -= CoinPocketed;
             strikerData.StrikerStoppedEvent -= StrikeCompleted;
             strikerData.StrikerStartedEvent -= StrikeStarted;
-        
+
 
             boardCreation.EndTutorial();
         }
@@ -89,7 +89,7 @@ namespace com.VisionXR.Controllers
                 StopCoroutine(_tutorialRoutine);
                 _tutorialRoutine = null;
             }
-        
+
             tutorialBoard.SetActive(false);
             tutorialStriker.SetActive(false);
             glowStriker.SetActive(false);
@@ -102,7 +102,7 @@ namespace com.VisionXR.Controllers
             _stepCompleted = false;
             _currentStepIndex = -1;
         }
-        
+
         private void CoinPocketed(GameObject coin)
         {
             tutorialCoin.GetComponent<Rigidbody>().isKinematic = true;
@@ -169,7 +169,7 @@ namespace com.VisionXR.Controllers
                     audioDuration
                 );
 
-               
+
 
 
                 if (currentStep.interactiveStepType == InteractiveStepType.BoardRotation)
@@ -184,7 +184,7 @@ namespace com.VisionXR.Controllers
                     tutorialStriker.transform.localPosition = strikerInitPosition;
                     tutorialStriker.transform.localEulerAngles = Vector3.zero;
                     glowStriker.SetActive(true);
-               
+
                     strikerArrow.TurnOnDisplayArrow();
                     glowStriker.transform.localEulerAngles = currentStep.aimingStrikerRotation;
                     inputData.EnableInput();
@@ -251,7 +251,7 @@ namespace com.VisionXR.Controllers
             if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.BoardRotation)
             {
                 tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
-               
+
             }
         }
 
@@ -324,12 +324,12 @@ namespace com.VisionXR.Controllers
                     tutorialCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
                     tutorialCoin.transform.localPosition = currentStep.coinPosition;
                     tutorialCoin.transform.localEulerAngles = Vector3.zero;
-                  
+
 
                     tutorialStriker.transform.localEulerAngles = Vector3.zero;
                     tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
                     tutorialStriker.transform.localPosition = strikerInitPosition;
-                   
+
                 }
 
             }
