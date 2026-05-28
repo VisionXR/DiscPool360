@@ -20,6 +20,7 @@ namespace com.VisionXR.Controllers
         public AchievementsDataSO achievementData;
         public DestinationSO destinationData;
         public LeaderBoardSO leaderBoardData;
+        public PurchaseDataSO purchaseData;
 
         [Header("Local Objects")]
         public Destination multiPlayerDestination;
@@ -163,6 +164,9 @@ namespace com.VisionXR.Controllers
                 achievementData.GetAllAchievemnets();
                 leaderBoardData.GetMyPoints();
                 RequestTokenAndLoginToPlayFab();
+
+                purchaseData.GetAllItems();
+                purchaseData.GetPurchasedItems();
 
                 if(!isLink)
                 {

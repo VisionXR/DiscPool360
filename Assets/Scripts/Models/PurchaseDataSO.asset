@@ -13,32 +13,34 @@ MonoBehaviour:
   m_Name: PurchaseDataSO
   m_EditorClassIdentifier: Assembly-CSharp::PurchaseDataSO
   BoardsData:
-  - skuName: BoardBundle0
+  - skuName: Square Pocket 4 Bundle
+    productId: square_pocket_4_bundle
     isPurchased: 0
     Price: 0.99$
-  - skuName: BoardBundle1
+  - skuName: ' Hexagon Pocket 6 Bundle'
+    productId: ' hexagon_pocket_6_bundle'
     isPurchased: 0
     Price: 0.99$
-  - skuName: BoardBundle2
+  - skuName: Hexagon Pocket 4 Bundle
+    productId: hexagon_pocket_4_bundle
     isPurchased: 0
     Price: 0.99$
-  - skuName: BoardBundle3
+  - skuName: Octagon Pocket 4 Bundle
+    productId: octagon_pocket_4_bundle
     isPurchased: 0
     Price: 0.99$
-  - skuName: BoardBundle4
+  - skuName: ' Circle Pocket 4 Bundle'
+    productId: circle_pocket_4_bundle
     isPurchased: 0
     Price: 0.99$
-  - skuName: BoardBundle5
-    isPurchased: 0
-    Price: 0.99$
-  - skuName: MegaBundle0
+  - skuName: ' Triangle Pocket 3 Bundle'
+    productId: triangle_pocket_3_bundle
     isPurchased: 0
     Price: 0.99$
   allSkusData:
-  - BoardBundle0
-  - BoardBundle1
-  - BoardBundle2
-  - BoardBundle3
-  - BoardBundle4
-  - BoardBundle5
-  - MegaBundle0
+  - square_pocket_4_bundle
+  - ' hexagon_pocket_6_bundle'
+  - hexagon_pocket_4_bundle
+  - octagon_pocket_4_bundle
+  - circle_pocket_4_bundle
+  - triangle_pocket_3_bundle

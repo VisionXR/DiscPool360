@@ -35,9 +35,18 @@ public class PurchaseDataSO : ScriptableObject
         return BoardsData[id];
     }
 
-    public void MarkBoardAsPurchased(int id)
+    public AssetData GetBoardByProductId(string id)
     {
-        AssetData board = GetBoardDataById(id);
+        foreach (var item in BoardsData)
+        {
+            if (item.productId == id) return item;
+        }
+        return null;
+    }
+
+    public void MarkBoardAsPurchased(string id)
+    {
+        AssetData board = GetBoardByProductId(id);
         if (board != null)
         {
             board.isPurchased = true;
@@ -45,34 +54,35 @@ public class PurchaseDataSO : ScriptableObject
         BoardAssetPurchasedEvent?.Invoke();
     }
 
-    public void InitialisePurchases(List<string> purchasedSkus)
+
+    public void SetPurchasedItems(List<AssetData> productdIds)    
     {
-        foreach (var sku in purchasedSkus)
+        foreach(var id in productdIds)
         {
-           
+            
             foreach (var board in BoardsData)
             {
-                if (board.skuName == sku)
+                if(board.productId == id.productId)
                 {
                     board.isPurchased = true;
-                    BoardAssetPurchasedEvent?.Invoke();
+                    Debug.Log("Purchased Item " + board.skuName);
                 }
             }
 
         }
     }
 
-    public void SetPurchasePrices(List<AssetData> assetDatas)
-    
+    public void SetPriceOfItems(List<AssetData> productdIds)
     {
-        foreach(var assetData in assetDatas)
+        foreach (var id in productdIds)
         {
-            
+
             foreach (var board in BoardsData)
             {
-                if(board.skuName == assetData.skuName)
+                if (board.productId == id.productId)
                 {
-                    board.Price = assetData.Price;
+                    board.Price = id.Price;
+                    Debug.Log("Price Item " + board.Price);
                 }
             }
 
