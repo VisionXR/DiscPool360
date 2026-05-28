@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: Aim
   m_EditorClassIdentifier: 
   stepNumber: 3
-  stepText: 'To aim, press anywhere except on board and swipe left/right to rotate
-    the striker.
-
-    Now you try it. '
-  stepAudio: {fileID: 8300000, guid: 331b59576fcfa3247987f13ba1035de3, type: 3}
+  stepText: To aim, press anywhere outside the board and swipe left or right to rotate
+    the striker. Now try it.
+  stepAudio: {fileID: 8300000, guid: 0ac42c9e605691844abe953fe9017359, type: 3}
   interactiveStepType: 3
   successText: Well Done!
   failureText: Give it another try.

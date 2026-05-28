@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: BoardRotation
   m_EditorClassIdentifier: 
   stepNumber: 2
-  stepText: Press on board edge and swipe left/right to rotate it to your liking.Now
-    you try it.
-  stepAudio: {fileID: 8300000, guid: 331b59576fcfa3247987f13ba1035de3, type: 3}
+  stepText: 'Swipe the board edge left or right to rotate it. Now give it a try!
+
+'
+  stepAudio: {fileID: 8300000, guid: 4d346abfcdf160b4ea00dfbf97a6e417, type: 3}
   interactiveStepType: 2
   successText: Great! Perfect rotation
   failureText: Give it another try
