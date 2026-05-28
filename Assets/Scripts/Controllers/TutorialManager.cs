@@ -48,10 +48,12 @@ namespace com.VisionXR.Controllers
             tutorialData.PlayBtnClickedEvent += PlayBtnClicked;
 
 
-            tableData.PlatformRotationStartedEvent += PlatformRotationStarted;
-            tableData.PlatformRotationEndedEvent += PlatformRotationEnded;
 
-            
+            inputData.RotationPinchStartedEvent += PlatformRotationStarted;
+            inputData.RotationPinchEndedEvent += PlatformRotationEnded;
+
+            inputData.SwipeCompleteEvent += SwipeCompeted;
+
             coinData.CoinPocketedEvent += CoinPocketed;
 
             strikerData.StrikerStartedEvent += StrikeStarted;
@@ -70,10 +72,11 @@ namespace com.VisionXR.Controllers
             tutorialData.PlayBtnClickedEvent -= PlayBtnClicked;
 
 
-            tableData.PlatformRotationStartedEvent -= PlatformRotationStarted;
-            tableData.PlatformRotationEndedEvent -= PlatformRotationEnded;
+            inputData.RotationPinchStartedEvent -= PlatformRotationStarted;
+            inputData.RotationPinchEndedEvent -= PlatformRotationEnded;
 
-            
+            inputData.SwipeCompleteEvent -= SwipeCompeted;
+
             coinData.CoinPocketedEvent -= CoinPocketed;
             strikerData.StrikerStoppedEvent -= StrikeCompleted;
             strikerData.StrikerStartedEvent -= StrikeStarted;
@@ -175,19 +178,15 @@ namespace com.VisionXR.Controllers
                 if (currentStep.interactiveStepType == InteractiveStepType.BoardRotation)
                 {
                     boardData.TurnOnInteractable();
+                    tutorialData.canIRotatePlatform = true;
+                    inputData.EnableInput();
                 }
 
                 else if (currentStep.interactiveStepType == InteractiveStepType.Aiming)
                 {
-                    platform.transform.localEulerAngles = Vector3.zero;
-                    tutorialStriker.SetActive(true);
-                    tutorialStriker.transform.localPosition = strikerInitPosition;
-                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
-                    glowStriker.SetActive(true);
-               
+                    tableData.ResetPlatform();
+                    tutorialStriker.SetActive(true);              
                     strikerArrow.TurnOnDisplayArrow();
-                    glowStriker.transform.localEulerAngles = currentStep.aimingStrikerRotation;
-                    inputData.EnableInput();
                     tutorialData.canIAim = true;
                 }
 
@@ -238,7 +237,7 @@ namespace com.VisionXR.Controllers
         }
 
 
-        private void PlatformRotationStarted()
+        private void PlatformRotationStarted(Vector2 input)
         {
             if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.BoardRotation)
             {
@@ -246,35 +245,29 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        private void PlatformRotationEnded()
+        private void PlatformRotationEnded(Vector2 input)
         {
             if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.BoardRotation)
             {
+                Debug.Log("board rotation success");
                 tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
                
             }
         }
 
 
-        private void Tapped(float val)
+        private void SwipeCompeted(float val)
         {
             if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Aiming)
             {
 
-                if (Mathf.Abs(tutorialStriker.transform.localEulerAngles.y - glowStriker.transform.localEulerAngles.y) <= 5f)
-                {
                     // Aimed properly
                     tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
                     tutorialStriker.SetActive(false);
                     glowStriker.SetActive(false);
                     inputData.DisableInput();
                     tutorialData.canIAim = false;
-                }
-                else
-                {
-                    tutorialData.ShowTutorialStepFailed(currentStep.failureText, currentStep.failureAudio);
-
-                }
+                
             }
         }
 

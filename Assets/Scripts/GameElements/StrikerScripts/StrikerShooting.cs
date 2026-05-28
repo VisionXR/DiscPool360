@@ -10,6 +10,7 @@ public class StrikerShooting : MonoBehaviour
     public StrikerDataSO strikerData;
     public InputDataSO inputData;
     public AppPropertiesDataSO appPropertiesData;
+    public PlayerDataSO playerData;
   
 
     [Header(" Local variables ")]
@@ -54,7 +55,12 @@ public class StrikerShooting : MonoBehaviour
             strikerData.strikerDir = transform.forward;
 
             strikerRigidbody.AddForce(transform.forward * strikeForce, ForceMode.VelocityChange);
-            appPropertiesData.StartStrikingVibration();
+
+            if (playerData.IsMyTurn())
+            {
+                appPropertiesData.StartStrikingVibration();
+            }
+
             inputData.DisableInput();
             strikerData.StrikerStarted();
 
@@ -75,7 +81,13 @@ public class StrikerShooting : MonoBehaviour
         strikerData.strikerDir = transform.forward;
         strikerRigidbody.AddForce(transform.forward * force, ForceMode.VelocityChange);
         strikerData.StrikerStarted();
-        appPropertiesData.StartStrikingVibration();
+
+
+        if (playerData.IsMyTurn())
+        {
+            appPropertiesData.StartStrikingVibration();
+        }
+
         if (WaitRoutine == null)
         {
             WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
@@ -91,7 +103,13 @@ public class StrikerShooting : MonoBehaviour
             strikerRigidbody.AddForce(transform.forward * strikerData.strikeForce, ForceMode.VelocityChange);
             strikerData.StrikerStarted();
             strikerArrow.TurnOffArrow();
-            appPropertiesData.StartStrikingVibration();
+
+
+            if (playerData.IsMyTurn())
+            {
+                appPropertiesData.StartStrikingVibration();
+            }
+
             if (WaitRoutine == null)
             {
                 WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
@@ -128,7 +146,11 @@ public class StrikerShooting : MonoBehaviour
         strikeForce = force;
         transform.forward = dir;
         strikerRigidbody.AddForce(dir * force, ForceMode.VelocityChange);
-        appPropertiesData.StartStrikingVibration();
+
+        if (playerData.IsMyTurn())
+        {
+            appPropertiesData.StartStrikingVibration();
+        }
     }
 
     private IEnumerator WaituntilStrikeFinished()

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0df0dede3e6c64843ad3b9b2c0daa973, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
+  gameData: {fileID: 11400000, guid: 427f023afe4c8504898cdfd86741aae8, type: 2}
   SendRate: 5
   DelayRate: 2
   strikerK: 1.25

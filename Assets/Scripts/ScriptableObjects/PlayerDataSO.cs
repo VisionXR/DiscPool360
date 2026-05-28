@@ -9,6 +9,8 @@ namespace com.VisionXR.ModelClasses
     [CreateAssetMenu(fileName = "PlayerDataSO", menuName = "ScriptableObjects/PlayerDataSO")]
     public class PlayerDataSO : ScriptableObject
     {
+        public GameDataSO gameData;
+
         [Header("Physics Settings")]
         public int SendRate = 7;
         public int DelayRate = 2;
@@ -74,6 +76,17 @@ namespace com.VisionXR.ModelClasses
         public Player GetOpponentPlayer()
         {
             return players.Find(p => p.playerProperties.myPlayerControl == PlayerControl.Remote && p.playerProperties.myPlayerType == PlayerType.Human);
+        }
+
+        public bool IsMyTurn()
+        {
+            Player mp = GetMainPlayer();
+            if(mp.playerProperties.myId == gameData.currentTurnId)
+            {
+
+                return true; 
+            }
+            return false;
         }
     }
 }

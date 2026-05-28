@@ -36,9 +36,8 @@ namespace com.VisionXR.GameElements
 
         private void OnEnable()
         {
-            
 
-
+          
             Initialise();
 
         }
@@ -47,9 +46,7 @@ namespace com.VisionXR.GameElements
         private void OnDisable()
         {
 
-         
-
-
+           
 
         }
 

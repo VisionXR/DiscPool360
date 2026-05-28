@@ -1,4 +1,3 @@
-using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -42,17 +41,12 @@ namespace com.VisionXR.Controllers
         {
             // 3. You MUST enable EnhancedTouch once
             EnhancedTouchSupport.Enable();
-
         }
-
         private void OnDisable()
         {
             EnhancedTouchSupport.Disable();
 
         }
-
-
-
         private void Start()
         {
             if (!Input.touchSupported && !Application.isEditor)
@@ -64,7 +58,6 @@ namespace com.VisionXR.Controllers
         private void LateUpdate()
         {
             if (EventSystem.current.IsPointerOverGameObject() || !inputData.isInputEnabled) return;
-
 
             HandleTouchInput();
         }
@@ -223,6 +216,8 @@ namespace com.VisionXR.Controllers
                     float normalizedVelocity = signedVelocity / Screen.width;
 
                     inputData.Swiped(normalizedVelocity * rotationSensitivity);
+
+                    inputData.SwipeCompleted(normalizedVelocity * rotationSensitivity);
 
                     // Reset markers to continue relative calculations seamlessly
                     swipeStartPosition = touch;

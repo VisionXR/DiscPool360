@@ -32,7 +32,7 @@ namespace com.VisionXR.ModelClasses
         public Action<Vector2> FoulPinchEndedEvent;
 
         public Action<float> SwipedEvent;
-
+        public Action<float> SwipeCompleteEvent;
         public Action<bool> PlatformHiglightEvent;
 
 
@@ -91,6 +91,11 @@ namespace com.VisionXR.ModelClasses
         public void Swiped(float velocity)
         {
             SwipedEvent?.Invoke( velocity);
+        }
+
+        public void SwipeCompleted(float  velocity)
+        {
+            SwipeCompleteEvent?.Invoke(velocity);
         }
 
         public void FireStrike(float power)
