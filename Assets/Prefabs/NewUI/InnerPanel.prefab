@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8865482040938859334}
   - component: {fileID: 3099688151468180315}
   - component: {fileID: 5850085142180467241}
-  - component: {fileID: 2060307361303642931}
   m_Layer: 5
   m_Name: InnerPanel
   m_TagString: Untagged
@@ -76,17 +75,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2060307361303642931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5701581284943711597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb30198aa32dd140b5750692dd48104, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Nobi.UiRoundedCorners::Nobi.UiRoundedCorners.ImageWithRoundedCorners
-  radius: 20
-  image: {fileID: 5850085142180467241}

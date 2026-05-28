@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Final
   m_EditorClassIdentifier: 
   stepNumber: 5
-  stepText: You're all set! With skills in hand, dive into the world of Disc Pool.
-    Choose your mode and begin your journey. Best of luck!
-  stepAudio: {fileID: 8300000, guid: 331b59576fcfa3247987f13ba1035de3, type: 3}
+  stepText: You're all set! With skills in hand, dive into the world of Carrom Pool
+    360. Choose your mode and begin your journey. Best of luck!
+  stepAudio: {fileID: 8300000, guid: 7d20e5bad8c564946bee6ce9ebbf9c93, type: 3}
   interactiveStepType: 0
   successText: 
   failureText: 

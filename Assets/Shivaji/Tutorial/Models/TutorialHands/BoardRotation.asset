@@ -20,8 +20,8 @@ MonoBehaviour:
   interactiveStepType: 2
   successText: Great! Perfect rotation
   failureText: Give it another try
-  successAudio: {fileID: 8300000, guid: b9102e13e2ab062489492a19e1172144, type: 3}
-  failureAudio: {fileID: 8300000, guid: f1acd48f77d513044a8c0bceacb289ba, type: 3}
+  successAudio: {fileID: 8300000, guid: 669d2430d0b78c74d970560ef44b14cd, type: 3}
+  failureAudio: {fileID: 8300000, guid: 8f65a0b72977ea241b11efd005f22c8a, type: 3}
   aimingStrikerRotation: {x: 0, y: 0, z: 0}
   strikingStrikerRotation: {x: 0, y: 0, z: 0}
   coinPosition: {x: 0, y: 0, z: 0}
