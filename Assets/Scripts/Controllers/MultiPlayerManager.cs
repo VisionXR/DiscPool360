@@ -28,7 +28,7 @@ namespace com.VisionXR.Controllers
         public NetworkOutputDataSO networkOutputData;
         public NetworkInputDataSO networkInputData;
         public LeaderBoardSO leaderBoardData;
-
+        public ADDataSO adData;
 
 
         // local variables
@@ -508,6 +508,7 @@ namespace com.VisionXR.Controllers
             yield return new WaitForSeconds(1f);
             uiData.uiManager.ChangeState("GameCompleted", true);
             yield return new WaitForSeconds(0.5f);
+            adData.ShowInterstitialAd();
             gameData.GameCompleted(id);
             coinData.DestroyCoins();
             PoolScoreCanvas.SetActive(false);

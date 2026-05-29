@@ -27,6 +27,7 @@ namespace com.VisionXR.Controllers
         public AIDataSO aiData;
         public TableDataSO tableData;
         public LeaderBoardSO leaderboardData;
+        public ADDataSO adData;
 
         // local variables
         [Header("Game Objects")]
@@ -638,6 +639,7 @@ namespace com.VisionXR.Controllers
             yield return new WaitForSeconds(1f);
             uiData.uiManager.ChangeState("GameCompleted", true);
             yield return new WaitForSeconds(0.5f);
+            adData.ShowInterstitialAd();
             gameData.GameCompleted(id);
             coinData.DestroyCoins();
             PoolScoreCanvas.SetActive(false);
