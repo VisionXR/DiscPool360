@@ -41,6 +41,7 @@ MonoBehaviour:
     productId: all_boards_bundle
     isPurchased: 0
     Price: $0.01
+  allSingleBoards: 000000000000000000000000000000000000000000
   allSkusData:
   - square_pocket_4_bundle
   - hexagon_pocket_6_bundle

@@ -1,6 +1,7 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,7 @@ namespace com.VisionXR.Views
         public UserDataSO userData;
         public UIDataSO uiData;
         public PurchaseDataSO purchaseData;
+        public ADDataSO adData; 
 
         [Header("Board Images")]
         public List<GameObject> allButtons;
@@ -24,6 +26,12 @@ namespace com.VisionXR.Views
         public List<GameObject> adButtons;
 
         public string purchaseState;
+        [Header("Ad Panel ")]
+        public PanelOnOff adDetailsPanel;
+        public Image boardImage;
+        public TMP_Text adNumberText;
+        private int adNumberIndex = 0;
+        private int currentBoardIndex = 0;
 
 
         void Start()
@@ -78,19 +86,23 @@ namespace com.VisionXR.Views
                 OpenLock();
             }
            
-           
+           adData.OnRewardedAdSuccessEvent += AdWatched;
+        }
+
+        private void OnDisable()
+        {
+            adData.OnRewardedAdSuccessEvent -= AdWatched;
         }
 
 
         private void OpenLock()
         {
-            UnlockBoards(0, 2); 
+            UnlockBoards(0, 2);
             foreach (AssetData data in purchaseData.BoardsData)
             {
                 if (data.isPurchased)
                 {
                     int id = purchaseData.BoardsData.IndexOf(data);
-
 
                     // Unlock striker images based on purchased id
                     if (id == 0)
@@ -125,9 +137,14 @@ namespace com.VisionXR.Views
                 }
             }
 
-             //   UnlockBoards(0, 20); // for testing now remove later
-            
-
+            for (int i = 0; i < purchaseData.allSingleBoards.Count; i++)
+            {
+                if (purchaseData.allSingleBoards[i])
+                {
+                    boardLockImages[i].gameObject.SetActive(false);
+                    adButtons[i].gameObject.SetActive(false);
+                }
+            }
         }
 
         private void UnlockBoards(int startIndex, int endIndex)
@@ -144,9 +161,31 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             Debug.Log($"Ad button clicked for board index: {id}");
-   
+            adNumberIndex = 0;
+            adDetailsPanel.TurnOnPanel();
+            adNumberText.text = $"Ad {adNumberIndex} of {2}";
+            currentBoardIndex = id;
+
         }
 
+        public void ShowAdButtonClicked()
+        {
+            adData.ShowRewardedAd();
+            adNumberIndex++;
+            adNumberText.text = $"Ad {adNumberIndex} of {2}";
+        }
+
+        public void AdWatched()
+        {         
+            if(adNumberIndex == 2)
+            {
+                Debug.Log("Second Ad completed, unlocking board");
+                adDetailsPanel.TurnOffPanel();
+                purchaseData.allSingleBoards[currentBoardIndex] = true;
+                adButtons[currentBoardIndex].gameObject.SetActive(false);
+                boardLockImages[currentBoardIndex].gameObject.SetActive(false);
+            }
+        }
 
         public void AdWatched(int id)
         {

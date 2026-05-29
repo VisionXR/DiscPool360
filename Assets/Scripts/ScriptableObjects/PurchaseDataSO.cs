@@ -10,6 +10,7 @@ public class PurchaseDataSO : ScriptableObject
 
     [Header(" Board skus")]
     public List<AssetData> BoardsData;
+    public List<bool> allSingleBoards;
 
 
     [Header(" Player skus")]
@@ -24,6 +25,17 @@ public class PurchaseDataSO : ScriptableObject
     public Action<string> BuyProductEvent;
 
     // Methods
+
+    private void OnEnable()
+    {
+        if (allSingleBoards != null)
+        {
+            for (int i = 0; i < allSingleBoards.Count; i++)
+            {
+                allSingleBoards[i] = false;
+            }
+        }
+    }
 
     public void RefreshData()
     {
