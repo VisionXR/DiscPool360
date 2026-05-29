@@ -37,6 +37,10 @@ MonoBehaviour:
     productId: triangle_pocket_3_bundle
     isPurchased: 0
     Price: $0.01
+  - skuName: Mega Board Bundle
+    productId: all_boards_bundle
+    isPurchased: 0
+    Price: $0.01
   allSkusData:
   - square_pocket_4_bundle
   - hexagon_pocket_6_bundle
@@ -44,3 +48,4 @@ MonoBehaviour:
   - circle_pocket_4_bundle
   - hexagon_pocket_4_bundle
   - triangle_pocket_3_bundle
+  - all_boards_bundle

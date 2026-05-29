@@ -113,14 +113,29 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         {
             AssetData data = new AssetData();
             data.productId = product.definition.id;
-          
-            // metadata.localizedPriceString automatically handles local currency conversion (e.g., "$4.99", "€4.99")
-            data.Price = product.metadata.localizedPriceString;
-            //Debug.Log(" Got price for " + purchaseData.GetBoardByProductId(data.productId).skuName+" : "+data.Price);
+
+            // 1. Grab the raw price number (e.g., 50)
+            decimal rawPrice = product.metadata.localizedPrice;
+
+            // 2. Grab the clean ISO currency code (e.g., "INR")
+            string currencyCode = product.metadata.isoCurrencyCode;
+
+            // 3. Format it safely based on the currency
+            if (currencyCode == "INR")
+            {
+                // Force "Rs. 50" instead of letting a broken symbol render
+                data.Price = "Rs. " + rawPrice.ToString("N0"); // N0 removes decimals if you don't need them (e.g., 50 instead of 50.00)
+            }
+            else
+            {
+                // Fallback fallback option: For other countries, use their clean 3-letter code like "50 USD" or "5 EUR"
+                data.Price = rawPrice.ToString("N2") + " " + currencyCode;
+            }
+
             assetDatas.Add(data);
         }
 
-    
+
         purchaseData.SetPriceOfItems(assetDatas);
     }
 
