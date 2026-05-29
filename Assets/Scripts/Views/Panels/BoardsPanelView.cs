@@ -21,16 +21,43 @@ namespace com.VisionXR.Views
         public List<GameObject> allButtons;
         public List<GameObject> boardSelectionImages;
         public List<GameObject> boardLockImages;
+        public List<GameObject> adButtons;
 
         public string purchaseState;
 
 
         void Start()
         {
-            foreach (GameObject button in allButtons)
+            // Loop through your buttons using a standard for-loop to easily track the index
+            for (int i = 0; i < allButtons.Count; i++)
             {
-                boardSelectionImages.Add(button.transform.GetChild(1).transform.gameObject); // Assuming the selection image is the first child
-                boardLockImages.Add(button.transform.GetChild(6).transform.gameObject); // Assuming the lock image is the second child
+                GameObject buttonObj = allButtons[i];
+
+                // 1. Populate your lists (your existing logic)
+                boardSelectionImages.Add(buttonObj.transform.GetChild(1).gameObject);
+                boardLockImages.Add(buttonObj.transform.GetChild(6).gameObject);
+
+                GameObject adButtonObj = buttonObj.transform.GetChild(7).gameObject;
+                adButtons.Add(adButtonObj);
+
+                // 2. CRITICAL: Capture the current index in a local variable!
+                // This creates a unique "copy" for each button's click event.
+                int boardIndex = i;
+
+                // 3. Get the Button component and attach the listener
+                Button btnComponent = adButtonObj.GetComponent<Button>();
+                if (btnComponent != null)
+                {
+                    // Clear any previous listeners to prevent double-firing if this runs multiple times
+                    btnComponent.onClick.RemoveAllListeners();
+
+                    // Register the event, passing the local 'boardIndex' copy
+                    btnComponent.onClick.AddListener(() => AdButtonClicked(boardIndex));
+                }
+                else
+                {
+                    Debug.LogWarning($"Child 7 on button {i} is missing a Button component!");
+                }
             }
 
             ResetBoardImages();
@@ -108,8 +135,24 @@ namespace com.VisionXR.Views
             for (int i = startIndex; i <= endIndex; i++)
             {
                 boardLockImages[i].gameObject.SetActive(false);
+                adButtons[i].gameObject.SetActive(false);
             }
 
+        }
+
+        public void AdButtonClicked(int id)
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            Debug.Log($"Ad button clicked for board index: {id}");
+   
+        }
+
+
+        public void AdWatched(int id)
+        {
+            
+            boardLockImages[id].gameObject.SetActive(false);
+            adButtons[id].gameObject.SetActive(false);
         }
 
 
