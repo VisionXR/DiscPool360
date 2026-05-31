@@ -507,12 +507,13 @@ namespace com.VisionXR.Controllers
             }
             yield return new WaitForSeconds(1f);
             uiData.uiManager.ChangeState("GameCompleted", true);
-            yield return new WaitForSeconds(0.5f);
-            adData.ShowInterstitialAd();
             gameData.GameCompleted(id);
             coinData.DestroyCoins();
             PoolScoreCanvas.SetActive(false);
             SnookerScoreCanvas.SetActive(false);
+           
+            yield return new WaitForSeconds(1f);
+            adData.ShowInterstitialAd();
         }
 
         private void EndGame()
