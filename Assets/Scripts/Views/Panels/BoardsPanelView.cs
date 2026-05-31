@@ -20,6 +20,7 @@ namespace com.VisionXR.Views
         public ADDataSO adData; 
 
         [Header("Board Images")]
+        public List<Sprite> boardSprites;
         public List<GameObject> allButtons;
         public List<GameObject> boardSelectionImages;
         public List<GameObject> boardLockImages;
@@ -166,6 +167,7 @@ namespace com.VisionXR.Views
             adNumberText.text = $"Ad {adNumberIndex} of {2}";
             currentBoardIndex = id;
 
+             boardImage.sprite = boardSprites[id];
         }
 
         public void ShowAdButtonClicked()
