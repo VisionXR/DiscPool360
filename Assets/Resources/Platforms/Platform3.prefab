@@ -1299,7 +1299,7 @@ GameObject:
   - component: {fileID: 934839876158907644}
   - component: {fileID: 6379393504607673642}
   - component: {fileID: 689091652792534399}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ActualBase
   m_TagString: Board
   m_Icon: {fileID: 0}

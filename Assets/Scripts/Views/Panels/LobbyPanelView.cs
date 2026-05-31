@@ -276,12 +276,10 @@ namespace com.VisionXR.Views
 
             // Craft a clean message. Line breaks (\n) push the ugly link out of focus.
             // Messaging apps will read the URL at the bottom, build the OG card, and look clean.
-            string inviteMessage = $"🕹️ *Can you beat me?*\n" +
-                                   $"Click the invite card below to join my room in Disc Pool 360!\n\n" +
-                                   $"{shareUrl}";
+            string inviteMessage = shareUrl;
 
             new NativeShare()
-                .SetSubject("DiscPool 360 Challenge")
+                .SetSubject("Carrom Pool 360 : Multiplayer Challenge")
                 .SetText(inviteMessage)
                 .Share();
         }
@@ -338,7 +336,10 @@ namespace com.VisionXR.Views
 }
 
 [System.Serializable]
-public class DubResponse
+public class LinkRequest
 {
-    public string shortLink; // The generated link (e.g., dub.sh/abc123)
+    public string roomId;
+    public GameMode gameMode;
+    public string region;
+    public string startTime;
 }

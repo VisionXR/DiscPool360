@@ -213,6 +213,7 @@ MonoBehaviour:
   tableData: {fileID: 11400000, guid: ab3e04cb2b741b14a9f15b44f81c74c9, type: 2}
   strikerData: {fileID: 11400000, guid: 8ae96cdacd2423343b0749475230232d, type: 2}
   playersData: {fileID: 11400000, guid: 611cb01e46ac62b478c980e6a529cd2d, type: 2}
+  boardType: 0
   EdgeHighLight: {fileID: 1799832998676726527}
   grabbableComponent: {fileID: 6653866573309682424}
   allEdgeColliders:
@@ -1573,7 +1574,7 @@ GameObject:
   - component: {fileID: 6640097388581499475}
   - component: {fileID: 9116666055722631513}
   - component: {fileID: 6131129889714827901}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ActualBase
   m_TagString: Board
   m_Icon: {fileID: 0}

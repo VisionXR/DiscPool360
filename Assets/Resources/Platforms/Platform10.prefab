@@ -3222,7 +3222,7 @@ GameObject:
   - component: {fileID: 7315232320758518534}
   - component: {fileID: 37537527142188890}
   - component: {fileID: 6422376712551573782}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ActualBase
   m_TagString: Board
   m_Icon: {fileID: 0}

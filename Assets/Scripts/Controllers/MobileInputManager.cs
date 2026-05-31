@@ -29,6 +29,7 @@ namespace com.VisionXR.Controllers
 
 
         //local variables
+        public LayerMask boardLayerMask;
         private Vector2 swipeStartPosition;
         private float swipeStartTime;
         public float cutoffValue = 0.1f;
@@ -127,7 +128,7 @@ namespace com.VisionXR.Controllers
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.CompareTag("Edge"))
+                if ((boardLayerMask.value & (1 << hit.collider.gameObject.layer)) != 0)
                 {
                     isRotationStarted = true;
                     inputData.RotationPinchStarted(touch);

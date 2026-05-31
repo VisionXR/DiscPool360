@@ -78,26 +78,19 @@ public class Platform : MonoBehaviour
             allAssets = tableData.allAssets;
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(startPosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+
+        isPinchStarted = true;
+        lastFramePosition = startPosition; // Store the exact start position vector
+
+        if (allAssets != null)
         {
-            if (hit.collider.CompareTag("Edge"))
-            {
-                isPinchStarted = true;
-                lastFramePosition = startPosition; // Store the exact start position vector
-
-                if (allAssets != null)
-                {
-                    allAssets.transform.SetParent(this.transform, true);
-                }
-
-                TurnOnBoardHighlight();
-                inputData.PlatformHighlight(true);
-                tableData.PlatformRotationStarted();
-            }
+            allAssets.transform.SetParent(this.transform, true);
         }
+
+        TurnOnBoardHighlight();
+        inputData.PlatformHighlight(true);
+        tableData.PlatformRotationStarted();
     }
 
     private void PinchContinued(Vector2 position)
