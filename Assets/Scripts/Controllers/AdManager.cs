@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using GoogleMobileAds.Api;
 using com.VisionXR.ModelClasses;
+using com.VisionXR.HelperClasses;
 
 namespace com.VisionXR.Controllers
 {
@@ -9,6 +10,7 @@ namespace com.VisionXR.Controllers
     {
         [Header("Scriptable Object References")]
         public ADDataSO adDataSO;
+        public PurchaseDataSO purchaseData;
 
         // Test Ad Unit IDs (Replace these with your actual IDs from AdMob dashboard)
 #if UNITY_ANDROID
@@ -92,6 +94,12 @@ namespace com.VisionXR.Controllers
 
         public void ShowInterstitialAd()
         {
+            AssetData noAdsData = purchaseData.GetBoardDataById(purchaseData.BoardsData.Count - 1);
+            if ( noAdsData != null  && noAdsData.isPurchased)
+            {
+                return;
+            }
+
             if (_interstitialAd != null && _interstitialAd.CanShowAd())
             {
                 _interstitialAd.Show();
