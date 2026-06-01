@@ -25,7 +25,7 @@ namespace com.VisionXR.Views
             uiData.uiManager.ResetAllBools();
 
             gameData.ExitGame();
-            gameData.GameResumed();
+            
         }
 
         public void ResumeBtnClicked()

@@ -46,7 +46,7 @@ namespace com.VisionXR.GameElements
             inputData.FoulPinchContinuedEvent += PinchContinued;
             inputData.FoulPinchEndedEvent += PinchEnded;
 
-            uiData.PlaceStrikerEvent += FinalisePlacement;
+            strikerData.FoulCompleteEvent += FinalisePlacement;
             Initialise();
         }
 
@@ -66,7 +66,7 @@ namespace com.VisionXR.GameElements
             inputData.FoulPinchContinuedEvent -= PinchContinued;
             inputData.FoulPinchEndedEvent -= PinchEnded;
 
-            uiData.PlaceStrikerEvent -= FinalisePlacement;
+            strikerData.FoulCompleteEvent -= FinalisePlacement;
 
             Reset();
         }
@@ -229,26 +229,19 @@ namespace com.VisionXR.GameElements
 
         private bool CanPlaceInAir(Vector3 targetPosition, float strikerRadius)
         {
-            // 2. SphereCast vertically downward to check for colliders underneath
-            Vector3 castDirection = Vector3.down;
+            // 1. Gather all colliders inside the striker's placement radius
+            // We use strikerRadius * 0.95f to prevent tiny mathematical edge overlaps from blocking placement
+            Collider[] overlappingColliders = Physics.OverlapSphere(targetPosition, strikerRadius,placementLayerMask);
 
+            bool isTouchingBoard = true;
 
-            // We use strikerRadius * 0.95f slightly smaller than the full radius 
-            // to prevent the edges of the sphere from catching walls right next to it.
-            bool hitSomethingBelow = Physics.SphereCast(
-                targetPosition,
-                strikerRadius * 1.1f,
-                castDirection,
-                out RaycastHit hitInfo      
-            );
-
-
-            if(hitSomethingBelow && hitInfo.collider.CompareTag("Board"))
+            if (overlappingColliders.Length > 0)
             {
-                return true;
+                return false;
+
             }
-            // If it hit a collider directly below, return false. Otherwise, return true.
-            return false;
+            // Return true ONLY if it is safely touching the board and touched no obstacles
+            return isTouchingBoard;
         }
 
 
@@ -293,7 +286,7 @@ namespace com.VisionXR.GameElements
             {
                 // Optional: If blocked, you can handle collision feedback here 
                 // (like stopping movement entirely, or sliding along the obstacle)
-                Debug.LogWarning("Cannot move striker: Object detected below target position!");
+                Debug.Log("Cannot move striker: Object detected below target position!");
             }
 
             // 5. Update memory cache position to evaluate the next frame correctly
@@ -312,15 +305,13 @@ namespace com.VisionXR.GameElements
         {
             if (isPinchStarted)
             {
-               
-                strikerData.SetFoul(false);
-              
-                Reset();
+                isPinchStarted = false;
+                strikerData.SetFoul(false);    
                 currentStriker.transform.rotation = Quaternion.identity;
                 Rigidbody rb = currentStriker.GetComponent<Rigidbody>();
                 if (rb != null) rb.isKinematic = false;
                 strikerData.FoulComplete();
-
+                Reset();
             }
         }
     }

@@ -63,9 +63,6 @@ namespace com.VisionXR.GameElements
        
             isExcecuting = false;
 
-            aIData.PlayHandAnimation("Hello", true);
-            yield return new WaitForSeconds(5);
-            aIData.PlayHandAnimation("Hello", false);
         }
 
         void OnEnable()

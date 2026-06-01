@@ -138,6 +138,13 @@ namespace com.VisionXR.Controllers
             swipeStartPosition = touch;
             swipeStartTime = Time.time;
 
+            if (strikerData.isFoul)
+            {
+                inputData.FoulPinchStarted(touch);
+                return;
+            }
+
+
             Ray ray = Camera.main.ScreenPointToRay(touch);
             RaycastHit hit;
 
@@ -151,28 +158,19 @@ namespace com.VisionXR.Controllers
                 }
             }
 
-
-            if (strikerData.isFoul)
-            {
-                inputData.FoulPinchStarted(touch);
-                return;
-            }
-
-            swipeStartPosition = touch;
-            swipeStartTime = Time.time;
-
         }
 
         private void HandleTouchUpdate(Vector2 touch)
         {
-            if (isRotationStarted)
-            {
-                inputData.RotationPinchContinued(touch);
-            }
-            else if (strikerData.isFoul)
+
+            if (strikerData.isFoul)
             {
                 inputData.FoulPinchContinued(touch);
             }
+            else if(isRotationStarted)
+            {
+                inputData.RotationPinchContinued(touch);
+            }   
             else
             {
                 // 1. Calculate absolute vector distance from start position (accounts for any direction diagonal/vertical)
@@ -203,16 +201,16 @@ namespace com.VisionXR.Controllers
 
         private void HandleTouchEnded(Vector2 touch)
         {
-            if (isRotationStarted)
-            {
-                inputData.RotationPinchEnded(touch);
-                isRotationStarted = false;
-            }
 
-            else if (strikerData.isFoul)
+            if (strikerData.isFoul)
             {
                 inputData.FoulPinchEnded(touch);
             }
+            else if(isRotationStarted)
+            {
+                inputData.RotationPinchEnded(touch);
+                isRotationStarted = false;
+            }        
             else
             {
                 // 1. Calculate absolute vector distance from start position (accounts for any direction diagonal/vertical)

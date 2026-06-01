@@ -13,6 +13,7 @@ namespace com.VisionXR.Views
         public AudioDataSO audioData;
         public UIDataSO uiData;
         public UserDataSO userData;
+        public GameDataSO gameData;
 
         [Header("Selection Objects")]
         public List<GameObject> selectedImages;
@@ -42,6 +43,7 @@ namespace com.VisionXR.Views
             }
 
             uiData.uiManager.ChangeState("Home", false);
+            gameData.isGamePaused = false;
         }
 
         public void GameModeBtnClicked(int id)
