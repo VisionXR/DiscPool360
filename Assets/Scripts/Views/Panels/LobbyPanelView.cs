@@ -260,7 +260,7 @@ namespace com.VisionXR.Views
         public void LaunchInvitePanel()
         {
 
-            string wixBaseUrl = "https://visionxr.co.in/join";
+            string wixBaseUrl = "https://visionxr.co.in/carrompool360/join";
 
 
             // Escape Room ID to keep URL formatting valid

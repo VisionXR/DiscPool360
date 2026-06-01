@@ -177,7 +177,6 @@ namespace com.VisionXR.Controllers
                     leaderboard.SavePointsData(apiName, myValue);
                     leaderboard.SaveRankData(apiName, myRank);
 
-                    Debug.Log($"GPGS loaded player score for leaderboard: {apiName}. Points: {myValue}, Rank: {myRank}");
                 }
             }
             else
@@ -193,7 +192,7 @@ namespace com.VisionXR.Controllers
             foreach (var item in leaderboard.leaderBoardPoints)
             {
                 string trackingApiName = item.apiName; // Capture reference variable for the asynchronous callback closure
-                Debug.Log($"Attempting to load player-centered score for leaderboard: {trackingApiName}");
+               
                 // CenteredOnPlayer extracts a batch of rows with the local user directly in focus
                 PlayGamesPlatform.Instance.LoadScores(
                     trackingApiName,

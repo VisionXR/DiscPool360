@@ -61,6 +61,11 @@ namespace com.VisionXR.Controllers
             isLink = true;
             string linkurl = ParseDeepLink(url);
 
+            if(string.IsNullOrEmpty(linkurl))
+            {
+                return;
+            }
+
             Debug.Log("Url is " + linkurl);
             LinkData newData = ConvertStringToLinkData(linkurl);
             uiData.SetGameType(GameType.MultiPlayer);
@@ -118,7 +123,7 @@ namespace com.VisionXR.Controllers
 
             try
             {
-                string prefix = "discpool://";
+                string prefix = "carrompool360://";
                 if (!url.StartsWith(prefix)) return null;
 
                 string jsonPart = url.Substring(prefix.Length);
@@ -231,12 +236,8 @@ namespace com.VisionXR.Controllers
 
             PlayGamesPlatform.Instance.RequestServerSideAccess(true, (authCode) =>
             {
-                Debug.Log("Disc pool 360: Received Auth Code from Google Play Games Services." + authCode);
-
+                
                 if (string.IsNullOrEmpty(authCode)) return;
-
-
-                Debug.Log("Disc pool 360: Received Google Auth Code, logging into PlayFab...");
                 // Use LoginWithGooglePlayGamesServices instead of LoginWithGoogleAccount
                 var request = new LoginWithGooglePlayGamesServicesRequest
                 {
