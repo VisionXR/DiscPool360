@@ -38,7 +38,7 @@ namespace com.VisionXR.Controllers
             {
                 OnDeepLinkActivated(Application.absoluteURL);
             }
-            
+
         }
 
         private IEnumerator Start()
@@ -57,25 +57,56 @@ namespace com.VisionXR.Controllers
 
         private void OnDeepLinkActivated(string url)
         {
-            
-            isLink = true;
-            string roomId = ParseDeepLink(url);
 
-            Debug.Log("Url is " + roomId);
-            //uiData.SetGameType(GameType.MultiPlayer);
-            //multiPlayerDestination.roomName = roomId;
-            //if (isFirstTime)
-            //{
-            //    isFirstTime = false;
-                
-            //}
-            //else
-            //{
-                              
-            //    changeDestinationPanelView.SetDestination(multiPlayerDestination);
-            //    uiData.uiManager.GoToState(StateName.ChangeDestinationState);
-            //    isLink = false;
-            //}
+            isLink = true;
+            string linkurl = ParseDeepLink(url);
+
+            Debug.Log("Url is " + linkurl);
+            LinkData newData = ConvertStringToLinkData(linkurl);
+            uiData.SetGameType(GameType.MultiPlayer);
+
+            string fullInput = newData.r;
+            string actualRoomName = fullInput;
+            ServerRegion targetRegion = ServerRegion.any;
+
+            // Ensure the input has at least 2 characters before splitting
+            if (!string.IsNullOrEmpty(fullInput) && fullInput.Length >= 2)
+            {
+                string regionCodeStr = fullInput.Substring(0, 2);
+                actualRoomName = fullInput.Substring(2);
+
+                // 2. Convert the 2-digit string to an integer
+                if (int.TryParse(regionCodeStr, out int regionIndex))
+                {
+                    // 3. Explicitly cast the integer to your ServerRegion enum
+                    // (Note: This assumes the parsed integer maps directly to your enum indexes)
+                    targetRegion = (ServerRegion)regionIndex;
+                }
+                else
+                {
+                    Debug.LogWarning($"Could not parse '{regionCodeStr}' into an integer. Defaulting to 'any'.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Room code entered is too short! Using fallback handling.");
+            }
+
+            multiPlayerDestination.roomName = actualRoomName;
+            multiPlayerDestination.region = targetRegion;
+            multiPlayerDestination.gameMode = (GameMode)(int.Parse(newData.g));
+            if (isFirstTime)
+            {
+                isFirstTime = false;
+
+            }
+            else
+            {
+
+                changeDestinationPanelView.SetDestination(multiPlayerDestination);
+                uiData.uiManager.GoToState(StateName.ChangeDestinationState);
+                isLink = false;
+            }
         }
 
 
@@ -89,8 +120,8 @@ namespace com.VisionXR.Controllers
                 if (!url.StartsWith(prefix)) return null;
 
                 string jsonPart = url.Substring(prefix.Length);
-              
-               
+
+
                 return jsonPart;
             }
             catch (Exception e)
@@ -105,8 +136,8 @@ namespace com.VisionXR.Controllers
         private void EditorLogin()
         {
             // Simplified Editor Mock
-            playerSettings.SetUserNameAndId("Guest_Player",UnityEngine.Random.Range(0, 9999).ToString());
-           
+            playerSettings.SetUserNameAndId("Guest_Player", UnityEngine.Random.Range(0, 9999).ToString());
+
             // If in Editor, use a fixed string so you always log into the same test account
             // If on Mobile, use the unique Device ID
             string customId = Application.isEditor ? "Editor_Test_User" : SystemInfo.deviceUniqueIdentifier;
@@ -128,21 +159,21 @@ namespace com.VisionXR.Controllers
             }
             else
             {
-                             
+
                 destinationPanelView.SetDestination(multiPlayerDestination);
                 uiData.uiManager.ChangeState("Link", true);
                 isLink = false;
             }
-     
+
         }
 
 
         public void GoogleLogin()
         {
-                
+
             PlayGamesPlatform.Activate();
             PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
-            
+
         }
 
         internal void ProcessAuthentication(SignInStatus status)
@@ -156,18 +187,18 @@ namespace com.VisionXR.Controllers
                 string googleID = Social.localUser.id;
 
                 string imageUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
-               
-               
+
+
 
                 playerSettings.SetUserNameAndId(name, googleID);
                 playerSettings.SetProfileUrl(imageUrl);
                 StartCoroutine(LoadProfileImage());
                 isLoggedIn = true;
 
-              
+
                 achievementData.GetAllAchievemnets();
                 leaderBoardData.GetMyPoints();
-               
+
 
                 purchaseData.GetAllItems();
                 purchaseData.GetPurchasedItems();
@@ -177,13 +208,13 @@ namespace com.VisionXR.Controllers
                 if (!isLink)
                 {
                     // code here
-                   
+
                     uiData.uiManager.ChangeState("Home", true);
                     isFirstTime = false;
                 }
                 else
                 {
-                           
+
                     destinationPanelView.SetDestination(multiPlayerDestination);
                     uiData.uiManager.ChangeState("Link", true);
                     isLink = false;
@@ -194,11 +225,11 @@ namespace com.VisionXR.Controllers
 
         private void RequestTokenAndLoginToPlayFab()
         {
-           
+
 
             PlayGamesPlatform.Instance.RequestServerSideAccess(true, (authCode) =>
             {
-                Debug.Log("Disc pool 360: Received Auth Code from Google Play Games Services."+authCode);
+                Debug.Log("Disc pool 360: Received Auth Code from Google Play Games Services." + authCode);
 
                 if (string.IsNullOrEmpty(authCode)) return;
 
@@ -218,7 +249,7 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabSuccess(LoginResult result)
         {
-           
+
 
             cloudData.PlayFabLoginSuccess();
 
@@ -228,7 +259,7 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabFailure(PlayFabError error)
         {
-            Debug.Log("Disc Pool: PlayFab Login Error: " + error.GenerateErrorReport());
+            Debug.Log("Carrom Pool: PlayFab Login Error: " + error.GenerateErrorReport());
 
             cloudData.PlayFabLoginFailure();
         }
@@ -245,7 +276,7 @@ namespace com.VisionXR.Controllers
             if (Social.localUser.image != null)
             {
                 playerSettings.SetUserProfileImage(ConvertTextureToSprite(Social.localUser.image));
-                
+
             }
         }
 
@@ -254,5 +285,51 @@ namespace com.VisionXR.Controllers
             if (texture == null) return null;
             return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         }
+        public LinkData ConvertStringToLinkData(string queryString)
+        {
+            // Create a new instance of your class to populate
+            LinkData data = new LinkData();
+
+            // 1. Split the string by '&' to get each individual parameter pair
+            string[] pairs = queryString.Split('&');
+
+            foreach (string pair in pairs)
+            {
+                // 2. Split each pair by '=' to separate the key from the value
+                string[] keyValue = pair.Split('=');
+
+                // Ensure we actually have a valid key and value pair to avoid errors
+                if (keyValue.Length == 2)
+                {
+                    string key = keyValue[0].Trim();
+                    string value = keyValue[1].Trim();
+
+                    // 3. Match the key and assign the value to the correct class property
+                    switch (key)
+                    {
+                        case "r":
+                            data.r = value;
+                            break;
+                        case "g":
+                            data.g = value;
+                            break;
+                        case "t":
+                            data.t = value;
+                            break;
+                    }
+                }
+            }
+
+            return data;
+        }
+
+       
+    }
+    [Serializable]
+    public class LinkData
+    {
+        public string r;
+        public string g;
+        public string t;
     }
 }
