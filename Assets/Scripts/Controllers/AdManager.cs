@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using GoogleMobileAds.Api;
 using com.VisionXR.ModelClasses;
@@ -51,7 +50,7 @@ namespace com.VisionXR.Controllers
             // Initialize the Mobile Ads SDK
             MobileAds.Initialize((InitializationStatus status) =>
             {
-                Debug.Log("Mobile Ads SDK Initialized.");
+               
                 // Load ads as soon as the SDK is ready
                 LoadInterstitialAd();
                 LoadRewardedAd();
@@ -80,7 +79,7 @@ namespace com.VisionXR.Controllers
                     return;
                 }
 
-                Debug.Log("Interstitial ad loaded successfully.");
+             
                 _interstitialAd = ad;
 
                 // Register to handle ad closure so we can preload the next one
@@ -135,7 +134,7 @@ namespace com.VisionXR.Controllers
                     return;
                 }
 
-                Debug.Log("Rewarded ad loaded successfully.");
+               
                 _rewardedAd = ad;
 
                 // Register to handle ad closure so we can preload the next one
@@ -150,7 +149,7 @@ namespace com.VisionXR.Controllers
         {
             if (_rewardedAd != null && _rewardedAd.CanShowAd())
             {
-                Debug.Log("Showing rewarded ad.");
+                
                 _rewardedAd.Show((Reward reward) =>
                 {
                     Debug.Log($"User earned reward: {reward.Amount} {reward.Type}");

@@ -114,7 +114,7 @@ namespace com.VisionXR.Controllers
                         string json = result.Data[userDataKey].Value;
                         achievementsData.userData = JsonUtility.FromJson<UserData>(json);
 
-                        Debug.Log("user Data Loaded Successfully");
+                        Debug.Log("user Data Loaded Successfully"+json);
                     }
 
                     if (result.Data != null && result.Data.ContainsKey(boardWinsStatsKey))
@@ -123,7 +123,7 @@ namespace com.VisionXR.Controllers
                         string json = result.Data[boardWinsStatsKey].Value;
                         achievementsData.boardWinsStats = JsonUtility.FromJson<BoardWinsStats>(json);
 
-                        Debug.Log("board stats Data Loaded Successfully");
+                        Debug.Log("board stats Data Loaded Successfully"+json);
                     }
 
 

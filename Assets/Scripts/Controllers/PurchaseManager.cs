@@ -1,6 +1,5 @@
 using com.VisionXR.HelperClasses;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Purchasing; // Required for Unity IAP
 
@@ -71,7 +70,7 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
             return;
         }
 
-        Debug.Log("Get purchased items called. Checking owned products...");
+       
 
         List<string> purchasedSkus = new List<string>();
 
@@ -148,7 +147,7 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
 
             if (product != null && product.availableToPurchase)
             {
-                Debug.Log($"Purchasing product asynchronously: '{product.definition.id}'");
+                
                 storeController.InitiatePurchase(product);
             }
             else
@@ -167,7 +166,7 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
     // Automatically runs when Unity IAP successfully connects to Google Play Store
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
     {
-        Debug.Log("Unity IAP Initialization Complete.");
+        
         storeController = controller;
         storeExtensionProvider = extensions;
 
@@ -189,7 +188,7 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
         string prodctId = args.purchasedProduct.definition.id;
-        Debug.Log($"Purchase Successful: {prodctId}");
+       
 
         purchaseData.MarkBoardAsPurchased(prodctId);
         // Instantly recalculate owned items to grant access to the board

@@ -124,7 +124,7 @@ public class NetworkManager : MonoBehaviour
             CustomLobbyName = "DiscPoolLobby",
             PlayerCount = 2,
             
-            SessionName = UnityEngine.Random.Range(1000, 9999).ToString() // Generate a random session name if not provided
+            SessionName = UnityEngine.Random.Range(10000, 99999).ToString() // Generate a random session name if not provided
         });
 
         if (result.Ok)
