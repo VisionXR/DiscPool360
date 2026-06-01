@@ -13,7 +13,9 @@ namespace com.VisionXR.Controllers
         public InputDataSO inputData;
         public UserDataSO userData;
         public StrikerDataSO strikerData;
-
+        public UIDataSO uiData;
+        public AudioDataSO audioData;
+        public GameDataSO gameData;
 
         [Header("Audio Trigger")]
 
@@ -58,6 +60,19 @@ namespace com.VisionXR.Controllers
 
         private void LateUpdate()
         {
+
+            // In the New Input System, the Android back button natively maps to the Escape Key
+            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                audioData.PlayAudio(HelperClasses.AudioClipType.ButtonClick);
+                uiData.uiManager.GoToState(HelperClasses.StateName.QuitState);
+            }
+
+            if (gameData.isGamePaused)
+            {
+                return;
+            }
+
             if (EventSystem.current.IsPointerOverGameObject() || !inputData.isInputEnabled) return;
 
             HandleTouchInput();

@@ -13,6 +13,7 @@ namespace com.VisionXR.ModelClasses
         public int Player1SnookerScore;
         public int Player2SnookerScore;
         public int snookerWinnerId = 1;
+        public bool isGamePaused = false;
 
         // Game Events
         public Action StartGameEvent;
@@ -22,10 +23,15 @@ namespace com.VisionXR.ModelClasses
         public Action GamePausedEvent;
         public Action GameResumedEvent;
         public Action<int> TurnChangeEvent;
-      
-        
+
+
 
         //Methods
+
+        private void OnEnable()
+        {
+            isGamePaused = false;
+        }
 
         public void ResetSnookerScore()
         {
@@ -94,11 +100,13 @@ namespace com.VisionXR.ModelClasses
 
         public void GamePaused()
         {
+            isGamePaused = true;
             GamePausedEvent?.Invoke(); 
         }
 
         public void GameResumed()
         {
+            isGamePaused = false;
             GameResumedEvent?.Invoke(); 
         }
 

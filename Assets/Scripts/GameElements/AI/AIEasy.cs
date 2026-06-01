@@ -154,7 +154,11 @@ namespace com.VisionXR.GameElements
 
         private IEnumerator HitCoin()
         {
-          
+            while(gameData.isGamePaused)
+            {
+                yield return null;
+            }
+
             yield return new WaitForSeconds(1);
 
             CoinInfo currentSelectedCoin = hitCoinList[0];

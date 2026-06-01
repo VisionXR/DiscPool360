@@ -10,9 +10,20 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public AudioDataSO audioData;
         public UIDataSO uiData;
+        public GameDataSO gameData;
 
         [Header("Next And Previous Panels")]
         public string quitAppState;
+
+        private void OnEnable()
+        {
+            gameData.GamePaused();
+        }
+
+        private void OnDisable()
+        {
+            gameData.GameResumed();
+        }
 
         public void QuitBtnClicked()
         {
@@ -24,8 +35,8 @@ namespace com.VisionXR.Views
         {
            
             audioData.PlayAudio(AudioClipType.ButtonClick);
-            uiData.uiManager.ChangeState(quitAppState, false);
-         
+            uiData.uiManager.GoToState(uiData.uiManager.previousStateName);
+
         }
 
         

@@ -638,16 +638,16 @@ namespace com.VisionXR.Controllers
 
             yield return new WaitForSeconds(1f);
             uiData.uiManager.ChangeState("GameCompleted", true);
+            adData.ShowInterstitialAd();
+
             yield return new WaitForSeconds(0.5f);
-            
             gameData.GameCompleted(id);
             coinData.DestroyCoins();
             PoolScoreCanvas.SetActive(false);
             SnookerScoreCanvas.SetActive(false);
 
-            yield return new WaitForSeconds(2f);
-            adData.ShowInterstitialAd();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(3f);
+     
             aiData.PlayHandAnimation("Loose", false);
             aiData.PlayHandAnimation("Win", false);
 
