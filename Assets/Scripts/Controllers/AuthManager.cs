@@ -121,9 +121,11 @@ namespace com.VisionXR.Controllers
         {
             if (string.IsNullOrEmpty(url)) return null;
 
+            Debug.Log("Url is " + url);
+
             try
             {
-                string prefix = "carrompool360://";
+                string prefix = "discpool://";
                 if (!url.StartsWith(prefix)) return null;
 
                 string jsonPart = url.Substring(prefix.Length);
