@@ -1,6 +1,6 @@
 using com.VisionXR.HelperClasses;
 using Fusion;
-using NUnit.Framework.Interfaces;
+using Fusion.Photon.Realtime;
 using System;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ namespace com.VisionXR.ModelClasses
     public class NetworkOutputDataSO : ScriptableObject
     {
         // User Data
-
+        public PhotonAppSettings settings;
         public NetworkRunner runner;
         public bool isHost = false;
 
@@ -131,6 +131,23 @@ namespace com.VisionXR.ModelClasses
         public bool IsClientReady()
         {
             return isClientReady;
+        }
+
+        public ServerRegion GetCurrentRegion()
+        {
+            string fixedRegion = settings.AppSettings.FixedRegion;
+            if (string.IsNullOrEmpty(fixedRegion))
+            {
+                return ServerRegion.any;
+            }
+            foreach (ServerRegion region in Enum.GetValues(typeof(ServerRegion)))
+            {
+                if (region.ToString().Equals(fixedRegion, StringComparison.OrdinalIgnoreCase))
+                {
+                    return region;
+                }
+            }
+            return ServerRegion.any; // Default to 'any' if no match found
         }
     }
 }

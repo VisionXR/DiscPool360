@@ -60,20 +60,22 @@ namespace com.VisionXR.Controllers
             
             isLink = true;
             string roomId = ParseDeepLink(url);
-            uiData.SetGameType(GameType.MultiPlayer);
-            multiPlayerDestination.roomName = roomId;
-            if (isFirstTime)
-            {
-                isFirstTime = false;
+
+            Debug.Log("Url is " + roomId);
+            //uiData.SetGameType(GameType.MultiPlayer);
+            //multiPlayerDestination.roomName = roomId;
+            //if (isFirstTime)
+            //{
+            //    isFirstTime = false;
                 
-            }
-            else
-            {
+            //}
+            //else
+            //{
                               
-                changeDestinationPanelView.SetDestination(multiPlayerDestination);
-                uiData.uiManager.GoToState(StateName.ChangeDestinationState);
-                isLink = false;
-            }
+            //    changeDestinationPanelView.SetDestination(multiPlayerDestination);
+            //    uiData.uiManager.GoToState(StateName.ChangeDestinationState);
+            //    isLink = false;
+            //}
         }
 
 

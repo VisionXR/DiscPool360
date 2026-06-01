@@ -1,11 +1,14 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using Photon.Realtime;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Player = com.VisionXR.GameElements.Player;
 
 namespace com.VisionXR.Views
 {
@@ -44,6 +47,8 @@ namespace com.VisionXR.Views
         private float elapsedTime = 0f; // Variable to store the elapsed time
         public bool isHostJoined = false;
         public bool isClientJoined = false;
+        public string roomId;
+        public string regionCode;
 
 
         private void OnEnable()
@@ -60,7 +65,18 @@ namespace com.VisionXR.Views
             networkOutPutData.HostReadyEvent += ResetTime;
             networkOutPutData.ClientReadyEvent += ResetTime;
 
-            roomNameText.text = "Room ID: " + networkOutPutData.runner.SessionInfo.Name;
+            roomId = networkOutPutData.runner.SessionInfo.Name;
+
+            ServerRegion serverRegion = ServerRegion.any;
+
+            if (Enum.TryParse<ServerRegion>(networkOutPutData.runner.SessionInfo.Region, ignoreCase: true, out serverRegion))
+            {
+                Debug.Log($"Successfully connected to region: {serverRegion}");
+            }
+
+            // Convert the enum int value to a padded 2-digit string
+            regionCode = ((int)serverRegion).ToString("D2");
+            roomNameText.text = "Room ID : " + regionCode + roomId;
         }
 
         private void OnDisable()
@@ -243,40 +259,23 @@ namespace com.VisionXR.Views
 
         public void LaunchInvitePanel()
         {
-            string roomId = networkOutPutData.runner.SessionInfo.Name;
 
-            Debug.Log("Room id is " + roomId);
             string wixBaseUrl = "https://visionxr.co.in/join";
 
-            // Map CoinsType enum onto your lowercase Wix assets configuration dictionary keys
-            string gameMode = "default";
-            switch (userData.myCoins)
-            {
-                case CoinsType.EightPool:
-                    gameMode = "8pool";
-                    break;
-                case CoinsType.FivePool:
-                    gameMode = "5pool";
-                    break;
-                case CoinsType.TenSnooker:
-                    gameMode = "10snooker";
-                    break;
-                case CoinsType.SixSnooker:
-                    gameMode = "6snooker";
-                    break;
-                case CoinsType.ColorChallenge:
-                    gameMode = "colorchallenge";
-                    break;
-            }
 
             // Escape Room ID to keep URL formatting valid
             string escapedRoomId = UnityWebRequest.EscapeURL(roomId);
 
-            string shareUrl = $"{wixBaseUrl}?room={roomId}&game={gameMode}&playerName={userData.MyName}";
+            // Generates something like: 202606011805 (Year, Month, Day, Hour, Minute)
+            string shortTime = DateTime.UtcNow.ToString("yyyyMMddHHmm");
+
+            string shareUrl = $"{wixBaseUrl}?room={regionCode + roomId}&game={(int)userData.myCoins}&time={shortTime}";
 
             // Craft a clean message. Line breaks (\n) push the ugly link out of focus.
             // Messaging apps will read the URL at the bottom, build the OG card, and look clean.
             string inviteMessage = shareUrl;
+
+            Debug.Log("Url is " + shareUrl);
 
             new NativeShare()
                 .SetSubject("Carrom Pool 360 : Multiplayer Challenge")

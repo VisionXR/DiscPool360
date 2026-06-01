@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using static Unity.Collections.Unicode;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -57,22 +56,7 @@ public class NetworkManager : MonoBehaviour
         settings.AppSettings.FixedRegion = regionName;
     }
 
-    public ServerRegion GetCurrentRegion()
-    {
-        string fixedRegion = settings.AppSettings.FixedRegion;
-        if (string.IsNullOrEmpty(fixedRegion))
-        {
-            return ServerRegion.any;
-        }
-        foreach (ServerRegion region in Enum.GetValues(typeof(ServerRegion)))
-        {
-            if (region.ToString().Equals(fixedRegion, StringComparison.OrdinalIgnoreCase))
-            {
-                return region;
-            }
-        }
-        return ServerRegion.any; // Default to 'any' if no match found
-    }
+
 
     /// <summary>
     /// Creates a new room and starts a game session.
@@ -93,10 +77,6 @@ public class NetworkManager : MonoBehaviour
         JoinGame(roomName, RoomSuccessEvent, RoomFailedEvent);
     }
 
-    public void ReconnectAndJoin()
-    {
-
-    }
 
     /// <summary>
     /// Starts a new game session, setting properties and configurations based on UI and player settings.
