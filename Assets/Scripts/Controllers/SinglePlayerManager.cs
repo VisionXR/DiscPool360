@@ -625,15 +625,13 @@ namespace com.VisionXR.Controllers
             {
                 audioData.PlayAudio(AudioClipType.Winning);
                 leaderboardData.SetMyPoints(leaderboardData.GetApiNameById(0), 1);
-                leaderboardData.SetMyPoints(leaderboardData.GetApiNameById(2), 1);
-                aiData.PlayHandAnimation("Loose", true);
+                
 
             }
             else // its AI
             {
                 audioData.PlayAudio(AudioClipType.Losing);
-                aiData.PlayHandAnimation("Win", true);
-
+         
             }
 
             yield return new WaitForSeconds(1f);
@@ -645,11 +643,6 @@ namespace com.VisionXR.Controllers
             coinData.DestroyCoins();
             PoolScoreCanvas.SetActive(false);
             SnookerScoreCanvas.SetActive(false);
-
-            yield return new WaitForSeconds(3f);
-     
-            aiData.PlayHandAnimation("Loose", false);
-            aiData.PlayHandAnimation("Win", false);
 
         }
 

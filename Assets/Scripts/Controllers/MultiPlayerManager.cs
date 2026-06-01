@@ -497,8 +497,7 @@ namespace com.VisionXR.Controllers
             {
                 audioData.PlayAudio(AudioClipType.Winning);
                 leaderBoardData.SetMyPointsEvent(leaderBoardData.GetApiNameById(1), 1);
-                leaderBoardData.SetMyPointsEvent(leaderBoardData.GetApiNameById(2), 1);
-
+               
             }
             else // its AI
             {
