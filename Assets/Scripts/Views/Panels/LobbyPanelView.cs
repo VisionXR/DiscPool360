@@ -269,7 +269,7 @@ namespace com.VisionXR.Views
             // Generates something like: 202606011805 (Year, Month, Day, Hour, Minute)
             string shortTime = DateTime.UtcNow.ToString("yyyyMMddHHmm");
 
-            string shareUrl = $"{wixBaseUrl}?room={regionCode + roomId}&game={(int)userData.myCoins}&time={shortTime}";
+            string shareUrl = $"{wixBaseUrl}?r={regionCode + roomId}&g={(int)userData.myCoins}&t={shortTime}";
 
             // Craft a clean message. Line breaks (\n) push the ugly link out of focus.
             // Messaging apps will read the URL at the bottom, build the OG card, and look clean.

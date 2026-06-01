@@ -326,6 +326,7 @@ namespace com.VisionXR.HelperClasses
         public string lobbyName;
         public string roomName;
         public bool isJoinable;
+        public string time;
 
         public ServerRegion GetRegion()
         {
