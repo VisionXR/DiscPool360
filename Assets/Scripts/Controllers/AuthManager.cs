@@ -95,6 +95,8 @@ namespace com.VisionXR.Controllers
             multiPlayerDestination.roomName = actualRoomName;
             multiPlayerDestination.region = targetRegion;
             multiPlayerDestination.gameMode = (GameMode)(int.Parse(newData.g));
+            multiPlayerDestination.time = newData.t;
+
             if (isFirstTime)
             {
                 isFirstTime = false;

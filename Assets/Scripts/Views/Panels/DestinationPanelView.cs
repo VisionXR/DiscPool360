@@ -2,6 +2,7 @@ using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
 using System.Collections;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,7 @@ namespace com.VisionXR.Views
         public GameObject rotationImage;
         public GameObject HomeBtn;
         public GameObject RetryBtn;
+        public GameObject LinkExpiredBtn;
 
         [Header("Icons")]
         public Sprite EightPoolIcon;
@@ -57,6 +59,7 @@ namespace com.VisionXR.Views
 
             HomeBtn.SetActive(false);
             RetryBtn.SetActive(false);
+            LinkExpiredBtn.SetActive(false);
 
             if(userData.myCoins == CoinsType.EightPool)
             {
@@ -136,14 +139,61 @@ namespace com.VisionXR.Views
         {
             if (currentDestination != null)
             {        
-                if (connectionRoutine == null)
-                {
-                    connectionRoutine = StartCoroutine(ShowConnectionStatus());
-                    rotationRoutine = StartCoroutine(RotateImage());
-                }
+               
 
-                Debug.Log(" connecting to dest " + currentDestination.roomName);
-                destinationData.ConnectToDestination(currentDestination, DestinationSuccessEvent, DestinationFailureEvent);
+                string time = currentDestination.time;
+
+                if (string.IsNullOrEmpty(time))
+                {
+                    if (connectionRoutine == null)
+                    {
+                        connectionRoutine = StartCoroutine(ShowConnectionStatus());
+                        rotationRoutine = StartCoroutine(RotateImage());
+                    }
+                    destinationData.ConnectToDestination(currentDestination, DestinationSuccessEvent, DestinationFailureEvent);
+                }
+                else
+                {
+                    try
+                    {
+                        // 1. Parse the string using the exact pattern you saved it with
+                        // CultureInfo.InvariantCulture prevents issues with regional device formats
+                        DateTime linkTime = DateTime.ParseExact(time, "yyyyMMddHHmm", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
+
+                        // 2. Get the current UTC time to compare against
+                        DateTime currentTime = DateTime.UtcNow;
+
+                        // 3. Calculate the difference
+                        TimeSpan timeDifference = currentTime - linkTime;
+
+                        // 4. Check if the link is older than 15 minutes OR if the link time is somehow in the future
+                        if (timeDifference.TotalMinutes > 15 || timeDifference.TotalMinutes < 0)
+                        {
+                            Debug.LogWarning($"Link expired! It was created {timeDifference.TotalMinutes:F1} minutes ago.");
+                            connectionText.text = "Connecting to destination";
+                            LinkExpiredBtn.SetActive(true);
+                            // TODO: Call your UI manager here to show an "expired link" pop-up screen
+                            // uiData.uiManager.ShowPopup("This invite link has expired. Please ask for a new one.");
+                        }
+                        else
+                        {
+                            if (connectionRoutine == null)
+                            {
+                                connectionRoutine = StartCoroutine(ShowConnectionStatus());
+                                rotationRoutine = StartCoroutine(RotateImage());
+                            }
+                            // The link is valid and within the 15-minute window!
+                            Debug.Log($"Link is valid. Only {timeDifference.TotalMinutes:F1} minutes old. Connecting...");
+                            destinationData.ConnectToDestination(currentDestination, DestinationSuccessEvent, DestinationFailureEvent);
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        // If someone tampered with the URL parameter and it's no longer a valid date string
+                        Debug.LogError($"Invalid time format in URL: '{time}'. Failed to parse.");
+                        // Treat as expired/invalid link
+                    }
+                }
 
             }
 
@@ -154,6 +204,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             HomeBtn.SetActive(false);
             RetryBtn.SetActive(false);
+            LinkExpiredBtn.SetActive(false);
 
             gameData.ExitGame();
             uiData.uiManager.ChangeState("SinglePlayer", false);
@@ -167,6 +218,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             HomeBtn.SetActive(false);
             RetryBtn.SetActive(false);
+            LinkExpiredBtn.SetActive(false);
 
             ConnectToDestination();
         }
