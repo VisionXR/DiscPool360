@@ -16,31 +16,35 @@ MonoBehaviour:
   - skuName: Square Pocket 4 Bundle
     productId: square_pocket_4_bundle
     isPurchased: 0
-    Price: $0.01
+    Price: 0.01 USD
   - skuName: Hexagon Pocket 6 Bundle
     productId: hexagon_pocket_6_bundle
     isPurchased: 0
-    Price: $0.01
+    Price: 0.01 USD
   - skuName: Octagon Pocket 4 Bundle
     productId: octagon_pocket_4_bundle
     isPurchased: 0
-    Price: $0.01
+    Price: 0.01 USD
   - skuName: ' Circle Pocket 4 Bundle'
     productId: circle_pocket_4_bundle
     isPurchased: 0
-    Price: $0.01
+    Price: 0.01 USD
   - skuName: Hexagon Pocket 4 Bundle
     productId: hexagon_pocket_4_bundle
     isPurchased: 0
-    Price: $0.01
+    Price: 0.01 USD
   - skuName: ' Triangle Pocket 3 Bundle'
     productId: triangle_pocket_3_bundle
     isPurchased: 0
-    Price: $0.01
+    Price: 0.01 USD
   - skuName: Mega Board Bundle
     productId: all_boards_bundle
     isPurchased: 0
-    Price: $0.01
+    Price: 0.01 USD
+  - skuName: NoAdsBundle
+    productId: cp360_remove_ads_permanent
+    isPurchased: 0
+    Price: 0.01 USD
   allSingleBoards: 000000000000000000000000000000000000000000
   allSkusData:
   - square_pocket_4_bundle
@@ -50,3 +54,4 @@ MonoBehaviour:
   - hexagon_pocket_4_bundle
   - triangle_pocket_3_bundle
   - all_boards_bundle
+  - cp360_remove_ads_permanent
