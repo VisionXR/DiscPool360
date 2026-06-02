@@ -120,7 +120,7 @@ namespace com.VisionXR.Controllers
         // --- LOAD DATA ---
         public void LoadUserData()
         {
-            Debug.Log("Trying to load");
+           
             var request = new GetUserDataRequest
             {
                 Keys = new List<string> { defaultBoardsWinsKey, specialBoardWinsKey }
