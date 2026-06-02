@@ -1,5 +1,6 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace com.VisionXR.Controllers
         public GameObject tutorialStriker;
         public GameObject glowStriker;
         public GameObject tutorialCoin;
-
+        public InputCanvasView inputCanvasView;
 
         [Header("Local Variables")]
         public Vector3 strikerInitPosition;
@@ -150,7 +151,7 @@ namespace com.VisionXR.Controllers
 
                 currentStep = tutorialSteps[i];
 
-                Debug.Log("Step " + i);
+            
                 // 1. Check if the audio clip actually EXISTS in Unity's memory
                 float audioDuration = 10f;
 
@@ -174,6 +175,7 @@ namespace com.VisionXR.Controllers
                 if (currentStep.interactiveStepType == InteractiveStepType.BoardRotation)
                 {
                     boardData.TurnOnInteractable();
+                    platform.transform.localEulerAngles = Vector3.zero;
                     tutorialData.canIRotatePlatform = true;
                     inputData.EnableInput();
                 }
@@ -205,6 +207,8 @@ namespace com.VisionXR.Controllers
                     tutorialData.canIAim = true;
                     tutorialData.canIFire = true;
                     tutorialCoin.SetActive(true);
+
+                    inputCanvasView.TurnOn();
 
                     tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
                     strikerData.SetFoul(false);
@@ -249,7 +253,7 @@ namespace com.VisionXR.Controllers
         {
             if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.BoardRotation)
             {
-                Debug.Log("board rotation success");
+               
                 tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
 
             }
@@ -258,7 +262,7 @@ namespace com.VisionXR.Controllers
 
         private void SwipeCompeted(float val)
         {
-            Debug.Log("swipe rotation success");
+           
             if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Aiming)
             {
 
@@ -275,6 +279,7 @@ namespace com.VisionXR.Controllers
         private void StrikeStarted()
         {
             glowStriker.SetActive(false);
+            inputCanvasView.TurnOff();
         }
 
         private void StrikeCompleted()
@@ -319,10 +324,13 @@ namespace com.VisionXR.Controllers
                     tutorialCoin.transform.localPosition = currentStep.coinPosition;
                     tutorialCoin.transform.localEulerAngles = Vector3.zero;
 
+                    platform.transform.localEulerAngles = Vector3.zero;
 
                     tutorialStriker.transform.localEulerAngles = Vector3.zero;
                     tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
                     tutorialStriker.transform.localPosition = strikerInitPosition;
+
+                    inputCanvasView.TurnOn();
 
                 }
 

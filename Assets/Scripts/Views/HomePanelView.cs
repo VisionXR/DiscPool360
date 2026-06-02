@@ -85,7 +85,7 @@ namespace com.VisionXR.Views
             }
             else if (uiData.currentGameType == GameType.Tutorial)
             {
-                Debug.Log("Tutorial started");
+                
                 tutorialManager.SetActive(true);
                 uiData.uiManager.ChangeState(tutorialState, true);
             }

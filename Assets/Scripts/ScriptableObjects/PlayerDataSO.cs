@@ -81,9 +81,8 @@ namespace com.VisionXR.ModelClasses
         public bool IsMyTurn()
         {
             Player mp = GetMainPlayer();
-            if(mp.playerProperties.myId == gameData.currentTurnId)
+            if( mp!= null && mp.playerProperties.myId == gameData.currentTurnId)
             {
-
                 return true; 
             }
             return false;
