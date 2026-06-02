@@ -1,7 +1,5 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.ModelClasses;
-using Photon.Voice;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,8 +45,10 @@ namespace com.VisionXR.Controllers
             tutorialData.SkipBtnClcikedEvent += SkipBtnClicked;
             tutorialData.PlayBtnClickedEvent += PlayBtnClicked;
 
+            inputData.RotationPinchStartedEvent += PlatformRotationStarted;
+            inputData.RotationPinchEndedEvent += PlatformRotationEnded;
 
-
+            inputData.SwipeCompleteEvent += SwipeCompeted;
 
             coinData.CoinPocketedEvent += CoinPocketed;
 
@@ -258,6 +258,7 @@ namespace com.VisionXR.Controllers
 
         private void SwipeCompeted(float val)
         {
+            Debug.Log("swipe rotation success");
             if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Aiming)
             {
 

@@ -72,7 +72,7 @@ namespace com.VisionXR.Controllers
             }
 
 
-            Debug.Log("CloudManager: Data loaded successfully within time limit.");
+         
             OnDataFetchSuccessEvent?.Invoke();
             loadTimeoutCoroutine = null;
         }
@@ -134,14 +134,14 @@ namespace com.VisionXR.Controllers
                     {
                         string json = result.Data[defaultBoardsWinsKey].Value;
                         achievementsData.defaultBoardWinsData = JsonUtility.FromJson<DefaultBoardWinsData>(json);
-                        Debug.Log("user Data Loaded Successfully" + json);
+                        
                     }
 
                     if (result.Data != null && result.Data.ContainsKey(specialBoardWinsKey))
                     {
                         string json = result.Data[specialBoardWinsKey].Value;
                         achievementsData.specialBoardWinsStats = JsonUtility.FromJson<SpecialBoardWinsStats>(json);
-                        Debug.Log("board stats Data Loaded Successfully" + json);
+                        
                     }
 
                     achievementsData.UserLoggedIn();

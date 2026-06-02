@@ -229,14 +229,11 @@ namespace com.VisionXR.Controllers
 
                     float normalizedVelocity = signedVelocity / Screen.width;
 
-                    inputData.Swiped(normalizedVelocity * rotationSensitivity);
+                    inputData.Swiped(normalizedVelocity * rotationSensitivity);              
 
-                    inputData.SwipeCompleted(normalizedVelocity * rotationSensitivity);
-
-                    // Reset markers to continue relative calculations seamlessly
-                    swipeStartPosition = touch;
-                    swipeStartTime = Time.time;
                 }
+
+                inputData.SwipeCompleted( rotationSensitivity);
             }
 
         }
