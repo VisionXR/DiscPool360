@@ -10,8 +10,8 @@ namespace com.VisionXR.ModelClasses
     {
         // Variables
         public List<AchievementInfo> AllAchievementInfo;
-        public UserData userData;
-        public BoardWinsStats boardWinsStats;
+        public DefaultBoardWinsData defaultBoardWinsData;
+        public SpecialBoardWinsStats specialBoardWinsStats;
 
 
         // Actions
@@ -19,7 +19,7 @@ namespace com.VisionXR.ModelClasses
         public Action SinglePlayerGameWonEvent;
         public Action MultiPlayerGameWonEvent;
         public Action MultiPlayerGameStartEvent;
-
+        public Action UserLoggedInEvent;
         public Action GotAllAchievementsEvent;
 
         public void GetAllAchievemnets()
@@ -27,10 +27,11 @@ namespace com.VisionXR.ModelClasses
             GetAllAchievementsEvent?.Invoke();
         }
 
-        public void GotAll()
+        public void UserLoggedIn()
         {
-            GetAllAchievementsEvent?.Invoke(); 
+            UserLoggedInEvent?.Invoke();
         }
+
 
         public void UnLockLocal(string apiName)
         {

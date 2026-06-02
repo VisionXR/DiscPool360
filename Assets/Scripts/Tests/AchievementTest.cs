@@ -16,8 +16,8 @@ public class AchievementTest : MonoBehaviour
     public string achievementName;
     public AchievementInfo achievementInfo;
     public Destination destination;
-    public UserData userData;
-    public BoardWinsStats boardWinsStats;
+    public DefaultBoardWinsData userData;
+    public SpecialBoardWinsStats boardWinsStats;
 
 
     [Header("Key Bindings (New Input System)")]
@@ -28,8 +28,8 @@ public class AchievementTest : MonoBehaviour
     public IEnumerator Start()
     {
         yield return new WaitForSeconds(5);
-        userData = achievementsData.userData;
-        boardWinsStats = achievementsData.boardWinsStats;
+        userData = achievementsData.defaultBoardWinsData;
+        boardWinsStats = achievementsData.specialBoardWinsStats;
     }
 
     void Update()

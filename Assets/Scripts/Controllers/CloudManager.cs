@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic; // Added for Dictionary
 using UnityEngine;
 
+
 namespace com.VisionXR.Controllers
 {
     public class CloudManager : MonoBehaviour
@@ -13,8 +14,10 @@ namespace com.VisionXR.Controllers
         [Header("Scriptable Objects")]
         public CloudDataSO cloudData;
         public AchievementsDataSO achievementsData;
-        public string userDataKey = "DiscPoolUserData";
-        public string boardWinsStatsKey = "DiscPoolBoardWinsStats";
+
+        [Header("Keys")]
+        public string defaultBoardsWinsKey = "CarromPoolDefaultBoardsData";
+        public string specialBoardWinsKey = "CarromPoolSpecialBoardsData";
 
 
         // Actions
@@ -53,12 +56,12 @@ namespace com.VisionXR.Controllers
             {
 
                 // Convert your UserData class to JSON string
-                string jsonString = JsonUtility.ToJson(achievementsData.userData);
+                string jsonString = JsonUtility.ToJson(achievementsData.defaultBoardWinsData);
 
                 var request = new UpdateUserDataRequest
                 {
                     Data = new Dictionary<string, string> {
-                    { userDataKey, jsonString }
+                    { defaultBoardsWinsKey, jsonString }
                 },
 
                 };
@@ -76,12 +79,12 @@ namespace com.VisionXR.Controllers
             {
 
                 // Convert your UserData class to JSON string
-                string jsonString = JsonUtility.ToJson(achievementsData.boardWinsStats);
+                string jsonString = JsonUtility.ToJson(achievementsData.specialBoardWinsStats);
 
                 var request = new UpdateUserDataRequest
                 {
                     Data = new Dictionary<string, string> {
-                    { boardWinsStatsKey, jsonString }
+                    { specialBoardWinsKey, jsonString }
                 },
 
                 };
@@ -99,42 +102,43 @@ namespace com.VisionXR.Controllers
         // --- LOAD DATA ---
         public void LoadUserData()
         {
+            Debug.Log("Trying to load");
             var request = new GetUserDataRequest
             {
-                Keys = new List<string> { userDataKey, boardWinsStatsKey }
+                Keys = new List<string> { defaultBoardsWinsKey, specialBoardWinsKey }
             };
 
             try
             {
                 PlayFabClientAPI.GetUserData(request, result =>
                 {
-                    if (result.Data != null && result.Data.ContainsKey(userDataKey))
+                    if (result.Data != null && result.Data.ContainsKey(defaultBoardsWinsKey))
                     {
                         // Convert the JSON string back into your UserData object
-                        string json = result.Data[userDataKey].Value;
-                        achievementsData.userData = JsonUtility.FromJson<UserData>(json);
+                        string json = result.Data[defaultBoardsWinsKey].Value;
+                        achievementsData.defaultBoardWinsData = JsonUtility.FromJson<DefaultBoardWinsData>(json);
 
                         Debug.Log("user Data Loaded Successfully"+json);
                     }
 
-                    if (result.Data != null && result.Data.ContainsKey(boardWinsStatsKey))
+                    if (result.Data != null && result.Data.ContainsKey(specialBoardWinsKey))
                     {
                         // Convert the JSON string back into your BoardWinsStats object
-                        string json = result.Data[boardWinsStatsKey].Value;
-                        achievementsData.boardWinsStats = JsonUtility.FromJson<BoardWinsStats>(json);
+                        string json = result.Data[specialBoardWinsKey].Value;
+                        achievementsData.specialBoardWinsStats = JsonUtility.FromJson<SpecialBoardWinsStats>(json);
 
                         Debug.Log("board stats Data Loaded Successfully"+json);
                     }
 
 
-
+                    achievementsData.UserLoggedIn();
                     OnDataFetchSuccessEvent?.Invoke();
 
                 }, OnDataFetchError);
             }
             catch (Exception e)
             {
-
+                Debug.Log("Error loading data " + e.Message);
             }
         }
 

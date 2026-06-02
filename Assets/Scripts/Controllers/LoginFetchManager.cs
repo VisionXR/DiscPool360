@@ -44,9 +44,9 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabLoginSuccess()
         {
-           
-                // if not part of an explicit StartLoginAndFetchCoins flow, forward existing behaviour
-                cloudData.LoadPlayerData(OnFetchSuccessInternal, OnFetchFailureInternal);
+            Debug.Log("[LoginFetchManager] PlayFab login success.");
+            // if not part of an explicit StartLoginAndFetchCoins flow, forward existing behaviour
+            cloudData.LoadPlayerData(OnFetchSuccessInternal, OnFetchFailureInternal);
 
         }
 

@@ -223,7 +223,7 @@ namespace com.VisionXR.HelperClasses
     }
 
     [Serializable]
-    public class UserData
+    public class DefaultBoardWinsData
     {
 
         public string lastLoginDate;
@@ -271,7 +271,7 @@ namespace com.VisionXR.HelperClasses
 
 
     [Serializable]
-    public class BoardWinsStats
+    public class SpecialBoardWinsStats
     {
         public List<BoardStats> boardStats;
         public List<string> clientNames;

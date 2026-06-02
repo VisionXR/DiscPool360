@@ -2,7 +2,6 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
-using System.IO;
 using UnityEngine;
 using GooglePlayGames;
 using System.Collections;
@@ -20,9 +19,6 @@ public class AchievementManager : MonoBehaviour
     public CloudDataSO cloudData;
 
     [Header("Local Objects")]
-
-    public string userDataKey = "DiscPoolUserData";
-    public string boardWinsStatsKey = "DiscPoolBoardWinsStats";
     public AudioSource achievementAS;
 
 
@@ -32,12 +28,11 @@ public class AchievementManager : MonoBehaviour
 
     private void OnEnable()
     {
-        LoadUserData();
-        AddLogin();
-    
+      
         achievementData.GetAllAchievementsEvent += GetAllAchievements;
         gameData.StartGameEvent += GameStarted;
         gameData.GameCompletedEvent += GameCompleted;
+        achievementData.UserLoggedInEvent += AddLogin;
     }
 
     private void OnDisable()
@@ -45,7 +40,7 @@ public class AchievementManager : MonoBehaviour
         achievementData.GetAllAchievementsEvent -= GetAllAchievements;
         gameData.StartGameEvent -= GameStarted;
         gameData.GameCompletedEvent -= GameCompleted;
-
+        achievementData.UserLoggedInEvent -= AddLogin;
     }
 
     public void GetAllAchievements()
@@ -81,24 +76,18 @@ public class AchievementManager : MonoBehaviour
 
     public void GameStarted()
     {
+       
         Destination d = destinationData.currentDestination;
 
         if (d != null)
         {
             if (d.gameType == GameType.SinglePlayer)
             {
-                achievementData.userData.spTotalGames++;
-                SaveUserData();
+                achievementData.defaultBoardWinsData.spTotalGames++;
+               
             }
 
-            if (d.gameType == GameType.MultiPlayer)
-            {
-                achievementData.userData.mpTotalGames++;
-                SaveUserData();
-            }
-
-
-            if (d.gameType == GameType.MultiPlayer)
+            else if (d.gameType == GameType.MultiPlayer)
             {
                 Player otherPlayer = playerData.GetOpponentPlayer();
                 if (otherPlayer != null)
@@ -108,6 +97,8 @@ public class AchievementManager : MonoBehaviour
 
             }
         }
+
+        SaveUserData();
     }
 
     public void GameCompleted(int id)
@@ -119,7 +110,7 @@ public class AchievementManager : MonoBehaviour
         {
             BoardStats currentBoardStats;
 
-            foreach (BoardStats stats in achievementData.boardWinsStats.boardStats)
+            foreach (BoardStats stats in achievementData.specialBoardWinsStats.boardStats)
             {
                 if (stats.boardType == uiData.currentBoardType)
                 {
@@ -163,39 +154,39 @@ public class AchievementManager : MonoBehaviour
                 {
                     if (d.gameMode == GameMode.Pool)
                     {
-                        achievementData.userData.spPoolEasyWins++;
-                        achievementData.userData.spTotalWins++;
+                        achievementData.defaultBoardWinsData.spPoolEasyWins++;
+                        achievementData.defaultBoardWinsData.spTotalWins++;
                     }
                     else if (d.gameMode == GameMode.Snooker)
                     {
-                        achievementData.userData.spSnookerEasyWins++;
-                        achievementData.userData.spTotalWins++;
+                        achievementData.defaultBoardWinsData.spSnookerEasyWins++;
+                        achievementData.defaultBoardWinsData.spTotalWins++;
                     }
                 }
                 else if (d.aIDifficulty == AIDifficulty.Medium)
                 {
                     if (d.gameMode == GameMode.Pool)
                     {
-                        achievementData.userData.spPoolMediumWins++;
-                        achievementData.userData.spTotalWins++;
+                        achievementData.defaultBoardWinsData.spPoolMediumWins++;
+                        achievementData.defaultBoardWinsData.spTotalWins++;
                     }
                     else if (d.gameMode == GameMode.Snooker)
                     {
-                        achievementData.userData.spSnookerMediumWins++;
-                        achievementData.userData.spTotalWins++;
+                        achievementData.defaultBoardWinsData.spSnookerMediumWins++;
+                        achievementData.defaultBoardWinsData.spTotalWins++;
                     }
                 }
                 else if (d.aIDifficulty == AIDifficulty.Hard)
                 {
                     if (d.gameMode == GameMode.Pool)
                     {
-                        achievementData.userData.spPoolHardWins++;
-                        achievementData.userData.spTotalWins++;
+                        achievementData.defaultBoardWinsData.spPoolHardWins++;
+                        achievementData.defaultBoardWinsData.spTotalWins++;
                     }
                     else if (d.gameMode == GameMode.Snooker)
                     {
-                        achievementData.userData.spSnookerHardWins++;
-                        achievementData.userData.spTotalWins++;
+                        achievementData.defaultBoardWinsData.spSnookerHardWins++;
+                        achievementData.defaultBoardWinsData.spTotalWins++;
                     }
                 }
             }
@@ -203,18 +194,18 @@ public class AchievementManager : MonoBehaviour
             {
                 if (d.gameMode == GameMode.Pool)
                 {
-                    achievementData.userData.mpPoolWins++;
-                    achievementData.userData.mpTotalWins++;
+                    achievementData.defaultBoardWinsData.mpPoolWins++;
+                    achievementData.defaultBoardWinsData.mpTotalWins++;
                 }
                 else if (d.gameMode == GameMode.Snooker)
                 {
-                    achievementData.userData.mpSnookerWins++;
-                    achievementData.userData.mpTotalWins++;
+                    achievementData.defaultBoardWinsData.mpSnookerWins++;
+                    achievementData.defaultBoardWinsData.mpTotalWins++;
                 }
             }
 
             StartCoroutine(UnLockWin());
-
+           
         }
     }
 
@@ -277,8 +268,7 @@ public class AchievementManager : MonoBehaviour
     public void UpdateIncrementalAchievement(AchievementInfo info, int currentCount, int targetCount)
     {
         string achievementId = info.apiName;
-        Debug.Log("Trying to unlock" + info.name);
-
+      
         if (!PlayGamesPlatform.Instance.IsAuthenticated())
         {
             Debug.LogWarning($"[Achievements] User not authenticated. Cannot update incremental ID: {achievementId}");
@@ -318,17 +308,17 @@ public class AchievementManager : MonoBehaviour
     public void SetTotalWins()
     {
 
-        achievementData.userData.spTotalWins = achievementData.userData.spPoolEasyWins + achievementData.userData.spPoolMediumWins + achievementData.userData.spPoolHardWins
-        + achievementData.userData.spSnookerEasyWins + achievementData.userData.spSnookerMediumWins + achievementData.userData.spSnookerHardWins;
+        achievementData.defaultBoardWinsData.spTotalWins = achievementData.defaultBoardWinsData.spPoolEasyWins + achievementData.defaultBoardWinsData.spPoolMediumWins + achievementData.defaultBoardWinsData.spPoolHardWins
+        + achievementData.defaultBoardWinsData.spSnookerEasyWins + achievementData.defaultBoardWinsData.spSnookerMediumWins + achievementData.defaultBoardWinsData.spSnookerHardWins;
 
 
-        achievementData.userData.mpTotalWins = achievementData.userData.mpPoolWins + achievementData.userData.mpSnookerWins;
+        achievementData.defaultBoardWinsData.mpTotalWins = achievementData.defaultBoardWinsData.mpPoolWins + achievementData.defaultBoardWinsData.mpSnookerWins;
 
 
-        foreach (BoardStats stats in achievementData.boardWinsStats.boardStats)
+        foreach (BoardStats stats in achievementData.specialBoardWinsStats.boardStats)
         {
-            achievementData.userData.spTotalWins += (stats.spPoolWins + stats.spSnookerWins);
-            achievementData.userData.mpTotalWins += (stats.mpPoolWins + stats.mpSnookerWins);
+            achievementData.defaultBoardWinsData.spTotalWins += (stats.spPoolWins + stats.spSnookerWins);
+            achievementData.defaultBoardWinsData.mpTotalWins += (stats.mpPoolWins + stats.mpSnookerWins);
         }
 
 
@@ -337,44 +327,41 @@ public class AchievementManager : MonoBehaviour
     public void AddLogin()
     {
         // If we have no record, count this as first login
-        if (string.IsNullOrEmpty(achievementData.userData.lastLoginDate))
+        if (string.IsNullOrEmpty(achievementData.defaultBoardWinsData.lastLoginDate))
         {
 
-            achievementData.userData.lastLoginDate = DateTime.Now.ToLongDateString();
-            achievementData.userData.totalLogins += 1;
+            achievementData.defaultBoardWinsData.lastLoginDate = DateTime.Now.ToLongDateString();
+            achievementData.defaultBoardWinsData.totalLogins += 1;
 
             return;
         }
 
         // Parse stored date and compare calendar date only
-        DateTime.TryParse(achievementData.userData.lastLoginDate, out DateTime lastLogin);
+        DateTime.TryParse(achievementData.defaultBoardWinsData.lastLoginDate, out DateTime lastLogin);
 
 
         if (lastLogin.Date != DateTime.Now.Date)
         {
-            achievementData.userData.lastLoginDate = DateTime.Now.ToLongDateString();
-            achievementData.userData.totalLogins += 1;
+            achievementData.defaultBoardWinsData.lastLoginDate = DateTime.Now.ToLongDateString();
+            achievementData.defaultBoardWinsData.totalLogins += 1;
             StartCoroutine(UnLockLoginAchievements());
-            SaveUserData();
-
+           
         }
 
 
-        achievementData.userData.spTotalWins = achievementData.userData.spPoolEasyWins + achievementData.userData.spPoolMediumWins + achievementData.userData.spPoolHardWins
-            + achievementData.userData.spSnookerEasyWins + achievementData.userData.spSnookerMediumWins + achievementData.userData.spSnookerHardWins;
+        achievementData.defaultBoardWinsData.spTotalWins = achievementData.defaultBoardWinsData.spPoolEasyWins + achievementData.defaultBoardWinsData.spPoolMediumWins + achievementData.defaultBoardWinsData.spPoolHardWins
+            + achievementData.defaultBoardWinsData.spSnookerEasyWins + achievementData.defaultBoardWinsData.spSnookerMediumWins + achievementData.defaultBoardWinsData.spSnookerHardWins;
 
-        achievementData.userData.mpTotalWins = achievementData.userData.mpPoolWins + achievementData.userData.mpSnookerWins;
+        achievementData.defaultBoardWinsData.mpTotalWins = achievementData.defaultBoardWinsData.mpPoolWins + achievementData.defaultBoardWinsData.mpSnookerWins;
 
-      //  StartCoroutine(UnLockWin());
-          
+        SaveUserData();
     }
 
     public void AddClient(string clientId)
     {
-        if (!achievementData.boardWinsStats.clientNames.Contains(clientId))
+        if (!achievementData.specialBoardWinsStats.clientNames.Contains(clientId))
         {
-            achievementData.boardWinsStats.clientNames.Add(clientId);
-            SaveUserData();
+            achievementData.specialBoardWinsStats.clientNames.Add(clientId);
             StartCoroutine(UnLockTableHostAchievements());
         }
     }
@@ -383,7 +370,7 @@ public class AchievementManager : MonoBehaviour
     {
 
         yield return null;
-        if (achievementData.userData.totalLogins >= 1)
+        if (achievementData.defaultBoardWinsData.totalLogins >= 1)
         {
             if (!achievementData.IsAchievementUnlockedByName("login1"))
             {
@@ -394,7 +381,7 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.userData.totalLogins >= 3)
+        if (achievementData.defaultBoardWinsData.totalLogins >= 3)
         {
             if (!achievementData.IsAchievementUnlockedByName("login3"))
             {
@@ -405,7 +392,7 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.userData.totalLogins >= 5)
+        if (achievementData.defaultBoardWinsData.totalLogins >= 5)
         {
             if (!achievementData.IsAchievementUnlockedByName("login5"))
             {
@@ -416,13 +403,13 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.userData.totalLogins <= 10)
+        if (achievementData.defaultBoardWinsData.totalLogins <= 10)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("login10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("login10");
-                info.actual = achievementData.userData.totalLogins;
+                info.actual = achievementData.defaultBoardWinsData.totalLogins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
@@ -434,7 +421,7 @@ public class AchievementManager : MonoBehaviour
     {
         yield return null;
 
-        if (achievementData.boardWinsStats.clientNames.Count >= 1)
+        if (achievementData.specialBoardWinsStats.clientNames.Count >= 1)
         {
             if (!achievementData.IsAchievementUnlockedByName("invite1"))
             {
@@ -445,7 +432,7 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.boardWinsStats.clientNames.Count >= 3)
+        if (achievementData.specialBoardWinsStats.clientNames.Count >= 3)
         {
             if (!achievementData.IsAchievementUnlockedByName("invite3"))
             {
@@ -455,7 +442,7 @@ public class AchievementManager : MonoBehaviour
             }
         }
 
-        if (achievementData.boardWinsStats.clientNames.Count >= 5)
+        if (achievementData.specialBoardWinsStats.clientNames.Count >= 5)
         {
             if (!achievementData.IsAchievementUnlockedByName("invite5"))
             {
@@ -466,12 +453,12 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.boardWinsStats.clientNames.Count <= 10)
+        if (achievementData.specialBoardWinsStats.clientNames.Count <= 10)
         {
             if (!achievementData.IsAchievementUnlockedByName("invite10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("invite10");
-                info.actual = achievementData.userData.totalLogins;
+                info.actual = achievementData.defaultBoardWinsData.totalLogins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
@@ -483,7 +470,7 @@ public class AchievementManager : MonoBehaviour
     {
         yield return null;
 
-        if (achievementData.userData.spPoolEasyWins >= 1)
+        if (achievementData.defaultBoardWinsData.spPoolEasyWins >= 1)
         {
             if (!achievementData.IsAchievementUnlockedByName("spPoolEasyWins1"))
             {
@@ -494,7 +481,7 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.userData.spPoolMediumWins >= 1)
+        if (achievementData.defaultBoardWinsData.spPoolMediumWins >= 1)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("spPoolMediumWins1"))
@@ -506,7 +493,7 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.userData.spPoolHardWins >= 1)
+        if (achievementData.defaultBoardWinsData.spPoolHardWins >= 1)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("spPoolHardWins1"))
@@ -518,12 +505,12 @@ public class AchievementManager : MonoBehaviour
 
         }
 
-        if (achievementData.userData.spPoolHardWins <= 10)
+        if (achievementData.defaultBoardWinsData.spPoolHardWins <= 10)
         {
             if (!achievementData.IsAchievementUnlockedByName("spPoolHardWins10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spPoolHardWins10");
-                info.actual = achievementData.userData.spPoolHardWins;
+                info.actual = achievementData.defaultBoardWinsData.spPoolHardWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
@@ -532,7 +519,7 @@ public class AchievementManager : MonoBehaviour
 
 
 
-        if (achievementData.userData.spSnookerEasyWins >= 1)
+        if (achievementData.defaultBoardWinsData.spSnookerEasyWins >= 1)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("spSnookerEasyWins1"))
@@ -544,7 +531,7 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.userData.spSnookerMediumWins >= 1)
+        if (achievementData.defaultBoardWinsData.spSnookerMediumWins >= 1)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("spSnookerMediumWins1"))
@@ -556,7 +543,7 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.userData.spSnookerHardWins >= 1)
+        if (achievementData.defaultBoardWinsData.spSnookerHardWins >= 1)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("spSnookerHardWins1"))
@@ -568,13 +555,13 @@ public class AchievementManager : MonoBehaviour
 
         }
 
-        if (achievementData.userData.spSnookerHardWins <= 10)
+        if (achievementData.defaultBoardWinsData.spSnookerHardWins <= 10)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("spSnookerHardWins10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spSnookerHardWins10");
-                info.actual = achievementData.userData.spSnookerHardWins;
+                info.actual = achievementData.defaultBoardWinsData.spSnookerHardWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
@@ -582,7 +569,7 @@ public class AchievementManager : MonoBehaviour
 
 
 
-        if (achievementData.userData.mpPoolWins >= 1)
+        if (achievementData.defaultBoardWinsData.mpPoolWins >= 1)
         {
             if (!achievementData.IsAchievementUnlockedByName("mpPoolWins1"))
             {
@@ -591,7 +578,7 @@ public class AchievementManager : MonoBehaviour
                 yield return new WaitForSeconds(1);
             }
         }
-        if (achievementData.userData.mpPoolWins >= 3)
+        if (achievementData.defaultBoardWinsData.mpPoolWins >= 3)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("mpPoolWins3"))
@@ -601,7 +588,7 @@ public class AchievementManager : MonoBehaviour
                 yield return new WaitForSeconds(1);
             }
         }
-        if (achievementData.userData.mpPoolWins >= 5)
+        if (achievementData.defaultBoardWinsData.mpPoolWins >= 5)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("mpPoolWins5"))
@@ -612,20 +599,20 @@ public class AchievementManager : MonoBehaviour
             }
         }
 
-        if (achievementData.userData.mpPoolWins <= 10)
+        if (achievementData.defaultBoardWinsData.mpPoolWins <= 10)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("mpPoolWins10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins10");
-                info.actual = achievementData.userData.mpPoolWins;
+                info.actual = achievementData.defaultBoardWinsData.mpPoolWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
         }
 
 
-        if (achievementData.userData.mpSnookerWins >= 1)
+        if (achievementData.defaultBoardWinsData.mpSnookerWins >= 1)
         {
             if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins1"))
             {
@@ -634,7 +621,7 @@ public class AchievementManager : MonoBehaviour
                 yield return new WaitForSeconds(1);
             }
         }
-        if (achievementData.userData.mpSnookerWins >= 3)
+        if (achievementData.defaultBoardWinsData.mpSnookerWins >= 3)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins3"))
@@ -644,7 +631,7 @@ public class AchievementManager : MonoBehaviour
                 yield return new WaitForSeconds(1);
             }
         }
-        if (achievementData.userData.mpSnookerWins >= 5)
+        if (achievementData.defaultBoardWinsData.mpSnookerWins >= 5)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins5"))
@@ -655,13 +642,13 @@ public class AchievementManager : MonoBehaviour
             }
         }
 
-        if (achievementData.userData.mpSnookerWins <= 10)
+        if (achievementData.defaultBoardWinsData.mpSnookerWins <= 10)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins10");
-                info.actual = achievementData.userData.mpSnookerWins;
+                info.actual = achievementData.defaultBoardWinsData.mpSnookerWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
@@ -673,32 +660,32 @@ public class AchievementManager : MonoBehaviour
     {
         yield return null;
 
-        if (achievementData.userData.spTotalWins <= 50)
+        if (achievementData.defaultBoardWinsData.spTotalWins <= 50)
         {
 
             if (!achievementData.IsAchievementUnlockedByName("spTotalWins50"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("spTotalWins50");
-                info.actual = achievementData.userData.spTotalWins;
+                info.actual = achievementData.defaultBoardWinsData.spTotalWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
         }
 
 
-        if (achievementData.userData.mpTotalWins <= 50)
+        if (achievementData.defaultBoardWinsData.mpTotalWins <= 50)
         {
             if (!achievementData.IsAchievementUnlockedByName("mpTotalWins50"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpTotalWins50");
-                info.actual = achievementData.userData.mpTotalWins;
+                info.actual = achievementData.defaultBoardWinsData.mpTotalWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
         }
 
 
-        int totalWins = achievementData.userData.spTotalWins + achievementData.userData.mpTotalWins;
+        int totalWins = achievementData.defaultBoardWinsData.spTotalWins + achievementData.defaultBoardWinsData.mpTotalWins;
         if (totalWins <= 100)
         {
 
@@ -719,7 +706,7 @@ public class AchievementManager : MonoBehaviour
 
         AchievementInfo achievementInfo = null;
 
-        foreach (BoardStats stats in achievementData.boardWinsStats.boardStats)
+        foreach (BoardStats stats in achievementData.specialBoardWinsStats.boardStats)
         {
             achievementInfo = achievementData.GetAchievementByName("spPool" + Enum.GetName(typeof(BoardType), stats.boardType));
 
@@ -783,95 +770,11 @@ public class AchievementManager : MonoBehaviour
         }
 
     }
-    public void LoadUserData()
-    {
-        try
-        {
-            string path = Path.Combine(UnityEngine.Application.persistentDataPath, userDataKey + ".txt");
-            if (File.Exists(path))
-            {
-                string json = File.ReadAllText(path);
-                achievementData.userData = JsonUtility.FromJson<UserData>(json);
-            }
-
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Failed to load user data from file: {e.Message}");
-
-        }
-
-        try
-        {
-            string path = Path.Combine(UnityEngine.Application.persistentDataPath, boardWinsStatsKey + ".txt");
-            if (File.Exists(path))
-            {
-                string json = File.ReadAllText(path);
-                achievementData.boardWinsStats = JsonUtility.FromJson<BoardWinsStats>(json);
-            }
-
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Failed to load board wins stats from file: {e.Message}");
-
-        }
-    }
 
     public void SaveUserData()
     {
-        try
-        {
-            string json = JsonUtility.ToJson(achievementData.userData);
-            string path = Path.Combine(UnityEngine.Application.persistentDataPath, userDataKey + ".txt");
-            File.WriteAllText(path, json);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Failed to save user data to file: {e.Message}");
-        }
-
-        try
-        {
-            string json = JsonUtility.ToJson(achievementData.boardWinsStats);
-            string path = Path.Combine(UnityEngine.Application.persistentDataPath, boardWinsStatsKey + ".txt");
-            File.WriteAllText(path, json);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Failed to save board wins stats to file: {e.Message}");
-        }
+        cloudData.SavePlayerData();
     }
 
-    public void ClearData()
-    {
-        try
-        {
-            string userDataPath = Path.Combine(UnityEngine.Application.persistentDataPath, userDataKey + ".txt");
-            if (File.Exists(userDataPath))
-            {
-                File.Delete(userDataPath);
-                Debug.Log($"Successfully deleted user data file: {userDataPath}");
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Failed to delete user data file: {e.Message}");
-        }
-
-        try
-        {
-            string boardWinsStatsPath = Path.Combine(UnityEngine.Application.persistentDataPath, boardWinsStatsKey + ".txt");
-            if (File.Exists(boardWinsStatsPath))
-            {
-                File.Delete(boardWinsStatsPath);
-                Debug.Log($"Successfully deleted board wins stats file: {boardWinsStatsPath}");
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Failed to delete board wins stats file: {e.Message}");
-        }
-    }
 }
 

@@ -207,8 +207,6 @@ namespace com.VisionXR.Controllers
 
                 achievementData.GetAllAchievemnets();
                 leaderBoardData.GetMyPoints();
-
-
                 purchaseData.GetAllItems();
                 purchaseData.GetPurchasedItems();
 
@@ -264,7 +262,7 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabFailure(PlayFabError error)
         {
-            Debug.Log("Carrom Pool: PlayFab Login Error: " + error.GenerateErrorReport());
+            
 
             cloudData.PlayFabLoginFailure();
         }
