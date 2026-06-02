@@ -3,9 +3,9 @@ using com.VisionXR.ModelClasses;
 using PlayFab;
 using PlayFab.ClientModels;
 using System;
-using System.Collections.Generic; // Added for Dictionary
+using System.Collections; // Required for Coroutines
+using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace com.VisionXR.Controllers
 {
@@ -19,10 +19,11 @@ namespace com.VisionXR.Controllers
         public string defaultBoardsWinsKey = "CarromPoolDefaultBoardsData";
         public string specialBoardWinsKey = "CarromPoolSpecialBoardsData";
 
-
         // Actions
         private Action OnDataFetchSuccessEvent;
         private Action OnDataFetchFailureEvent;
+
+        private Coroutine loadTimeoutCoroutine;
 
         private void OnEnable()
         {
@@ -34,6 +35,9 @@ namespace com.VisionXR.Controllers
         {
             cloudData.LoadPlayerDataEvent -= LoadPlayerData;
             cloudData.SavePlayerDataEvent -= SaveUserData;
+
+            // Safety check to prevent memory leaks if destroyed during loading
+            if (loadTimeoutCoroutine != null) StopCoroutine(loadTimeoutCoroutine);
         }
 
         /// <summary>
@@ -44,9 +48,33 @@ namespace com.VisionXR.Controllers
             OnDataFetchSuccessEvent = OnSuccess;
             OnDataFetchFailureEvent = OnFailure;
 
-            // 2. Immediately after Inventory, Get Custom User Data
-            LoadUserData();
+            // Reset the load state before starting
+            cloudData.isPlayerDataLoaded = false;
 
+            // Start the 5-second timeout coroutine
+            if (loadTimeoutCoroutine != null) StopCoroutine(loadTimeoutCoroutine);
+            loadTimeoutCoroutine = StartCoroutine(LoadPlayerDataRoutine(5f));
+        }
+
+        /// <summary>
+        /// Coroutine that waits for data to load or times out after specified seconds.
+        /// </summary>
+        private IEnumerator LoadPlayerDataRoutine(float timeoutDuration)
+        {
+            float elapsed = 0f;
+
+            // Loop until the data is loaded OR we hit the timeout limit
+            while (!cloudData.isPlayerDataLoaded)
+            {
+                LoadUserData();
+                elapsed += Time.deltaTime;
+                yield return new WaitForSeconds(timeoutDuration); // Wait for the next frame
+            }
+
+
+            Debug.Log("CloudManager: Data loaded successfully within time limit.");
+            OnDataFetchSuccessEvent?.Invoke();
+            loadTimeoutCoroutine = null;
         }
 
         // --- SAVE DATA ---
@@ -54,44 +82,34 @@ namespace com.VisionXR.Controllers
         {
             try
             {
-
-                // Convert your UserData class to JSON string
                 string jsonString = JsonUtility.ToJson(achievementsData.defaultBoardWinsData);
 
                 var request = new UpdateUserDataRequest
                 {
                     Data = new Dictionary<string, string> {
-                    { defaultBoardsWinsKey, jsonString }
-                },
-
+                        { defaultBoardsWinsKey, jsonString }
+                    }
                 };
 
-                PlayFabClientAPI.UpdateUserData(request,
-                    result => { },
-                    OnDataFetchError);
+                PlayFabClientAPI.UpdateUserData(request, result => { }, OnDataFetchError);
             }
             catch (Exception e)
             {
-                Debug.Log("Error saving user data: " + e.Message); 
+                Debug.Log("Error saving user data: " + e.Message);
             }
 
             try
             {
-
-                // Convert your UserData class to JSON string
                 string jsonString = JsonUtility.ToJson(achievementsData.specialBoardWinsStats);
 
                 var request = new UpdateUserDataRequest
                 {
                     Data = new Dictionary<string, string> {
-                    { specialBoardWinsKey, jsonString }
-                },
-
+                        { specialBoardWinsKey, jsonString }
+                    }
                 };
 
-                PlayFabClientAPI.UpdateUserData(request,
-                    result => { },
-                    OnDataFetchError);
+                PlayFabClientAPI.UpdateUserData(request, result => { }, OnDataFetchError);
             }
             catch (Exception e)
             {
@@ -114,25 +132,22 @@ namespace com.VisionXR.Controllers
                 {
                     if (result.Data != null && result.Data.ContainsKey(defaultBoardsWinsKey))
                     {
-                        // Convert the JSON string back into your UserData object
                         string json = result.Data[defaultBoardsWinsKey].Value;
                         achievementsData.defaultBoardWinsData = JsonUtility.FromJson<DefaultBoardWinsData>(json);
-
-                        Debug.Log("user Data Loaded Successfully"+json);
+                        Debug.Log("user Data Loaded Successfully" + json);
                     }
 
                     if (result.Data != null && result.Data.ContainsKey(specialBoardWinsKey))
                     {
-                        // Convert the JSON string back into your BoardWinsStats object
                         string json = result.Data[specialBoardWinsKey].Value;
                         achievementsData.specialBoardWinsStats = JsonUtility.FromJson<SpecialBoardWinsStats>(json);
-
-                        Debug.Log("board stats Data Loaded Successfully"+json);
+                        Debug.Log("board stats Data Loaded Successfully" + json);
                     }
 
-
                     achievementsData.UserLoggedIn();
-                    OnDataFetchSuccessEvent?.Invoke();
+
+                    // Critical: Setting this triggers the coroutine while-loop to stop early!
+                    cloudData.isPlayerDataLoaded = true;
 
                 }, OnDataFetchError);
             }
@@ -144,7 +159,13 @@ namespace com.VisionXR.Controllers
 
         private void OnDataFetchError(PlayFabError error)
         {
-            Debug.Log($"[CloudManager] PlayFab Error: {error.GenerateErrorReport()}");
+            // If PlayFab explicitly returns an error, stop the coroutine immediately
+            if (loadTimeoutCoroutine != null)
+            {
+                StopCoroutine(loadTimeoutCoroutine);
+                loadTimeoutCoroutine = null;
+            }
+
             OnDataFetchFailureEvent?.Invoke();
         }
     }

@@ -43,6 +43,7 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator Start()
         {
+            isLoggedIn = false;
             yield return new WaitForSeconds(0.5f); // Small delay to ensure everything is initialized
 
             if (Application.isEditor)
@@ -66,7 +67,7 @@ namespace com.VisionXR.Controllers
                 return;
             }
 
-            Debug.Log("Url is " + linkurl);
+
             LinkData newData = ConvertStringToLinkData(linkurl);
             uiData.SetGameType(GameType.MultiPlayer);
 
@@ -146,20 +147,8 @@ namespace com.VisionXR.Controllers
         {
             // Simplified Editor Mock
             playerSettings.SetUserNameAndId("Guest_Player", UnityEngine.Random.Range(0, 9999).ToString());
-
-            // If in Editor, use a fixed string so you always log into the same test account
-            // If on Mobile, use the unique Device ID
-            string customId = Application.isEditor ? "Editor_Test_User" : SystemInfo.deviceUniqueIdentifier;
-
-            var request = new LoginWithCustomIDRequest
-            {
-                CustomId = customId,
-                CreateAccount = true,
-                TitleId = PlayFabSettings.TitleId
-            };
-
-            isLoggedIn = true;
-            PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
+            StartCoroutine(ConnectToPlayfab(5));
+            
             if (!isLink)
             {
                 // code here
@@ -198,24 +187,20 @@ namespace com.VisionXR.Controllers
                 string imageUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
 
 
-
                 playerSettings.SetUserNameAndId(name, googleID);
                 playerSettings.SetProfileUrl(imageUrl);
+
+                StartCoroutine(ConnectToPlayfab(5));
                 StartCoroutine(LoadProfileImage());
-                isLoggedIn = true;
-
-
                 achievementData.GetAllAchievemnets();
                 leaderBoardData.GetMyPoints();
                 purchaseData.GetAllItems();
                 purchaseData.GetPurchasedItems();
 
-                RequestTokenAndLoginToPlayFab();
 
                 if (!isLink)
                 {
                     // code here
-
                     uiData.uiManager.ChangeState("Home", true);
                     isFirstTime = false;
                 }
@@ -253,7 +238,7 @@ namespace com.VisionXR.Controllers
         private void OnPlayFabSuccess(LoginResult result)
         {
 
-
+            isLoggedIn = true;
             cloudData.PlayFabLoginSuccess();
 
             //// OPTIONAL: Update PlayFab display name to match Google name
@@ -326,7 +311,40 @@ namespace com.VisionXR.Controllers
             return data;
         }
 
-       
+        private IEnumerator ConnectToPlayfab(float timeoutDuration)
+        {
+            
+
+            // Loop until the data is loaded OR we hit the timeout limit
+            while (!isLoggedIn)
+            {
+                if(Application.isEditor)
+                {
+                    // If in Editor, use a fixed string so you always log into the same test account
+                    // If on Mobile, use the unique Device ID
+                    string customId = Application.isEditor ? "Editor_Test_User" : SystemInfo.deviceUniqueIdentifier;
+
+                    var request = new LoginWithCustomIDRequest
+                    {
+                        CustomId = customId,
+                        CreateAccount = true,
+                        TitleId = PlayFabSettings.TitleId
+                    };
+
+                    PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
+                }
+                else
+                {
+                    RequestTokenAndLoginToPlayFab();
+                }
+
+                yield return new WaitForSeconds(timeoutDuration); // Wait for the next frame
+            }
+
+
+            isLoggedIn = true;
+        }
+
     }
     [Serializable]
     public class LinkData
