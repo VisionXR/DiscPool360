@@ -45,6 +45,7 @@ namespace com.VisionXR.Controllers
         private IEnumerator Start()
         {
             isLoggedIn = false;
+            Application.targetFrameRate = 60;
             yield return new WaitForSeconds(0.5f); // Small delay to ensure everything is initialized
 
             if (Application.isEditor)
