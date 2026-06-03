@@ -2,7 +2,6 @@ using com.VisionXR.ModelClasses;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-// Added for Google Play Games Services
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;

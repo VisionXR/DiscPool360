@@ -29,6 +29,7 @@ namespace com.VisionXR.Controllers
         private bool isFirstTime = true;
         public DestinationPanelView destinationPanelView;
         public ChangeDestinationView changeDestinationPanelView;
+      
 
         private void Awake()
         {
@@ -211,6 +212,8 @@ namespace com.VisionXR.Controllers
                     uiData.uiManager.ChangeState("Link", true);
                     isLink = false;
                 }
+
+               
             }
 
         }
