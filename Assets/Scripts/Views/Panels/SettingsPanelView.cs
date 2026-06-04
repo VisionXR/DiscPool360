@@ -29,6 +29,7 @@ namespace com.VisionXR.Views
 
 
         [Header("Audio Objects")]
+        public Toggle hapticsToggle;
         public Slider bgSlider;
         public AudioSource BGAudioSource;
 
@@ -123,6 +124,12 @@ namespace com.VisionXR.Views
         public void BGMusicChanged(float val)
         {
             BGAudioSource.volume = val;
+        }
+
+        public void HapticsChanged()
+        {
+            Debug.Log("Haptics " + hapticsToggle.isOn);
+            userData.SetHaptics(hapticsToggle.isOn);
         }
 
 

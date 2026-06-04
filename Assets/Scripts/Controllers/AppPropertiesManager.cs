@@ -6,6 +6,7 @@ public class AppPropertiesManager : MonoBehaviour
 {
     [Header("Controller Settings")]
     public AppPropertiesDataSO appPropertiesData;
+    public UserDataSO userData;
 
     // Android Native Vibration Cache
     private AndroidJavaObject vibrator = null;
@@ -52,17 +53,22 @@ public class AppPropertiesManager : MonoBehaviour
     // Normal vibration (uses your custom duration loop)
     public void StartVibration()
     {
-        StopAllCoroutines(); // Ensure no overlapping vibration timers are running
-        StartCoroutine(PlayHapticVibrationCoroutine());
+        if (userData.isToggle)
+        {
+            StopAllCoroutines(); // Ensure no overlapping vibration timers are running
+            StartCoroutine(PlayHapticVibrationCoroutine());
+        }
     }
 
     // Striker collision vibration (typically a quick, snappy response pulse)
     public void StartStrikerVibration()
     {
-        StopAllCoroutines();
-
-        // Quick 40ms buzz perfect for physical game collisions (like a striker hit)
-        VibrateAndroidNative(100);
+        if (userData.isToggle)
+        {
+            StopAllCoroutines();
+            // Quick 40ms buzz perfect for physical game collisions (like a striker hit)
+            VibrateAndroidNative(100);
+        }
     }
 
     // Summary: Start haptic vibration for a given duration

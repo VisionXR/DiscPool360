@@ -16,6 +16,7 @@ namespace com.VisionXR.ModelClasses
         public string MyOculusId;
         public float bgMusicVolume = 1f;
         public int myBoard = 0;
+        public bool isToggle = false;
         public CoinsType myCoins;
         public GuideType myGuide;
         public DominantHand myDominantHand;
@@ -69,6 +70,11 @@ namespace com.VisionXR.ModelClasses
         public void SetDominantHand(DominantHand hand)
         {
             myDominantHand = hand;
+        }
+
+        public void SetHaptics(bool isOn)
+        {
+            isToggle = isOn;
         }
     }
 }
