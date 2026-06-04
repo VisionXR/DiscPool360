@@ -128,7 +128,7 @@ namespace com.VisionXR.Views
 
         public void HapticsChanged()
         {
-            Debug.Log("Haptics " + hapticsToggle.isOn);
+            
             userData.SetHaptics(hapticsToggle.isOn);
         }
 
