@@ -52,7 +52,7 @@ namespace com.VisionXR.HelperClasses
     public enum StateName { TestState, LeaderBoardState, AchievementsState, RulesState, SettingsState, PurchaseState, QuitState ,
         IdleState, HomeState, SinglePlayerState, SPInGameState, SPGameCompletedState, SPLeaderBoardState, SPPauseState, SPSettingsState, SPRulesState,
         MultiPlayerState, MPDestinationState, JoinRoomState, LobbyState,ExitLobbyState, MPInGameState, MPPauseState, MPSettingsState, MPRulesState,
-        MPGameCompletedState, MPLeaderBoardState, MPHostDisconnectedState, MPClientDisconnectState, ChangeDestinationState,Tutorial
+        MPGameCompletedState, MPLeaderBoardState, MPHostDisconnectedState, MPClientDisconnectState, ChangeDestinationState,Tutorial,InfoState
     }
 
     public enum AchievementSection { SinglePlayer, MultiPlayer, General }
