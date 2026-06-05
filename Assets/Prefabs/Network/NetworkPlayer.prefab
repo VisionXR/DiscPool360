@@ -61,7 +61,7 @@ MonoBehaviour:
   frameDuration: 20000
   bitrate: 30000
   sourceType: 0
-  microphoneType: 1
+  microphoneType: 0
   audioClip: {fileID: 0}
   loopAudioClip: 0
   recordingEnabled: 0
@@ -208,10 +208,10 @@ MonoBehaviour:
   aec: 1
   aecHighPass: 0
   agc: 1
-  agcCompressionGain: 9
+  agcCompressionGain: 15
   agcTargetLevel: 3
   vad: 1
-  highPass: 1
+  highPass: 0
   noiseSuppression: 1
   reverseStreamDelayMs: 80
 --- !u!1 &8191997661384607171
