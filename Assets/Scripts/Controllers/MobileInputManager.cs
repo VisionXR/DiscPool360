@@ -37,6 +37,7 @@ namespace com.VisionXR.Controllers
         public float cutoffValue = 0.1f;
         public float rotationSensitivity = 1;
         public bool isRotationStarted = false;
+        public bool isAimStarted = false;
 
 
 
@@ -135,6 +136,7 @@ namespace com.VisionXR.Controllers
         {
             if (EventSystem.current.IsPointerOverGameObject())
             {
+                Debug.Log("Pointer on ui");
                 return;
             }
 
@@ -161,6 +163,9 @@ namespace com.VisionXR.Controllers
                 }
             }
 
+
+            isAimStarted = true;
+
         }
 
         private void HandleTouchUpdate(Vector2 touch)
@@ -170,11 +175,11 @@ namespace com.VisionXR.Controllers
             {
                 inputData.FoulPinchContinued(touch);
             }
-            else if(isRotationStarted)
+            else if (isRotationStarted)
             {
                 inputData.RotationPinchContinued(touch);
-            }   
-            else
+            }
+            else if (isAimStarted)
             {
                 // 1. Calculate absolute vector distance from start position (accounts for any direction diagonal/vertical)
                 float totalDistance = Vector2.Distance(touch, swipeStartPosition);
@@ -209,37 +214,38 @@ namespace com.VisionXR.Controllers
             {
                 inputData.FoulPinchEnded(touch);
             }
-            else if(isRotationStarted)
+            else if (isRotationStarted)
             {
                 inputData.RotationPinchEnded(touch);
                 isRotationStarted = false;
-            }        
-            else
-            {
-                // 1. Calculate absolute vector distance from start position (accounts for any direction diagonal/vertical)
-                float totalDistance = Vector2.Distance(touch, swipeStartPosition);
-                float swipeTime = Time.time - swipeStartTime;
-
-                // 2. Check if the overall physical movement breaks your minimum distance threshold
-                if (swipeTime > 0 && totalDistance > swipeminDistanceThreshold)
+            }
+            else if (isAimStarted) 
                 {
-                    // 3. Determine if the touch position is left or right relative to the starting touch down spot
-                    float directionSign = (touch.x >= swipeStartPosition.x) ? 1f : -1f;
+                    // 1. Calculate absolute vector distance from start position (accounts for any direction diagonal/vertical)
+                    float totalDistance = Vector2.Distance(touch, swipeStartPosition);
+                    float swipeTime = Time.time - swipeStartTime;
 
-                    // 4. Calculate total velocity path magnitude, then apply direction sign layout rules
-                    float velocityMagnitude = totalDistance / swipeTime;
-                    float signedVelocity = velocityMagnitude * directionSign;
+                    // 2. Check if the overall physical movement breaks your minimum distance threshold
+                    if (swipeTime > 0 && totalDistance > swipeminDistanceThreshold)
+                    {
+                        // 3. Determine if the touch position is left or right relative to the starting touch down spot
+                        float directionSign = (touch.x >= swipeStartPosition.x) ? 1f : -1f;
 
-                    float normalizedVelocity = signedVelocity / Screen.width;
+                        // 4. Calculate total velocity path magnitude, then apply direction sign layout rules
+                        float velocityMagnitude = totalDistance / swipeTime;
+                        float signedVelocity = velocityMagnitude * directionSign;
 
-                    inputData.Swiped(normalizedVelocity * rotationSensitivity);              
+                        float normalizedVelocity = signedVelocity / Screen.width;
 
+                        inputData.Swiped(normalizedVelocity * rotationSensitivity);
+
+                    }
+
+                    inputData.SwipeCompleted(rotationSensitivity);
+                    isAimStarted = false;
                 }
 
-                inputData.SwipeCompleted( rotationSensitivity);
             }
 
         }
-
     }
-}
