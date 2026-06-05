@@ -146,6 +146,11 @@ namespace com.VisionXR.Views
                     adButtons[i].gameObject.SetActive(false);
                 }
             }
+
+            if(Application.isEditor)
+            {
+                UnlockBoards(0, 20);
+            }
         }
 
         private void UnlockBoards(int startIndex, int endIndex)

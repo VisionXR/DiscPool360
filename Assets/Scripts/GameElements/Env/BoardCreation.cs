@@ -25,6 +25,7 @@ public class BoardCreation : MonoBehaviour
         userData.CreateSameBoardEvent += CreateSameBoard;
 
         CreateBoard(0);
+        userData.myBoard = 0;
     }
 
     private void OnDisable()

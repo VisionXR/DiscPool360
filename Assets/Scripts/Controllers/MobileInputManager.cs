@@ -73,7 +73,7 @@ namespace com.VisionXR.Controllers
                 return;
             }
 
-            if (EventSystem.current.IsPointerOverGameObject() || !inputData.isInputEnabled) return;
+            if (!inputData.isInputEnabled) return;
 
             HandleTouchInput();
         }
@@ -133,7 +133,10 @@ namespace com.VisionXR.Controllers
 
         private void HandleTouchBegan(Vector2 touch)
         {
-
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
 
             swipeStartPosition = touch;
             swipeStartTime = Time.time;
