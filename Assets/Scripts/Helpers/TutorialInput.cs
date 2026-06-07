@@ -25,7 +25,6 @@ namespace com.VisionXR.GameElements
         public LineRenderer lineRenderer;
 
 
-
         private void OnEnable()
         {
             inputData.FireStrikeEvent += FireStriker;

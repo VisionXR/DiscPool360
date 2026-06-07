@@ -1,11 +1,9 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using Photon.Voice;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-
-
-
 
 namespace com.VisionXR.Views
 {
@@ -27,22 +25,24 @@ namespace com.VisionXR.Views
 
         [Header("Animations Objects")]
         public GameObject CentralUI;
-
+        public GameObject BoardRotationObject;
+        public GameObject AimObject;
+        public GameObject PocketCoinObject;
+        public Animator swipeAnimator;
 
 
         private void OnEnable()
         {
-           
-         
+                  
             Reset();
-           tutorialData.ShowTutorialStepEvent += ShowTutorialStep;
+            tutorialData.ShowTutorialStepEvent += ShowTutorialStep;
             tutorialData.ShowTutorialStepSuccessEvent += ShowTutorialStepSuccess;
             tutorialData.ShowTutorialStepFailedEvent += ShowTutorialStepFailed;
         }
 
         private void OnDisable()
         {
-           tutorialData.ShowTutorialStepEvent -= ShowTutorialStep;
+            tutorialData.ShowTutorialStepEvent -= ShowTutorialStep;
             tutorialData.ShowTutorialStepSuccessEvent -= ShowTutorialStepSuccess;
             tutorialData.ShowTutorialStepFailedEvent -= ShowTutorialStepFailed;
         }
@@ -73,6 +73,8 @@ namespace com.VisionXR.Views
 
         private void ShowTutorialStepSuccess(string content, AudioClip clip)
         {
+            ResetObjects();
+            CentralUI.SetActive(true);
             SuccessFailurerText.text = content;
 
             if (clip != null)
@@ -88,8 +90,45 @@ namespace com.VisionXR.Views
         {
             StepNumberText.text = "Step " + stepNumber + "/" + tutorialData.totalSteps;
             SuccessFailurerText.text = "";
+            ContentText.text = contentText;
             NextBtn.SetActive(false);
             PlayBtn.SetActive(false);
+            ResetObjects();
+            ResetStates();
+
+            if (stepType == InteractiveStepType.None)
+            {
+                CentralUI.SetActive(true);
+
+                StartCoroutine(WaitAndShowNextBtn(5f));
+            }
+            else
+            {
+                CentralUI.SetActive(false);
+
+            }
+
+
+            if(stepType == InteractiveStepType.BoardRotation)
+            {
+               BoardRotationObject.SetActive(true);
+               swipeAnimator.SetBool("BoardRotation", true);
+               swipeAnimator.SetBool("BoardHandAnimation", true);
+            }
+
+            if (stepType == InteractiveStepType.BoardRotation)
+            {
+                AimObject.SetActive(true);
+                swipeAnimator.SetBool("LeftText", true);    
+                swipeAnimator.SetBool("LeftHand", true);    
+            }
+
+
+                if (audioClip != null)
+            {
+                audioSource.clip = audioClip;
+                audioSource.Play();
+            }
 
         }
 
@@ -126,6 +165,25 @@ namespace com.VisionXR.Views
             tutorialData.SkipBtnClcikedEvent?.Invoke();
         }
 
-    
+
+        public void ResetObjects()
+        {
+            BoardRotationObject.SetActive(false);
+            AimObject.SetActive(false);
+            PocketCoinObject.SetActive(false);
+            CentralUI.SetActive(false);
+        }
+
+        public void ResetStates()
+        {
+            swipeAnimator.SetBool("BoardRotation", false);
+            swipeAnimator.SetBool("BoardHandAnimation", false);
+            swipeAnimator.SetBool("LeftText", false);
+            swipeAnimator.SetBool("LeftHand", false);
+            swipeAnimator.SetBool("RightText", false);
+            swipeAnimator.SetBool("RightHand", false);
+            swipeAnimator.SetBool("PocketCoin", false);
+        }
+
     }
 }

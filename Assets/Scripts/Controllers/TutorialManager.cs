@@ -21,6 +21,7 @@ namespace com.VisionXR.Controllers
 
 
         [Header("Game Objects")]
+        public TutorialPanelView tutorialPanelView;
         public GameObject tutorialBoard;
         public GameObject tutorialStriker;
         public GameObject glowStriker;
@@ -146,9 +147,6 @@ namespace com.VisionXR.Controllers
                 _currentStepIndex = i;
                 _stepCompleted = false;
 
-                // Optional: if your TutorialStep has enter/exit hooks, you can call them here
-                // tutorialSteps[i].BeginStep();
-
                 currentStep = tutorialSteps[i];
 
             
@@ -168,8 +166,6 @@ namespace com.VisionXR.Controllers
                     tutorialSteps[i].interactiveStepType,
                     audioDuration
                 );
-
-
 
 
                 if (currentStep.interactiveStepType == InteractiveStepType.BoardRotation)
@@ -245,7 +241,7 @@ namespace com.VisionXR.Controllers
         {
             if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.BoardRotation)
             {
-
+                tutorialPanelView.ResetObjects();
             }
         }
 
