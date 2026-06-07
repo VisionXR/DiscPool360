@@ -97,7 +97,6 @@ namespace com.VisionXR.Views
             ResetObjects();
             ResetStates();
 
-            Debug.Log(" Step Number is " + stepNumber);
 
             if (stepType == InteractiveStepType.None)
             {
