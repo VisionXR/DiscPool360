@@ -44,6 +44,17 @@ namespace com.VisionXR.ModelClasses
             }
         }
 
+        public void UpdateLocalProgress(string apiName,int actualCount)
+        {
+            foreach (AchievementInfo info in AllAchievementInfo)
+            {
+                if (info.apiName == apiName)
+                {
+                    info.actual = actualCount;
+                }
+            }
+        }
+
 
         public AchievementInfo GetAchievementByName(string name)
         {

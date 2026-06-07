@@ -19,9 +19,7 @@ namespace com.VisionXR.Views
         public string currentState;
        
 
-
-        [Header("List Elements")]
-     
+        [Header("List Elements")] 
         public List<TMP_Text> boardPriceTexts;
 
         private void OnEnable()

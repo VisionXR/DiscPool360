@@ -1,4 +1,5 @@
 using com.VisionXR.HelperClasses;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing; // Required for Unity IAP
@@ -11,6 +12,9 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
     private IStoreController storeController; // Handles purchases and queries
     private IExtensionProvider storeExtensionProvider; // Accesses platform-specific stores (Google Play)
 
+    private Coroutine allItemsRoutine;
+    private Coroutine purchasedItemsRoutine;
+
     private void Start()
     {
         InitializeUnityIAP();
@@ -21,7 +25,6 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         purchaseData.GetPurchasedItemsEvent += GetPurchasedItems;
         purchaseData.GetAllItemsEvent += GetAllItems;
         purchaseData.RefreshDataEvent += RefreshData;
-
         purchaseData.BuyProductEvent += BuyProduct;
     }
 
@@ -30,29 +33,25 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         purchaseData.GetPurchasedItemsEvent -= GetPurchasedItems;
         purchaseData.GetAllItemsEvent -= GetAllItems;
         purchaseData.RefreshDataEvent -= RefreshData;
-
         purchaseData.BuyProductEvent -= BuyProduct;
+
+        // Stop routines if the object gets disabled to avoid memory leaks or reference errors
+        StopRunningRoutines();
     }
 
     private void InitializeUnityIAP()
     {
-        // Don't initialize if already set up or if you don't have IDs configured
         if (storeController != null || purchaseData.allSkusData == null)
             return;
 
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-        // Register all your board IDs from your ScriptableObject as Non-Consumable items
         foreach (string sku in purchaseData.allSkusData)
         {
             builder.AddProduct(sku, ProductType.NonConsumable);
         }
 
-        // Kick off asynchronous initialization
         UnityPurchasing.Initialize(this, builder);
-
-        //GetPurchasedItems();
-        // GetAllItems();
     }
 
     public void RefreshData()
@@ -61,81 +60,24 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         GetPurchasedItems();
     }
 
-    // 1. Fetches items that the player has already bought
+    // 1. Triggers the Coroutine to fetch items that the player has already bought
     public void GetPurchasedItems()
     {
-        if (storeController == null)
+        if (purchasedItemsRoutine != null)
         {
-            Debug.LogWarning("IAP not initialized yet.");
-            return;
+            StopCoroutine(purchasedItemsRoutine);
         }
-
-       
-
-        List<string> purchasedSkus = new List<string>();
-
-
-        List<AssetData> assetDatas = new List<AssetData>();
-
-        // Loop through all products registered in the application
-        foreach (var product in storeController.products.all)
-        {
-            AssetData data = new AssetData();
-            data.productId = product.definition.id;
-            // If it's owned (non-consumables retain ownership on the device/account)
-            if (product.hasReceipt)
-            {
-                data.isPurchased = true;
-                assetDatas.Add(data);
-                Debug.Log("Purchased "+ purchaseData.GetBoardByProductId(data.productId).skuName);
-            }
-
-        }
-
-        
-        // Send the owned SKUs back to your ScriptableObject data holder
-        purchaseData.SetPurchasedItems(assetDatas);
+        purchasedItemsRoutine = StartCoroutine(GetPurchasedItemsRoutine());
     }
 
-    // 2. Fetches all registered products along with their localized currency prices
+    // 2. Triggers the Coroutine to fetch all registered products with localized pricing
     public void GetAllItems()
     {
-        if (storeController == null)
+        if (allItemsRoutine != null)
         {
-            Debug.LogWarning("IAP not initialized yet.");
-            return;
+            StopCoroutine(allItemsRoutine);
         }
-
-        List<AssetData> assetDatas = new List<AssetData>();
-
-        foreach (var product in storeController.products.all)
-        {
-            AssetData data = new AssetData();
-            data.productId = product.definition.id;
-
-            // 1. Grab the raw price number (e.g., 50)
-            decimal rawPrice = product.metadata.localizedPrice;
-
-            // 2. Grab the clean ISO currency code (e.g., "INR")
-            string currencyCode = product.metadata.isoCurrencyCode;
-
-            // 3. Format it safely based on the currency
-            if (currencyCode == "INR")
-            {
-                // Force "Rs. 50" instead of letting a broken symbol render
-                data.Price = "Rs. " + rawPrice.ToString("N0"); // N0 removes decimals if you don't need them (e.g., 50 instead of 50.00)
-            }
-            else
-            {
-                // Fallback fallback option: For other countries, use their clean 3-letter code like "50 USD" or "5 EUR"
-                data.Price = rawPrice.ToString("N2") + " " + currencyCode;
-            }
-
-            assetDatas.Add(data);
-        }
-
-
-        purchaseData.SetPriceOfItems(assetDatas);
+        allItemsRoutine = StartCoroutine(GetAllItemsRoutine());
     }
 
     // 3. Call this method from your UI buttons when a user wants to buy a board
@@ -147,7 +89,6 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
 
             if (product != null && product.availableToPurchase)
             {
-                
                 storeController.InitiatePurchase(product);
             }
             else
@@ -161,12 +102,96 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         }
     }
 
+    private void StopRunningRoutines()
+    {
+        if (allItemsRoutine != null) StopCoroutine(allItemsRoutine);
+        if (purchasedItemsRoutine != null) StopCoroutine(purchasedItemsRoutine);
+    }
+
+    #region Coroutines for Data Fetching
+
+    private IEnumerator GetPurchasedItemsRoutine()
+    {
+        // Wait gracefully if the store controller is still initializing
+        if (storeController == null)
+        {
+            Debug.Log("GetPurchasedItems waiting for IAP initialization...");
+            yield return new WaitUntil(() => storeController != null);
+        }
+
+        List<AssetData> assetDatas = new List<AssetData>();
+
+        // Loop through all products registered in the application
+        foreach (var product in storeController.products.all)
+        {
+            AssetData data = new AssetData();
+            data.productId = product.definition.id;
+
+            // If it's owned (non-consumables retain ownership on the device/account)
+            if (product.hasReceipt)
+            {
+                data.isPurchased = true;
+                assetDatas.Add(data);
+
+                var board = purchaseData.GetBoardByProductId(data.productId);
+                if (board != null)
+                {
+                    Debug.Log("Purchased " + board.skuName);
+                }
+            }
+        }
+
+        // Send the owned SKUs back to your ScriptableObject data holder
+        purchaseData.SetPurchasedItems(assetDatas);
+        purchasedItemsRoutine = null;
+    }
+
+    private IEnumerator GetAllItemsRoutine()
+    {
+        // Wait gracefully if the store controller is still initializing
+        if (storeController == null)
+        {
+            Debug.Log("GetAllItems waiting for IAP initialization...");
+            yield return new WaitUntil(() => storeController != null);
+        }
+
+        List<AssetData> assetDatas = new List<AssetData>();
+
+        foreach (var product in storeController.products.all)
+        {
+            AssetData data = new AssetData();
+            data.productId = product.definition.id;
+
+            // 1. Grab the raw price number
+            decimal rawPrice = product.metadata.localizedPrice;
+
+            // 2. Grab the clean ISO currency code
+            string currencyCode = product.metadata.isoCurrencyCode;
+
+            // 3. Format it safely based on the currency
+            if (currencyCode == "INR")
+            {
+                data.Price = "Rs. " + rawPrice.ToString("N0");
+            }
+            else
+            {
+                data.Price = rawPrice.ToString("N2") + " " + currencyCode;
+            }
+
+            assetDatas.Add(data);
+        }
+
+        // Apply all compiled prices back to the scriptable object once the loop finishes
+        purchaseData.SetPriceOfItems(assetDatas);
+        allItemsRoutine = null;
+    }
+
+    #endregion
+
     #region Unity IAP Interface Implementation (IStoreListener)
 
-    // Automatically runs when Unity IAP successfully connects to Google Play Store
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
     {
-        
         storeController = controller;
         storeExtensionProvider = extensions;
 
@@ -184,17 +209,15 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         Debug.LogError($"Unity IAP Initialization Failed: {error}. Message: {message}");
     }
 
-    // Automatically triggers when a purchase attempt completes successfully
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
         string prodctId = args.purchasedProduct.definition.id;
-       
 
         purchaseData.MarkBoardAsPurchased(prodctId);
+
         // Instantly recalculate owned items to grant access to the board
         RefreshData();
 
-        // Return Complete to signal Unity IAP to automatically handle transaction acknowledgement 
         return PurchaseProcessingResult.Complete;
     }
 

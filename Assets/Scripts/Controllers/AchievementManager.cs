@@ -62,13 +62,14 @@ public class AchievementManager : MonoBehaviour
             // Update achievement data with fetched achievements
             foreach (var achievement in achievements)
             {
+
+                achievementData.UpdateLocalProgress(achievement.id, (int)achievement.percentCompleted);
+                // 1. Check if it's fully unlocked (Works for BOTH Simple and Incremental)
                 if (achievement.completed)
                 {
-
                     achievementData.UnLockLocal(achievement.id);
-                }
-
-                //  Debug.Log($"Achievement: {achievement.id}, Completed: {achievement.completed}, percentCompleted: {achievement.percentCompleted}");
+                    
+                }            
             }
 
         });

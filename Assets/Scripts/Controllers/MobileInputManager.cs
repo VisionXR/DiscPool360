@@ -136,7 +136,7 @@ namespace com.VisionXR.Controllers
         {
             if (EventSystem.current.IsPointerOverGameObject())
             {
-                Debug.Log("Pointer on ui");
+              //  Debug.Log("Pointer on ui");
                 return;
             }
 

@@ -191,13 +191,13 @@ namespace com.VisionXR.Controllers
 
                 playerSettings.SetUserNameAndId(name, googleID);
                 playerSettings.SetProfileUrl(imageUrl);
-
+                purchaseData.GetAllItems();
+                purchaseData.GetPurchasedItems();
                 StartCoroutine(ConnectToPlayfab(5));
                 StartCoroutine(LoadProfileImage());
                 achievementData.GetAllAchievemnets();
                 leaderBoardData.GetMyPoints();
-                purchaseData.GetAllItems();
-                purchaseData.GetPurchasedItems();
+              
 
 
                 if (!isLink)

@@ -156,12 +156,28 @@ public class StrikerShooting : MonoBehaviour
     private IEnumerator WaituntilStrikeFinished()
     {
 
-        yield return new WaitUntil(() => strikerRigidbody.linearVelocity.magnitude < 0.005f);
-        yield return new WaitForSeconds(5);
+        float elaspsedTime = 0;
+
+      
+        while (!strikerRigidbody.IsSleeping() && elaspsedTime < 10)
+        {
+            // Yielding WaitForFixedUpdate ensures we check sync'd with the physics engine, 
+            // completely bypassing frame rate variance.
+            yield return new WaitForFixedUpdate();
+            elaspsedTime += Time.fixedDeltaTime;
+        }
+
+        // 2. Force it to a complete stop to prevent micro-drifting
+        strikerRigidbody.linearVelocity = Vector3.zero;
+        strikerRigidbody.angularVelocity = Vector3.zero;
+
+        // 3. Reduced the wait time (Adjust 6f to something lower like 0.5f or 1f if 6s was a bug)
+        yield return new WaitForSeconds(2.0f);
+
+        // 4. Clean up and trigger next turn
         strikerData.StrikerStopped();
         strikerArrow.ChangeColorOfArrow(0);
         WaitRoutine = null;
-
     }
 
     public void TurnOffArrow()
