@@ -63,7 +63,7 @@ namespace com.VisionXR.Views
         private void ShowTutorialStepFailed(string content, AudioClip clip)
         {
             SuccessFailurerText.text = content;
-
+            ContentText.text = "";
             if (clip != null)
             {
                 audioSource.clip = clip;
@@ -76,6 +76,7 @@ namespace com.VisionXR.Views
             ResetObjects();
             CentralUI.SetActive(true);
             SuccessFailurerText.text = content;
+            ContentText.text = "";
 
             if (clip != null)
             {
@@ -96,11 +97,20 @@ namespace com.VisionXR.Views
             ResetObjects();
             ResetStates();
 
+            Debug.Log(" Step Number is " + stepNumber);
+
             if (stepType == InteractiveStepType.None)
             {
                 CentralUI.SetActive(true);
 
-                StartCoroutine(WaitAndShowNextBtn(5f));
+                if (stepNumber == 1)
+                {
+                    StartCoroutine(WaitAndShowNextBtn(5f));
+                }
+                else if (stepNumber == 5)
+                {
+                    StartCoroutine(WaitAndShowPlayBtn(5f));
+                }
             }
             else
             {
@@ -116,15 +126,21 @@ namespace com.VisionXR.Views
                swipeAnimator.SetBool("BoardHandAnimation", true);
             }
 
-            if (stepType == InteractiveStepType.BoardRotation)
+            if (stepType == InteractiveStepType.Aiming)
             {
                 AimObject.SetActive(true);
                 swipeAnimator.SetBool("LeftText", true);    
                 swipeAnimator.SetBool("LeftHand", true);    
             }
 
+            if (stepType == InteractiveStepType.Striking)
+            {
+                PocketCoinObject.SetActive(true);
+                swipeAnimator.SetBool("PocketCoin", true);  
+            }
 
-                if (audioClip != null)
+
+            if (audioClip != null)
             {
                 audioSource.clip = audioClip;
                 audioSource.Play();
