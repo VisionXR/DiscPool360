@@ -199,7 +199,6 @@ namespace com.VisionXR.Controllers
                 leaderBoardData.GetMyPoints();
               
 
-
                 if (!isLink)
                 {
                     // code here
