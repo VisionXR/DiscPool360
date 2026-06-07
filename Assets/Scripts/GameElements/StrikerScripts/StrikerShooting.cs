@@ -159,7 +159,7 @@ public class StrikerShooting : MonoBehaviour
         float elaspsedTime = 0;
 
       
-        while (!strikerRigidbody.IsSleeping() && elaspsedTime < 10)
+        while (!strikerRigidbody.IsSleeping() && elaspsedTime < 8)
         {
             // Yielding WaitForFixedUpdate ensures we check sync'd with the physics engine, 
             // completely bypassing frame rate variance.
