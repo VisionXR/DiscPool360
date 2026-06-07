@@ -62,12 +62,6 @@ public class TutorialTestWindow : EditorWindow
             return;
         }
 
-        // Match striker rotation with glow striker rotation
-        if (tutorialManager.tutorialStriker != null && tutorialManager.glowStriker != null)
-        {
-            tutorialManager.tutorialStriker.transform.localEulerAngles =
-                tutorialManager.glowStriker.transform.localEulerAngles;
-        }
 
         MethodInfo tappedMethod = typeof(TutorialManager).GetMethod(
             "Tapped",

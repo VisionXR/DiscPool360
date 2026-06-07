@@ -24,7 +24,6 @@ namespace com.VisionXR.Controllers
         public TutorialPanelView tutorialPanelView;
         public GameObject tutorialBoard;
         public GameObject tutorialStriker;
-        public GameObject glowStriker;
         public GameObject tutorialCoin;
         public InputCanvasView inputCanvasView;
 
@@ -93,7 +92,7 @@ namespace com.VisionXR.Controllers
 
             tutorialBoard.SetActive(false);
             tutorialStriker.SetActive(false);
-            glowStriker.SetActive(false);
+           
             tutorialCoin.SetActive(false);
             inputData.DisableInput();
             tutorialData.canIAim = false;
@@ -182,7 +181,7 @@ namespace com.VisionXR.Controllers
                     tutorialStriker.SetActive(true);
                     tutorialStriker.transform.localPosition = strikerInitPosition;
                     tutorialStriker.transform.localEulerAngles = Vector3.zero;
-                    glowStriker.SetActive(true);
+                    
 
                     strikerArrow.TurnOnDisplayArrow();
                     tutorialData.canIAim = true;
@@ -197,8 +196,7 @@ namespace com.VisionXR.Controllers
                     tutorialStriker.SetActive(true);
                     tutorialStriker.transform.localPosition = strikerInitPosition;
                     tutorialStriker.transform.localEulerAngles = Vector3.zero;
-                    glowStriker.SetActive(true);
-                    glowStriker.transform.localEulerAngles = currentStep.strikingStrikerRotation;
+                  
                     inputData.EnableInput();
                     tutorialData.canIAim = true;
                     tutorialData.canIFire = true;
@@ -265,7 +263,7 @@ namespace com.VisionXR.Controllers
                     // Aimed properly
                     tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
                     tutorialStriker.SetActive(false);
-                    glowStriker.SetActive(false);
+                 
                     inputData.DisableInput();
                     tutorialData.canIAim = false;
                 
@@ -274,7 +272,7 @@ namespace com.VisionXR.Controllers
 
         private void StrikeStarted()
         {
-            glowStriker.SetActive(false);
+          
             inputCanvasView.TurnOff();
         }
 
@@ -293,8 +291,6 @@ namespace com.VisionXR.Controllers
                     tutorialStriker.SetActive(false);
 
 
-                    glowStriker.SetActive(false);
-
                     tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
                     strikerData.SetFoul(false);
                     tutorialCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
@@ -311,7 +307,7 @@ namespace com.VisionXR.Controllers
                 {
                     inputData.EnableInput();
                     strikerArrow.TurnOnArrow();
-                    glowStriker.SetActive(true);
+                    
                     tutorialData.ShowTutorialStepFailed(currentStep.failureText, currentStep.failureAudio);
 
                     tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
