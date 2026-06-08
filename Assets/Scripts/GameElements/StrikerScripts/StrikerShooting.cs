@@ -16,7 +16,7 @@ public class StrikerShooting : MonoBehaviour
     [Header(" Local variables ")]
     public StrikerArrow strikerArrow;
     public Rigidbody strikerRigidbody;
-    
+    public float timeDelay = 5;
 
     // actions
     public Action<float> StrikeForceChangedEvent;
@@ -118,7 +118,7 @@ public class StrikerShooting : MonoBehaviour
         float elaspsedTime = 0;
 
       
-        while (!strikerRigidbody.IsSleeping() && elaspsedTime < 6)
+        while (!strikerRigidbody.IsSleeping() && elaspsedTime < timeDelay)
         {
             // Yielding WaitForFixedUpdate ensures we check sync'd with the physics engine, 
             // completely bypassing frame rate variance.

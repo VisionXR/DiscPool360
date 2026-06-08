@@ -13,6 +13,7 @@ namespace com.VisionXR.Controllers
     {
         [Header("Scriptable Objects")]
         public CloudDataSO cloudData;
+        public UserDataSO userData;
         public AchievementsDataSO achievementsData;
 
         [Header("Keys")]
@@ -29,12 +30,14 @@ namespace com.VisionXR.Controllers
         {
             cloudData.LoadPlayerDataEvent += LoadPlayerData;
             cloudData.SavePlayerDataEvent += SaveUserData;
+            userData.DeleteAccountEvent += DeleteUserData;
         }
 
         private void OnDisable()
         {
             cloudData.LoadPlayerDataEvent -= LoadPlayerData;
             cloudData.SavePlayerDataEvent -= SaveUserData;
+            userData.DeleteAccountEvent -= DeleteUserData;
 
             // Safety check to prevent memory leaks if destroyed during loading
             if (loadTimeoutCoroutine != null) StopCoroutine(loadTimeoutCoroutine);
@@ -154,6 +157,35 @@ namespace com.VisionXR.Controllers
             catch (Exception e)
             {
                 Debug.Log("Error loading data " + e.Message);
+            }
+        }
+
+        // --- DELETE DATA ---
+        public void DeleteUserData()
+        {
+            var request = new UpdateUserDataRequest
+            {
+                Data = new Dictionary<string, string> {
+                    { defaultBoardsWinsKey, null },
+                    { specialBoardWinsKey, null }
+                }
+            };
+
+            try
+            {
+                PlayFabClientAPI.UpdateUserData(request, result =>
+                {
+                    Debug.Log("Successfully deleted user data from PlayFab.");
+
+                    // Optional: Reset your local variables after successful deletion
+                    achievementsData.defaultBoardWinsData = new DefaultBoardWinsData();
+                    achievementsData.specialBoardWinsStats = new SpecialBoardWinsStats();
+
+                }, OnDataFetchError);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Error deleting user data: " + e.Message);
             }
         }
 

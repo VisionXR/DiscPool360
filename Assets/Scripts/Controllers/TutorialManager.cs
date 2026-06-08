@@ -326,6 +326,7 @@ namespace com.VisionXR.Controllers
 
                     tutorialStriker.transform.localEulerAngles = Vector3.zero;
                     tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+                    tutorialStriker.GetComponent<Rigidbody>().isKinematic = false;
                     tutorialStriker.transform.localPosition = strikerInitPosition;
 
                     inputCanvasView.TurnOn();
