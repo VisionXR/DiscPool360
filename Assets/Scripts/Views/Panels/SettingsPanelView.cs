@@ -29,6 +29,7 @@ namespace com.VisionXR.Views
 
 
         [Header("Audio Objects")]
+        public PanelOnOff deleteAccountPanel;
         public Toggle hapticsToggle;
         public Slider bgSlider;
         public AudioSource BGAudioSource;
@@ -118,6 +119,12 @@ namespace com.VisionXR.Views
             RightSideSelectedImage.SetActive(false);
             LeftSideSelectedImage.SetActive(true);
             userData.SetDominantHand(DominantHand.Left);
+        }
+
+        public void DeleteAccountBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            deleteAccountPanel.TurnOnPanel();
         }
 
         public void BGMusicChanged(float val)
