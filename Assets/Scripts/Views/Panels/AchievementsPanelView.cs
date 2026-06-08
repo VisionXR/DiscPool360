@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,14 +32,19 @@ namespace com.VisionXR.Views
        
         void OnEnable()
         {
-            Initialise();
 
-            achievementData.GotAllAchievementsEvent += Initialise;
+            Show();
+            achievementData.GotAllAchievementsEvent += Show;
         }
 
         private void OnDisable()
         {
-            achievementData.GotAllAchievementsEvent -= Initialise;
+            achievementData.GotAllAchievementsEvent -= Show;
+        }
+
+        private void Show()
+        {
+            StartCoroutine(Initialise());
         }
 
         public void TabButtonClicked(int id)
@@ -62,10 +68,11 @@ namespace com.VisionXR.Views
             }
         }
 
-        public void Initialise()
+        public IEnumerator Initialise()
         {
 
             Clear();
+            yield return new WaitForSeconds(0.5f);
             int generalCount = 0;
             int singlePlayerCount = 0;
             int multiPlayerCount = 0;

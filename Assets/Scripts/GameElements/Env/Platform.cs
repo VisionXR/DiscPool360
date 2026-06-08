@@ -34,8 +34,7 @@ public class Platform : MonoBehaviour
     private bool isPinchStarted = false;
     private Vector2 lastFramePosition;          // Changed to Vector2 to keep screen space math native
     private GameObject allAssets;
-    private Player mainPlayer;
-    private GameObject cam;
+
 
     public Action<Vector3> PlatformRotationChanged;
 

@@ -208,10 +208,10 @@ MonoBehaviour:
   aec: 1
   aecHighPass: 0
   agc: 1
-  agcCompressionGain: 9
+  agcCompressionGain: 3
   agcTargetLevel: 3
   vad: 1
-  highPass: 0
+  highPass: 1
   noiseSuppression: 1
   reverseStreamDelayMs: 120
 --- !u!1 &8191997661384607171

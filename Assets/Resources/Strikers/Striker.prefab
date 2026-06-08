@@ -960,7 +960,7 @@ MonoBehaviour:
   yawThresholdDegrees: 1
   velocityFactor: 1
   initialRotation: {x: 0, y: 0, z: 0, w: 1}
-  degreesPerSecond: 360
+  degreesPerSecond: 450
 --- !u!114 &697385267237695580
 MonoBehaviour:
   m_ObjectHideFlags: 0

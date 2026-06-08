@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentStriker: {fileID: 0}
   period: 6
-  forceUpperLimit: 2
+  forceUpperLimit: 2.25
   forceLowerLimit: 0.1
   isFoul: 0
-  strikeForce: 1.2138518
-  normalValue: 0.548687
+  strikeForce: 0
+  normalValue: 0
   aimingDuration: 0.5
-  strikerDir: {x: -0.3263526, y: -0.0000060642697, z: 0.9452481}
+  strikerDir: {x: 0, y: 0, z: 0}

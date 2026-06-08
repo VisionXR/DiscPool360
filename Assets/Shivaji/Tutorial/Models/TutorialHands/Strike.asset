@@ -23,5 +23,5 @@ MonoBehaviour:
   failureAudio: {fileID: 8300000, guid: d90fc71348618e2429b12c76fdbf6f9a, type: 3}
   aimingStrikerRotation: {x: 0, y: 0, z: 0}
   strikingStrikerRotation: {x: 0, y: -32.02, z: 0}
-  coinPosition: {x: -0.67, y: 0.01149976, z: 0.28}
+  coinPosition: {x: -0.325, y: 0.61, z: 0.11}
   holeName: Hole2

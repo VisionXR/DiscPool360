@@ -25,6 +25,7 @@ namespace com.VisionXR.Controllers
         public GameObject tutorialBoard;
         public GameObject tutorialStriker;
         public GameObject tutorialCoin;
+        public GameObject allAssets;
         public InputCanvasView inputCanvasView;
 
         [Header("Local Variables")]
@@ -170,14 +171,17 @@ namespace com.VisionXR.Controllers
                 if (currentStep.interactiveStepType == InteractiveStepType.BoardRotation)
                 {
                     boardData.TurnOnInteractable();
-                    platform.transform.localEulerAngles = Vector3.zero;
+                    platform.ResetPlatform();
+                    allAssets.transform.rotation = Quaternion.identity;
                     tutorialData.canIRotatePlatform = true;
                     inputData.EnableInput();
                 }
 
                 else if (currentStep.interactiveStepType == InteractiveStepType.Aiming)
                 {
-                    platform.transform.localEulerAngles = Vector3.zero;
+                    platform.ResetPlatform();
+                    allAssets.transform.rotation = Quaternion.identity;
+                    
                     tutorialStriker.SetActive(true);
                     tutorialStriker.transform.localPosition = strikerInitPosition;
                     tutorialStriker.transform.localEulerAngles = Vector3.zero;
@@ -190,7 +194,8 @@ namespace com.VisionXR.Controllers
                 else if (currentStep.interactiveStepType == InteractiveStepType.Striking)
                 {
 
-                    platform.transform.localEulerAngles = Vector3.zero;
+                    platform.ResetPlatform();
+                    allAssets.transform.rotation = Quaternion.identity;
                     isCoinPocketed = false;
                     strikerArrow.TurnOnArrow();
                     tutorialStriker.SetActive(true);
@@ -316,7 +321,8 @@ namespace com.VisionXR.Controllers
                     tutorialCoin.transform.localPosition = currentStep.coinPosition;
                     tutorialCoin.transform.localEulerAngles = Vector3.zero;
 
-                    platform.transform.localEulerAngles = Vector3.zero;
+                    platform.ResetPlatform();
+                    allAssets.transform.rotation = Quaternion.identity;
 
                     tutorialStriker.transform.localEulerAngles = Vector3.zero;
                     tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
