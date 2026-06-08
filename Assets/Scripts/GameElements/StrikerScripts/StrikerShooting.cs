@@ -159,7 +159,7 @@ public class StrikerShooting : MonoBehaviour
         float elaspsedTime = 0;
 
       
-        while (!strikerRigidbody.IsSleeping() && elaspsedTime < 8)
+        while (!strikerRigidbody.IsSleeping() && elaspsedTime < 6)
         {
             // Yielding WaitForFixedUpdate ensures we check sync'd with the physics engine, 
             // completely bypassing frame rate variance.
@@ -172,7 +172,7 @@ public class StrikerShooting : MonoBehaviour
         strikerRigidbody.angularVelocity = Vector3.zero;
 
         // 3. Reduced the wait time (Adjust 6f to something lower like 0.5f or 1f if 6s was a bug)
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(3.0f);
 
         // 4. Clean up and trigger next turn
         strikerData.StrikerStopped();

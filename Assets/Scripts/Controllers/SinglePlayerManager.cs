@@ -114,6 +114,7 @@ namespace com.VisionXR.Controllers
         private void OnTurnChangedAssignCoins(int newTurnId)
         {
             pocketedCoins.Clear();
+            coinData.TurnOnRigidBodies();
 
             if (uiData.currentGameMode == GameMode.Pool)
             {

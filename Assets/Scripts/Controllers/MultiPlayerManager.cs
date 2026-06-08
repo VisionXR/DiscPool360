@@ -178,10 +178,9 @@ namespace com.VisionXR.Controllers
         // Called whenever turn changes to keep AI/UI in sync for snooker
         private void OnTurnChangedAssignCoins(int newTurnId)
         {
-
-
             pocketedCoins.Clear();
             uiData.UpdateCoins();
+            coinData.TurnOnRigidBodies();
 
             if (uiData.currentGameMode == GameMode.Pool)
             {
