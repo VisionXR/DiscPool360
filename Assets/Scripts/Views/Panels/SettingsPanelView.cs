@@ -37,7 +37,6 @@ namespace com.VisionXR.Views
         [Header("Panel Objects")]
         public string currentState;
 
-
         private void OnEnable()
         {
 

@@ -1,3 +1,4 @@
+using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
@@ -83,8 +84,39 @@ namespace com.VisionXR.Views
                 MicrophonePanel.gameObject.SetActive(false);
             }
 
-            speakerImage.sprite = speakerOnImage;
-            microphoneImage.sprite = microphoneOnImage;
+            Player mp = playerData.GetMainPlayer();
+            if (mp != null)
+            {
+                PlayerVoiceControl voiceControl = mp.GetComponent<PlayerVoiceControl>();
+                if (voiceControl != null)
+                {
+                    if (voiceControl.recorder.TransmitEnabled)
+                    {
+                        microphoneImage.sprite = microphoneOnImage;
+                    }
+                    else
+                    {
+                        microphoneImage.sprite = microphoneOffImage;
+                    }
+                }
+            }
+
+            Player op = playerData.GetOpponentPlayer();
+            if (op != null)
+            {
+                PlayerVoiceControl voiceControl = op.GetComponent<PlayerVoiceControl>();
+                if (voiceControl != null)
+                {
+                    if (voiceControl.speaker.mute)
+                    {
+                        speakerImage.sprite = speakerOffImage;
+                    }
+                    else
+                    {
+                        speakerImage.sprite = speakerOnImage;
+                    }
+                }
+            }
 
         }
 
