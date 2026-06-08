@@ -51,8 +51,6 @@ public class StrikerManager : MonoBehaviour
         if (strikerRigidbody != null)
         {
             strikerRigidbody.isKinematic = true;
-            strikerRigidbody.linearVelocity = Vector3.zero;
-            strikerRigidbody.angularVelocity = Vector3.zero;
             strikerRigidbody.transform.position = boardData.StrikerFoulPositions[id - 1].position;
             strikerRigidbody.transform.rotation = boardData.StrikerFoulPositions[id - 1].rotation;
 
