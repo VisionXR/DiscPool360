@@ -18,10 +18,8 @@ namespace com.VisionXR.Controllers
         public GameDataSO gameData;
 
         [Header("Audio Trigger")]
-
-        public AudioSource grapSelectedAudio;
-        public AudioSource grapUnSelectedAudio;
         public AudioSource tapSelectedAudio;
+        public AudioSource swipeSelectedAudio;
 
         [Header("Swipe Settings")]
         public float swipeminDistanceThreshold = 100f; // Minimum pixels to register a swipe
@@ -142,6 +140,7 @@ namespace com.VisionXR.Controllers
 
             swipeStartPosition = touch;
             swipeStartTime = Time.time;
+            tapSelectedAudio.Play();
 
             if (strikerData.isFoul)
             {

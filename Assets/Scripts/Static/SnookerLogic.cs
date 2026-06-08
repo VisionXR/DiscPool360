@@ -306,7 +306,7 @@ public class SnookerLogic : MonoBehaviour
         // Placement parameters
         float boardLift = 0.01f; // vertical lift to avoid z-fighting with board
         int steps = 12; // number of angular samples per radius
-        int maxRadiusSteps = 2; // how many radius increments to try
+        int maxRadiusSteps = 4; // how many radius increments to try
         float radiusStepMultiplier = 1.2f; // each radius = coinRadius * multiplier^step
 
         for (int i = 0; i < pocketed.Count; i++)
