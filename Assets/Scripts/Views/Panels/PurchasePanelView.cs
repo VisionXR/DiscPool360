@@ -26,15 +26,14 @@ namespace com.VisionXR.Views
         {
 
             purchaseData.BoardAssetPurchasedEvent += SetProductPrices;
-
+            purchaseData.SetPurchasedItemsEvent += SetProductPrices;
             SetProductPrices();
         }
 
         private void OnDisable()
         {
-
             purchaseData.BoardAssetPurchasedEvent -= SetProductPrices;
-
+            purchaseData.SetPurchasedItemsEvent -= SetProductPrices;
         }
 
         public void BoardBundleClicked(int id)

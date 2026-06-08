@@ -190,14 +190,11 @@ namespace com.VisionXR.Controllers
 
 
                 playerSettings.SetUserNameAndId(name, googleID);
-                playerSettings.SetProfileUrl(imageUrl);
-                purchaseData.GetAllItems();
-                purchaseData.GetPurchasedItems();
-                StartCoroutine(ConnectToPlayfab(5));
+                playerSettings.SetProfileUrl(imageUrl);    
+        
+                StartCoroutine(ConnectToPlayfab(5));               
+                StartCoroutine(FetchAllData());
                 StartCoroutine(LoadProfileImage());
-                achievementData.GetAllAchievemnets();
-                leaderBoardData.GetMyPoints();
-              
 
                 if (!isLink)
                 {
@@ -216,6 +213,19 @@ namespace com.VisionXR.Controllers
                
             }
 
+        }
+
+        private IEnumerator FetchAllData()
+        {
+            
+            purchaseData.GetAllItems();      
+            yield return new WaitForSeconds(1);
+            purchaseData.GetPurchasedItems();
+            yield return new WaitForSeconds(1);
+            achievementData.GetAllAchievemnets();
+            yield return new WaitForSeconds(1);
+            leaderBoardData.GetMyPoints();
+            
         }
 
         private void RequestTokenAndLoginToPlayFab()

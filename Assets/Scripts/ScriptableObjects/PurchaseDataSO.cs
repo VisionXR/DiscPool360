@@ -24,6 +24,9 @@ public class PurchaseDataSO : ScriptableObject
     public Action RefreshDataEvent;
     public Action<string> BuyProductEvent;
 
+
+    public Action SetPurchasedItemsEvent;
+
     // Methods
 
     private void OnEnable()
@@ -83,6 +86,8 @@ public class PurchaseDataSO : ScriptableObject
             }
 
         }
+
+        SetPurchasedItemsEvent?.Invoke();
     }
 
     public void SetPriceOfItems(List<AssetData> productdIds)

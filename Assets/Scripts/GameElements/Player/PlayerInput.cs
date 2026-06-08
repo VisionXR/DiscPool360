@@ -68,6 +68,7 @@ namespace com.VisionXR.GameElements
 
         private void FireStriker(float val)
         {
+            
             strikerShooting.FireStriker(val);
         }
 

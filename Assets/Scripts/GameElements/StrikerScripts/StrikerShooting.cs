@@ -31,47 +31,7 @@ public class StrikerShooting : MonoBehaviour
     private Coroutine FireRoutine;
     private Coroutine WaitRoutine;
 
-    public void StartStrike(float strength)
-    {
-        if (strength > 0.5f && !isFired)
-        {
-            isFired = true;
-          
-            strikerData.StrikeForceStarted();
-        }
-    }
-
-
-    public void EndStrike(float strength)
-    {
-        if (strength < 0.1f && isFired)
-        {
-
-            isFired = false;
-          
-           
-            strikerArrow.TurnOffArrow();
-            strikerData.strikeForce = strikeForce;
-            strikerData.strikerDir = transform.forward;
-
-            strikerRigidbody.AddForce(transform.forward * strikeForce, ForceMode.VelocityChange);
-
-            if (playerData.IsMyTurn())
-            {
-                appPropertiesData.StartStrikingVibration();
-            }
-
-            inputData.DisableInput();
-            strikerData.StrikerStarted();
-
-
-            if (WaitRoutine == null)
-            {
-                WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
-            }
-
-        }
-    }
+ 
 
     public void Fire(float force)
     {
@@ -120,8 +80,7 @@ public class StrikerShooting : MonoBehaviour
 
     public void SetStrikerForce(float normalizedValue)
     {
-        // Map the normalized value to the desired range
-    //    normalizedValue = StrikeCurve.Evaluate(normalizedValue);
+       
         float range = strikerData.forceUpperLimit - strikerData.forceLowerLimit;
         strikeForce = strikerData.forceLowerLimit + (normalizedValue) * range;
         strikerArrow.ChangeColorOfArrow(normalizedValue);
@@ -183,8 +142,6 @@ public class StrikerShooting : MonoBehaviour
     public void TurnOffArrow()
     {
         strikerArrow.TurnOffArrow();
-
-
     }
    
 }
