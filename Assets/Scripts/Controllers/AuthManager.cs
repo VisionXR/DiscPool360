@@ -153,9 +153,9 @@ namespace com.VisionXR.Controllers
             
             if (!isLink)
             {
-                // code here
-                uiData.uiManager.ChangeState("Home", true);
+               
                 isFirstTime = false;
+                uiData.uiManager.ChangeState("Home", true);
 
                 if (!PlayerPrefs.HasKey("Tutorial"))
                 {
@@ -163,6 +163,7 @@ namespace com.VisionXR.Controllers
                     uiData.uiManager.ChangeState(tutorialState, true);
                     PlayerPrefs.SetString("Tutorial", "true");
                 }
+
             }
             else
             {
@@ -206,10 +207,10 @@ namespace com.VisionXR.Controllers
                 if (!isLink)
                 {
                     // code here
-                    uiData.uiManager.ChangeState("Home", true);
+                   
                     isFirstTime = false;
-
-                    if(!PlayerPrefs.HasKey("Tutorial"))
+                    uiData.uiManager.ChangeState("Home", true);
+                    if (!PlayerPrefs.HasKey("Tutorial"))
                     {
                         tutorialManager.SetActive(true);
                         uiData.uiManager.ChangeState(tutorialState, true);
