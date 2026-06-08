@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: BoardRotation
   m_EditorClassIdentifier: 
   stepNumber: 2
-  stepText: 'Swipe the board edge left or right to rotate it. Now give it a try!
+  stepText: 'Swipe left or right anywhere on the board to rotate it. Go ahead, give
+    it a try!
 
 '
-  stepAudio: {fileID: 8300000, guid: 4d346abfcdf160b4ea00dfbf97a6e417, type: 3}
+  stepAudio: {fileID: 8300000, guid: b4ee91d8cfcd52d4d87dbbbfc375b4ed, type: 3}
   interactiveStepType: 2
   successText: Great! Perfect rotation
   failureText: Give it another try
-  successAudio: {fileID: 8300000, guid: 669d2430d0b78c74d970560ef44b14cd, type: 3}
-  failureAudio: {fileID: 8300000, guid: 8f65a0b72977ea241b11efd005f22c8a, type: 3}
+  successAudio: {fileID: 8300000, guid: 29cc7dc3224db924880a6d6cd91b0c92, type: 3}
+  failureAudio: {fileID: 8300000, guid: 84bd83cfc34f58d4f91441d17f02fa43, type: 3}
   aimingStrikerRotation: {x: 0, y: 0, z: 0}
   strikingStrikerRotation: {x: 0, y: 0, z: 0}
   coinPosition: {x: 0, y: 0, z: 0}

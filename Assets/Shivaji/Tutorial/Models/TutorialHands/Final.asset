@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Final
   m_EditorClassIdentifier: 
   stepNumber: 5
-  stepText: You're all set! With skills in hand, dive into the world of Carrom Pool
-    360. Choose your mode and begin your journey. Best of luck!
-  stepAudio: {fileID: 8300000, guid: 7d20e5bad8c564946bee6ce9ebbf9c93, type: 3}
+  stepText: You're ready to play! Dive into Carrom Pool 360, pick your favorite game
+    mode, and start your journey. Best of luck out there!
+  stepAudio: {fileID: 8300000, guid: 50737044e24b8ff4980087871b5c0606, type: 3}
   interactiveStepType: 0
   successText: 
   failureText: 
