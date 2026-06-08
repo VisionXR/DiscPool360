@@ -80,6 +80,19 @@ namespace com.VisionXR.ModelClasses
             }
             return false;
         }
+
+        public void Clear()
+        {
+            defaultBoardWinsData = new DefaultBoardWinsData();
+            foreach(BoardStats stats in specialBoardWinsStats.boardStats)
+            {
+                stats.spSnookerWins = 0;
+                stats.spPoolWins = 0;
+                stats.mpPoolWins = 0;
+                stats.mpSnookerWins = 0;
+            }
+            specialBoardWinsStats.clientNames.Clear();
+        }
     }
 
 

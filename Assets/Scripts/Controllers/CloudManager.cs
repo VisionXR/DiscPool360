@@ -177,9 +177,7 @@ namespace com.VisionXR.Controllers
                 {
                     Debug.Log("Successfully deleted user data from PlayFab.");
 
-                    // Optional: Reset your local variables after successful deletion
-                    achievementsData.defaultBoardWinsData = new DefaultBoardWinsData();
-                    achievementsData.specialBoardWinsStats = new SpecialBoardWinsStats();
+                    achievementsData.Clear();
 
                 }, OnDataFetchError);
             }

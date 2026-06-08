@@ -794,5 +794,35 @@ MonoBehaviour:
     mpPoolWins: 0
     mpSnookerWins: 0
   specialBoardWinsStats:
-    boardStats: []
+    boardStats:
+    - boardType: 1
+      spPoolWins: 0
+      spSnookerWins: 0
+      mpPoolWins: 0
+      mpSnookerWins: 0
+    - boardType: 2
+      spPoolWins: 0
+      spSnookerWins: 0
+      mpPoolWins: 0
+      mpSnookerWins: 0
+    - boardType: 3
+      spPoolWins: 0
+      spSnookerWins: 0
+      mpPoolWins: 0
+      mpSnookerWins: 0
+    - boardType: 4
+      spPoolWins: 0
+      spSnookerWins: 0
+      mpPoolWins: 0
+      mpSnookerWins: 0
+    - boardType: 5
+      spPoolWins: 0
+      spSnookerWins: 0
+      mpPoolWins: 0
+      mpSnookerWins: 0
+    - boardType: 6
+      spPoolWins: 0
+      spSnookerWins: 0
+      mpPoolWins: 0
+      mpSnookerWins: 0
     clientNames: []
