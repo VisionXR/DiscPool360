@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   voiceDetection: 1
-  voiceDetectionThreshold: 0.05
+  voiceDetectionThreshold: 0.01
   voiceDetectionDelayMs: 500
   interestGroup: 0
   useTargetPlayers: 0
