@@ -7,7 +7,6 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using System.Collections;
-using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 
 namespace com.VisionXR.Controllers
