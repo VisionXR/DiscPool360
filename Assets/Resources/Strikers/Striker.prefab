@@ -979,6 +979,7 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 611cb01e46ac62b478c980e6a529cd2d, type: 2}
   strikerArrow: {fileID: 2409958208472385468}
   strikerRigidbody: {fileID: 8616717779063074513}
+  timeDelay: 4
   cutOffValue: 0.01
 --- !u!114 &2409958208472385468
 MonoBehaviour:

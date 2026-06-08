@@ -1,4 +1,3 @@
-using com.VisionXR.Controllers;
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
@@ -220,12 +219,13 @@ public class PoolScorePanelView : MonoBehaviour
 
         }
 
-
-        // Black coin status at the next slot (groupCount) if within bounds
-        int blackIndex = coinData.solids.Count;
-
-        bool blackActive = coinData.black.activeSelf;
-        uiCoins[blackIndex].gameObject.SetActive(!blackActive);
+        if (gameData.currentTurnId == player.playerProperties.myId)
+        {
+            // Black coin status at the next slot (groupCount) if within bounds
+            int blackIndex = coinData.solids.Count;
+            bool blackActive = coinData.black.activeSelf;
+            uiCoins[blackIndex].gameObject.SetActive(!blackActive);
+        }
 
     }
 
