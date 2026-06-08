@@ -7,6 +7,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using System.Collections;
+using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 
 namespace com.VisionXR.Controllers
@@ -23,13 +24,15 @@ namespace com.VisionXR.Controllers
         public PurchaseDataSO purchaseData;
 
         [Header("Local Objects")]
+        public GameObject tutorialManager;
         public Destination multiPlayerDestination;
+        public string tutorialState;
+        public DestinationPanelView destinationPanelView;
+        public ChangeDestinationView changeDestinationPanelView;
         public bool isLoggedIn = false;
         public bool isLink = false;
         private bool isFirstTime = true;
-        public DestinationPanelView destinationPanelView;
-        public ChangeDestinationView changeDestinationPanelView;
-      
+
 
         private void Awake()
         {
@@ -124,8 +127,6 @@ namespace com.VisionXR.Controllers
         {
             if (string.IsNullOrEmpty(url)) return null;
 
-            Debug.Log("Url is " + url);
-
             try
             {
                 string prefix = "discpool://";
@@ -156,6 +157,13 @@ namespace com.VisionXR.Controllers
                 // code here
                 uiData.uiManager.ChangeState("Home", true);
                 isFirstTime = false;
+
+                if (!PlayerPrefs.HasKey("Tutorial"))
+                {
+                    tutorialManager.SetActive(true);
+                    uiData.uiManager.ChangeState(tutorialState, true);
+                    PlayerPrefs.SetString("Tutorial", "true");
+                }
             }
             else
             {
@@ -180,7 +188,7 @@ namespace com.VisionXR.Controllers
         {
             if (status == SignInStatus.Success)
             {
-                Debug.Log("Login Successful!");
+               
 
                 // 1. First, set local UI data (Name and Image)
                 string name = Social.localUser.userName;
@@ -201,6 +209,15 @@ namespace com.VisionXR.Controllers
                     // code here
                     uiData.uiManager.ChangeState("Home", true);
                     isFirstTime = false;
+
+                    if(!PlayerPrefs.HasKey("Tutorial"))
+                    {
+                        tutorialManager.SetActive(true);
+                        uiData.uiManager.ChangeState(tutorialState, true);
+                        PlayerPrefs.SetString("Tutorial", "true");
+                    }
+
+
                 }
                 else
                 {
