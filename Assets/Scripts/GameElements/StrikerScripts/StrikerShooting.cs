@@ -11,6 +11,7 @@ public class StrikerShooting : MonoBehaviour
     public InputDataSO inputData;
     public AppPropertiesDataSO appPropertiesData;
     public PlayerDataSO playerData;
+    public CoinDataSO coinData;
   
 
     [Header(" Local variables ")]
@@ -118,20 +119,18 @@ public class StrikerShooting : MonoBehaviour
         float elaspsedTime = 0;
 
       
-        while (!strikerRigidbody.IsSleeping() && elaspsedTime < timeDelay)
+        while (IsAnyObjectMoving())
         {
             // Yielding WaitForFixedUpdate ensures we check sync'd with the physics engine, 
             // completely bypassing frame rate variance.
-            yield return new WaitForFixedUpdate();
-            elaspsedTime += Time.fixedDeltaTime;
+            yield return new WaitForSeconds(0.5f);
+          
         }
 
+        yield return new WaitForSeconds(4);
         // 2. Force it to a complete stop to prevent micro-drifting
         strikerRigidbody.linearVelocity = Vector3.zero;
         strikerRigidbody.angularVelocity = Vector3.zero;
-
-        // 3. Reduced the wait time (Adjust 6f to something lower like 0.5f or 1f if 6s was a bug)
-        yield return new WaitForSeconds(3.0f);
 
         // 4. Clean up and trigger next turn
         strikerData.StrikerStopped();
@@ -143,5 +142,17 @@ public class StrikerShooting : MonoBehaviour
     {
         strikerArrow.TurnOffArrow();
     }
-   
+
+    public bool IsAnyObjectMoving()
+    {
+        if ((strikerRigidbody.linearVelocity.magnitude > 0.005f))
+            return true;
+        foreach (var rb in coinData.AvailableCoinsInGame)
+        {
+            if (rb.linearVelocity.magnitude > 0.005f)
+                return true;
+        }
+        return false;
+    }
+
 }

@@ -11,6 +11,7 @@ public class StrikerCollision : MonoBehaviour
     {
         if(collision.gameObject.tag == "Hole")
         {
+            GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             GetComponent<Rigidbody>().isKinematic = true;
 
             // Expect names like "Hole1", "Hole2" where the fifth character (index 4) is the id

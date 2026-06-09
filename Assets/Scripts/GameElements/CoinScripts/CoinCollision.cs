@@ -1,5 +1,4 @@
 using com.VisionXR.ModelClasses;
-using System.Collections;
 using UnityEngine;
 
 public class CoinCollision : MonoBehaviour
@@ -12,7 +11,8 @@ public class CoinCollision : MonoBehaviour
     {
   
         if (collision.collider.gameObject.tag == "Hole")
-        {           
+        {
+            GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             coinDataSO.CoinPocketed(gameObject);
             coinDataSO.CoinPocketedIntoHole(collision.collider.gameObject);          
             gameObject.SetActive(false);
@@ -20,6 +20,7 @@ public class CoinCollision : MonoBehaviour
         }
         else if (collision.collider.gameObject.tag == "Floor")
         {
+            GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             coinDataSO.CoinFellOnGround(gameObject);
         }
     }
