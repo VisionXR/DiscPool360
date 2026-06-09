@@ -149,7 +149,7 @@ namespace com.VisionXR.Views
 
             if(Application.isEditor)
             {
-                UnlockBoards(0, 20);
+               // UnlockBoards(0, 20);
             }
         }
 
