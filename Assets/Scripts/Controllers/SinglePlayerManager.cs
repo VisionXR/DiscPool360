@@ -500,7 +500,10 @@ namespace com.VisionXR.Controllers
         }
         private IEnumerator WaitAndCheckPoolLogic()
         {
-
+            while(gameData.isGamePaused)
+            {
+                yield return null;
+            }
 
             Player currentPlayer = playerData.GetPlayerById(gameData.currentTurnId);
             var myCoinType = currentPlayer.playerProperties.myCoin;
@@ -567,7 +570,10 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator WaitAndCheckSnookerLogic()
         {
-
+            while (gameData.isGamePaused)
+            {
+                yield return null;
+            }
 
             var result = snookerLogic.ValidateShot(pocketedCoins, strikerData.isFoul);
 

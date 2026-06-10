@@ -303,7 +303,7 @@ namespace com.VisionXR.Controllers
 
         private void StrikeForceStarted()
         {
-          //  multiPlayerConnectionManager.SendStrikeForceChanged();
+           // multiPlayerConnectionManager.SendStrikeForceChanged(strikerData.str);
         }
         private void StrikeStarted()
         {
@@ -336,7 +336,10 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator WaitAndCheckPoolLogic()
         {
-
+            while (gameData.isGamePaused)
+            {
+                yield return null;
+            }
 
             Player currentPlayer = playerData.GetPlayerById(gameData.currentTurnId);
             var myCoinType = currentPlayer.playerProperties.myCoin;
@@ -413,6 +416,10 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator WaitAndCheckSnookerLogic()
         {
+            while (gameData.isGamePaused)
+            {
+                yield return null;
+            }
 
             var result = snookerLogic.ValidateShot(pocketedCoins, strikerData.isFoul);
             multiPlayerConnectionManager.SendSnookerScore(snookerLogic.requiredColorIndex, snookerLogic.phase, gameData.Player1SnookerScore, gameData.Player2SnookerScore);

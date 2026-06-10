@@ -106,7 +106,7 @@ public class StrikerShooting : MonoBehaviour
 
         while (IsAnyObjectMoving())
         {
-            Debug.Log("velocity is " + strikerRigidbody.linearVelocity.magnitude);
+           
             // Yielding WaitForFixedUpdate ensures we check sync'd with the physics engine, 
             // completely bypassing frame rate variance.
             yield return new WaitForSeconds(0.5f);

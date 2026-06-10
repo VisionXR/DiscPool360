@@ -144,6 +144,10 @@ namespace com.VisionXR.GameElements
 
         private IEnumerator StartExecutingStrike()
         {
+            while (gameData.isGamePaused)
+            {
+                yield return null;
+            }
 
             yield return new WaitForSeconds(aIData.calculatingShotTime);
             yield return StartCoroutine(HitCoin());
@@ -187,6 +191,11 @@ namespace com.VisionXR.GameElements
 
         private IEnumerator Strike(Vector3 finalPosition, float strikeForce)
         {
+            while (gameData.isGamePaused)
+            {
+                yield return null;
+            }
+
             aIData.StartLeftHandRotation(true);
             aIData.PlayLeftHandAnimation("LeftGrip", true);
             yield return new WaitForSeconds(0.5f);
@@ -240,6 +249,11 @@ namespace com.VisionXR.GameElements
 
         private IEnumerator RotatePlatform(Vector3 strikerPosition, Vector3 aiPosition)
         {
+            while (gameData.isGamePaused)
+            {
+                yield return null;
+            }
+
             AllAssets.transform.SetParent(platform.transform);
 
             coinData.TurnOffRigidBodies();
