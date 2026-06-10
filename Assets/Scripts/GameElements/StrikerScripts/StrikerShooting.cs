@@ -14,22 +14,17 @@ public class StrikerShooting : MonoBehaviour
     public CoinDataSO coinData;
   
 
-    [Header(" Local variables ")]
+    [Header(" Striker variables ")]
     public StrikerArrow strikerArrow;
     public Rigidbody strikerRigidbody;
-    public float timeDelay = 5;
+    public float cutOffValue = 0.1f;
+    private float strikeForce = 2;
 
     // actions
     public Action<float> StrikeForceChangedEvent;
     public Action StrikeForceStartedEvent;
 
     // variables
- 
-    public float cutOffValue = 0.1f;
-    private float strikeForce = 2;
-    private bool isFired = false;  
-    private float startTime;
-    private Coroutine FireRoutine;
     private Coroutine WaitRoutine;
 
  
@@ -59,13 +54,13 @@ public class StrikerShooting : MonoBehaviour
     {
         if (val > cutOffValue)
         {
-            
+           
             SetStrikerForce(val);
+            Debug.Log("force is " + strikerData.strikeForce);
             strikerRigidbody.AddForce(transform.forward * strikerData.strikeForce, ForceMode.VelocityChange);
+
             strikerData.StrikerStarted();
             strikerArrow.TurnOffArrow();
-
-
             if (playerData.IsMyTurn())
             {
                 appPropertiesData.StartStrikingVibration();
@@ -86,19 +81,10 @@ public class StrikerShooting : MonoBehaviour
         strikeForce = strikerData.forceLowerLimit + (normalizedValue) * range;
         strikerArrow.ChangeColorOfArrow(normalizedValue);
         strikerData.strikeForce = strikeForce;
+
+
         strikerData.strikerDir = transform.forward;
         strikerData.StrikeForceChanged(strikeForce,transform.forward);
-    }
-
-    public void SetStrikerData(float force, Vector3 dir)
-    {
-        strikeForce = force;
-        transform.forward = dir;
-        float range = strikerData.forceUpperLimit - strikerData.forceLowerLimit;
-        float val = Mathf.Abs(force)/range;
-        strikerArrow.ChangeColorOfArrow(val);
-        strikerData.strikeForce = force;
-        strikerData.strikerDir = dir;
     }
 
     public void SetForceAndDir(float force, Vector3 dir)
@@ -116,18 +102,17 @@ public class StrikerShooting : MonoBehaviour
     private IEnumerator WaituntilStrikeFinished()
     {
 
-        float elaspsedTime = 0;
+        yield return new WaitForSeconds(0.5f);
 
-      
         while (IsAnyObjectMoving())
         {
+            Debug.Log("velocity is " + strikerRigidbody.linearVelocity.magnitude);
             // Yielding WaitForFixedUpdate ensures we check sync'd with the physics engine, 
             // completely bypassing frame rate variance.
             yield return new WaitForSeconds(0.5f);
           
         }
 
-        yield return new WaitForSeconds(4);
         // 2. Force it to a complete stop to prevent micro-drifting
         strikerRigidbody.linearVelocity = Vector3.zero;
         strikerRigidbody.angularVelocity = Vector3.zero;
@@ -145,13 +130,20 @@ public class StrikerShooting : MonoBehaviour
 
     public bool IsAnyObjectMoving()
     {
-        if ((strikerRigidbody.linearVelocity.magnitude > 0.005f))
+        
+        if (strikerRigidbody.linearVelocity.magnitude > 0.005f)
+        {
+          
             return true;
+
+        }
+
         foreach (var rb in coinData.AvailableCoinsInGame)
         {
             if (rb.linearVelocity.magnitude > 0.005f)
                 return true;
         }
+
         return false;
     }
 
