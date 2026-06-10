@@ -944,6 +944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strikerData: {fileID: 11400000, guid: 8ae96cdacd2423343b0749475230232d, type: 2}
+  strikerRb: {fileID: 8616717779063074513}
 --- !u!114 &9155648938620027998
 MonoBehaviour:
   m_ObjectHideFlags: 0

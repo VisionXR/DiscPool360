@@ -6,13 +6,15 @@ public class CoinCollision : MonoBehaviour
     [Header(" Scriptable Objects")]
     public CoinDataSO coinDataSO;
 
-    
+    [Header(" Local Objects")]
+    public Rigidbody coinRigidBody;
     public void OnCollisionEnter(Collision collision)
     {
   
         if (collision.collider.gameObject.tag == "Hole")
         {
-            GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+            coinRigidBody.linearVelocity = Vector3.zero;
+            coinRigidBody.isKinematic = true;
             coinDataSO.CoinPocketed(gameObject);
             coinDataSO.CoinPocketedIntoHole(collision.collider.gameObject);          
             gameObject.SetActive(false);
@@ -20,7 +22,8 @@ public class CoinCollision : MonoBehaviour
         }
         else if (collision.collider.gameObject.tag == "Floor")
         {
-            GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+            coinRigidBody.linearVelocity = Vector3.zero;
+            coinRigidBody.isKinematic = true;
             coinDataSO.CoinFellOnGround(gameObject);
         }
     }

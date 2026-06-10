@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class StrikerCollision : MonoBehaviour
 {
+    [Header("Scriptable Objects")]
     public StrikerDataSO strikerData;
-    
+
+    [Header("Local Objects")]
+    public Rigidbody strikerRb;
+
 
     public void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Hole")
         {
-            GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-            GetComponent<Rigidbody>().isKinematic = true;
+            strikerRb.linearVelocity = Vector3.zero;
+            strikerRb.isKinematic = true;
 
             // Expect names like "Hole1", "Hole2" where the fifth character (index 4) is the id
             int holeId = 1;
@@ -37,12 +41,6 @@ public class StrikerCollision : MonoBehaviour
 
             // You can add functionality here for when the striker collides with a hole
             strikerData.StrikerPocketed(holeId);
-        }
-
-        else
-        {
-            
-            strikerData.StrikerCollided(collision.gameObject);
         }
 
     }

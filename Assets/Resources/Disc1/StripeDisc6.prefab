@@ -374,6 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinDataSO: {fileID: 11400000, guid: da634169fe1f8ae48b810401198257be, type: 2}
+  coinRigidBody: {fileID: 3626479901073520498}
 --- !u!114 &7813716092440003551
 MonoBehaviour:
   m_ObjectHideFlags: 0
