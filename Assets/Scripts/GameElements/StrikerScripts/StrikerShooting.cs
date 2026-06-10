@@ -56,7 +56,7 @@ public class StrikerShooting : MonoBehaviour
         {
            
             SetStrikerForce(val);
-            Debug.Log("force is " + strikerData.strikeForce);
+            
             strikerRigidbody.AddForce(transform.forward * strikerData.strikeForce, ForceMode.VelocityChange);
 
             strikerData.StrikerStarted();
