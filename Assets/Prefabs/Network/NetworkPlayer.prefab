@@ -208,7 +208,7 @@ MonoBehaviour:
   aec: 1
   aecHighPass: 1
   agc: 1
-  agcCompressionGain: 9
+  agcCompressionGain: 18
   agcTargetLevel: 3
   vad: 1
   highPass: 1
