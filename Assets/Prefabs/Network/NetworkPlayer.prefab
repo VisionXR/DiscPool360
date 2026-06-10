@@ -57,7 +57,7 @@ MonoBehaviour:
   reliableMode: 0
   encrypt: 0
   transmitEnabled: 1
-  samplingRate: 16000
+  samplingRate: 48000
   frameDuration: 20000
   bitrate: 20000
   sourceType: 0
@@ -206,14 +206,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.WebRtcAudioDsp
   aec: 1
-  aecHighPass: 0
+  aecHighPass: 1
   agc: 1
-  agcCompressionGain: 3
+  agcCompressionGain: 9
   agcTargetLevel: 3
   vad: 1
   highPass: 1
   noiseSuppression: 1
-  reverseStreamDelayMs: 120
+  reverseStreamDelayMs: 80
 --- !u!1 &8191997661384607171
 GameObject:
   m_ObjectHideFlags: 0
