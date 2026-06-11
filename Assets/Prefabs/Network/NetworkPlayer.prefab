@@ -57,7 +57,7 @@ MonoBehaviour:
   reliableMode: 0
   encrypt: 0
   transmitEnabled: 1
-  samplingRate: 16000
+  samplingRate: 24000
   frameDuration: 20000
   bitrate: 20000
   sourceType: 0
@@ -71,9 +71,9 @@ MonoBehaviour:
     CategoryOptions: 0800000004000000
   editorAudioSessionPreset: 1
   androidMicrophoneSettings:
-    EnableAEC: 0
-    EnableAGC: 0
-    EnableNS: 0
+    EnableAEC: 1
+    EnableAGC: 1
+    EnableNS: 1
   stopRecordingWhenPaused: 0
   useOnAudioFilterRead: 0
   useMicrophoneTypeFallback: 1
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2104916355726681666}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ddec46cf6a4c4addbf21b6be8442124, type: 3}
   m_Name: 
