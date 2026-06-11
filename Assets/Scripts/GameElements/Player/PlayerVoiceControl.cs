@@ -21,6 +21,15 @@ public class PlayerVoiceControl : MonoBehaviour {
         uiData.TurnOffMicEvent += TurnOffMic;
         uiData.TurnOnSpeakerEvent += TurnOnSpeaker;
         uiData.TurnOffSpeakerEvent += TurnOffSpeaker;
+
+        if(currentPlayer.playerProperties.myPlayerControl == PlayerControl.Remote)
+        {
+            dsp.enabled = false;
+        }
+        else
+        {
+            recorder.gameObject.AddComponent<AudioListener>();
+        }
     }
 
     private void OnDisable()

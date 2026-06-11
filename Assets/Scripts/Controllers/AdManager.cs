@@ -2,6 +2,7 @@ using UnityEngine;
 using GoogleMobileAds.Api;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
+using System.Collections;
 
 namespace com.VisionXR.Controllers
 {
@@ -25,6 +26,7 @@ namespace com.VisionXR.Controllers
 
         private InterstitialAd _interstitialAd;
         private RewardedAd _rewardedAd;
+        private bool isSdkInitialized = false;
 
         private void OnEnable()
         {
@@ -44,17 +46,30 @@ namespace com.VisionXR.Controllers
             adDataSO.ShowRewardedAdEvent -= ShowRewardedAd;
         }
 
-
-        private void Start()
+        private IEnumerator Start()
         {
-            // Initialize the Mobile Ads SDK
+            // 1. Wait a moment before initializing if needed
+            yield return new WaitForSeconds(1f);
+
+            // 2. Initialize the Mobile Ads SDK
             MobileAds.Initialize((InitializationStatus status) =>
             {
-               
-                // Load ads as soon as the SDK is ready
-                LoadInterstitialAd();
-                LoadRewardedAd();
+                // This callback runs on initialization success
+                isSdkInitialized = true;
             });
+
+            // 3. Wait until the initialization callback has actually fired
+            while (!isSdkInitialized)
+            {
+                yield return null;
+            }
+
+            // 4. Load your ads sequentially with your desired delays
+            Debug.Log("Google Mobile Ads SDK Initialized. Loading ads...");
+            LoadInterstitialAd();
+
+            yield return new WaitForSeconds(1f);
+            LoadRewardedAd();
         }
 
         #region Interstitial Ad Methods
