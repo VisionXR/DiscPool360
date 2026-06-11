@@ -46,6 +46,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);           
             uiData.uiManager.ChangeState(startGameState, true);
 
+            SPDestination.aIDifficulty = uiData.currentAIDifficulty;
             SPDestination.gameMode = uiData.currentGameMode;
             destinationData.ConnectToDestination(SPDestination, null, null);
         }

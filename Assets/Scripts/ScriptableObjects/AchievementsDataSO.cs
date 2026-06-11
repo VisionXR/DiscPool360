@@ -69,6 +69,19 @@ namespace com.VisionXR.ModelClasses
             return null;
         }
 
+        public AchievementInfo GetAchievementByApiId(string apiId)
+        {
+            foreach (AchievementInfo info in AllAchievementInfo)
+            {
+                if (info.apiName == apiId)
+                {
+                    return info;
+                }
+            }
+
+            return null;
+        }
+
         public bool IsAchievementUnlockedByName(string Name)
         {
             foreach (AchievementInfo info in AllAchievementInfo)

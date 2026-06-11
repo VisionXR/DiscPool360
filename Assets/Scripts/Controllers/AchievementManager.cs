@@ -33,6 +33,8 @@ public class AchievementManager : MonoBehaviour
         gameData.StartGameEvent += GameStarted;
         gameData.GameCompletedEvent += GameCompleted;
         achievementData.UserLoggedInEvent += AddLogin;
+
+
     }
 
     private void OnDisable()
@@ -62,8 +64,10 @@ public class AchievementManager : MonoBehaviour
             // Update achievement data with fetched achievements
             foreach (var achievement in achievements)
             {
-
                 achievementData.UpdateLocalProgress(achievement.id, (int)achievement.percentCompleted);
+
+               // Debug.Log($"Fetched achievement from server: {achievement.id} - {achievementData.GetAchievementByApiId(achievement.id).name}");
+
                 // 1. Check if it's fully unlocked (Works for BOTH Simple and Incremental)
                 if (achievement.completed)
                 {
@@ -107,7 +111,13 @@ public class AchievementManager : MonoBehaviour
         Destination d = destinationData.currentDestination;
         Player mp = playerData.GetMainPlayer();
 
-        if (uiData.currentBoardType != BoardType.Circle6 && mp.playerProperties.myId == id)
+        if(d== null || mp == null || mp.playerProperties.myId != id)
+        {
+            Debug.LogWarning("Main player not found or ID mismatch. Cannot process achievements for game completion.");
+            return;
+        }
+
+        if (uiData.currentBoardType != BoardType.Circle6)
         {
             BoardStats currentBoardStats;
 
@@ -147,8 +157,7 @@ public class AchievementManager : MonoBehaviour
             return;
         }
 
-        if (d != null && mp.playerProperties.myId == id)
-        {
+
             if (d.gameType == GameType.SinglePlayer)
             {
                 if (d.aIDifficulty == AIDifficulty.Easy)
@@ -207,7 +216,7 @@ public class AchievementManager : MonoBehaviour
 
             StartCoroutine(UnLockWin());
            
-        }
+        
     }
 
     private IEnumerator UnLockWin()
@@ -285,7 +294,7 @@ public class AchievementManager : MonoBehaviour
                 // Check if your local count has officially hit or crossed the required server target
                 if (currentCount >= targetCount)
                 {
-                    Debug.LogWarning($"[Achievements] TARGET REACHED! Achievement {achievementId} is now FULLY UNLOCKED!");
+                    Debug.Log($"[Achievements] TARGET REACHED! Achievement {achievementId} is now FULLY UNLOCKED!");
 
                     // 1. Mark it unlocked in your local ScriptableObject state cache
                     achievementData.UnLockLocal(achievementId);
@@ -513,6 +522,7 @@ public class AchievementManager : MonoBehaviour
                 AchievementInfo info = achievementData.GetAchievementByName("spPoolHardWins10");
                 info.actual = achievementData.defaultBoardWinsData.spPoolHardWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
+                Debug.Log("Updating incremental achievement for spPoolHardWins10: " + info.actual + "/" + info.target);
                 yield return new WaitForSeconds(1);
             }
 
@@ -607,6 +617,7 @@ public class AchievementManager : MonoBehaviour
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins10");
                 info.actual = achievementData.defaultBoardWinsData.mpPoolWins;
+                Debug.Log("Updating incremental achievement for mpPoolWins10: " + info.actual + "/" + info.target);
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
             }
@@ -649,6 +660,7 @@ public class AchievementManager : MonoBehaviour
             if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins10"))
             {
                 AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins10");
+                Debug.Log("Updating incremental achievement for mpSnookerWins10: " + info.actual + "/" + info.target);
                 info.actual = achievementData.defaultBoardWinsData.mpSnookerWins;
                 UpdateIncrementalAchievement(info, info.actual, info.target);
                 yield return new WaitForSeconds(1);
