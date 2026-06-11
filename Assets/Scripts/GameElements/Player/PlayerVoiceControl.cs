@@ -13,6 +13,7 @@ public class PlayerVoiceControl : MonoBehaviour {
     public Player currentPlayer;
     public AudioSource speaker;
     public Recorder recorder;
+    public WebRtcAudioDsp dsp;
 
     public void OnEnable()
     {

@@ -57,7 +57,7 @@ MonoBehaviour:
   reliableMode: 0
   encrypt: 0
   transmitEnabled: 1
-  samplingRate: 48000
+  samplingRate: 16000
   frameDuration: 20000
   bitrate: 20000
   sourceType: 0
@@ -650,6 +650,7 @@ MonoBehaviour:
   currentPlayer: {fileID: 601380982685072363}
   speaker: {fileID: 1436632896028036055}
   recorder: {fileID: 760662254974022178}
+  dsp: {fileID: 4423488863408409380}
 --- !u!114 &-463771018469966190
 MonoBehaviour:
   m_ObjectHideFlags: 0
