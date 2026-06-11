@@ -208,12 +208,12 @@ MonoBehaviour:
   aec: 1
   aecHighPass: 1
   agc: 1
-  agcCompressionGain: 18
+  agcCompressionGain: 6
   agcTargetLevel: 3
   vad: 1
   highPass: 1
   noiseSuppression: 1
-  reverseStreamDelayMs: 80
+  reverseStreamDelayMs: 60
 --- !u!1 &8191997661384607171
 GameObject:
   m_ObjectHideFlags: 0
