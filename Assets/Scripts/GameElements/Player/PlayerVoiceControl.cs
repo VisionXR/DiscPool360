@@ -26,10 +26,7 @@ public class PlayerVoiceControl : MonoBehaviour {
         {
             dsp.enabled = false;
         }
-        else
-        {
-            recorder.gameObject.AddComponent<AudioListener>();
-        }
+
     }
 
     private void OnDisable()
