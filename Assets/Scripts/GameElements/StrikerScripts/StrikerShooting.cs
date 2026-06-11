@@ -101,16 +101,16 @@ public class StrikerShooting : MonoBehaviour
 
     private IEnumerator WaituntilStrikeFinished()
     {
-
+        float elapsedTime = 0f;
         yield return new WaitForSeconds(0.5f);
-
-        while (IsAnyObjectMoving())
+        elapsedTime += 0.5f;
+        while (IsAnyObjectMoving() && elapsedTime <6f)
         {
            
             // Yielding WaitForFixedUpdate ensures we check sync'd with the physics engine, 
             // completely bypassing frame rate variance.
             yield return new WaitForSeconds(0.5f);
-          
+            elapsedTime += 0.5f;
         }
 
         // 2. Force it to a complete stop to prevent micro-drifting
