@@ -515,20 +515,22 @@ public class AchievementManager : MonoBehaviour
 
         }
 
-        if (achievementData.defaultBoardWinsData.spPoolHardWins <= 10)
+
+        if (!achievementData.IsAchievementUnlockedByName("spPoolHardWins10"))
         {
-            if (!achievementData.IsAchievementUnlockedByName("spPoolHardWins10"))
+            AchievementInfo info = achievementData.GetAchievementByName("spPoolHardWins10");
+            if (achievementData.defaultBoardWinsData.spPoolHardWins > 10)
             {
-                AchievementInfo info = achievementData.GetAchievementByName("spPoolHardWins10");
-                info.actual = achievementData.defaultBoardWinsData.spPoolHardWins;
-                UpdateIncrementalAchievement(info, info.actual, info.target);
-                Debug.Log("Updating incremental achievement for spPoolHardWins10: " + info.actual + "/" + info.target);
-                yield return new WaitForSeconds(1);
+                info.actual = 10;
             }
-
+            else
+            {
+                info.actual = achievementData.defaultBoardWinsData.spPoolHardWins;
+            }
+            UpdateIncrementalAchievement(info, info.actual, info.target);
+            Debug.Log("Updating incremental achievement for spPoolHardWins10: " + info.actual + "/" + info.target);
+            yield return new WaitForSeconds(1);
         }
-
-
 
         if (achievementData.defaultBoardWinsData.spSnookerEasyWins >= 1)
         {
@@ -566,17 +568,24 @@ public class AchievementManager : MonoBehaviour
 
         }
 
-        if (achievementData.defaultBoardWinsData.spSnookerHardWins <= 10)
-        {
 
-            if (!achievementData.IsAchievementUnlockedByName("spSnookerHardWins10"))
+
+        if (!achievementData.IsAchievementUnlockedByName("spSnookerHardWins10"))
+        {
+            AchievementInfo info = achievementData.GetAchievementByName("spSnookerHardWins10");
+            if (achievementData.defaultBoardWinsData.spSnookerHardWins > 10)
             {
-                AchievementInfo info = achievementData.GetAchievementByName("spSnookerHardWins10");
-                info.actual = achievementData.defaultBoardWinsData.spSnookerHardWins;
-                UpdateIncrementalAchievement(info, info.actual, info.target);
-                yield return new WaitForSeconds(1);
+                info.actual = 10;
             }
+            else
+            {
+                info.actual = achievementData.defaultBoardWinsData.spSnookerHardWins;
+            }
+
+            UpdateIncrementalAchievement(info, info.actual, info.target);
+            yield return new WaitForSeconds(1);
         }
+
 
 
 
@@ -610,18 +619,23 @@ public class AchievementManager : MonoBehaviour
             }
         }
 
-        if (achievementData.defaultBoardWinsData.mpPoolWins <= 10)
-        {
 
-            if (!achievementData.IsAchievementUnlockedByName("mpPoolWins10"))
+        if (!achievementData.IsAchievementUnlockedByName("mpPoolWins10"))
+        {
+            AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins10");
+            if (achievementData.defaultBoardWinsData.mpPoolWins > 10)
             {
-                AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins10");
-                info.actual = achievementData.defaultBoardWinsData.mpPoolWins;
-                Debug.Log("Updating incremental achievement for mpPoolWins10: " + info.actual + "/" + info.target);
-                UpdateIncrementalAchievement(info, info.actual, info.target);
-                yield return new WaitForSeconds(1);
+                info.actual = 10;
             }
+            else
+            {
+                info.actual = achievementData.defaultBoardWinsData.mpPoolWins;
+            }
+            Debug.Log("Updating incremental achievement for mpPoolWins10: " + info.actual + "/" + info.target);
+            UpdateIncrementalAchievement(info, info.actual, info.target);
+            yield return new WaitForSeconds(1);
         }
+
 
 
         if (achievementData.defaultBoardWinsData.mpSnookerWins >= 1)
@@ -654,62 +668,80 @@ public class AchievementManager : MonoBehaviour
             }
         }
 
-        if (achievementData.defaultBoardWinsData.mpSnookerWins <= 10)
+        if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins10"))
         {
-
-            if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins10"))
+            AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins10");
+            if (achievementData.defaultBoardWinsData.mpSnookerWins > 10)
             {
-                AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins10");
-                Debug.Log("Updating incremental achievement for mpSnookerWins10: " + info.actual + "/" + info.target);
-                info.actual = achievementData.defaultBoardWinsData.mpSnookerWins;
-                UpdateIncrementalAchievement(info, info.actual, info.target);
-                yield return new WaitForSeconds(1);
+                info.actual = 10;
             }
-        }
+            else
+            {
+                info.actual = achievementData.defaultBoardWinsData.mpSnookerWins;
+            }
+            Debug.Log("Updating incremental achievement for mpSnookerWins10: " + info.actual + "/" + info.target);
 
+            UpdateIncrementalAchievement(info, info.actual, info.target);
+            yield return new WaitForSeconds(1);
+        }
 
     }
     public IEnumerator UnLockOverallAchievements()
     {
         yield return null;
 
-        if (achievementData.defaultBoardWinsData.spTotalWins <= 50)
-        {
 
-            if (!achievementData.IsAchievementUnlockedByName("spTotalWins50"))
+        if (!achievementData.IsAchievementUnlockedByName("spTotalWins50"))
+        {
+            AchievementInfo info = achievementData.GetAchievementByName("spTotalWins50");
+            if (achievementData.defaultBoardWinsData.spTotalWins > 50)
             {
-                AchievementInfo info = achievementData.GetAchievementByName("spTotalWins50");
+                info.actual = 50;
+            }
+            else
+            {
                 info.actual = achievementData.defaultBoardWinsData.spTotalWins;
-                UpdateIncrementalAchievement(info, info.actual, info.target);
-                yield return new WaitForSeconds(1);
             }
+            info.actual = achievementData.defaultBoardWinsData.spTotalWins;
+            UpdateIncrementalAchievement(info, info.actual, info.target);
+            yield return new WaitForSeconds(1);
         }
 
-
-        if (achievementData.defaultBoardWinsData.mpTotalWins <= 50)
+        if (!achievementData.IsAchievementUnlockedByName("mpTotalWins50"))
         {
-            if (!achievementData.IsAchievementUnlockedByName("mpTotalWins50"))
+            AchievementInfo info = achievementData.GetAchievementByName("mpTotalWins50");
+            if (achievementData.defaultBoardWinsData.mpTotalWins > 50)
             {
-                AchievementInfo info = achievementData.GetAchievementByName("mpTotalWins50");
-                info.actual = achievementData.defaultBoardWinsData.mpTotalWins;
-                UpdateIncrementalAchievement(info, info.actual, info.target);
-                yield return new WaitForSeconds(1);
+                info.actual = 50;
             }
+            else
+            {
+                info.actual = achievementData.defaultBoardWinsData.mpTotalWins;
+            }
+            UpdateIncrementalAchievement(info, info.actual, info.target);
+            yield return new WaitForSeconds(1);
         }
+
 
 
         int totalWins = achievementData.defaultBoardWinsData.spTotalWins + achievementData.defaultBoardWinsData.mpTotalWins;
-        if (totalWins <= 100)
-        {
 
-            if (!achievementData.IsAchievementUnlockedByName("GrandChampion"))
+
+        if (!achievementData.IsAchievementUnlockedByName("GrandChampion"))
+        {
+            AchievementInfo info = achievementData.GetAchievementByName("GrandChampion");
+            if (totalWins <= 100)
             {
-                AchievementInfo info = achievementData.GetAchievementByName("GrandChampion");
                 info.actual = totalWins;
-                UpdateIncrementalAchievement(info, info.actual, info.target);
-                yield return new WaitForSeconds(1);
             }
+            else
+            {
+                info.actual = 100;
+            }
+            UpdateIncrementalAchievement(info, info.actual, info.target);
+            yield return new WaitForSeconds(1);
         }
+
 
     }
 
