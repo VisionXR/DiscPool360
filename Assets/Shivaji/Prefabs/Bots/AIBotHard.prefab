@@ -3277,7 +3277,7 @@ MonoBehaviour:
   forceAdder: 2
   strikerOffset: 0.0025
   AIIcon: {fileID: 0}
-  CutOffAngle: 70
+  CutOffAngle: 75
   MyId: 2
   isExcecuting: 0
 --- !u!114 &3249503038661304244

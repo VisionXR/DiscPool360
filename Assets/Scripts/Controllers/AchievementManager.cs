@@ -61,21 +61,39 @@ public class AchievementManager : MonoBehaviour
                 return;
             }
 
-            // Update achievement data with fetched achievements
             foreach (var achievement in achievements)
             {
-                achievementData.UpdateLocalProgress(achievement.id, (int)achievement.percentCompleted);
+                // Use achievement.id to query your local config
+                AchievementInfo info = achievementData.GetAchievementByApiId(achievement.id);
 
-               // Debug.Log($"Fetched achievement from server: {achievement.id} - {achievementData.GetAchievementByApiId(achievement.id).name}");
-
-                // 1. Check if it's fully unlocked (Works for BOTH Simple and Incremental)
-                if (achievement.completed)
+                if (info != null)
                 {
-                    achievementData.UnLockLocal(achievement.id);
-                    
-                }            
-            }
+                    // Calculate actual step progress locally if it's an incremental achievement
+                    int calculatedProgress = 0;
 
+                    if (info.achievementType == AchievementType.Progess && info.target > 0)
+                    {
+                        // Convert Google's server percentage back into your local step count
+                        calculatedProgress = Mathf.RoundToInt(((float)achievement.percentCompleted / 100f) * info.target);
+                    }
+                    else
+                    {
+                        // For standard achievements, percentCompleted is either 0 or 100
+                        calculatedProgress = achievement.completed ? info.target : 0;
+                    }
+
+                    // Update your local cache with the true step progress
+                    achievementData.UpdateLocalProgress(achievement.id, calculatedProgress);
+
+                    // Check if fully unlocked
+                    if (achievement.completed)
+                    {
+                        achievementData.UnLockLocal(achievement.id);
+                    }
+
+                   // Debug.Log($"Progress synced for {info.name}: Server reporting {achievement.percentCompleted}%. Local step calculation: {calculatedProgress}/{info.target}");
+                }
+            }
         });
     }
 
@@ -250,7 +268,7 @@ public class AchievementManager : MonoBehaviour
         {
             if (success)
             {
-                Debug.Log($"[Achievements] Successfully unlocked standard achievement: {achievementId}");
+              //  Debug.Log($"[Achievements] Successfully unlocked standard achievement: {achievementId}");
 
                 // Mark it unlocked in your local ScriptableObject
                 achievementData.UnLockLocal(achievementId);
@@ -278,39 +296,37 @@ public class AchievementManager : MonoBehaviour
     public void UpdateIncrementalAchievement(AchievementInfo info, int currentCount, int targetCount)
     {
         string achievementId = info.apiName;
-      
+
         if (!PlayGamesPlatform.Instance.IsAuthenticated())
         {
             Debug.LogWarning($"[Achievements] User not authenticated. Cannot update incremental ID: {achievementId}");
             return;
         }
 
-        Social.ReportProgress(achievementId, (double)currentCount, (bool success) =>
+        // FIX: Use PlayGamesPlatform specific API for exact step targeting
+        // SetStepsAtLeast ensures the server updates to your latest local progress smoothly
+        PlayGamesPlatform.Instance.SetStepsAtLeast(achievementId, currentCount, (bool success) =>
         {
             if (success)
             {
-                Debug.Log($"[Achievements] Successfully updated incremental achievement {achievementId} to step count: {currentCount}/{targetCount}");
+              //  Debug.Log($"[Achievements] Successfully set incremental achievement {info.name} steps to: {currentCount}/{targetCount}");
 
                 // Check if your local count has officially hit or crossed the required server target
                 if (currentCount >= targetCount)
                 {
-                    Debug.Log($"[Achievements] TARGET REACHED! Achievement {achievementId} is now FULLY UNLOCKED!");
+                  //  Debug.Log($"[Achievements] TARGET REACHED! Achievement {achievementId} is now FULLY UNLOCKED!");
 
-                    // 1. Mark it unlocked in your local ScriptableObject state cache
                     achievementData.UnLockLocal(achievementId);
 
-                    // 2. Play your reward sound effect cleanly
                     if (achievementAS != null && !achievementAS.isPlaying)
                     {
                         achievementAS.Play();
                     }
-
-                    // 3. Optional: Fire a UI event here if you want to show a custom local toast/pop-up notification!
                 }
             }
             else
             {
-                Debug.LogError($"[Achievements] Failed to update incremental achievement steps for ID: {achievementId}");
+                Debug.LogError($"[Achievements] Failed to update incremental achievement steps via SetStepsAtLeast for ID: {achievementId}");
             }
         });
     }
@@ -528,7 +544,7 @@ public class AchievementManager : MonoBehaviour
                 info.actual = achievementData.defaultBoardWinsData.spPoolHardWins;
             }
             UpdateIncrementalAchievement(info, info.actual, info.target);
-            Debug.Log("Updating incremental achievement for spPoolHardWins10: " + info.actual + "/" + info.target);
+            
             yield return new WaitForSeconds(1);
         }
 
@@ -573,6 +589,7 @@ public class AchievementManager : MonoBehaviour
         if (!achievementData.IsAchievementUnlockedByName("spSnookerHardWins10"))
         {
             AchievementInfo info = achievementData.GetAchievementByName("spSnookerHardWins10");
+            
             if (achievementData.defaultBoardWinsData.spSnookerHardWins > 10)
             {
                 info.actual = 10;
@@ -631,7 +648,7 @@ public class AchievementManager : MonoBehaviour
             {
                 info.actual = achievementData.defaultBoardWinsData.mpPoolWins;
             }
-            Debug.Log("Updating incremental achievement for mpPoolWins10: " + info.actual + "/" + info.target);
+            
             UpdateIncrementalAchievement(info, info.actual, info.target);
             yield return new WaitForSeconds(1);
         }
@@ -679,7 +696,6 @@ public class AchievementManager : MonoBehaviour
             {
                 info.actual = achievementData.defaultBoardWinsData.mpSnookerWins;
             }
-            Debug.Log("Updating incremental achievement for mpSnookerWins10: " + info.actual + "/" + info.target);
 
             UpdateIncrementalAchievement(info, info.actual, info.target);
             yield return new WaitForSeconds(1);
