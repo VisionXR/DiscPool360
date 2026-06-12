@@ -273,8 +273,8 @@ namespace com.VisionXR.HelperClasses
     [Serializable]
     public class SpecialBoardWinsStats
     {
-        public List<BoardStats> boardStats;
-        public List<string> clientNames;
+        public List<BoardStats> boardStats = new List<BoardStats>();
+        public List<string> clientNames = new List<string>();
 
     }
 

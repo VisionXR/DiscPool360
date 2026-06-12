@@ -143,8 +143,11 @@ namespace com.VisionXR.Controllers
                     if (result.Data != null && result.Data.ContainsKey(specialBoardWinsKey))
                     {
                         string json = result.Data[specialBoardWinsKey].Value;
+
                         achievementsData.specialBoardWinsStats = JsonUtility.FromJson<SpecialBoardWinsStats>(json);
-                        
+                        achievementsData.SetSpecialBoardsData();
+
+                        Debug.Log("special board data"+JsonUtility.ToJson(achievementsData.specialBoardWinsStats));
                     }
 
                     achievementsData.UserLoggedIn();

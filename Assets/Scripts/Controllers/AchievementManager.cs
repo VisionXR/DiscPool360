@@ -780,13 +780,14 @@ public class AchievementManager : MonoBehaviour
         foreach (BoardStats stats in achievementData.specialBoardWinsStats.boardStats)
         {
             achievementInfo = achievementData.GetAchievementByName("spPool" + Enum.GetName(typeof(BoardType), stats.boardType));
-
+           
             if (achievementInfo != null)
             {
                 if (stats.spPoolWins >= 1)
                 {
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
+                        Debug.Log("Trying to unlock pool " + achievementInfo.name);
                         UnlockSimpleAchievement(achievementInfo);
                         yield return new WaitForSeconds(1);
                     }
@@ -802,6 +803,7 @@ public class AchievementManager : MonoBehaviour
                 {
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
+                        Debug.Log("Trying to unlock snooker " + achievementInfo.name);
                         UnlockSimpleAchievement(achievementInfo);
                         yield return new WaitForSeconds(1);
                     }

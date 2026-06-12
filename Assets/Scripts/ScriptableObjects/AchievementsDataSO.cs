@@ -24,8 +24,9 @@ namespace com.VisionXR.ModelClasses
 
         private void OnEnable()
         {
-            specialBoardWinsStats.clientNames.Clear();
+            specialBoardWinsStats = new SpecialBoardWinsStats();
             defaultBoardWinsData = new DefaultBoardWinsData();
+            SetSpecialBoardsData();
         }
 
         public void GetAllAchievemnets()
@@ -100,17 +101,42 @@ namespace com.VisionXR.ModelClasses
             return false;
         }
 
+        public void SetSpecialBoardsData()
+        {
+            if(specialBoardWinsStats.boardStats.Count == 0)
+            {
+                BoardStats squareStats = new BoardStats();
+                squareStats.boardType = BoardType.Square4;
+
+                BoardStats trainglestats = new BoardStats();
+                trainglestats.boardType = BoardType.Triangle3;
+
+                BoardStats hex6Stats = new BoardStats();
+                hex6Stats.boardType = BoardType.Hexagon6;
+
+                BoardStats hex4Stats = new BoardStats();
+                hex4Stats.boardType = BoardType.Hexagon4;
+
+                BoardStats oct4Stats = new BoardStats();
+                oct4Stats.boardType = BoardType.Octagon4;
+
+                BoardStats circle4stats = new BoardStats();
+                circle4stats.boardType = BoardType.Circle4;
+
+                specialBoardWinsStats.boardStats.Add(squareStats);
+                specialBoardWinsStats.boardStats.Add(trainglestats);
+                specialBoardWinsStats.boardStats.Add(hex4Stats);
+                specialBoardWinsStats.boardStats.Add(hex6Stats);
+                specialBoardWinsStats.boardStats.Add(oct4Stats);
+                specialBoardWinsStats.boardStats.Add(circle4stats);
+            }
+        }
+
         public void Clear()
         {
             defaultBoardWinsData = new DefaultBoardWinsData();
-            foreach(BoardStats stats in specialBoardWinsStats.boardStats)
-            {
-                stats.spSnookerWins = 0;
-                stats.spPoolWins = 0;
-                stats.mpPoolWins = 0;
-                stats.mpSnookerWins = 0;
-            }
-            specialBoardWinsStats.clientNames.Clear();
+            specialBoardWinsStats = new SpecialBoardWinsStats();
+            SetSpecialBoardsData();
         }
     }
 
