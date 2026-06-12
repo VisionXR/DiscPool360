@@ -78,7 +78,7 @@ namespace com.VisionXR.ModelClasses
 
         public void StartGame()
         {
-            firstTurnId = 1;
+           
             StartGameEvent?.Invoke();
         }
 

@@ -121,6 +121,7 @@ namespace com.VisionXR.Controllers
         {
             
             _previousTurnId = -1;
+            gameData.StartGame();
             gameData.SetFirstTurnId(playerId);
             userData.myCoins = (CoinsType)coinsId;
             if (coinsId == 0 || coinsId == 1)
