@@ -13,7 +13,7 @@ public class PlayerVoiceControl : MonoBehaviour {
     public Player currentPlayer;
     public AudioSource speaker;
     public Recorder recorder;
-    public WebRtcAudioDsp dsp;
+
 
     public void OnEnable()
     {
@@ -21,11 +21,6 @@ public class PlayerVoiceControl : MonoBehaviour {
         uiData.TurnOffMicEvent += TurnOffMic;
         uiData.TurnOnSpeakerEvent += TurnOnSpeaker;
         uiData.TurnOffSpeakerEvent += TurnOffSpeaker;
-
-        if(currentPlayer.playerProperties.myPlayerControl == PlayerControl.Remote)
-        {
-            dsp.enabled = false;
-        }
 
     }
 

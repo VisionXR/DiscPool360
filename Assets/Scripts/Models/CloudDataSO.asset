@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1a2e8997de8c4148ba84e7ffbbf965a, type: 3}
   m_Name: CloudDataSO
   m_EditorClassIdentifier: Assembly-CSharp::com.VisionXR.ModelClasses.CloudDataSO
-  coins: 0
+  isPlayerDataLoaded: 0

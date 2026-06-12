@@ -15,7 +15,7 @@ MonoBehaviour:
   MyName: Guest_Player
   MyProfileImage: {fileID: 0}
   MyImageUrl: 
-  MyOculusId: 6811
+  MyOculusId: 8587
   bgMusicVolume: 0.1
   myBoard: 0
   isToggle: 0
@@ -23,7 +23,6 @@ MonoBehaviour:
   myGuide: 0
   myDominantHand: 0
   myServerRegion: 0
-  linkAPI: 
   AIImages:
   - {fileID: 21300000, guid: c4a12e4d84ae30940acbc34f9e64e371, type: 3}
   - {fileID: 21300000, guid: 7885bd9473d8a2b49a54741dea8f74ed, type: 3}
