@@ -22,6 +22,12 @@ namespace com.VisionXR.ModelClasses
         public Action UserLoggedInEvent;
         public Action GotAllAchievementsEvent;
 
+        private void OnEnable()
+        {
+            specialBoardWinsStats.clientNames.Clear();
+            defaultBoardWinsData = new DefaultBoardWinsData();
+        }
+
         public void GetAllAchievemnets()
         {
             GetAllAchievementsEvent?.Invoke();
