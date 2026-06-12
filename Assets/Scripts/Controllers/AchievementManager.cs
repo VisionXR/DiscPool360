@@ -429,18 +429,23 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.defaultBoardWinsData.totalLogins <= 10)
+
+        if (!achievementData.IsAchievementUnlockedByName("login10"))
         {
-
-            if (!achievementData.IsAchievementUnlockedByName("login10"))
+            AchievementInfo info = achievementData.GetAchievementByName("login10");
+            if (achievementData.defaultBoardWinsData.spPoolHardWins > 10)
             {
-                AchievementInfo info = achievementData.GetAchievementByName("login10");
-                info.actual = achievementData.defaultBoardWinsData.totalLogins;
-                UpdateIncrementalAchievement(info, info.actual, info.target);
-                yield return new WaitForSeconds(1);
+                info.actual = 10;
             }
-
+            else
+            {
+                info.actual = achievementData.defaultBoardWinsData.totalLogins;
+            }
+            UpdateIncrementalAchievement(info, info.actual, info.target);
+            yield return new WaitForSeconds(1);
         }
+
+
 
     }
     public IEnumerator UnLockTableHostAchievements()
@@ -479,17 +484,21 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.specialBoardWinsStats.clientNames.Count <= 10)
+        if (!achievementData.IsAchievementUnlockedByName("invite10"))
         {
-            if (!achievementData.IsAchievementUnlockedByName("invite10"))
+            AchievementInfo info = achievementData.GetAchievementByName("invite10");
+            if (achievementData.defaultBoardWinsData.spPoolHardWins > 10)
             {
-                AchievementInfo info = achievementData.GetAchievementByName("invite10");
-                info.actual = achievementData.defaultBoardWinsData.totalLogins;
-                UpdateIncrementalAchievement(info, info.actual, info.target);
-                yield return new WaitForSeconds(1);
+                info.actual = 10;
             }
-
+            else
+            {
+                info.actual = achievementData.specialBoardWinsStats.clientNames.Count;
+            }
+            UpdateIncrementalAchievement(info, info.actual, info.target);
+            yield return new WaitForSeconds(1);
         }
+
 
     }
     public IEnumerator UnLockWinAchievements()

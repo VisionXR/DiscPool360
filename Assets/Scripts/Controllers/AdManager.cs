@@ -66,6 +66,7 @@ namespace com.VisionXR.Controllers
 
             // 4. Load your ads sequentially with your desired delays
             Debug.Log("Google Mobile Ads SDK Initialized. Loading ads...");
+            yield return new WaitForSeconds(1f);
             LoadInterstitialAd();
 
             yield return new WaitForSeconds(1f);
@@ -101,7 +102,7 @@ namespace com.VisionXR.Controllers
                 _interstitialAd.OnAdFullScreenContentClosed += () =>
                 {
                     adDataSO.OnInterstitialAdSuccess(); // Notify the Scriptable Object about the success
-                    //LoadInterstitialAd();
+                    LoadInterstitialAd();
                 };
             });
         }
@@ -117,7 +118,7 @@ namespace com.VisionXR.Controllers
             if (_interstitialAd != null && _interstitialAd.CanShowAd())
             {
                 _interstitialAd.Show();
-                LoadInterstitialAd();
+                
             }
             else
             {

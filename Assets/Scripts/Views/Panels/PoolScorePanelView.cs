@@ -56,7 +56,7 @@ public class PoolScorePanelView : MonoBehaviour
         uiData.UpdateCoinsEvent += UpdateCoins;
         playerData.PlayerImageReceivedEvent += SetPlayerImage;
         uiData.SetPlayerDataEvent += SetPlayerData;
-        SetPlayerData(1);
+     
     }
 
     private void OnDisable()
@@ -297,7 +297,7 @@ public class PoolScorePanelView : MonoBehaviour
 
     private void ResetCoins()
     {
-
+        
         foreach (Image image1 in P1Coins)
         {
             image1.sprite = defaultImage;

@@ -44,6 +44,7 @@ public class Platform : MonoBehaviour
         boardData.TurnOffInteractableEvent += TurnOffInteractable;
 
         tableData.ResetPlatformEvent += ResetPlatform;
+        tableData.SetPlatformRotationEvent += SetPlatformRotation;
 
         inputData.RotationPinchStartedEvent += PinchStarted;
         inputData.RotationPinchContinuedEvent += PinchContinued;
@@ -60,6 +61,7 @@ public class Platform : MonoBehaviour
         boardData.TurnOffInteractableEvent -= TurnOffInteractable;
 
         tableData.ResetPlatformEvent -= ResetPlatform;
+        tableData.SetPlatformRotationEvent -= SetPlatformRotation;
 
         inputData.RotationPinchStartedEvent -= PinchStarted;
         inputData.RotationPinchContinuedEvent -= PinchContinued;

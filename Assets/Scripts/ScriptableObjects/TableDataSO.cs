@@ -27,6 +27,7 @@ namespace com.VisionXR.ModelClasses
         public Action PlatformRotationEndedEvent;
         public Action ResetPlatformEvent;
         public Action<Vector3> PlatformRotationChangedEvent;
+        public Action<float> SetPlatformRotationEvent;
 
 
         //Methods
@@ -96,6 +97,11 @@ namespace com.VisionXR.ModelClasses
         public void PlatformRotationChanged(Vector3 rotationDelta)
         {
             PlatformRotationChangedEvent?.Invoke(rotationDelta);
+        }
+
+        public void SetPlatformRotation(float dely)
+        {
+            SetPlatformRotationEvent?.Invoke(dely);
         }
 
     }

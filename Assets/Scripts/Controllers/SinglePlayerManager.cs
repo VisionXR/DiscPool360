@@ -48,6 +48,7 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
+            gameData.SetFirstTurnId(-1);
 
             coinData.CoinPocketedEvent += CheckPocketedCoins;
 
@@ -165,7 +166,7 @@ namespace com.VisionXR.Controllers
         public void StartGame(int id)
         {
             gameData.StartGame();
-
+            gameData.SetFirstTurnId(id);
             userData.CreateSameBoard();
 
             firstTurnId = id;
@@ -178,6 +179,16 @@ namespace com.VisionXR.Controllers
             tableData.ResetPlatform();
 
             StartCoroutine(InitialiseGame(firstTurnId));
+
+           if(uiData.currentGameMode == GameMode.Pool)
+            {
+                uiData.uiManager.poolCanvasView.ShowPoolUI();
+            }
+
+        }
+        private void PlayAgain(int id)
+        {
+            StartCoroutine(WaitAndPlayAgain(id));
 
         }
 
@@ -236,6 +247,11 @@ namespace com.VisionXR.Controllers
             pocketedCoins.Clear();
             strikerData.SetFoul(false);
 
+            if (uiData.currentGameMode == GameMode.Pool)
+            {
+                uiData.uiManager.poolCanvasView.ShowPoolUI();
+            }
+
             yield return new WaitForSeconds(1);
             uiData.SetPlayerData(1);
             uiData.SetPlayerData(2);
@@ -243,11 +259,7 @@ namespace com.VisionXR.Controllers
             gameData.ChangeTurn(id);
         }
 
-        private void PlayAgain(int id)
-        {
-            StartCoroutine(WaitAndPlayAgain(id));
 
-        }
 
         private IEnumerator InitialiseGame(int id)
         {
@@ -258,8 +270,7 @@ namespace com.VisionXR.Controllers
             yield return StartCoroutine(CreatePlayers());
             yield return new WaitForSeconds(0.1f);
 
-          
-
+         
             if (uiData.currentGameMode == GameMode.Pool)
             {
                 boardData.SnookerObject.SetActive(false);
@@ -570,10 +581,7 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator WaitAndCheckSnookerLogic()
         {
-            while (gameData.isGamePaused)
-            {
-                yield return null;
-            }
+           
 
             var result = snookerLogic.ValidateShot(pocketedCoins, strikerData.isFoul);
 
@@ -606,6 +614,11 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator WaitAndChangeTurn(int id)
         {
+            while(gameData.isGamePaused)
+            {
+                yield return null;
+            }
+
             yield return new WaitForSeconds(0.5f);
             gameData.ChangeTurn(id);
         }

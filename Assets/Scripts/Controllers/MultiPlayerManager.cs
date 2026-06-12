@@ -142,6 +142,11 @@ namespace com.VisionXR.Controllers
             strikerData.SetFoul(false);
             pocketedCoins.Clear();
 
+            if(playerId == 2)
+            {
+                tableData.SetPlatformRotation(180);
+            }
+
             StartCoroutine(InitialiseGame(playerId));
         }
         private IEnumerator InitialiseGame(int id)
@@ -167,6 +172,11 @@ namespace com.VisionXR.Controllers
 
                 snookerLogic.StartGame();
 
+            }
+
+            if (uiData.currentGameMode == GameMode.Pool)
+            {
+                uiData.uiManager.poolCanvasView.ShowPoolUI();
             }
 
             yield return new WaitForSeconds(1f);
@@ -416,10 +426,7 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator WaitAndCheckSnookerLogic()
         {
-            while (gameData.isGamePaused)
-            {
-                yield return null;
-            }
+           
 
             var result = snookerLogic.ValidateShot(pocketedCoins, strikerData.isFoul);
             multiPlayerConnectionManager.SendSnookerScore(snookerLogic.requiredColorIndex, snookerLogic.phase, gameData.Player1SnookerScore, gameData.Player2SnookerScore);
@@ -465,6 +472,8 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator WaitAndChangeTurn(int id)
         {
+           
+
             yield return new WaitForSeconds(0.5f);
             gameData.ChangeTurn(id);
 

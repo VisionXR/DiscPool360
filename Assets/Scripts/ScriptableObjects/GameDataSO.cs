@@ -94,8 +94,14 @@ namespace com.VisionXR.ModelClasses
 
         public void PlayAgain()
         {
-
-            PlayAgainEvent?.Invoke(firstTurnId);
+            if (firstTurnId == -1 || firstTurnId == 2)
+            {
+                PlayAgainEvent?.Invoke(1);
+            }
+            else
+            {
+                PlayAgainEvent?.Invoke(2);
+            }
         }
 
         public void GamePaused()

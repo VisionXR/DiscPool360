@@ -20,7 +20,6 @@ public class StartGame : StateMachineBehaviour
             if(uiData.currentGameMode == GameMode.Pool)
             {
                 uiData.uiManager.ShowCanvas(poolCanvasId);
-                uiData.uiManager.poolCanvasView.ShowPoolUI();
                 uiData.uiManager.poolCanvasView.TurnOn();
             }
             else if(uiData.currentGameMode == GameMode.Snooker)
