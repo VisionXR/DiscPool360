@@ -112,6 +112,7 @@ public class AchievementManager : MonoBehaviour
 
             else if (d.gameType == GameType.MultiPlayer)
             {
+                achievementData.defaultBoardWinsData.mpTotalGames++;
                 Player otherPlayer = playerData.GetOpponentPlayer();
                 if (otherPlayer != null)
                 {
