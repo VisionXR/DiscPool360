@@ -206,14 +206,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.WebRtcAudioDsp
   aec: 1
-  aecHighPass: 0
+  aecHighPass: 1
   agc: 1
-  agcCompressionGain: 9
+  agcCompressionGain: 50
   agcTargetLevel: 3
   vad: 1
-  highPass: 0
+  highPass: 1
   noiseSuppression: 1
-  reverseStreamDelayMs: 120
+  reverseStreamDelayMs: 60
 --- !u!1 &8191997661384607171
 GameObject:
   m_ObjectHideFlags: 0
