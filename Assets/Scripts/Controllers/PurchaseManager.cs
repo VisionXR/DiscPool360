@@ -115,7 +115,7 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         // Wait gracefully if the store controller is still initializing
         if (storeController == null)
         {
-            Debug.Log("GetPurchasedItems waiting for IAP initialization...");
+           
             yield return new WaitUntil(() => storeController != null);
         }
 
@@ -133,11 +133,11 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
                 data.isPurchased = true;
                 assetDatas.Add(data);
 
-                var board = purchaseData.GetBoardByProductId(data.productId);
-                if (board != null)
-                {
-                    Debug.Log("Purchased " + board.skuName);
-                }
+                //var board = purchaseData.GetBoardByProductId(data.productId);
+                //if (board != null)
+                //{
+                //    Debug.Log("Purchased " + board.skuName);
+                //}
             }
         }
 
@@ -151,7 +151,7 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         // Wait gracefully if the store controller is still initializing
         if (storeController == null)
         {
-            Debug.Log("GetAllItems waiting for IAP initialization...");
+            
             yield return new WaitUntil(() => storeController != null);
         }
 

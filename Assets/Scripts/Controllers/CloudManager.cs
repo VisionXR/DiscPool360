@@ -147,7 +147,6 @@ namespace com.VisionXR.Controllers
                         achievementsData.specialBoardWinsStats = JsonUtility.FromJson<SpecialBoardWinsStats>(json);
                         achievementsData.SetSpecialBoardsData();
 
-                        Debug.Log("special board data"+JsonUtility.ToJson(achievementsData.specialBoardWinsStats));
                     }
 
                     achievementsData.UserLoggedIn();
