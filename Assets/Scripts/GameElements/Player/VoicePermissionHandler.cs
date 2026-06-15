@@ -36,11 +36,9 @@ public class VoicePermissionHandler : NetworkBehaviour
         }
         else
         {
-            if (photonRecorder != null)
-            {
-                photonRecorder.enabled = false;
-                speaker.mute = false;
-            }
+
+            photonRecorder.enabled = false;
+            speaker.mute = false;        
 
         }
     }
@@ -60,7 +58,8 @@ public class VoicePermissionHandler : NetworkBehaviour
             photonRecorder.RecordingEnabled = true;
             photonRecorder.RestartRecording();
             speaker.mute = true;
-            Debug.Log("Microphone recording started after permission granted.");
+            speaker.enabled = false;
+            
         }
     }
 }
