@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voiceDetection: 0
-  voiceDetectionThreshold: 0.15
+  voiceDetection: 1
+  voiceDetectionThreshold: 0.25
   voiceDetectionDelayMs: 500
   interestGroup: 0
   useTargetPlayers: 0
@@ -206,11 +206,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.WebRtcAudioDsp
   aec: 1
-  aecHighPass: 1
+  aecHighPass: 0
   agc: 1
   agcCompressionGain: 6
   agcTargetLevel: 3
-  vad: 1
+  vad: 0
   highPass: 1
   noiseSuppression: 1
   reverseStreamDelayMs: 90
