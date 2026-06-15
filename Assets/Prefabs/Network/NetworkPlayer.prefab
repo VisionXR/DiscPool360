@@ -213,7 +213,7 @@ MonoBehaviour:
   vad: 0
   highPass: 1
   noiseSuppression: 1
-  reverseStreamDelayMs: 90
+  reverseStreamDelayMs: 100
 --- !u!1 &8191997661384607171
 GameObject:
   m_ObjectHideFlags: 0
