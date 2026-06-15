@@ -57,12 +57,12 @@ public class VoicePermissionHandler : NetworkBehaviour
         {
             photonRecorder.RecordingEnabled = true;
           
-            photonRecorder.SetAndroidNativeMicrophoneSettings(true, true, true);
+         //   photonRecorder.SetAndroidNativeMicrophoneSettings(true, true, true);
             speaker.mute = true;
             speaker.enabled = false;
 
             photonRecorder.RestartRecording();
-            photonRecorder.VoiceDetectorCalibrate(2000);
+           
 
         }
     }
