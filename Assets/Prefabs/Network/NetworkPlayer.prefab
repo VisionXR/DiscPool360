@@ -71,9 +71,9 @@ MonoBehaviour:
     CategoryOptions: 0800000004000000
   editorAudioSessionPreset: 1
   androidMicrophoneSettings:
-    EnableAEC: 0
-    EnableAGC: 0
-    EnableNS: 0
+    EnableAEC: 1
+    EnableAGC: 1
+    EnableNS: 1
   stopRecordingWhenPaused: 0
   useOnAudioFilterRead: 0
   useMicrophoneTypeFallback: 1
@@ -208,12 +208,12 @@ MonoBehaviour:
   aec: 1
   aecHighPass: 1
   agc: 1
-  agcCompressionGain: 50
+  agcCompressionGain: 6
   agcTargetLevel: 3
   vad: 1
   highPass: 1
   noiseSuppression: 1
-  reverseStreamDelayMs: 60
+  reverseStreamDelayMs: 90
 --- !u!1 &8191997661384607171
 GameObject:
   m_ObjectHideFlags: 0
