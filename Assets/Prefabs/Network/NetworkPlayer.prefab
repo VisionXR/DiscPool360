@@ -58,7 +58,7 @@ MonoBehaviour:
   transmitEnabled: 1
   samplingRate: 48000
   frameDuration: 20000
-  bitrate: 20000
+  bitrate: 30000
   sourceType: 0
   microphoneType: 1
   audioClip: {fileID: 0}
@@ -628,7 +628,6 @@ MonoBehaviour:
   currentPlayer: {fileID: 601380982685072363}
   speaker: {fileID: 1436632896028036055}
   recorder: {fileID: 760662254974022178}
-  dsp: {fileID: 0}
 --- !u!114 &-463771018469966190
 MonoBehaviour:
   m_ObjectHideFlags: 0
