@@ -47,6 +47,17 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
+            if (UiData.currentGameType == GameType.MultiPlayer)
+            {
+                SpeakerPanel.TurnOnPanel();
+                MicrophonePanel.TurnOnPanel();
+            }
+            else
+            {
+                SpeakerPanel.gameObject.SetActive(false);
+                MicrophonePanel.gameObject.SetActive(false);
+            }
+
             Player mp = playerData.GetMainPlayer();
             if(mp != null)
             {
@@ -105,16 +116,6 @@ namespace com.VisionXR.Views
             }
 
 
-            if(UiData.currentGameType == GameType.MultiPlayer)
-            {
-                SpeakerPanel.TurnOnPanel();
-                MicrophonePanel.TurnOnPanel();
-            }
-            else
-            {
-                SpeakerPanel.gameObject.SetActive(false);
-                MicrophonePanel.gameObject.SetActive(false);
-            }
          
         }
 
