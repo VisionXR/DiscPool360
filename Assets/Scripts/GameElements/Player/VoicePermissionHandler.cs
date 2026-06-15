@@ -62,6 +62,7 @@ public class VoicePermissionHandler : NetworkBehaviour
             speaker.enabled = false;
 
             photonRecorder.RestartRecording();
+            photonRecorder.VoiceDetectorCalibrate(2000);
 
         }
     }
