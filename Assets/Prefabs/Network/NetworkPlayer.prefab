@@ -71,9 +71,9 @@ MonoBehaviour:
     CategoryOptions: 0800000004000000
   editorAudioSessionPreset: 1
   androidMicrophoneSettings:
-    EnableAEC: 1
+    EnableAEC: 0
     EnableAGC: 1
-    EnableNS: 1
+    EnableNS: 0
   stopRecordingWhenPaused: 0
   useOnAudioFilterRead: 0
   useMicrophoneTypeFallback: 1
@@ -210,7 +210,7 @@ MonoBehaviour:
   agc: 1
   agcCompressionGain: 6
   agcTargetLevel: 3
-  vad: 1
+  vad: 0
   highPass: 1
   noiseSuppression: 1
   reverseStreamDelayMs: 180
