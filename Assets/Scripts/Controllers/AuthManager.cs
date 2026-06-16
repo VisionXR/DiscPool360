@@ -48,6 +48,7 @@ namespace com.VisionXR.Controllers
         {
             isLoggedIn = false;
             Application.targetFrameRate = 60;
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
             yield return new WaitForSeconds(0.5f); // Small delay to ensure everything is initialized
 
             if (Application.isEditor)
@@ -58,6 +59,11 @@ namespace com.VisionXR.Controllers
             {
                 GoogleLogin();
             }
+        }
+
+        private void OnDisable()
+        {
+            Screen.sleepTimeout = SleepTimeout.SystemSetting;
         }
 
         private void OnDeepLinkActivated(string url)
