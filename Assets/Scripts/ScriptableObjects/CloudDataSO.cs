@@ -8,7 +8,7 @@ namespace com.VisionXR.ModelClasses
     public class CloudDataSO : ScriptableObject   
     {
         // variables
-       public bool isPlayerDataLoaded = false;
+       private bool isPlayerDataLoaded = false;
 
 
         public Action PlayFabLoginSuccessEvent;
@@ -63,6 +63,15 @@ namespace com.VisionXR.ModelClasses
             FetchFailureEvent?.Invoke();
         }
 
+        public void DataLoaded(bool status)
+        {
+            isPlayerDataLoaded = status;
+        }
+
+        public bool isDataLoaded()
+        {
+            return isPlayerDataLoaded; 
+        }
 
     }
 }

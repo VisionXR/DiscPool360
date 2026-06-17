@@ -14,6 +14,7 @@ namespace com.VisionXR.Views
         public AudioDataSO audioData;
         public UIDataSO uiData;
         public SaveDataSO saveData;
+        public AchievementsDataSO achievementsData;
 
         [Header("Tab Objects")]
         public List<GameObject> SelectionImages;
@@ -132,6 +133,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             PlayerPrefs.DeleteKey("IsGoogleLogin");
             PlayerPrefs.Save();
+            achievementsData.Clear();
             uiData.uiManager.ChangeState("Login", true);
             uiData.uiManager.GoToState(StateName.LoginState);
             uiData.uiManager.ChangeState(currentState, false);

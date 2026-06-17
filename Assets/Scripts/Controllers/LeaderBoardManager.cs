@@ -12,6 +12,7 @@ namespace com.VisionXR.Controllers
     {
         [Header("Scriptable Objects")]
         public LeaderBoardSO leaderboard;
+        
 
         private void OnEnable()
         {

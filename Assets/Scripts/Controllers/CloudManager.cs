@@ -52,7 +52,7 @@ namespace com.VisionXR.Controllers
             OnDataFetchFailureEvent = OnFailure;
 
             // Reset the load state before starting
-            cloudData.isPlayerDataLoaded = false;
+            cloudData.DataLoaded(false);
 
             // Start the 5-second timeout coroutine
             if (loadTimeoutCoroutine != null) StopCoroutine(loadTimeoutCoroutine);
@@ -67,7 +67,7 @@ namespace com.VisionXR.Controllers
             float elapsed = 0f;
 
             // Loop until the data is loaded OR we hit the timeout limit
-            while (!cloudData.isPlayerDataLoaded)
+            while (!cloudData.isDataLoaded())
             {
                 LoadUserData();
                 elapsed += Time.deltaTime;
@@ -152,7 +152,7 @@ namespace com.VisionXR.Controllers
                     achievementsData.UserLoggedIn();
 
                     // Critical: Setting this triggers the coroutine while-loop to stop early!
-                    cloudData.isPlayerDataLoaded = true;
+                    cloudData.DataLoaded(true);
 
                 }, OnDataFetchError);
             }
@@ -177,8 +177,7 @@ namespace com.VisionXR.Controllers
             {
                 PlayFabClientAPI.UpdateUserData(request, result =>
                 {
-                    Debug.Log("Successfully deleted user data from PlayFab.");
-
+                    
                     achievementsData.Clear();
 
                 }, OnDataFetchError);
