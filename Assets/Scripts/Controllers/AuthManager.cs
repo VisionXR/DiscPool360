@@ -172,6 +172,7 @@ namespace com.VisionXR.Controllers
             playerSettings.SetProfileUrl("");
             playerSettings.SetUserProfileImage(GuestPlayerIcon);
             StartCoroutine(ConnectToPlayfab(5));
+            uiData.SetLoginType(LoginType.Google);
             PlayerPrefs.SetString("IsGoogleLogin", "true");
             PlayerPrefs.Save();
             ProcessGameFlow();
@@ -373,8 +374,8 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator ConnectToPlayfab(float timeoutDuration)
         {
-            
 
+            isLoggedIn = false;
             // Loop until the data is loaded OR we hit the timeout limit
             while (!isLoggedIn)
             {

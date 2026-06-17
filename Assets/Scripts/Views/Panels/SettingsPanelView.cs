@@ -127,6 +127,16 @@ namespace com.VisionXR.Views
             deleteAccountPanel.TurnOnPanel();
         }
 
+        public void Logout()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            PlayerPrefs.DeleteKey("IsGoogleLogin");
+            PlayerPrefs.Save();
+            uiData.uiManager.ChangeState("Login", true);
+            uiData.uiManager.GoToState(StateName.LoginState);
+            uiData.uiManager.ChangeState(currentState, false);
+        }
+
         public void BGMusicChanged(float val)
         {
             BGAudioSource.volume = val;
