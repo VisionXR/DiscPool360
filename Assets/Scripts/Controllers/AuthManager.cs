@@ -7,7 +7,6 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 
 namespace com.VisionXR.Controllers
@@ -46,6 +45,11 @@ namespace com.VisionXR.Controllers
 
         }
 
+        private void OnDisable()
+        {
+            Screen.sleepTimeout = SleepTimeout.SystemSetting;
+        }
+
         private IEnumerator Start()
         {
             isLoggedIn = false;
@@ -77,10 +81,7 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        private void OnDisable()
-        {
-            Screen.sleepTimeout = SleepTimeout.SystemSetting;
-        }
+
 
         private void OnDeepLinkActivated(string url)
         {
@@ -227,6 +228,7 @@ namespace com.VisionXR.Controllers
             else
             {
                 Debug.LogError($"Google Play Games Authentication Failed: {status}");
+                uiData.uiManager.ChangeState("Login", true);
                 // Handle failure (e.g., show an error message to the user)
             }
 
