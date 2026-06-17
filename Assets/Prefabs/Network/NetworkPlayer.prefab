@@ -430,7 +430,7 @@ MonoBehaviour:
     myName: 
     myOculusID: 0
     imageURL: 
-    myImage: {fileID: 0}
+    myImage: {fileID: 21300000, guid: 4211b644d26a9674f8adaa5f7c1c389c, type: 3}
     myPlayerControl: 0
     myPlayerType: 0
     myCoin: 5
