@@ -36,6 +36,8 @@ namespace com.VisionXR.HelperClasses
 
     public enum LobbyType { Create,Join}
 
+    public enum LoginType { Guest,Google}
+
     public enum GameMode { Pool, Snooker }
 
     public enum BoardType { Circle6, Square4, Hexagon4, Octagon4, Triangle3, Hexagon6, Circle4 }

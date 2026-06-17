@@ -7,6 +7,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 namespace com.VisionXR.Controllers
@@ -28,6 +29,7 @@ namespace com.VisionXR.Controllers
         public string tutorialState;
         public DestinationPanelView destinationPanelView;
         public ChangeDestinationView changeDestinationPanelView;
+        public Sprite GuestPlayerIcon;
         public bool isLoggedIn = false;
         public bool isLink = false;
         private bool isFirstTime = true;
@@ -54,22 +56,25 @@ namespace com.VisionXR.Controllers
 
             if(PlayerPrefs.HasKey("IsGoogleLogin"))
             {
-
-                if (Application.isEditor)
-                {
-                    EditorLogin();
-                }
-                else
-                {
-                    GoogleLogin();
-                }
-
+                Login();
             }
             else
             {
                 uiData.uiManager.ChangeState("Login", true);
             }
 
+        }
+
+        public void Login()
+        {
+            if (Application.isEditor)
+            {
+                EditorLogin();
+            }
+            else
+            {
+                GoogleLogin();
+            }
         }
 
         private void OnDisable()
@@ -89,7 +94,7 @@ namespace com.VisionXR.Controllers
             }
 
 
-            LinkData newData = ConvertStringToLinkData(linkurl);
+            UrlLinkData newData = ConvertStringToLinkData(linkurl);
             uiData.SetGameType(GameType.MultiPlayer);
 
             string fullInput = newData.r;
@@ -164,36 +169,23 @@ namespace com.VisionXR.Controllers
         {
             // Simplified Editor Mock
             playerSettings.SetUserNameAndId("Guest_Player", UnityEngine.Random.Range(0, 9999).ToString());
+            playerSettings.SetProfileUrl("");
+            playerSettings.SetUserProfileImage(GuestPlayerIcon);
             StartCoroutine(ConnectToPlayfab(5));
-            
-            if (!isLink)
-            {
-               
-                isFirstTime = false;
-               
+            PlayerPrefs.SetString("IsGoogleLogin", "true");
+            PlayerPrefs.Save();
+            ProcessGameFlow();
 
-                if (!PlayerPrefs.HasKey("Tutorial"))
-                {
-                    tutorialManager.SetActive(true);
-                    uiData.uiManager.ChangeState("Tutorial", true);
-                    uiData.uiManager.GoToState(StateName.Tutorial);
-                    PlayerPrefs.SetString("Tutorial", "true");
-                }
-                else
-                {
+        }
 
-                    uiData.uiManager.ChangeState("Home", true);
-                }
-
-            }
-            else
-            {
-
-                destinationPanelView.SetDestination(multiPlayerDestination);
-                uiData.uiManager.ChangeState("Link", true);
-                isLink = false;
-            }
-
+        public void GuestLogin()
+        {
+            playerSettings.SetUserNameAndId("Guest_Player", UnityEngine.Random.Range(0, 9999).ToString());
+            playerSettings.SetProfileUrl(""); // Set to empty or a default guest icon URL
+            playerSettings.SetUserProfileImage(GuestPlayerIcon);
+            uiData.uiManager.ChangeState("Login", false);
+            uiData.SetLoginType(LoginType.Guest);
+            ProcessGameFlow();
         }
 
 
@@ -210,7 +202,6 @@ namespace com.VisionXR.Controllers
             if (status == SignInStatus.Success)
             {
                
-
                 // 1. First, set local UI data (Name and Image)
                 string name = Social.localUser.userName;
                 string googleID = Social.localUser.id;
@@ -224,48 +215,51 @@ namespace com.VisionXR.Controllers
                 StartCoroutine(FetchAllData());
                 StartCoroutine(LoadProfileImage());
 
-                if (!isLink)
-                {
-                    // code here
-                   
-                    isFirstTime = false;
-                  
-                    if (!PlayerPrefs.HasKey("Tutorial"))
-                    {
-                        tutorialManager.SetActive(true);
-                        uiData.uiManager.ChangeState("Tutorial", true);
-                        uiData.uiManager.GoToState(StateName.Tutorial);
-                        PlayerPrefs.SetString("Tutorial", "true");
-                    }
-                    else
-                    {
-                        uiData.uiManager.ChangeState("Home", true);
-                    }
-
-
-                }
-                else
-                {
-
-                    destinationPanelView.SetDestination(multiPlayerDestination);
-                    uiData.uiManager.ChangeState("Link", true);
-                    isLink = false;
-                }
-
-               
+                uiData.SetLoginType(LoginType.Google);
+                uiData.uiManager.ChangeState("Login", false);
+                PlayerPrefs.SetString("IsGoogleLogin", "true");
+                PlayerPrefs.Save();
+                ProcessGameFlow();
+           
             }
 
-            else if(status == SignInStatus.Canceled)
-            {
-                Debug.Log("Google Play Games Authentication Canceled.");
-                // Handle cancellation (e.g., show a message to the user)
-            }
             else
             {
                 Debug.LogError($"Google Play Games Authentication Failed: {status}");
                 // Handle failure (e.g., show an error message to the user)
             }
 
+        }
+
+        private void ProcessGameFlow()
+        {
+            if (!isLink)
+            {
+
+                isFirstTime = false;
+
+
+                if (!PlayerPrefs.HasKey("Tutorial"))
+                {
+                    tutorialManager.SetActive(true);
+                    uiData.uiManager.ChangeState("Tutorial", true);
+                    uiData.uiManager.GoToState(StateName.Tutorial);
+                    PlayerPrefs.SetString("Tutorial", "true");
+                }
+                else
+                {
+
+                    uiData.uiManager.GoToState(StateName.HomeState);
+                }
+
+            }
+            else
+            {
+
+                destinationPanelView.SetDestination(multiPlayerDestination);
+                uiData.uiManager.ChangeState("Link", true);
+                isLink = false;
+            }
         }
 
         private IEnumerator FetchAllData()
@@ -339,10 +333,10 @@ namespace com.VisionXR.Controllers
             if (texture == null) return null;
             return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         }
-        public LinkData ConvertStringToLinkData(string queryString)
+        public UrlLinkData ConvertStringToLinkData(string queryString)
         {
             // Create a new instance of your class to populate
-            LinkData data = new LinkData();
+            UrlLinkData data = new UrlLinkData();
 
             // 1. Split the string by '&' to get each individual parameter pair
             string[] pairs = queryString.Split('&');
@@ -412,11 +406,5 @@ namespace com.VisionXR.Controllers
         }
 
     }
-    [Serializable]
-    public class LinkData
-    {
-        public string r;
-        public string g;
-        public string t;
-    }
+  
 }

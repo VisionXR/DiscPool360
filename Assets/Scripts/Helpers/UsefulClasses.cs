@@ -7,6 +7,14 @@ using UnityEngine;
 namespace com.VisionXR.HelperClasses
 {
     [Serializable]
+    public class UrlLinkData
+    {
+        public string r;
+        public string g;
+        public string t;
+    }
+
+    [Serializable]
     public class DestroyCoinsList
     {
         public List<string> coins = new List<string>();

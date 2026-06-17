@@ -21,6 +21,7 @@ namespace com.VisionXR.ModelClasses
         public AIDifficulty currentAIDifficulty;
         public BoardType currentBoardType;
         public LobbyType currentLobbyType;
+        public LoginType currentLoginType;
         public float disableTime = 0.5f;
         public Color selectionColor;
         public Color defaultColor;
@@ -101,6 +102,11 @@ namespace com.VisionXR.ModelClasses
         public void SetLobbyType(LobbyType lobbyType)
         {
             currentLobbyType = lobbyType;
+        }
+
+        public void SetLoginType(LoginType loginType)
+        {
+            currentLoginType = loginType;
         }
 
         public void SetAIDifficulty(AIDifficulty aiDifficulty)
