@@ -184,7 +184,7 @@ namespace com.VisionXR.Controllers
 
         public void GuestLogin()
         {
-            playerSettings.SetUserNameAndId("Guest", UnityEngine.Random.Range(0, 9999).ToString());
+            playerSettings.SetUserNameAndId("Guest"+UnityEngine.Random.Range(0, 9999).ToString(), SystemInfo.deviceUniqueIdentifier);
             playerSettings.SetProfileUrl(""); // Set to empty or a default guest icon URL
             playerSettings.SetUserProfileImage(GuestPlayerIcon);
             uiData.uiManager.ChangeState("Login", false);

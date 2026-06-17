@@ -32,6 +32,7 @@ namespace com.VisionXR.ModelClasses
       
         public void SetUserNameAndId(string userName, string Id)
         {     
+            
             MyName = userName;
             MyOculusId = Id;
         }
