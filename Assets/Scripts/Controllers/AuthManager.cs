@@ -51,14 +51,25 @@ namespace com.VisionXR.Controllers
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             yield return new WaitForSeconds(0.5f); // Small delay to ensure everything is initialized
 
-            if (Application.isEditor)
+
+            if(PlayerPrefs.HasKey("IsGoogleLogin"))
             {
-                EditorLogin();
+
+                if (Application.isEditor)
+                {
+                    EditorLogin();
+                }
+                else
+                {
+                    GoogleLogin();
+                }
+
             }
             else
             {
-                GoogleLogin();
+                uiData.uiManager.ChangeState("Login", true);
             }
+
         }
 
         private void OnDisable()
@@ -149,8 +160,6 @@ namespace com.VisionXR.Controllers
             }
         }
 
-
-
         private void EditorLogin()
         {
             // Simplified Editor Mock
@@ -205,7 +214,6 @@ namespace com.VisionXR.Controllers
                 // 1. First, set local UI data (Name and Image)
                 string name = Social.localUser.userName;
                 string googleID = Social.localUser.id;
-
                 string imageUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
 
 
@@ -245,6 +253,17 @@ namespace com.VisionXR.Controllers
                 }
 
                
+            }
+
+            else if(status == SignInStatus.Canceled)
+            {
+                Debug.Log("Google Play Games Authentication Canceled.");
+                // Handle cancellation (e.g., show a message to the user)
+            }
+            else
+            {
+                Debug.LogError($"Google Play Games Authentication Failed: {status}");
+                // Handle failure (e.g., show an error message to the user)
             }
 
         }
