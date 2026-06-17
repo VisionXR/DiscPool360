@@ -7,6 +7,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace com.VisionXR.Controllers
@@ -28,6 +29,7 @@ namespace com.VisionXR.Controllers
         public string tutorialState;
         public DestinationPanelView destinationPanelView;
         public ChangeDestinationView changeDestinationPanelView;
+        public TMP_Text errorText;
         public Sprite GuestPlayerIcon;
         public bool isLoggedIn = false;
         public bool isLink = false;
@@ -229,9 +231,19 @@ namespace com.VisionXR.Controllers
             {
                 Debug.LogError($"Google Play Games Authentication Failed: {status}");
                 uiData.uiManager.ChangeState("Login", true);
+                StartCoroutine(ShowError());
                 // Handle failure (e.g., show an error message to the user)
             }
 
+        }
+
+        private IEnumerator ShowError()
+        {
+           
+            errorText.text = "Google Play requires a profile profile setup.\n" +
+                              "If the window didn't show up, please clear your device's Google Play Games app cache or continue securely as a Guest!";           
+            yield return new WaitForSeconds(3);
+            errorText.text = "";
         }
 
         private void ProcessGameFlow()
