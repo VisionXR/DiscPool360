@@ -24,7 +24,7 @@ namespace com.VisionXR.HelperClasses
 
         [Header("local Objects")]
         public Player player;
-      
+        public Sprite DefaultManIcon;
         public ReceivePlayerData receivePlayerData;
         public PlayerTurnManager playerTurnManager;
 
@@ -157,14 +157,17 @@ namespace com.VisionXR.HelperClasses
             gameObject.transform.rotation = tableData.PlayerTransforms[props.myId - 1].rotation;
 
 
-
-
             if (!HasStateAuthority)
             {
 
                 if (NetPlayerProps.ImageURL != "")
                 {
                     StartCoroutine(LoadAvatarImage(props.imageURL));
+                }
+                else
+                {
+                    player.playerProperties.myImage = DefaultManIcon;
+                    playerData.PlayerImageReceived(player.playerProperties.myId, DefaultManIcon);
                 }
             }
             else
@@ -196,10 +199,6 @@ namespace com.VisionXR.HelperClasses
         {
             networkOutputData.SetClientReady(true);
         }
-
-      
-
-     
 
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
@@ -336,7 +335,7 @@ namespace com.VisionXR.HelperClasses
 
         private IEnumerator LoadAvatarImage(string url)
         {
-            Debug.Log("Url " + url);
+           
             using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(url))
             {
                 yield return uwr.SendWebRequest();

@@ -534,6 +534,7 @@ MonoBehaviour:
   UserData: {fileID: 11400000, guid: c3388b89caee67446b98ab64fc26a36e, type: 2}
   inputData: {fileID: 11400000, guid: 886a3cfd97839fc428e81ec670c805d2, type: 2}
   player: {fileID: 601380982685072363}
+  DefaultManIcon: {fileID: 21300000, guid: 4211b644d26a9674f8adaa5f7c1c389c, type: 3}
   receivePlayerData: {fileID: 3496250440452404583}
   playerTurnManager: {fileID: 4220221509079711176}
   _activeCoinsNetworkData:
