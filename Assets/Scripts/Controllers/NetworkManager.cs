@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Unity.Collections.Unicode;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -18,8 +19,10 @@ public class NetworkManager : MonoBehaviour
     public UserDataSO userData;
 
     [Header("Game Objects")]
+    public string currentRoomName;
     public GameObject NetworkRunnerObject; // Prefab for creating a network runner instance
     private NetworkRunner runner;
+    private bool isInvitingFriend = false;
 
 
     private void OnEnable()
@@ -39,6 +42,31 @@ public class NetworkManager : MonoBehaviour
         networkInputData.SetTimeOutEvent -= SetTimeOut;
     }
 
+    // --- FIX: Removed old PUN properties, optimized for Fusion ---
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            Debug.Log("[NetworkState] App minimized. Moving to background invite state.");
+        }
+        else
+        {
+            Debug.Log("[NetworkState] App restored! Checking Fusion status...");
+            if (isInvitingFriend)
+            {
+                isInvitingFriend = false;
+
+                // If the OS killed the runner connection while in WhatsApp, trigger a rejoin
+                if (runner == null || !runner.IsCloudReady)
+                {
+                    Debug.Log("Detected disconnect after sending invite. Rejoining room: " + currentRoomName);
+                    RejoinLastSession();
+                }
+            }
+
+        }
+    }
+
 
     private void LeaveRoom()
     {
@@ -47,13 +75,13 @@ public class NetworkManager : MonoBehaviour
             runner.Shutdown();
             Destroy(runner.gameObject);
             runner = null;
+            currentRoomName = "";
         }
     }
 
     public void SetTimeOut(int time)
     {
-        // 1. Temporarily bump client-side timeout if the OS gives background execution time
-        PhotonNetwork.NetworkingClient.LoadBalancingPeer.DisconnectTimeout = time;
+        isInvitingFriend = true;
     }
 
     /// <summary>
@@ -119,6 +147,7 @@ public class NetworkManager : MonoBehaviour
         if (result.Ok)
         {
             networkOutputData.SetHost(true);
+            currentRoomName = roomName;
          //   Debug.Log(" Room created successfully with name: " + roomName);
             RoomSuccessEvent?.Invoke();
         }
@@ -152,12 +181,47 @@ public class NetworkManager : MonoBehaviour
         {
 
             ReadRoomSessionProperties();
+            currentRoomName = roomName;
             networkOutputData.SetHost(false);
             RoomSuccessEvent?.Invoke();
         }
         else
         {
             RoomFailedEvent?.Invoke("Could not join room ");
+        }
+    }
+
+    /// <summary>
+    /// Reconnects and rejoins the last active session if dropped due to backgrounding.
+    /// </summary>
+    public async Task RejoinLastSession()
+    {
+        if (string.IsNullOrEmpty(currentRoomName))
+        {
+            Debug.LogError("Cannot rejoin: Last session name is null or empty.");
+            return;
+        }
+
+        InitializeNetworkRunner();
+
+        Debug.Log($"[Fusion Rejoin] Attempting to reclaim slot in session: {currentRoomName}");
+
+        var result = await runner.StartGame(new StartGameArgs
+        {
+            GameMode = Fusion.GameMode.Shared,
+            CustomLobbyName = "DiscPoolLobby",
+            SessionName = currentRoomName,
+            AuthValues = new AuthenticationValues(userData.MyOculusId.ToString())
+        });
+
+        if (result.Ok)
+        {
+            Debug.Log("[Fusion Rejoin] Rejoined successfully!");
+            ReadRoomSessionProperties();
+        }
+        else
+        {
+            Debug.LogError($"[Fusion Rejoin] Failed to rejoin: {result.ShutdownReason}");
         }
     }
 
