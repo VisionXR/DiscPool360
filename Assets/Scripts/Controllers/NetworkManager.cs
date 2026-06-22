@@ -2,6 +2,7 @@ using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using Fusion;
 using Fusion.Photon.Realtime;
+using Photon.Pun;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ public class NetworkManager : MonoBehaviour
         networkInputData.CreateRoomEvent += CreateRoom;
         networkInputData.JoinRoomEvent += JoinRoom;
         networkInputData.LeaveRoomEvent += LeaveRoom;
+        networkInputData.SetTimeOutEvent += SetTimeOut;
      
     }
 
@@ -34,6 +36,7 @@ public class NetworkManager : MonoBehaviour
         networkInputData.CreateRoomEvent -= CreateRoom;
         networkInputData.JoinRoomEvent -= JoinRoom;
         networkInputData.LeaveRoomEvent -= LeaveRoom;
+        networkInputData.SetTimeOutEvent -= SetTimeOut;
     }
 
 
@@ -45,6 +48,12 @@ public class NetworkManager : MonoBehaviour
             Destroy(runner.gameObject);
             runner = null;
         }
+    }
+
+    public void SetTimeOut(int time)
+    {
+        // 1. Temporarily bump client-side timeout if the OS gives background execution time
+        PhotonNetwork.NetworkingClient.LoadBalancingPeer.DisconnectTimeout = time;
     }
 
     /// <summary>

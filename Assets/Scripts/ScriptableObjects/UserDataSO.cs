@@ -29,7 +29,12 @@ namespace com.VisionXR.ModelClasses
         public Action DeleteAccountEvent;
         // Methods
 
-      
+        private void OnEnable()
+        {
+            isToggle = true;
+        }
+
+
         public void SetUserNameAndId(string userName, string Id)
         {     
             

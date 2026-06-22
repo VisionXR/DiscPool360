@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -20,6 +21,7 @@ namespace com.VisionXR.Views
         public ADDataSO adData; 
 
         [Header("Board Images")]
+        public PanelOnOff internetToastPanel;
         public List<Sprite> boardSprites;
         public List<GameObject> allButtons;
         public List<GameObject> boardSelectionImages;
@@ -149,7 +151,7 @@ namespace com.VisionXR.Views
 
             if(Application.isEditor)
             {
-                UnlockBoards(0, 20);
+              //  UnlockBoards(0, 20);
             }
         }
 
@@ -166,6 +168,11 @@ namespace com.VisionXR.Views
         public void AdButtonClicked(int id)
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                StartCoroutine(CheckInternetAndProceed());
+                return;
+            }
             Debug.Log($"Ad button clicked for board index: {id}");
             adNumberIndex = 0;
             adDetailsPanel.TurnOnPanel();
@@ -228,7 +235,14 @@ namespace com.VisionXR.Views
             }
         }
 
-  
+
+        private IEnumerator CheckInternetAndProceed()
+        {
+            internetToastPanel.TurnOnPanel();
+            yield return new WaitForSeconds(2f);
+            internetToastPanel.TurnOffPanel();
+
+        }
     }
 
 }

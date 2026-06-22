@@ -18,7 +18,7 @@ MonoBehaviour:
   MyOculusId: 8587
   bgMusicVolume: 0.1
   myBoard: 0
-  isToggle: 0
+  isToggle: 1
   myCoins: 0
   myGuide: 0
   myDominantHand: 0

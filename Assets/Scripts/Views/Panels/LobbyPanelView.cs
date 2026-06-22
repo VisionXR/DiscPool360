@@ -18,6 +18,7 @@ namespace com.VisionXR.Views
         public AudioDataSO audioData;
         public PlayerDataSO playerData;
         public NetworkOutputDataSO networkOutPutData;
+        public NetworkInputDataSO networkInputData;
         public UIDataSO uiData;
         public GameDataSO gameData;
         public UserDataSO userData;
@@ -77,6 +78,8 @@ namespace com.VisionXR.Views
             // Convert the enum int value to a padded 2-digit string
             regionCode = ((int)serverRegion).ToString("D2");
             roomNameText.text = "Room ID : " + regionCode + roomId;
+
+            networkInputData.SetTimeOut(15 * 60 * 60);
         }
 
         private void OnDisable()
@@ -275,7 +278,7 @@ namespace com.VisionXR.Views
             // Messaging apps will read the URL at the bottom, build the OG card, and look clean.
             string inviteMessage = shareUrl;
 
-            Debug.Log("Url is " + shareUrl);
+       //     Debug.Log("Url is " + shareUrl);
 
             new NativeShare()
                 .SetSubject("Carrom Pool 360 : Multiplayer Challenge")
@@ -302,7 +305,7 @@ namespace com.VisionXR.Views
             audioData.PlayAudio(AudioClipType.ButtonClick);
             SendPlayerData sendPlayerData = playerData.GetMainPlayer().GetComponent<SendPlayerData>();
 
-            Debug.Log(" Last id is " + gameData.GetFirstTurnId());
+          //  Debug.Log(" Last id is " + gameData.GetFirstTurnId());
 
             if (gameData.GetFirstTurnId() == -1 || gameData.GetFirstTurnId() == 2)
             {

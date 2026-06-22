@@ -8,7 +8,7 @@ namespace com.VisionXR.ModelClasses
     public class NetworkInputDataSO : ScriptableObject
     {
         // User Data
-
+        public int currentTimeOut = 45;
       
         // Actions
         public Action<ServerRegion, string, Action, Action<string>> CreateRoomEvent;
@@ -16,6 +16,7 @@ namespace com.VisionXR.ModelClasses
         public Action<ServerRegion, string, Action, Action<string>> JoinLobbyEvent;
 
         public Action LeaveRoomEvent;
+        public Action<int> SetTimeOutEvent;
 
         // Methods
         public void CreateRoom(ServerRegion region, Action OnSuccess, Action<string> OnFailed)
@@ -36,6 +37,12 @@ namespace com.VisionXR.ModelClasses
         public void LeaveRoom()
         {
             LeaveRoomEvent?.Invoke();
+        }
+
+        public void SetTimeOut(int time)
+        {
+            currentTimeOut = time;
+            SetTimeOutEvent?.Invoke(time);
         }
 
     }
