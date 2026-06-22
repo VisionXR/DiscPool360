@@ -1,3 +1,4 @@
+using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using Fusion;
@@ -17,6 +18,7 @@ public class NetworkManager : MonoBehaviour
     public PhotonAppSettings settings;
     public UIDataSO uiData;
     public UserDataSO userData;
+    public PlayerDataSO playerData;
 
     [Header("Game Objects")]
     public string currentRoomName;
@@ -47,19 +49,24 @@ public class NetworkManager : MonoBehaviour
     {
         if (pauseStatus)
         {
-            Debug.Log("[NetworkState] App minimized. Moving to background invite state.");
+            Debug.Log("[NetworkManager] App minimized. Moving to background invite state.");
         }
         else
         {
-            Debug.Log("[NetworkState] App restored! Checking Fusion status...");
+            
             if (isInvitingFriend)
             {
                 isInvitingFriend = false;
-
-                // If the OS killed the runner connection while in WhatsApp, trigger a rejoin
-                if (runner == null || !runner.IsCloudReady)
+                Debug.Log("[NetworkManager] Trying to rejoin ."+currentRoomName);
+                Player p = playerData.GetMainPlayer();
+                if (p == null)
                 {
-                    Debug.Log("Detected disconnect after sending invite. Rejoining room: " + currentRoomName);
+                    Debug.Log("[NetworkManager] Rejoining ");
+                    RejoinLastSession();
+                }
+                else
+                {
+                    Debug.Log("[NetworkManager] Player is not null, rejoining last session.");
                     RejoinLastSession();
                 }
             }
@@ -75,12 +82,13 @@ public class NetworkManager : MonoBehaviour
             runner.Shutdown();
             Destroy(runner.gameObject);
             runner = null;
-            currentRoomName = "";
+            
         }
     }
 
     public void SetTimeOut(int time)
     {
+        Debug.Log("Inviting friend, setting timeout to: " + time);
         isInvitingFriend = true;
     }
 
@@ -147,7 +155,7 @@ public class NetworkManager : MonoBehaviour
         if (result.Ok)
         {
             networkOutputData.SetHost(true);
-            currentRoomName = roomName;
+            currentRoomName = runner.SessionInfo.Name;
          //   Debug.Log(" Room created successfully with name: " + roomName);
             RoomSuccessEvent?.Invoke();
         }
@@ -166,7 +174,7 @@ public class NetworkManager : MonoBehaviour
     {
         InitializeNetworkRunner();
 
-        Debug.Log(" Joining " + roomName);
+        
 
         var result = await runner.StartGame(new StartGameArgs
         {
@@ -196,16 +204,18 @@ public class NetworkManager : MonoBehaviour
     /// </summary>
     public async Task RejoinLastSession()
     {
+        Debug.Log("[Fusion Rejoin] Attempting to rejoin last session: " + currentRoomName);
+
         if (string.IsNullOrEmpty(currentRoomName))
         {
             Debug.LogError("Cannot rejoin: Last session name is null or empty.");
             return;
         }
 
+        
         InitializeNetworkRunner();
 
-        Debug.Log($"[Fusion Rejoin] Attempting to reclaim slot in session: {currentRoomName}");
-
+       
         var result = await runner.StartGame(new StartGameArgs
         {
             GameMode = Fusion.GameMode.Shared,

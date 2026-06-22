@@ -119,7 +119,7 @@ namespace com.VisionXR.Controllers
 
         public void StartGame(int playerId,int coinsId)
         {
-            networkInputData.SetTimeOut(45);
+            
             _previousTurnId = -1;
             gameData.StartGame();
             gameData.SetFirstTurnId(playerId);

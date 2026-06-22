@@ -200,6 +200,7 @@ namespace com.VisionXR.Views
                         hostStartObject.SetActive(false);
                         clientStartObject.SetActive(false);
                         clientWaitingObject.SetActive(true);
+                        hostWaitingOBject.SetActive(false);
                     }
 
                 }
@@ -213,17 +214,17 @@ namespace com.VisionXR.Views
                         hostWaitingOBject.SetActive(true);
                     }
                 }
-                else if (!isHostJoined && !isClientJoined)
-                {
+                //else if (!isHostJoined && !isClientJoined)
+                //{
 
-                    if (!hostWaitingOBject.activeInHierarchy)
-                    {
-                        hostStartObject.SetActive(false);
-                        clientStartObject.SetActive(false);
-                        hostWaitingOBject.SetActive(true);
-                        clientWaitingObject.SetActive(false);
-                    }
-                }
+                //    if (!hostWaitingOBject.activeInHierarchy)
+                //    {
+                //        hostStartObject.SetActive(false);
+                //        clientStartObject.SetActive(false);
+                //        hostWaitingOBject.SetActive(true);
+                //        clientWaitingObject.SetActive(false);
+                //    }
+                //}
 
                 // Wait for the next frame before continuing the loop
                 yield return new WaitForEndOfFrame();
@@ -235,7 +236,6 @@ namespace com.VisionXR.Views
         // Optional: Method to reset the timer
         public void ResetTime()
         {
-
 
             hostStartObject.SetActive(false);
             clientStartObject.SetActive(false);
