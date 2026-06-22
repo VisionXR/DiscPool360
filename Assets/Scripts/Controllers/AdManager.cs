@@ -12,17 +12,10 @@ namespace com.VisionXR.Controllers
         public ADDataSO adDataSO;
         public PurchaseDataSO purchaseData;
 
-        // Test Ad Unit IDs (Replace these with your actual IDs from AdMob dashboard)
-#if UNITY_ANDROID
-        private string _interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
-        private string _rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
-#elif UNITY_IOS
-    private string _interstitialAdUnitId = "ca-app-pub-3940256099942544/4411468910";
-    private string _rewardedAdUnitId = "ca-app-pub-3940256099942544/1712485313";
-#else
-    private string _interstitialAdUnitId = "unused";
-    private string _rewardedAdUnitId = "unused";
-#endif
+
+        public string _interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
+        public string _rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
+
 
         private InterstitialAd _interstitialAd;
         private RewardedAd _rewardedAd;
@@ -112,6 +105,7 @@ namespace com.VisionXR.Controllers
             AssetData noAdsData = purchaseData.GetBoardDataById(purchaseData.BoardsData.Count - 1);
             if ( noAdsData != null  && noAdsData.isPurchased)
             {
+                Debug.Log("Purchased made for no ads");
                 return;
             }
 

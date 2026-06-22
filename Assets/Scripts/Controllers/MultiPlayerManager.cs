@@ -512,7 +512,7 @@ namespace com.VisionXR.Controllers
             if (player.playerProperties.myId == id)
             {
                 audioData.PlayAudio(AudioClipType.Winning);
-                leaderBoardData.SetMyPointsEvent(leaderBoardData.GetApiNameById(1), 1);
+                leaderBoardData.SetMyPoints(leaderBoardData.GetApiNameById(1), 1);
                
             }
             else // its AI

@@ -5,6 +5,7 @@ using UnityEngine;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;
+using System.Collections;
 
 namespace com.VisionXR.Controllers
 {
@@ -46,6 +47,8 @@ namespace com.VisionXR.Controllers
                 // Calculate the unique final score for this specific API track
                 int finalScore = leaderboard.GetPointsByApiName(currentApiName) + pointsToAdd;
 
+               
+
                 Social.ReportScore(finalScore, currentApiName, (bool success) =>
                 {
                     if (success)
@@ -53,6 +56,7 @@ namespace com.VisionXR.Controllers
                         // Update your local ScriptableObject cache tracking for this specific API
                         leaderboard.AddPoints(currentApiName, pointsToAdd);
                       //  PlayGamesPlatform.Instance.ShowLeaderboardUI(currentApiName);
+                   //   Debug.Log("Successfully reported score to leaderboard: " + currentApiName + " with points: " + finalScore);
 
                     }
                     else
@@ -112,6 +116,8 @@ namespace com.VisionXR.Controllers
                 }
             }
 
+         //   Debug.Log($"Fetched {data.Scores.Length} scores. Unique user IDs to load: {userIds.Count}");
+
             // 2. Batch load profiles for all these user IDs from Google's servers
             Social.LoadUsers(userIds.ToArray(), (IUserProfile[] profiles) =>
             {
@@ -155,6 +161,7 @@ namespace com.VisionXR.Controllers
                     }
 
                     names.Add(displayName);
+        
                     ranks.Add(score.rank);
                     points.Add((int)score.value);
                 }
@@ -177,6 +184,8 @@ namespace com.VisionXR.Controllers
                     leaderboard.SavePointsData(apiName, myValue);
                     leaderboard.SaveRankData(apiName, myRank);
 
+                 //  Debug.Log($"Successfully fetched player score for leaderboard: {apiName}. Points: {myValue}, Rank: {myRank}");
+
                 }
             }
             else
@@ -187,12 +196,19 @@ namespace com.VisionXR.Controllers
 
         public void GetMyPoints()
         {
+            
+
             if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
 
+            StartCoroutine(FetchMyPoints());
+        }
+
+        private IEnumerator FetchMyPoints()
+        {
             foreach (var item in leaderboard.leaderBoardPoints)
             {
                 string trackingApiName = item.apiName; // Capture reference variable for the asynchronous callback closure
-               
+
                 // CenteredOnPlayer extracts a batch of rows with the local user directly in focus
                 PlayGamesPlatform.Instance.LoadScores(
                     trackingApiName,
@@ -203,8 +219,11 @@ namespace com.VisionXR.Controllers
                     (LeaderboardScoreData data) =>
                     {
                         ProcessUserPointsCallback(data, trackingApiName);
+                        
                     }
                 );
+                yield return new WaitForSeconds(1f); 
+
             }
         }
     }

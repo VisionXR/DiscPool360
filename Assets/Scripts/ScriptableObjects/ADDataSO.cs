@@ -45,13 +45,13 @@ namespace com.VisionXR.ModelClasses
 
         public void OnInterstitialAdSuccess()
         {
-            Debug.Log("interstitial ad success event invoked in ADDataSO");
+         
             OnInterstitialAdSuccessEvent?.Invoke();
         }
 
         public void OnRewardedAdSuccess()
         {
-            Debug.Log("rewarded ad success event invoked in ADDataSO");
+            
             OnRewardedAdSuccessEvent?.Invoke();
         }
 

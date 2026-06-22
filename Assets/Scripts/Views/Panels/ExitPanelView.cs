@@ -11,6 +11,7 @@ namespace com.VisionXR.Views
         public AudioDataSO audioData;
         public GameDataSO gameData;
         public UIDataSO uiData;
+        public ADDataSO adData;
 
         [Header("Next And Previous Panels")]
         public string currentState;
@@ -25,7 +26,8 @@ namespace com.VisionXR.Views
             uiData.uiManager.ResetAllBools();
 
             gameData.ExitGame();
-            
+            adData.ShowInterstitialAd();
+
         }
 
         public void ResumeBtnClicked()
