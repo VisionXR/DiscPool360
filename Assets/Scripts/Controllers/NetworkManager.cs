@@ -3,13 +3,12 @@ using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using Fusion;
 using Fusion.Photon.Realtime;
-using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using static Unity.Collections.Unicode;
+
 
 public class NetworkManager : MonoBehaviour
 {
