@@ -5,6 +5,7 @@ using Fusion;
 using Fusion.Photon.Realtime;
 using Photon.Pun;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -53,24 +54,28 @@ public class NetworkManager : MonoBehaviour
         }
         else
         {
-            
-            if (isInvitingFriend)
-            {
-                isInvitingFriend = false;
-                Debug.Log("[NetworkManager] Trying to rejoin ."+currentRoomName);
-                Player p = playerData.GetMainPlayer();
-                if (p == null)
-                {
-                    Debug.Log("[NetworkManager] Rejoining ");
-                    RejoinLastSession();
-                }
-                else
-                {
-                    Debug.Log("[NetworkManager] Player is not null, rejoining last session.");
-                    RejoinLastSession();
-                }
-            }
+            StartCoroutine(ReconnectRoom());
+        }
+    }
 
+    private IEnumerator ReconnectRoom()
+    {
+        yield return new WaitForSeconds(1);
+        if (isInvitingFriend)
+        {
+            isInvitingFriend = false;
+            Debug.Log("[NetworkManager] Trying to rejoin ." + currentRoomName);
+            Player p = playerData.GetMainPlayer();
+            if (p == null)
+            {
+                Debug.Log("[NetworkManager] Rejoining ");
+                RejoinLastSession();
+            }
+            else
+            {
+                Debug.Log("[NetworkManager] Player is not null.");
+                
+            }
         }
     }
 
