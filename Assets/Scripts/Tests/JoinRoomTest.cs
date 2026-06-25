@@ -13,6 +13,7 @@ public class JoinRoomTest : MonoBehaviour
     public AudioDataSO audioData;
 
     [Header("Other Objects")]
+    public NetworkManager networkManager;
     public ChangeDestinationView changeDestinationPanel;
     public DestinationPanelView destinationPanel;
     public Destination destination;
@@ -20,6 +21,8 @@ public class JoinRoomTest : MonoBehaviour
     [Header("Key Bindings (New Input System)")]
     public Key JoinDestinationKey = Key.J;
     public Key ChangeDestinationKey = Key.C;
+    public Key LeaveRoomKey = Key.L;
+    public Key ReconnectRoomKey = Key.R;
 
 
     private void Update()
@@ -38,6 +41,16 @@ public class JoinRoomTest : MonoBehaviour
         if (kb[ChangeDestinationKey].isPressed)
         {
             ChangeDestination();
+        }
+
+        if (kb[LeaveRoomKey].wasPressedThisFrame)
+        {
+            networkManager.LeaveRoom();
+        }
+
+        if(kb[ReconnectRoomKey].wasPressedThisFrame)
+        {
+            networkManager.ReConnect();
         }
     }
 

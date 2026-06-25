@@ -53,8 +53,15 @@ public class NetworkManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("[NetworkManager] App focused. Reconnecting.");
             StartCoroutine(ReconnectRoom());
         }
+    }
+
+    public void ReConnect()
+    {
+        isInvitingFriend = true;
+        StartCoroutine(ReconnectRoom());
     }
 
     private IEnumerator ReconnectRoom()
@@ -79,7 +86,7 @@ public class NetworkManager : MonoBehaviour
     }
 
 
-    private void LeaveRoom()
+    public void LeaveRoom()
     {
         if (runner != null)
         {
@@ -92,7 +99,7 @@ public class NetworkManager : MonoBehaviour
 
     public void SetTimeOut(int time)
     {
-        Debug.Log("Inviting friend, setting timeout to: " + time);
+        Debug.Log("[NetworkManager] Setting timeout to: " + time);
         isInvitingFriend = true;
     }
 
@@ -104,7 +111,6 @@ public class NetworkManager : MonoBehaviour
         string regionName = region == ServerRegion.any ? "" : region.ToString().ToLower();
         settings.AppSettings.FixedRegion = regionName;
     }
-
 
 
     /// <summary>
@@ -151,8 +157,7 @@ public class NetworkManager : MonoBehaviour
             IsVisible = false,
             AuthValues = new AuthenticationValues(userData.MyOculusId.ToString()),
             CustomLobbyName = "DiscPoolLobby",
-            PlayerCount = 2,
-            
+            PlayerCount = 2,         
             SessionName = UnityEngine.Random.Range(10000, 99999).ToString() // Generate a random session name if not provided
         });
 
@@ -160,7 +165,7 @@ public class NetworkManager : MonoBehaviour
         {
             networkOutputData.SetHost(true);
             currentRoomName = runner.SessionInfo.Name;
-         //   Debug.Log(" Room created successfully with name: " + roomName);
+
             RoomSuccessEvent?.Invoke();
         }
         else
@@ -178,15 +183,12 @@ public class NetworkManager : MonoBehaviour
     {
         InitializeNetworkRunner();
 
-        
-
         var result = await runner.StartGame(new StartGameArgs
         {
             GameMode = Fusion.GameMode.Shared,
             CustomLobbyName = "DiscPoolLobby",
             SessionName = roomName,
-
-          
+         
         });
 
         if (result.Ok)
@@ -231,7 +233,7 @@ public class NetworkManager : MonoBehaviour
         if (result.Ok)
         {
             Debug.Log("[Fusion Rejoin] Rejoined successfully!");
-            ReadRoomSessionProperties();
+          //  ReadRoomSessionProperties();
         }
         else
         {
@@ -248,8 +250,6 @@ public class NetworkManager : MonoBehaviour
 
             if (props.TryGetValue("gameType", out var gameTypeProp))
             {
-
-
                 uiData.SetGameType((GameType)(int)gameTypeProp);
             }
 
