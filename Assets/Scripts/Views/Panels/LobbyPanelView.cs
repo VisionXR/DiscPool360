@@ -1,7 +1,6 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using Photon.Realtime;
 using System;
 using System.Collections;
 using TMPro;
@@ -79,7 +78,6 @@ namespace com.VisionXR.Views
             regionCode = ((int)serverRegion).ToString("D2");
             roomNameText.text = "Room ID : " + regionCode + roomId;
 
-            networkInputData.SetTimeOut(15 * 60 * 60);
         }
 
         private void OnDisable()
@@ -262,6 +260,8 @@ namespace com.VisionXR.Views
 
         public void LaunchInvitePanel()
         {
+
+            networkInputData.SetTimeOut(45);
 
             string wixBaseUrl = "https://visionxr.co.in/carrompool360/join";
 

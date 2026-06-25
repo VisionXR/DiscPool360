@@ -45,13 +45,10 @@ public class NetworkManager : MonoBehaviour
     }
 
     // --- FIX: Removed old PUN properties, optimized for Fusion ---
-    private void OnApplicationPause(bool pauseStatus)
+
+    private void OnApplicationFocus(bool focus)
     {
-        if (pauseStatus)
-        {
-            Debug.Log("[NetworkManager] App minimized. Moving to background invite state.");
-        }
-        else
+        if (focus)
         {
             Debug.Log("[NetworkManager] App focused. Reconnecting.");
             StartCoroutine(ReconnectRoom());
@@ -66,7 +63,7 @@ public class NetworkManager : MonoBehaviour
 
     private IEnumerator ReconnectRoom()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         if (isInvitingFriend)
         {
             isInvitingFriend = false;
@@ -214,7 +211,7 @@ public class NetworkManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(currentRoomName))
         {
-            Debug.LogError("Cannot rejoin: Last session name is null or empty.");
+            Debug.Log("Cannot rejoin: Last session name is null or empty.");
             return;
         }
 

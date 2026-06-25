@@ -18,6 +18,7 @@ MonoBehaviour:
   currentAIDifficulty: 0
   currentBoardType: 0
   currentLobbyType: 0
+  currentLoginType: 1
   disableTime: 0.25
   selectionColor: {r: 0, g: 0, b: 0.49019608, a: 0.5882353}
   defaultColor: {r: 0.49019608, g: 0.49019608, b: 0.49019608, a: 0.5882353}
