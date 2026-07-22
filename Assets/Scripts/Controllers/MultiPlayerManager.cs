@@ -45,6 +45,7 @@ namespace com.VisionXR.Controllers
         public bool isFirstCoinPocketed = false;
         // Add a field to track previous turn id
         private int _previousTurnId = -1;
+        private bool isStrikeStarted = false;
         private Coroutine endGameRoutine = null;
 
 
@@ -189,6 +190,7 @@ namespace com.VisionXR.Controllers
         // Called whenever turn changes to keep AI/UI in sync for snooker
         private void OnTurnChangedAssignCoins(int newTurnId)
         {
+            isStrikeStarted = false;
             pocketedCoins.Clear();
             uiData.UpdateCoins();
             coinData.TurnOnRigidBodies();
@@ -254,6 +256,15 @@ namespace com.VisionXR.Controllers
             strikerData.SetFoul(true);
             uiData.ShowFoul();
             audioData.PlayAudio(AudioClipType.Foul);
+
+            if (!isStrikeStarted)
+            {
+                Player mp = playerData.GetMainPlayer();
+                if (gameData.currentTurnId == mp.playerProperties.myId)
+                {
+                    StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
+                }
+            }
         }
         private void StrikeFellOnGround()
         {
@@ -318,6 +329,7 @@ namespace com.VisionXR.Controllers
         }
         private void StrikeStarted()
         {
+            isStrikeStarted = true;
             inputData.DisableInput();
             boardData.TurnOffInteractable();
             InputCanvas.TurnOff();
