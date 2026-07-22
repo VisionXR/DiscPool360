@@ -61,7 +61,7 @@ MonoBehaviour:
   frameDuration: 20000
   bitrate: 20000
   sourceType: 0
-  microphoneType: 1
+  microphoneType: 0
   audioClip: {fileID: 0}
   loopAudioClip: 0
   recordingEnabled: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
   editorAudioSessionPreset: 1
   androidMicrophoneSettings:
     EnableAEC: 0
-    EnableAGC: 1
+    EnableAGC: 0
     EnableNS: 0
   stopRecordingWhenPaused: 0
   useOnAudioFilterRead: 0
