@@ -32,10 +32,12 @@ namespace com.VisionXR.GameElements
 
             inputData.FireStrikeEvent += FireStriker;
             inputData.RotateStrikerAbsoluteEvent += RotateStriker;
-            gameData.TurnChangeEvent += SetStriker;
+           
 
             inputData.SwipedEvent += Swiped;
             inputData.StrikerForceChangedEvent += StrikerForceChanged;
+
+            gameData.TurnChangeEvent += SetStriker;
 
         }
 
@@ -44,10 +46,12 @@ namespace com.VisionXR.GameElements
 
             inputData.FireStrikeEvent -= FireStriker;
             inputData.RotateStrikerAbsoluteEvent -= RotateStriker;
-            gameData.TurnChangeEvent -= SetStriker;
+            
 
             inputData.SwipedEvent -= Swiped;
             inputData.StrikerForceChangedEvent -= StrikerForceChanged;
+
+            gameData.TurnChangeEvent -= SetStriker;
 
         }
 
@@ -89,9 +93,6 @@ namespace com.VisionXR.GameElements
                 strikerMovement = striker.GetComponent<StrikerMovement>();
             }
         }
-
-
-
 
     }
 }

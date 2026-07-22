@@ -35,7 +35,6 @@ namespace com.VisionXR.GameElements
             _lastAppliedYaw = angle;
         }
 
-
         public void RotateRelative(float swipeVelocity)
         {
             // If a routine is running, stop it to start a new "flick"

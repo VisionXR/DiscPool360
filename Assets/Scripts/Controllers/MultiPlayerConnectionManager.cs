@@ -24,7 +24,7 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-            networkOutputData.OnOpponentPlayerJoinedEvent += OnOpponentPlayerJoined;
+           
             networkOutputData.OnOpponentPlayerLeftEvent += OnOpponentPlayerLeft;
 
             networkOutputData.OnMainPlayerLeftEvent += OnMainPlayerLeft;
@@ -35,7 +35,7 @@ namespace com.VisionXR.Controllers
 
         private void OnDisable()
         {
-            networkOutputData.OnOpponentPlayerJoinedEvent -= OnOpponentPlayerJoined;
+           
             networkOutputData.OnOpponentPlayerLeftEvent -= OnOpponentPlayerLeft;
 
             networkOutputData.OnMainPlayerLeftEvent -= OnMainPlayerLeft;
@@ -129,12 +129,6 @@ namespace com.VisionXR.Controllers
             networkData.RPC_SetAssignedCoins(coin1, coin2);
         }
 
-        public void OnOpponentPlayerJoined()
-        {
-
-
-
-        }
         public void OnOpponentPlayerLeft()
         {
             if ((isPlaying))
@@ -155,10 +149,7 @@ namespace com.VisionXR.Controllers
                 uiData.uiManager.ChangeState(mainPlayerLeftState, true);
                 Debug.Log(" main Player left after game starts");
             }
-            else
-            {
 
-            }
         }
         public void PlayAgain()
         {

@@ -1,7 +1,6 @@
 
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,15 +16,12 @@ namespace com.VisionXR.Views
 
         [Header("Selection Objects")]
         public List<GameObject> selectedImages;
-        public PanelOnOff internetToastPanel;
-        public GameObject tutorialManager;
+    
 
         [Header("Next Objects")]
         public string singlePlayerState;
         public string multiPlayerState;
-        public string tutorialState;
-        
-
+   
 
         private void OnEnable()
         {
@@ -72,31 +68,11 @@ namespace com.VisionXR.Views
             }
             else if (uiData.currentGameType == GameType.MultiPlayer)
             {
-                if (Application.internetReachability == NetworkReachability.NotReachable)
-                {
-
-                    StartCoroutine(CheckInternetAndProceed());
-                }
-                else
-                {
-
+              
                     uiData.uiManager.ChangeState(multiPlayerState, true);
-                }
-            }
-            else if (uiData.currentGameType == GameType.Tutorial)
-            {
                 
-                tutorialManager.SetActive(true);
-                uiData.uiManager.ChangeState(tutorialState, true);
             }
-        }
-
-       private IEnumerator CheckInternetAndProceed()
-        {
-            internetToastPanel.TurnOnPanel();
-            yield return new WaitForSeconds(2f);
-            internetToastPanel.TurnOffPanel();
-          
+           
         }
 
         private void ResetImages()

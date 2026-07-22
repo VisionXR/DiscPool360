@@ -52,9 +52,11 @@ namespace com.VisionXR.HelperClasses
     public enum ServerRegion { any, us, @in, eu, asia, au, uae, jp, kr, cae, hk, sa, tr, ussc, usw }
 
     public enum StateName { TestState, LeaderBoardState, AchievementsState, RulesState, SettingsState, PurchaseState, QuitState ,
-        IdleState, HomeState, SinglePlayerState, SPInGameState, SPGameCompletedState, SPLeaderBoardState, SPPauseState, SPSettingsState, SPRulesState,
-        MultiPlayerState, MPDestinationState, JoinRoomState, LobbyState,ExitLobbyState, MPInGameState, MPPauseState, MPSettingsState, MPRulesState,
-        MPGameCompletedState, MPLeaderBoardState, MPHostDisconnectedState, MPClientDisconnectState, ChangeDestinationState,Tutorial,InfoState,LoginState
+        IdleState, HomeState, SinglePlayerState, SPInGameState, SPGameCompletedState, SPLeaderBoardState, 
+        SPPauseState, SPSettingsState, SPRulesState,MultiPlayerState, MPDestinationState, JoinRoomState, 
+        LobbyState,ExitLobbyState, MPInGameState, MPPauseState, MPSettingsState, MPRulesState,
+        MPGameCompletedState, MPLeaderBoardState, MPHostDisconnectedState, MPClientDisconnectState,
+        ChangeDestinationState,Tutorial,InfoState,LoginState,GameModeState
     }
 
     public enum AchievementSection { SinglePlayer, MultiPlayer, General }

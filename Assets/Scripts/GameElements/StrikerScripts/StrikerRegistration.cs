@@ -20,7 +20,10 @@ public class StrikerRegistration : MonoBehaviour
     {
         if (userData.myGuide == GuideType.NoGuide)
         {
-            guide.SetActive(false);
+            if (guide.activeInHierarchy)
+            {
+                guide.SetActive(false);
+            }
         }
         else
         {

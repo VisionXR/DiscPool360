@@ -98,17 +98,17 @@ namespace com.VisionXR.ModelClasses
             SwipeCompleteEvent?.Invoke(velocity);
         }
 
-        public void FireStrike(float power)
-        {
-            FireStrikeEvent?.Invoke(power);
-        }
+  
 
         public void RotateStrikerAbsolute(float angle)
         {
             RotateStrikerAbsoluteEvent?.Invoke(angle);
         }
 
-
+        public void FireStrike(float power)
+        {
+            FireStrikeEvent?.Invoke(power);
+        }
         public void StrikerForceChanged(float force)
         {
             StrikerForceChangedEvent?.Invoke(force);
