@@ -185,13 +185,15 @@ namespace com.VisionXR.Views
         public void ShowAdButtonClicked()
         {
             adData.ShowRewardedAd();
-            adNumberIndex++;
-            adNumberText.text = $"Ad {adNumberIndex} of {2}";
+            
         }
 
         public void AdWatched()
-        {         
-            if(adNumberIndex == 2)
+        {
+            adNumberIndex++;
+            adNumberText.text = $"Ad {adNumberIndex} of {2}";
+
+            if (adNumberIndex == 2)
             {
                 Debug.Log("Second Ad completed, unlocking board");
                 adDetailsPanel.TurnOffPanel();

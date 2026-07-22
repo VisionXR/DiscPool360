@@ -12,18 +12,16 @@ namespace com.VisionXR.Controllers
         public ADDataSO adDataSO;
         public PurchaseDataSO purchaseData;
 
-
         public string _interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
         public string _rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
-
 
         private InterstitialAd _interstitialAd;
         private RewardedAd _rewardedAd;
         private bool isSdkInitialized = false;
+        private bool isRewardedAdLoading = false;
 
         private void OnEnable()
         {
-            // Subscribe to events from the Scriptable Object
             adDataSO.LoadInterstitialAdEvent += LoadInterstitialAd;
             adDataSO.LoadRewardedAdEvent += LoadRewardedAd;
             adDataSO.ShowInterstitialAdEvent += ShowInterstitialAd;
@@ -32,7 +30,6 @@ namespace com.VisionXR.Controllers
 
         private void OnDisable()
         {
-            // Unsubscribe from events to prevent memory leaks
             adDataSO.LoadInterstitialAdEvent -= LoadInterstitialAd;
             adDataSO.LoadRewardedAdEvent -= LoadRewardedAd;
             adDataSO.ShowInterstitialAdEvent -= ShowInterstitialAd;
@@ -41,23 +38,18 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator Start()
         {
-            // 1. Wait a moment before initializing if needed
             yield return new WaitForSeconds(1f);
 
-            // 2. Initialize the Mobile Ads SDK
             MobileAds.Initialize((InitializationStatus status) =>
             {
-                // This callback runs on initialization success
                 isSdkInitialized = true;
             });
 
-            // 3. Wait until the initialization callback has actually fired
             while (!isSdkInitialized)
             {
                 yield return null;
             }
 
-            // 4. Load your ads sequentially with your desired delays
             Debug.Log("Google Mobile Ads SDK Initialized. Loading ads...");
             yield return new WaitForSeconds(1f);
             LoadInterstitialAd();
@@ -70,14 +62,12 @@ namespace com.VisionXR.Controllers
 
         public void LoadInterstitialAd()
         {
-            // Clean up the old ad before loading a new one
             if (_interstitialAd != null)
             {
                 _interstitialAd.Destroy();
                 _interstitialAd = null;
             }
 
-           
             var adRequest = new AdRequest();
 
             InterstitialAd.Load(_interstitialAdUnitId, adRequest, (InterstitialAd ad, LoadAdError error) =>
@@ -88,13 +78,11 @@ namespace com.VisionXR.Controllers
                     return;
                 }
 
-             
                 _interstitialAd = ad;
 
-                // Register to handle ad closure so we can preload the next one
                 _interstitialAd.OnAdFullScreenContentClosed += () =>
                 {
-                    adDataSO.OnInterstitialAdSuccess(); // Notify the Scriptable Object about the success
+                    adDataSO.OnInterstitialAdSuccess();
                     LoadInterstitialAd();
                 };
             });
@@ -103,20 +91,19 @@ namespace com.VisionXR.Controllers
         public void ShowInterstitialAd()
         {
             AssetData noAdsData = purchaseData.GetBoardDataById(purchaseData.BoardsData.Count - 1);
-            if ( noAdsData != null  && noAdsData.isPurchased)
+            if (noAdsData != null && noAdsData.isPurchased)
             {
-                Debug.Log("Purchased made for no ads");
+                Debug.Log("Purchase made for no ads");
                 return;
             }
 
             if (_interstitialAd != null && _interstitialAd.CanShowAd())
             {
                 _interstitialAd.Show();
-                
             }
             else
             {
-                LoadInterstitialAd(); // Try loading again
+                LoadInterstitialAd();
             }
         }
 
@@ -126,31 +113,41 @@ namespace com.VisionXR.Controllers
 
         public void LoadRewardedAd()
         {
-            // Clean up the old ad before loading a new one
+            // Prevent multiple concurrent load requests
+            if (isRewardedAdLoading) return;
+
             if (_rewardedAd != null)
             {
                 _rewardedAd.Destroy();
                 _rewardedAd = null;
             }
 
-
+            isRewardedAdLoading = true;
             var adRequest = new AdRequest();
 
             RewardedAd.Load(_rewardedAdUnitId, adRequest, (RewardedAd ad, LoadAdError error) =>
             {
+                isRewardedAdLoading = false;
+
                 if (error != null || ad == null)
                 {
                     Debug.LogError("Rewarded ad failed to load: " + error);
                     return;
                 }
 
-               
                 _rewardedAd = ad;
 
-                // Register to handle ad closure so we can preload the next one
+                // Handle cleanup and preloading next ad when closed
                 _rewardedAd.OnAdFullScreenContentClosed += () =>
                 {
-                    adDataSO.OnRewardedAdSuccess(); // Notify the Scriptable Object about the reward
+                    LoadRewardedAd();
+                };
+
+                // Optional: Handle ad failed to present
+                _rewardedAd.OnAdFullScreenContentFailed += (AdError adError) =>
+                {
+                    Debug.LogError("Rewarded ad failed to show: " + adError);
+                    LoadRewardedAd();
                 };
             });
         }
@@ -159,18 +156,23 @@ namespace com.VisionXR.Controllers
         {
             if (_rewardedAd != null && _rewardedAd.CanShowAd())
             {
-                
                 _rewardedAd.Show((Reward reward) =>
                 {
                     Debug.Log($"User earned reward: {reward.Amount} {reward.Type}");
-                  
-                    LoadRewardedAd();
+
+                    // Grant the reward inside the successful user completion callback
+                    adDataSO.OnRewardedAdSuccess();
                 });
             }
             else
             {
                 Debug.LogWarning("Rewarded ad is not ready yet.");
-                LoadRewardedAd(); // Try loading again
+
+                // 1. Fire failure event on Scriptable Object so UI can notify the user
+             //   adDataSO.OnRewardedAdFailed?.Invoke();
+
+                // 2. Trigger a fresh reload attempt
+                LoadRewardedAd();
             }
         }
 
