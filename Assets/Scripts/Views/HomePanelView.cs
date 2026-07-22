@@ -21,6 +21,7 @@ namespace com.VisionXR.Views
         [Header("Next Objects")]
         public string singlePlayerState;
         public string multiPlayerState;
+        public string currentState;
    
 
         private void OnEnable()
@@ -59,6 +60,12 @@ namespace com.VisionXR.Views
             }
         }
 
+        public void BackBtnClicked()
+        {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
+            uiData.uiManager.ChangeState(currentState, false);
+        }
+
         public void NextBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
@@ -69,7 +76,7 @@ namespace com.VisionXR.Views
             else if (uiData.currentGameType == GameType.MultiPlayer)
             {
               
-                    uiData.uiManager.ChangeState(multiPlayerState, true);
+              uiData.uiManager.ChangeState(multiPlayerState, true);
                 
             }
            
