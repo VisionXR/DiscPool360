@@ -111,7 +111,7 @@ public class AppPropertiesManager : MonoBehaviour
         }
 #else
         // Fallback for testing layouts inside the Unity Editor
-        Debug.Log($"[Editor Haptic Blueprint] Simulating vibration for {milliseconds} ms");
+        
 #endif
     }
 }
