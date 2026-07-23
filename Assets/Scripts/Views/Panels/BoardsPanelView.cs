@@ -184,6 +184,7 @@ namespace com.VisionXR.Views
 
         public void ShowAdButtonClicked()
         {
+            audioData.PlayAudio(AudioClipType.ButtonClick);
             adData.ShowRewardedAd();
             
         }
