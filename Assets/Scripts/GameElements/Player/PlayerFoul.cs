@@ -199,6 +199,7 @@ namespace com.VisionXR.GameElements
                     if (CanPlaceInAir(candidatePos, strikerRadius))
                     {
                         currentStriker.transform.position = candidatePos;
+                        currentStriker.transform.rotation = Quaternion.identity;
                         placed = true;
                         break;
                     }
@@ -206,7 +207,8 @@ namespace com.VisionXR.GameElements
 
                 if (!placed)
                 {
-                    currentStriker.transform.position = boardPosition + Vector3.up * (heightLift);
+                    currentStriker.transform.position = boardPosition + Vector3.up * (heightLift);  
+                    currentStriker.transform.rotation = Quaternion.identity;
                 }
             }
         }
