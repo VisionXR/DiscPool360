@@ -507,6 +507,8 @@ namespace com.VisionXR.Controllers
                 Player mp = playerData.GetMainPlayer();
                 if(gameData.currentTurnId == mp.playerProperties.myId)
                 {
+                    InputCanvas.TurnOff();
+                    inputData.DisableInput();
                     StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
                 }
             }

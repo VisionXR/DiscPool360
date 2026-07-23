@@ -262,6 +262,10 @@ namespace com.VisionXR.Controllers
                 Player mp = playerData.GetMainPlayer();
                 if (gameData.currentTurnId == mp.playerProperties.myId)
                 {
+                    strikerData.PlaceStrikerOnEdge();
+                    InputCanvas.TurnOff();
+                    inputData.DisableInput();
+                    multiPlayerConnectionManager.SendStrikeEnded();
                     StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
                 }
             }
