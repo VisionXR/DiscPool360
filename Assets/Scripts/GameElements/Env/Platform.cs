@@ -79,7 +79,7 @@ public class Platform : MonoBehaviour
             allAssets = tableData.allAssets;
         }
 
-
+        TurnOnBoardHighlight();
 
         isPinchStarted = true;
         lastFramePosition = startPosition; // Store the exact start position vector
@@ -89,7 +89,7 @@ public class Platform : MonoBehaviour
             allAssets.transform.SetParent(this.transform, true);
         }
 
-        TurnOnBoardHighlight();
+      
         inputData.PlatformHighlight(true);
         tableData.PlatformRotationStarted();
     }
