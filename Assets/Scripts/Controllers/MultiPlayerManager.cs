@@ -276,6 +276,19 @@ namespace com.VisionXR.Controllers
             uiData.ShowFoul();
             audioData.PlayAudio(AudioClipType.Foul);
 
+            if (!isStrikeStarted)
+            {
+                Player mp = playerData.GetMainPlayer();
+                if (gameData.currentTurnId == mp.playerProperties.myId)
+                {
+                    strikerData.PlaceStrikerOnEdge();
+                    InputCanvas.TurnOff();
+                    inputData.DisableInput();
+                    multiPlayerConnectionManager.SendStrikeEnded();
+                    StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
+                }
+            }
+
         }
 
         private void FoulCompleted()

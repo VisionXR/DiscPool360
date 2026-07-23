@@ -32,6 +32,7 @@ namespace com.VisionXR.Views
         [Header("Ad Panel ")]
         public PanelOnOff adDetailsPanel;
         public Image boardImage;
+        public GameObject errorText;
         public TMP_Text adNumberText;
         private int adNumberIndex = 0;
         private int currentBoardIndex = 0;
@@ -90,11 +91,13 @@ namespace com.VisionXR.Views
             }
            
            adData.OnRewardedAdSuccessEvent += AdWatched;
+            adData.OnRewardedAdFailedToLoadEvent += ShowError;
         }
 
         private void OnDisable()
         {
             adData.OnRewardedAdSuccessEvent -= AdWatched;
+            adData.OnRewardedAdFailedToLoadEvent -= ShowError;
         }
 
 
@@ -204,13 +207,24 @@ namespace com.VisionXR.Views
             }
         }
 
-        public void AdWatched(int id)
+        public void ShowError()
         {
-            
-            boardLockImages[id].gameObject.SetActive(false);
-            adButtons[id].gameObject.SetActive(false);
+            StartCoroutine(DisplayError());
         }
 
+        private IEnumerator DisplayError()
+        {
+            errorText.SetActive(true);
+            yield return new WaitForSeconds(2);
+            errorText.SetActive(false);
+        }
+
+        //public void AdWatched(int id)
+        //{
+            
+        //    boardLockImages[id].gameObject.SetActive(false);
+        //    adButtons[id].gameObject.SetActive(false);
+        //}
 
         public void BoardSelected(int id)
         {

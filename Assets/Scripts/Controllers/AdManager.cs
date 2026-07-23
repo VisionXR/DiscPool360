@@ -169,7 +169,7 @@ namespace com.VisionXR.Controllers
                 Debug.LogWarning("Rewarded ad is not ready yet.");
 
                 // 1. Fire failure event on Scriptable Object so UI can notify the user
-             //   adDataSO.OnRewardedAdFailed?.Invoke();
+                adDataSO.RewardAdFailedToLoad();
 
                 // 2. Trigger a fresh reload attempt
                 LoadRewardedAd();

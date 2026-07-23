@@ -521,6 +521,17 @@ namespace com.VisionXR.Controllers
             uiData.ShowFoul();
             audioData.PlayAudio(AudioClipType.Foul);
 
+            if (!isStrikeStarted)
+            {
+                Player mp = playerData.GetMainPlayer();
+                if (gameData.currentTurnId == mp.playerProperties.myId)
+                {
+                    InputCanvas.TurnOff();
+                    inputData.DisableInput();
+                    StartCoroutine(WaitAndChangeTurn(GetNextTurn()));
+                }
+            }
+
         }
         private IEnumerator WaitAndCheckPoolLogic()
         {

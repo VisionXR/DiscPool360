@@ -37,7 +37,6 @@ namespace com.VisionXR.ModelClasses
         public Action ResetStrikerEvent;
 
         public Action<int> StrikerPocketedEvent;
-        public Action<GameObject> StrikerCollidedEvent;
         public Action<int> HandleFoulEvent;
         public Action FoulCompleteEvent;
         public Action<int> PlaceStrikerEvent;
@@ -121,6 +120,11 @@ namespace com.VisionXR.ModelClasses
             StrikerPocketedEvent?.Invoke(id);
         }
 
+        public void StrikerFellOnGround()
+        {
+            StrikerFellOnGroundEvent?.Invoke();
+        }
+
         public void PlaceStriker()
         {
             PlaceStrikerEvent?.Invoke(pocketId);
@@ -131,10 +135,7 @@ namespace com.VisionXR.ModelClasses
             PlaceStrikerOnEdgeEvent?.Invoke(pocketId);
         }
 
-        public void StrikerCollided(GameObject collidedObject)
-        {
-            StrikerCollidedEvent?.Invoke(collidedObject);
-        }
+
 
         public void TurnOnArrow()
         {

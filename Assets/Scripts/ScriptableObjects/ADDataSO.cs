@@ -21,6 +21,9 @@ namespace com.VisionXR.ModelClasses
         public Action OnInterstitialAdSuccessEvent;
         public Action OnRewardedAdSuccessEvent;
 
+
+        public Action OnRewardedAdFailedToLoadEvent;
+
         // Methods
 
         public void LoadInterstitialAd()
@@ -41,6 +44,11 @@ namespace com.VisionXR.ModelClasses
         public void ShowRewardedAd()
         {
             ShowRewardedAdEvent?.Invoke();
+        }
+
+        public void RewardAdFailedToLoad()
+        {
+            OnRewardedAdFailedToLoadEvent?.Invoke();
         }
 
         public void OnInterstitialAdSuccess()

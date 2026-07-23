@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -41,6 +42,12 @@ public class StrikerCollision : MonoBehaviour
 
             // You can add functionality here for when the striker collides with a hole
             strikerData.StrikerPocketed(holeId);
+        }
+        else if (collision.collider.gameObject.tag == "Floor")
+        {
+            strikerRb.linearVelocity = Vector3.zero;
+            strikerRb.isKinematic = true;
+            strikerData.StrikerFellOnGround();
         }
 
     }
