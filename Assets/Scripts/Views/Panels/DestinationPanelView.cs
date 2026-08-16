@@ -20,10 +20,11 @@ namespace com.VisionXR.Views
 
         [Header("Local Objects")]
         public TMP_Text connectionText;
+        public GameObject LinkExpiredBtn;
         public GameObject rotationImage;
         public GameObject HomeBtn;
         public GameObject RetryBtn;
-        public GameObject LinkExpiredBtn;
+       
 
         [Header("Icons")]
         public Sprite EightPoolIcon;
@@ -140,7 +141,6 @@ namespace com.VisionXR.Views
             if (currentDestination != null)
             {        
                
-
                 string time = currentDestination.time;
 
                 if (string.IsNullOrEmpty(time))

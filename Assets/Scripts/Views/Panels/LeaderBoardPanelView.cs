@@ -45,7 +45,8 @@ namespace com.VisionXR.Views
             currentId = id;
             // 1. Wipe current list clean
             ClearAllText();
-            leaderBoard.GetTop10Entries(leaderBoard.GetApiNameById(currentId)); // Fetch new data based on the selected tab's API name
+
+            leaderBoard.GetTop10Scores(leaderBoard.GetApiNameById(currentId)); // Fetch new data based on the selected tab's API name
         }
 
         private void ResetTabs()
@@ -100,8 +101,7 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
             ClearAllText();
-            leaderBoard.GetMyPoints();
-            leaderBoard.GetTop10Entries(leaderBoard.GetApiNameById(currentId)); // Fetch new data based on the selected tab's API name
+            leaderBoard.GetTop10Scores(leaderBoard.GetApiNameById(currentId)); // Fetch new data based on the selected tab's API name
         }
 
         public void BackBtnClicked()

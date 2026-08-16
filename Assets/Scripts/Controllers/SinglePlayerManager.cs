@@ -668,7 +668,7 @@ namespace com.VisionXR.Controllers
             if (id == 1)
             {
                 audioData.PlayAudio(AudioClipType.Winning);
-                leaderboardData.SetMyPoints(leaderboardData.GetApiNameById(0), 1);
+                leaderboardData.WriteToLeaderBoard(1, leaderboardData.GetApiNameById(0));
                 
 
             }

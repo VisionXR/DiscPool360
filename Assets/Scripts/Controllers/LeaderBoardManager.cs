@@ -1,230 +1,97 @@
 using com.VisionXR.ModelClasses;
-using System;
+using PlayFab;
+using PlayFab.ClientModels;
 using System.Collections.Generic;
 using UnityEngine;
-using GooglePlayGames;
-using GooglePlayGames.BasicApi;
-using UnityEngine.SocialPlatforms;
-using System.Collections;
+
 
 namespace com.VisionXR.Controllers
 {
     public class LeaderBoardManager : MonoBehaviour
     {
         [Header("Scriptable Objects")]
-        public LeaderBoardSO leaderboard;
-        
+        public LeaderBoardSO leaderBoardData;
+
 
         private void OnEnable()
         {
-            leaderboard.GetMyPointsEvent += GetMyPoints;
-            leaderboard.SetMyPointsEvent += WriteToLeaderBoard;
-            leaderboard.GetTop10EntriesEvent += GetTopTenEntries;
+            leaderBoardData.WriteToLeaderBoardEvent += WriteToLeaderBoard;
+            leaderBoardData.GetTop10ScoresEvent += GetTop10Leaderboard;
         }
 
         private void OnDisable()
         {
-            leaderboard.GetMyPointsEvent -= GetMyPoints;
-            leaderboard.SetMyPointsEvent -= WriteToLeaderBoard;
-            leaderboard.GetTop10EntriesEvent -= GetTopTenEntries;
+            leaderBoardData.WriteToLeaderBoardEvent -= WriteToLeaderBoard;
+            leaderBoardData.GetTop10ScoresEvent -= GetTop10Leaderboard;
         }
 
         /// <summary>
-        /// Writes/Reports score to specified GPGS Leaderboard ID
+        /// Uploads singleplayer wins/score directly from the client.
+        /// Best for offline/local CPU game modes where minor client authority is acceptable.
         /// </summary>
-        public void WriteToLeaderBoard(string apiName, int points)
+        public void WriteToLeaderBoard(int score, string apiName)
         {
-            try
+            var request = new UpdatePlayerStatisticsRequest
             {
-                if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
-
-                // CRITICAL: Force a local copy creation of your parameters.
-                // This isolates the memory reference so different simultaneous 
-                // leaderboard calls don't accidentally override each other's data variables.
-                string currentApiName = apiName;
-                int pointsToAdd = points;
-
-                // Calculate the unique final score for this specific API track
-                int finalScore = leaderboard.GetPointsByApiName(currentApiName) + pointsToAdd;
-
-               
-
-                Social.ReportScore(finalScore, currentApiName, (bool success) =>
-                {
-                    if (success)
-                    {
-                        // Update your local ScriptableObject cache tracking for this specific API
-                        leaderboard.AddPoints(currentApiName, pointsToAdd);
-                      //  PlayGamesPlatform.Instance.ShowLeaderboardUI(currentApiName);
-                   //   Debug.Log("Successfully reported score to leaderboard: " + currentApiName + " with points: " + finalScore);
-
-                    }
-                    else
-                    {
-                        Debug.LogError($"Failed to report score to leaderboard: {currentApiName}");
-                    }
-                });
-            }
-            catch (Exception e)
+                Statistics = new List<StatisticUpdate>
             {
-                Debug.LogError("Error writing to leaderboard: " + e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Fetches top 10 global user entries
-        /// </summary>
-        public void GetTopTenEntries(string apiName)
-        {
-            if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
-
-            // Load scores starting from the top entry globally
-            PlayGamesPlatform.Instance.LoadScores(
-                apiName,
-                LeaderboardStart.TopScores,
-                10,
-                LeaderboardCollection.Public,
-                LeaderboardTimeSpan.AllTime,
-                (LeaderboardScoreData data) =>
+                new StatisticUpdate
                 {
-                    ProcessTopEntriesCallback(data);
+                    StatisticName = apiName,
+                    Value = score
                 }
+            }
+            };
+
+            PlayFabClientAPI.UpdatePlayerStatistics(request,
+                result => Debug.Log("Score successfully posted to PlayFab!"),
+                error => Debug.LogError($"Failed to update singleplayer score: {error.GenerateErrorReport()}")
             );
         }
 
         /// <summary>
-        /// Iterates through your 3 configured API tracking configurations to find user data
+        /// Retrieves the top singleplayer ranks.
         /// </summary>
-
-
-        private void ProcessTopEntriesCallback(LeaderboardScoreData data)
+        public void GetTop10Leaderboard(string apiName)
         {
-            if (data.Status != ResponseStatus.Success && data.Status != ResponseStatus.SuccessWithStale)
+            var request = new GetLeaderboardRequest
             {
-                Debug.LogError("GPGS failed to fetch top entries. Status code: " + data.Status);
-                
-                return;
-            }
-
-            // 1. Gather all unique User IDs from the loaded scores
-            List<string> userIds = new List<string>();
-            foreach (IScore score in data.Scores)
-            {
-                if (!string.IsNullOrEmpty(score.userID))
+                StatisticName = apiName,
+                StartPosition = 0,
+                MaxResultsCount = 10,
+                ProfileConstraints = new PlayerProfileViewConstraints
                 {
-                    userIds.Add(score.userID);
+                    ShowDisplayName = true // Retrieves user's profile display name dynamically
                 }
-            }
+            };
 
-         //   Debug.Log($"Fetched {data.Scores.Length} scores. Unique user IDs to load: {userIds.Count}");
-
-            // 2. Batch load profiles for all these user IDs from Google's servers
-            Social.LoadUsers(userIds.ToArray(), (IUserProfile[] profiles) =>
-            {
-                // Map user IDs to their Display Names using a dictionary for quick lookup
-                Dictionary<string, string> userIdToNameMap = new Dictionary<string, string>();
-
-                if (profiles != null)
-                {
-                    foreach (IUserProfile profile in profiles)
-                    {
-                        if (!userIdToNameMap.ContainsKey(profile.id))
-                        {
-                            userIdToNameMap.Add(profile.id, profile.userName);
-                        }
-                    }
-                }
-
-                List<string> names = new List<string>();
-                List<int> ranks = new List<int>();
-                List<int> points = new List<int>();
-
-                // 3. Match usernames to their ranks and scores
-                foreach (IScore score in data.Scores)
-                {
-                    string displayName = "Unknown Player";
-
-                    // Check if we successfully found a username matching this score's user ID
-                    if (userIdToNameMap.TryGetValue(score.userID, out string mappedName))
-                    {
-                        displayName = mappedName;
-                    }
-                    else if (score.userID == Social.localUser.id)
-                    {
-                        // Simple shortcut fallback check if it's the local active player
-                        displayName = Social.localUser.userName;
-                    }
-                    else
-                    {
-                        // Fallback text if user profile data is hidden by player privacy settings
-                        displayName = $"Player_{score.userID.Substring(0, Mathf.Min(5, score.userID.Length))}";
-                    }
-
-                    names.Add(displayName);
-        
-                    ranks.Add(score.rank);
-                    points.Add((int)score.value);
-                }
-
-                // 4. Send the compiled names, ranks, and points over to update your UI panels
-                leaderboard.ShowLeaderBoardData(names, ranks, points);
-            });
+            PlayFabClientAPI.GetLeaderboard(request,
+                result => OnLeaderboardLoaded(result.Leaderboard, "Singleplayer"),
+                error => Debug.LogError($"Failed to fetch singleplayer leaderboard: {error.GenerateErrorReport()}")
+            );
         }
 
-        private void ProcessUserPointsCallback(LeaderboardScoreData data, string apiName)
+
+        private void OnLeaderboardLoaded(List<PlayerLeaderboardEntry> entries, string mode)
         {
-            if (data.Status == ResponseStatus.Success || data.Status == ResponseStatus.SuccessWithStale)
+            Debug.Log($"--- {mode} Leaderboard Loaded ---");
+            List<string> names = new List<string>();
+            List<int> ranks = new List<int>();
+            List<int> scores = new List<int>();
+            foreach (var entry in entries)
             {
-                // Verify if the dataset populated valid local user structural records
-                if (data.PlayerScore != null)
-                {
-                    int myValue = (int)data.PlayerScore.value;
-                    int myRank = data.PlayerScore.rank;
+                // Fallback to PlayFabId if DisplayName hasn't been set by the user yet
+                string username = !string.IsNullOrEmpty(entry.DisplayName) ? entry.DisplayName : entry.PlayFabId;
+                int rank = entry.Position + 1; // PlayFab ranks are 0-indexed
+                int score = entry.StatValue;
 
-                    leaderboard.SavePointsData(apiName, myValue);
-                    leaderboard.SaveRankData(apiName, myRank);
-
-                 //  Debug.Log($"Successfully fetched player score for leaderboard: {apiName}. Points: {myValue}, Rank: {myRank}");
-
-                }
-            }
-            else
-            {
-                Debug.LogError($"GPGS failed loading player scores for leaderboard: {apiName}. Status: {data.Status}");
-            }
-        }
-
-        public void GetMyPoints()
-        {
-            
-
-            if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
-
-            StartCoroutine(FetchMyPoints());
-        }
-
-        private IEnumerator FetchMyPoints()
-        {
-            foreach (var item in leaderboard.leaderBoardPoints)
-            {
-                string trackingApiName = item.apiName; // Capture reference variable for the asynchronous callback closure
-
-                // CenteredOnPlayer extracts a batch of rows with the local user directly in focus
-                PlayGamesPlatform.Instance.LoadScores(
-                    trackingApiName,
-                    LeaderboardStart.PlayerCentered,
-                    1,
-                    LeaderboardCollection.Public,
-                    LeaderboardTimeSpan.AllTime,
-                    (LeaderboardScoreData data) =>
-                    {
-                        ProcessUserPointsCallback(data, trackingApiName);
-                        
-                    }
-                );
-                yield return new WaitForSeconds(1f); 
+                names.Add(username);
+                ranks.Add(rank);
+                scores.Add(score);
 
             }
+
+            leaderBoardData.ShowLeaderBoardData(names, ranks, scores);
         }
     }
-}
+ }

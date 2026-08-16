@@ -1,8 +1,9 @@
-using UnityEngine;
-using GoogleMobileAds.Api;
-using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
+using com.VisionXR.ModelClasses;
+using GoogleMobileAds.Api;
+using GoogleMobileAds.Common;
 using System.Collections;
+using UnityEngine;
 
 namespace com.VisionXR.Controllers
 {
@@ -160,16 +161,26 @@ namespace com.VisionXR.Controllers
                 {
                     Debug.Log($"User earned reward: {reward.Amount} {reward.Type}");
 
-                    // Grant the reward inside the successful user completion callback
-                    adDataSO.OnRewardedAdSuccess();
+                    // Route the reward completion callback back to Unity's Main Thread!
+                    MobileAdsEventExecutor.ExecuteInUpdate(() =>
+                    {
+                        // Safe to load board, instantiate prefabs, or change scenes here
+                        adDataSO.OnRewardedAdSuccess();
+                    });
                 });
             }
             else
             {
                 Debug.LogWarning("Rewarded ad is not ready yet.");
 
-                // 1. Fire failure event on Scriptable Object so UI can notify the user
-                adDataSO.RewardAdFailedToLoad();
+
+                // Route the reward completion callback back to Unity's Main Thread!
+                MobileAdsEventExecutor.ExecuteInUpdate(() =>
+                {
+                    // 1. Fire failure event on Scriptable Object so UI can notify the user
+                    adDataSO.RewardAdFailedToLoad();
+
+                });
 
                 // 2. Trigger a fresh reload attempt
                 LoadRewardedAd();

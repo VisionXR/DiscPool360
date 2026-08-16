@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::com.VisionXR.ModelClasses.LeaderBoardSO
   leaderBoardPoints:
   - name: SinglePlayer
-    apiName: CgkI64-uqPAcEAIQOA
+    apiName: SinglePlayer
     wins: 0
     rank: 0
   - name: MultiPlayer
-    apiName: CgkI64-uqPAcEAIQOQ
+    apiName: MultiPlayer
     wins: 0
     rank: 0

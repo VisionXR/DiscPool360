@@ -285,8 +285,7 @@ namespace com.VisionXR.Controllers
             purchaseData.GetPurchasedItems();
             yield return new WaitForSeconds(1);
             achievementData.GetAllAchievemnets();
-            yield return new WaitForSeconds(1);
-            leaderBoardData.GetMyPoints();
+            
             
         }
 

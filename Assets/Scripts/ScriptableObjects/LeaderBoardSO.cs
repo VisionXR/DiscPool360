@@ -12,101 +12,50 @@ namespace com.VisionXR.ModelClasses
         public List<LeaderBoardPoints> leaderBoardPoints;
 
         // Action
-        //public Action<string, LeaderboardStartAt> GetTop10EntriesEvent;
-        public Action GetMyPointsEvent;
-        public Action<string, int> SetMyPointsEvent;
-        public Action<string> GetTop10EntriesEvent;
+
+        public Action<string> GetTop10ScoresEvent;
+        public Action<int, string> WriteToLeaderBoardEvent;
         public Action<List<string>, List<int>, List<int>> ShowLeaderBoardDataEvent;
 
 
         // Methods
-
-
-        public void GetMyPoints()
+        public void WriteToLeaderBoard(int points, string apiName)
         {
-            GetMyPointsEvent?.Invoke();
+            WriteToLeaderBoardEvent?.Invoke(points, apiName);
         }
 
-        public void SetMyPoints(string apiName, int points)
+        public void GetTop10Scores(string apiName)
         {
-            SetMyPointsEvent?.Invoke(apiName, points);
-        }
-
-        public void GetTop10Entries(string apiName)
-        {
-            GetTop10EntriesEvent?.Invoke(apiName);
-        }
-
-        public void ShowLeaderBoardData(List<string> names,List<int> ranks,List<int> points)
-        {
-            ShowLeaderBoardDataEvent?.Invoke(names, ranks, points);
-        }
-
-        public void AddPoints(string apiName ,int points)
-        {
-            foreach (var item in leaderBoardPoints)
-            {
-                if (item.apiName == apiName)
-                {
-                    item.wins += points;
-                    break;
-                }
-            }
-        }
-
-        public int GetPointsByApiName(string apiName)
-        {
-            foreach (var item in leaderBoardPoints)
-            {
-                if (item.apiName == apiName)
-                {
-                    return item.wins;
-                }
-            }
-            return 0;
-        }
-
-        public int GetRankByApiName(int id)
-        {         
-            return leaderBoardPoints[id].rank;
+            GetTop10ScoresEvent?.Invoke(apiName);
         }
 
         public string GetApiNameById(int id)
         {
-            return leaderBoardPoints[id].apiName;
-        }
-        public void SavePointsData(string apiName, int points)
-        {
-            
-            foreach (var item in leaderBoardPoints)
+            if (id >= 0 && id < leaderBoardPoints.Count)
             {
-                if (item.apiName == apiName)
-                {
-                    item.wins = points;                  
-                    break;
-                }
+                return leaderBoardPoints[id].apiName;
             }
-
-        }
-
-        public void SaveRankData(string apiName, int rank)
-        {
-            foreach (var item in leaderBoardPoints)
+            else
             {
-                if (item.apiName == apiName)
-                {
-                    item.rank = rank;
-                    break;
-                }
+                Debug.LogError($"Invalid ID: {id}. It should be between 0 and {leaderBoardPoints.Count - 1}.");
+                return string.Empty;
             }
         }
+
+        public void ShowLeaderBoardData(List<string> names, List<int> ranks, List<int> points)
+        {
+            ShowLeaderBoardDataEvent?.Invoke(names, ranks, points);
+        }
+
+
+
+
     }
 
 
     [Serializable]
-    public class  LeaderBoardPoints
+    public class LeaderBoardPoints
     {
-        public string name;
         public string apiName;
         public int wins;
         public int rank;

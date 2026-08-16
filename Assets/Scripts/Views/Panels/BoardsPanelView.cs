@@ -202,8 +202,11 @@ namespace com.VisionXR.Views
                 Debug.Log("Second Ad completed, unlocking board");
                 adDetailsPanel.TurnOffPanel();
                 purchaseData.allSingleBoards[currentBoardIndex] = true;
+
                 adButtons[currentBoardIndex].gameObject.SetActive(false);
                 boardLockImages[currentBoardIndex].gameObject.SetActive(false);
+
+                BoardSelected(currentBoardIndex);
             }
         }
 
@@ -219,12 +222,6 @@ namespace com.VisionXR.Views
             errorText.SetActive(false);
         }
 
-        //public void AdWatched(int id)
-        //{
-            
-        //    boardLockImages[id].gameObject.SetActive(false);
-        //    adButtons[id].gameObject.SetActive(false);
-        //}
 
         public void BoardSelected(int id)
         {
