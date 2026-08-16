@@ -34,6 +34,11 @@ namespace com.VisionXR.ModelClasses
             isToggle = true;
         }
 
+        public void SetUserName(string userName)
+        {
+            MyName = userName;
+        }
+
 
         public void SetUserNameAndId(string userName, string Id)
         {     

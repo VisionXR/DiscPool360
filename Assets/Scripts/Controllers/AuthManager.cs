@@ -31,6 +31,7 @@ namespace com.VisionXR.Controllers
         public ChangeDestinationView changeDestinationPanelView;
         public TMP_Text errorText;
         public Sprite GuestPlayerIcon;
+        public string displayName;
         public bool isLoggedIn = false;
         public bool isLink = false;
         private bool isFirstTime = true;
@@ -171,7 +172,8 @@ namespace com.VisionXR.Controllers
         private void EditorLogin()
         {
             // Simplified Editor Mock
-            playerSettings.SetUserNameAndId("Guest_Player", UnityEngine.Random.Range(0, 9999).ToString());
+            displayName = "Guest_" + SystemInfo.deviceUniqueIdentifier.Substring(0,5);
+            playerSettings.SetUserNameAndId(displayName, SystemInfo.deviceUniqueIdentifier);
             playerSettings.SetProfileUrl("");
             playerSettings.SetUserProfileImage(GuestPlayerIcon);
             StartCoroutine(ConnectToPlayfab(5));
@@ -184,11 +186,32 @@ namespace com.VisionXR.Controllers
 
         public void GuestLogin()
         {
-            playerSettings.SetUserNameAndId("Guest_"+UnityEngine.Random.Range(0, 9999).ToString(), SystemInfo.deviceUniqueIdentifier);
+            displayName = "Guest_" + SystemInfo.deviceUniqueIdentifier.Substring(0, 5);
+            playerSettings.SetUserNameAndId(displayName, SystemInfo.deviceUniqueIdentifier);
             playerSettings.SetProfileUrl(""); // Set to empty or a default guest icon URL
             playerSettings.SetUserProfileImage(GuestPlayerIcon);
             uiData.uiManager.ChangeState("Login", false);
             uiData.SetLoginType(LoginType.Guest);
+          
+            // If in Editor, use a fixed string so you always log into the same test account
+            // If on Mobile, use the unique Device ID
+            string customId = SystemInfo.deviceUniqueIdentifier;
+
+            var request = new LoginWithCustomIDRequest
+            {
+                CustomId = customId,
+                CreateAccount = true,
+                TitleId = PlayFabSettings.TitleId,
+                InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+                {
+                    GetUserAccountInfo = true
+                }
+            };
+
+
+            PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
+
+
             ProcessGameFlow();
         }
 
@@ -207,12 +230,12 @@ namespace com.VisionXR.Controllers
             {
                
                 // 1. First, set local UI data (Name and Image)
-                string name = Social.localUser.userName;
+                displayName = Social.localUser.userName;
                 string googleID = Social.localUser.id;
                 string imageUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
 
 
-                playerSettings.SetUserNameAndId(name, googleID);
+                playerSettings.SetUserNameAndId(displayName, googleID);
                 playerSettings.SetProfileUrl(imageUrl);    
         
                 StartCoroutine(ConnectToPlayfab(5));               
@@ -250,10 +273,7 @@ namespace com.VisionXR.Controllers
         {
             if (!isLink)
             {
-
                 isFirstTime = false;
-
-
                 if (!PlayerPrefs.HasKey("Tutorial"))
                 {
                     tutorialManager.SetActive(true);
@@ -292,7 +312,6 @@ namespace com.VisionXR.Controllers
         private void RequestTokenAndLoginToPlayFab()
         {
 
-
             PlayGamesPlatform.Instance.RequestServerSideAccess(true, (authCode) =>
             {
                 
@@ -302,7 +321,11 @@ namespace com.VisionXR.Controllers
                 {
                     ServerAuthCode = authCode,
                     CreateAccount = true,
-                    TitleId = PlayFabSettings.TitleId
+                    TitleId = PlayFabSettings.TitleId,
+                    InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+                    {
+                        GetUserAccountInfo = true
+                    }
                 };
 
                 PlayFabClientAPI.LoginWithGooglePlayGamesServices(request, OnPlayFabSuccess, OnPlayFabFailure);
@@ -315,14 +338,46 @@ namespace com.VisionXR.Controllers
             isLoggedIn = true;
             cloudData.PlayFabLoginSuccess();
 
-            //// OPTIONAL: Update PlayFab display name to match Google name
-            //UpdatePlayFabDisplayName(Social.localUser.userName);
+            // Read the existing display name from the login payload
+            string currentDisplayName = result.InfoResultPayload?.AccountInfo?.TitleInfo?.DisplayName;
+
+            if (string.IsNullOrEmpty(currentDisplayName))
+            {
+                Debug.Log("DisplayName is null or empty. Setting standard display name...");
+                if (!string.IsNullOrEmpty(displayName))
+                {
+                    SetPlayFabDisplayName(displayName);
+                }
+            }
+            else
+            {
+                Debug.Log($"Existing PlayFab DisplayName found: {currentDisplayName}");
+                playerSettings.SetUserName(currentDisplayName);
+            }
+        }
+
+        public void SetPlayFabDisplayName(string displayName)
+        {
+            var request = new UpdateUserTitleDisplayNameRequest
+            {
+                DisplayName = displayName
+            };
+
+            PlayFabClientAPI.UpdateUserTitleDisplayName(request,
+                OnDisplayNameUpdateSuccess,
+                OnPlayFabFailure
+            );
+        }
+
+        private void OnDisplayNameUpdateSuccess(UpdateUserTitleDisplayNameResult result)
+        {
+            Debug.Log($"PlayFab Display Name successfully set to: {result.DisplayName}");
+            playerSettings.SetUserName(result.DisplayName);
         }
 
         private void OnPlayFabFailure(PlayFabError error)
         {
             
-
             cloudData.PlayFabLoginFailure();
         }
 
@@ -396,13 +451,17 @@ namespace com.VisionXR.Controllers
                 {
                     // If in Editor, use a fixed string so you always log into the same test account
                     // If on Mobile, use the unique Device ID
-                    string customId = Application.isEditor ? "Editor_Test_User" : SystemInfo.deviceUniqueIdentifier;
+                    string customId = SystemInfo.deviceUniqueIdentifier;
 
                     var request = new LoginWithCustomIDRequest
                     {
                         CustomId = customId,
                         CreateAccount = true,
-                        TitleId = PlayFabSettings.TitleId
+                        TitleId = PlayFabSettings.TitleId,
+                        InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+                        {
+                            GetUserAccountInfo = true
+                        }
                     };
 
                     PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
