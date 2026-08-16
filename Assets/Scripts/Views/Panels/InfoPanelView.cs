@@ -1,8 +1,8 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using System.Collections.Generic;
-using TMPro;
+using System.Collections;
 using UnityEngine;
+using Google.Play.Review;
 
 
 namespace com.VisionXR.Views
@@ -14,6 +14,8 @@ namespace com.VisionXR.Views
         public AudioDataSO audioData;
         public UIDataSO uiData;
 
+        private ReviewManager _reviewManager;
+        private PlayReviewInfo _playReviewInfo;
 
         [Header("Panel Objects")]
         public string currentState;
@@ -25,21 +27,61 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState(currentState, false);
         }
 
-        public void ReviewBtnClicked()
+        public void ReviewButtonClick()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
 
-            // Replace 'com.YourCompany.YourGameName' with your actual package name
-            string playStoreURL = "market://details?id=com.VisionXR.DiscPool360";
+            if (Application.isEditor)
+            {
+                // Fallback URL for testing in the Unity Editor or if the market link fails
+                string browserURL = "https://play.google.com/store/apps/details?id=com.VisionXR.DiscPool360";
+                Application.OpenURL(browserURL);
+                return;
+            }
 
-            // Fallback URL for testing in the Unity Editor or if the market link fails
-            string browserURL = "https://play.google.com/store/apps/details?id=com.VisionXR.DiscPool360";
+            StartCoroutine(RequestAndShowReview());
+        }
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-        Application.OpenURL(playStoreURL);
-#else
-            Application.OpenURL(browserURL);
-#endif
+        private IEnumerator RequestAndShowReview()
+        {
+            _reviewManager = new ReviewManager();
+
+
+            var requestFlowOperation = _reviewManager.RequestReviewFlow();
+            yield return requestFlowOperation;
+
+            if (requestFlowOperation.Error != ReviewErrorCode.NoError)
+            {
+                Debug.LogError($"Review Flow Request Failed: {requestFlowOperation.Error.ToString()}");
+   
+
+           OpenPlayStorePage();
+                yield break;
+            }
+
+            _playReviewInfo = requestFlowOperation.GetResult();
+
+ 
+            var launchFlowOperation = _reviewManager.LaunchReviewFlow(_playReviewInfo);
+            yield return launchFlowOperation;
+
+            _playReviewInfo = null; // Clear the reference after execution
+
+            if (launchFlowOperation.Error != ReviewErrorCode.NoError)
+            {
+                Debug.LogError($"Launch Review Failed: {launchFlowOperation.Error.ToString()}");
+                OpenPlayStorePage();
+                yield break;
+            }
+
+            Debug.Log("In-App Review completed or dismissed by user.");
+        }
+
+   
+        public void OpenPlayStorePage()
+        {
+            string packageName = Application.identifier; // Auto-fetches your bundle ID (e.g. com.company.game)
+            Application.OpenURL($"market://details?id={packageName}");
         }
     }
 }

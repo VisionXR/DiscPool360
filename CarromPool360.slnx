@@ -10,6 +10,7 @@
   <Project Path="Google.Play.Games.Editor.csproj" />
   <Project Path="PlayFab.csproj" />
   <Project Path="Fusion.Addons.Physics.csproj" />
+  <Project Path="Google.Play.Common.csproj" />
   <Project Path="Google.Play.Games.csproj" />
   <Project Path="PlayFabEditorExtensions.csproj" />
   <Project Path="PhotonVoice.PUN.Editor.csproj" />
@@ -17,6 +18,8 @@
   <Project Path="PhotonUnityNetworking.Utilities.csproj" />
   <Project Path="Fusion.Unity.csproj" />
   <Project Path="GoogleMobileAds.Editor.csproj" />
+  <Project Path="Google.Play.Core.csproj" />
+  <Project Path="Google.Play.Review.csproj" />
   <Project Path="PhotonChat.csproj" />
   <Project Path="NativeShare.Runtime.csproj" />
   <Project Path="PhotonVoice.Fusion.csproj" />
