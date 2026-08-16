@@ -27,11 +27,17 @@ namespace com.VisionXR.ModelClasses
         public Action<int> BoardChangedEvent;
         public Action CreateSameBoardEvent;
         public Action DeleteAccountEvent;
+        public Action<string> ChangeDisplayNameEvent;
         // Methods
 
         private void OnEnable()
         {
             isToggle = true;
+        }
+
+        public void ChangeDisplayName(string name)
+        {
+            ChangeDisplayNameEvent?.Invoke(name);
         }
 
         public void SetUserName(string userName)

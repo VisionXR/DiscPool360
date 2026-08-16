@@ -48,8 +48,14 @@ namespace com.VisionXR.Controllers
 
         }
 
+        private void OnEnable()
+        {
+            playerSettings.ChangeDisplayNameEvent += SetPlayFabDisplayName;
+        }
+
         private void OnDisable()
         {
+            playerSettings.ChangeDisplayNameEvent -= SetPlayFabDisplayName;
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
         }
 
