@@ -123,12 +123,16 @@ namespace com.VisionXR.ModelClasses
                 BoardStats circle4stats = new BoardStats();
                 circle4stats.boardType = BoardType.Circle4;
 
+                BoardStats pentagon5Stats = new BoardStats();
+                pentagon5Stats.boardType = BoardType.Pentagon5;
+
                 specialBoardWinsStats.boardStats.Add(squareStats);
                 specialBoardWinsStats.boardStats.Add(trainglestats);
                 specialBoardWinsStats.boardStats.Add(hex4Stats);
                 specialBoardWinsStats.boardStats.Add(hex6Stats);
                 specialBoardWinsStats.boardStats.Add(oct4Stats);
                 specialBoardWinsStats.boardStats.Add(circle4stats);
+                specialBoardWinsStats.boardStats.Add(pentagon5Stats);
             }
         }
 

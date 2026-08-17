@@ -40,7 +40,7 @@ namespace com.VisionXR.HelperClasses
 
     public enum GameMode { Pool, Snooker }
 
-    public enum BoardType { Circle6, Square4, Hexagon4, Octagon4, Triangle3, Hexagon6, Circle4 }
+    public enum BoardType { Circle6, Square4, Hexagon4, Octagon4, Triangle3, Hexagon6, Circle4,Pentagon5}
     public enum AIDifficulty { Easy, Medium, Hard }
     public enum GameState { Idle,Starting,Running }
     public enum RoomType { Public,Private}

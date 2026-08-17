@@ -779,33 +779,23 @@ MonoBehaviour:
     actual: 2
     target: 50
   defaultBoardWinsData:
-    lastLoginDate: 11 June 2026
-    totalLogins: 4
-    spTotalGames: 24
-    spTotalWins: 2
-    spPoolEasyWins: 1
+    lastLoginDate: 
+    totalLogins: 0
+    spTotalGames: 0
+    spTotalWins: 0
+    spPoolEasyWins: 0
     spPoolMediumWins: 0
-    spPoolHardWins: 1
+    spPoolHardWins: 0
     spSnookerEasyWins: 0
     spSnookerMediumWins: 0
     spSnookerHardWins: 0
     mpTotalGames: 0
-    mpTotalWins: 2
-    mpPoolWins: 1
-    mpSnookerWins: 1
+    mpTotalWins: 0
+    mpPoolWins: 0
+    mpSnookerWins: 0
   specialBoardWinsStats:
     boardStats:
     - boardType: 1
-      spPoolWins: 0
-      spSnookerWins: 0
-      mpPoolWins: 0
-      mpSnookerWins: 0
-    - boardType: 2
-      spPoolWins: 0
-      spSnookerWins: 0
-      mpPoolWins: 0
-      mpSnookerWins: 0
-    - boardType: 3
       spPoolWins: 0
       spSnookerWins: 0
       mpPoolWins: 0
@@ -815,7 +805,22 @@ MonoBehaviour:
       spSnookerWins: 0
       mpPoolWins: 0
       mpSnookerWins: 0
+    - boardType: 2
+      spPoolWins: 0
+      spSnookerWins: 0
+      mpPoolWins: 0
+      mpSnookerWins: 0
     - boardType: 5
+      spPoolWins: 0
+      spSnookerWins: 0
+      mpPoolWins: 0
+      mpSnookerWins: 0
+    - boardType: 3
+      spPoolWins: 0
+      spSnookerWins: 0
+      mpPoolWins: 0
+      mpSnookerWins: 0
+    - boardType: 7
       spPoolWins: 0
       spSnookerWins: 0
       mpPoolWins: 0
