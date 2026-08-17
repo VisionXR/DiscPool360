@@ -96,6 +96,7 @@ namespace com.VisionXR.Controllers
            
             tutorialCoin.SetActive(false);
             inputData.DisableInput();
+            inputCanvasView.TurnOff();
             tutorialData.canIAim = false;
             tutorialData.canIFire = false;
             isCoinPocketed = false;

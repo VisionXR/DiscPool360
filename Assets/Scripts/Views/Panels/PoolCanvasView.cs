@@ -26,7 +26,7 @@ namespace com.VisionXR.Views
         public GameObject righteightPoolImages;
 
         [Header("Speaker And MicroPhone  Panels")]
-       
+
         public Image speakerImage;
         public Image microphoneImage;
         public Sprite speakerOnImage;
@@ -59,12 +59,12 @@ namespace com.VisionXR.Views
             }
 
             Player mp = playerData.GetMainPlayer();
-            if(mp != null)
+            if (mp != null)
             {
                 PlayerVoiceControl voiceControl = mp.GetComponent<PlayerVoiceControl>();
                 if (voiceControl != null)
                 {
-                    if(voiceControl.recorder.TransmitEnabled)
+                    if (voiceControl.recorder.TransmitEnabled)
                     {
                         microphoneImage.sprite = microphoneOnImage;
                     }
@@ -91,7 +91,7 @@ namespace com.VisionXR.Views
                     }
                 }
             }
-                  
+
         }
 
         public void ShowPoolUI()
@@ -116,7 +116,7 @@ namespace com.VisionXR.Views
             }
 
 
-         
+
         }
 
         public void TurnOn()
@@ -128,15 +128,15 @@ namespace com.VisionXR.Views
 
             if (userData.myDominantHand == DominantHand.Left)
             {
-              
+
                 rightSideNavigation.TurnOnPanel();
-               
+
             }
             else if (userData.myDominantHand == DominantHand.Right)
             {
-  
+
                 leftSideNavigation.TurnOnPanel();
-  
+
             }
         }
 
@@ -180,7 +180,7 @@ namespace com.VisionXR.Views
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
 
-            if(speakerImage.sprite == speakerOnImage)
+            if (speakerImage.sprite == speakerOnImage)
             {
                 speakerImage.sprite = speakerOffImage;
                 UiData.TurnOffSpeakerEvent?.Invoke();
@@ -190,13 +190,13 @@ namespace com.VisionXR.Views
                 speakerImage.sprite = speakerOnImage;
                 UiData.TurnOnSpeakerEvent?.Invoke();
             }
-           
+
         }
 
         public void MicBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
-           
+
             if (microphoneImage.sprite == microphoneOnImage)
             {
                 microphoneImage.sprite = microphoneOffImage;
@@ -208,5 +208,7 @@ namespace com.VisionXR.Views
                 UiData.TurnOnMicEvent?.Invoke();
             }
         }
+
+
     }
 }

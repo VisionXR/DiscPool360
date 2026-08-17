@@ -2,6 +2,7 @@ using com.VisionXR.Controllers;
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +26,12 @@ namespace com.VisionXR.Views
         private bool isFrontView = false;
 
         [Header("Next And Previous Panels")]
+        public GameObject RotationObject;
+        public GameObject AimObject;
         public string PauseState;
+
+        // local
+        private Coroutine controlsRoutine;
         public void ExitBtnClicked()
         {
             audioData.PlayAudio(AudioClipType.ButtonClick);
@@ -35,8 +41,7 @@ namespace com.VisionXR.Views
 
         public void CameraBtnClicked()
         {
-          
-            
+                  
             if(isFrontView)
             {
                 LeftCameraViewImage.sprite = FrontView;
@@ -69,6 +74,24 @@ namespace com.VisionXR.Views
             camPositionManager.SetFrontCamProperties(mp.playerProperties.myId);
         }
 
+        public void ControlsBtnClicked()
+        {         
+            if(controlsRoutine == null)
+            {
+                audioData.PlayAudio(AudioClipType.ButtonClick);
+                controlsRoutine = StartCoroutine(ShowControls());
+            }
+        }
 
+
+        private IEnumerator ShowControls()
+        {
+            RotationObject.SetActive(true);
+            AimObject.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            RotationObject.SetActive(false);
+            AimObject.SetActive(false);
+            controlsRoutine = null;
+        }
     }
 }
