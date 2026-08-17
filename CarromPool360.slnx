@@ -27,6 +27,7 @@
   <Project Path="MicAmplifierEditor.Editor.csproj" />
   <Project Path="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj" />
   <Project Path="PlayFabSDKEditor.csproj" />
+  <Project Path="FirebaseMessagingActivityGenerator.csproj" />
   <Project Path="PhotonVoice.PUN.csproj" />
   <Project Path="Fusion.Addons.Physics.Editor.csproj" />
   <Project Path="Voice.FMOD.Editor.csproj" />

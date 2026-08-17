@@ -45,7 +45,7 @@ MonoBehaviour:
     productId: cp360_remove_ads_permanent
     isPurchased: 0
     Price: 0.01 USD
-  allSingleBoards: 000000000000000000000000000000000000000000
+  allSingleBoards: 000000000000000000000000000000000000000000000000
   allSkusData:
   - square_pocket_4_bundle
   - hexagon_pocket_6_bundle
