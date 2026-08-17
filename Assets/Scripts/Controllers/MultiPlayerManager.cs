@@ -47,7 +47,7 @@ namespace com.VisionXR.Controllers
         private int _previousTurnId = -1;
         private bool isStrikeStarted = false;
         private Coroutine endGameRoutine = null;
-
+        private DateTime startTime;
 
         private void OnEnable()
         {
@@ -184,6 +184,13 @@ namespace com.VisionXR.Controllers
             yield return new WaitForSeconds(1f);
             uiData.SetPlayerData(1);
             uiData.SetPlayerData(2);
+
+            startTime = DateTime.Now;
+            FireBaseAnalyticsManager.Instance.LogGameStart(
+                Enum.GetName(typeof(GameType), uiData.currentGameType), 
+                Enum.GetName(typeof(GameMode), uiData.currentGameMode),
+                Enum.GetName(typeof(BoardType), uiData.currentBoardType));
+
             gameData.ChangeTurn(id);
         }
 
@@ -534,6 +541,12 @@ namespace com.VisionXR.Controllers
         }
         private IEnumerator SetWinnerRoutine(int id)
         {
+            float duration = (float)(DateTime.Now - startTime).TotalSeconds;
+
+            FireBaseAnalyticsManager.Instance.LogGameComplete(
+                Enum.GetName(typeof(GameType), uiData.currentGameType),
+                Enum.GetName(typeof(GameMode), uiData.currentGameMode),
+                Enum.GetName(typeof(BoardType), uiData.currentBoardType), duration);
 
             multiPlayerConnectionManager.SetPlayStatus(false);
             Player player = playerData.GetMainPlayer();
@@ -571,6 +584,12 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator EndGameRoutine()
         {
+            float duration = (float)(DateTime.Now - startTime).TotalSeconds;
+            FireBaseAnalyticsManager.Instance.LogGameExit(
+              Enum.GetName(typeof(GameType), uiData.currentGameType),
+              Enum.GetName(typeof(GameMode), uiData.currentGameMode),
+              Enum.GetName(typeof(BoardType), uiData.currentBoardType), duration);
+
             pocketedCoins.Clear();
             coinData.DestroyCoins();
             InputCanvas.TurnOff();

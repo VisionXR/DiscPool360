@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "858648297825",
+    "project_id": "carrompool360-51250",
+    "storage_bucket": "carrompool360-51250.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858648297825:android:bfee6192d3a9b4a1ab8520",
+        "android_client_info": {
+          "package_name": "com.VisionXR.DiscPool360"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKPCx6O4U537Oz8l3j4IQ8Gz1goahR3Ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

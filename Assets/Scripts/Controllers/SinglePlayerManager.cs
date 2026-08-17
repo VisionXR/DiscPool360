@@ -2,7 +2,6 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
-using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,6 +44,7 @@ namespace com.VisionXR.Controllers
         public int _previousTurnId = -1;
         private bool isStrikeStarted = false;
         private Coroutine endGameRoutine = null;
+        private DateTime startTime;
 
         private void OnEnable()
         {
@@ -186,6 +186,12 @@ namespace com.VisionXR.Controllers
                 uiData.uiManager.poolCanvasView.ShowPoolUI();
             }
 
+           startTime = DateTime.Now;
+            FireBaseAnalyticsManager.Instance.LogGameStart(
+                Enum.GetName(typeof(GameType), uiData.currentGameType),
+                Enum.GetName(typeof(GameMode),uiData.currentGameMode), 
+                Enum.GetName(typeof(BoardType), uiData.currentBoardType));
+
         }
         private void PlayAgain(int id)
         {
@@ -256,6 +262,13 @@ namespace com.VisionXR.Controllers
             yield return new WaitForSeconds(1);
             uiData.SetPlayerData(1);
             uiData.SetPlayerData(2);
+
+            startTime = DateTime.Now;
+            FireBaseAnalyticsManager.Instance.LogGameStart(
+                Enum.GetName(typeof(GameType), uiData.currentGameType),
+                Enum.GetName(typeof(GameMode), uiData.currentGameMode),
+                Enum.GetName(typeof(BoardType), uiData.currentBoardType));
+
 
             gameData.ChangeTurn(id);
         }
@@ -663,6 +676,12 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator SetWinner(int id)
         {
+            float duration = (float)(DateTime.Now - startTime).TotalSeconds;
+
+            FireBaseAnalyticsManager.Instance.LogGameComplete(
+                Enum.GetName(typeof(GameType), uiData.currentGameType),
+                Enum.GetName(typeof(GameMode), uiData.currentGameMode),
+                Enum.GetName(typeof(BoardType), uiData.currentBoardType),duration);
 
             Player player = playerData.GetPlayerById(id);
             if (id == 1)
@@ -701,6 +720,12 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator EndGameRoutine()
         {
+            float duration = (float)(DateTime.Now - startTime).TotalSeconds;
+            FireBaseAnalyticsManager.Instance.LogGameExit(
+              Enum.GetName(typeof(GameType), uiData.currentGameType),
+              Enum.GetName(typeof(GameMode), uiData.currentGameMode),
+              Enum.GetName(typeof(BoardType), uiData.currentBoardType), duration);
+
             InputCanvas.TurnOff();
             pocketedCoins.Clear();
             coinData.DestroyCoins();
