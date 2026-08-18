@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -37,6 +38,7 @@ namespace com.VisionXR.Views
         public Toggle hapticsToggle;
         public Slider bgSlider;
         public AudioSource BGAudioSource;
+        public ScrollRect generalScrollRect;
 
 
         [Header("Panel Objects")]
@@ -70,6 +72,14 @@ namespace com.VisionXR.Views
             bgSlider.value = BGAudioSource.volume;
 
             displayNameIF.text = userData.MyName;
+
+            StartCoroutine(ResetScroll());
+        }
+
+        private IEnumerator ResetScroll()
+        {
+            yield return new WaitForSeconds(uiData.disableTime);
+            generalScrollRect.verticalNormalizedPosition = 1f;
         }
 
         public void TabButtonClicked(int id)

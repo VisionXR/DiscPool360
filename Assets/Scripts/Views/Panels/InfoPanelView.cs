@@ -1,8 +1,9 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using Google.Play.Review;
 using System.Collections;
 using UnityEngine;
-using Google.Play.Review;
+using UnityEngine.UI;
 
 
 namespace com.VisionXR.Views
@@ -19,7 +20,20 @@ namespace com.VisionXR.Views
 
         [Header("Panel Objects")]
         public string currentState;
+        public ScrollRect generalScrollRect;
 
+
+        private void OnEnable()
+        {
+            StartCoroutine(ResetScroll());
+
+        }
+
+        private IEnumerator ResetScroll()
+        {
+            yield return new WaitForSeconds(uiData.disableTime);
+            generalScrollRect.verticalNormalizedPosition = 1f;
+        }
 
         public void BackBtnClicked()
         {
@@ -39,43 +53,9 @@ namespace com.VisionXR.Views
                 return;
             }
 
-            StartCoroutine(RequestAndShowReview());
+            OpenPlayStorePage();
         }
 
-        private IEnumerator RequestAndShowReview()
-        {
-            _reviewManager = new ReviewManager();
-
-
-            var requestFlowOperation = _reviewManager.RequestReviewFlow();
-            yield return requestFlowOperation;
-
-            if (requestFlowOperation.Error != ReviewErrorCode.NoError)
-            {
-                Debug.LogError($"Review Flow Request Failed: {requestFlowOperation.Error.ToString()}");
-   
-
-           OpenPlayStorePage();
-                yield break;
-            }
-
-            _playReviewInfo = requestFlowOperation.GetResult();
-
- 
-            var launchFlowOperation = _reviewManager.LaunchReviewFlow(_playReviewInfo);
-            yield return launchFlowOperation;
-
-            _playReviewInfo = null; // Clear the reference after execution
-
-            if (launchFlowOperation.Error != ReviewErrorCode.NoError)
-            {
-                Debug.LogError($"Launch Review Failed: {launchFlowOperation.Error.ToString()}");
-                OpenPlayStorePage();
-                yield break;
-            }
-
-            Debug.Log("In-App Review completed or dismissed by user.");
-        }
 
    
         public void OpenPlayStorePage()
