@@ -31,7 +31,7 @@ namespace com.VisionXR.Views
 
         private IEnumerator ResetScroll()
         {
-            yield return new WaitForSeconds(uiData.disableTime);
+            yield return new WaitForSeconds(uiData.disableTime+0.1f);
             generalScrollRect.verticalNormalizedPosition = 1f;
         }
 
