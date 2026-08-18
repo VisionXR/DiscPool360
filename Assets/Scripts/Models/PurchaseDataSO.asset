@@ -45,6 +45,10 @@ MonoBehaviour:
     productId: cp360_remove_ads_permanent
     isPurchased: 0
     Price: 0.01 USD
+  - skuName: ' Pentagon Pocket 5 Bundle'
+    productId: pentagon_pocket_5_bundle
+    isPurchased: 0
+    Price: 0.01 USD
   allSingleBoards: 000000000000000000000000000000000000000000000000
   allSkusData:
   - square_pocket_4_bundle
@@ -55,3 +59,4 @@ MonoBehaviour:
   - triangle_pocket_3_bundle
   - all_boards_bundle
   - cp360_remove_ads_permanent
+  - pentagon_pocket_5_bundle

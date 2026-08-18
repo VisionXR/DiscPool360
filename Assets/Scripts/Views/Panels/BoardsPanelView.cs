@@ -113,31 +113,35 @@ namespace com.VisionXR.Views
                     // Unlock striker images based on purchased id
                     if (id == 0)
                     {
-                        UnlockBoards(3, 5); // Unlock 1,2,3,4 (indices 0-4)
+                        UnlockBoards(3, 5); // Unlock 3,4,5
                     }
                     else if (id == 1)
                     {
-                        UnlockBoards(6, 8); // Unlock 5,6,7,8,9 (indices 5-9)
+                        UnlockBoards(6, 8); // Unlock 6,7,8
                     }
                     else if (id == 2)
                     {
-                        UnlockBoards(9, 11); // Unlock 10,11,12,13,14 (indices 10-14)
+                        UnlockBoards(9, 11); // Unlock 9,10,11
                     }
                     else if (id == 3)
                     {
-                        UnlockBoards(12, 14); // Unlock 10,11,12,13,14 (indices 10-14)
+                        UnlockBoards(12, 14); // Unlock 12,13,14 
                     }
                     else if (id == 4)
                     {
-                        UnlockBoards(15, 17); // Unlock 10,11,12,13,14 (indices 10-14)
+                        UnlockBoards(15, 17); // Unlock 15,16,17
                     }
                     else if (id == 5)
                     {
-                        UnlockBoards(18, 20); // Unlock 10,11,12,13,14 (indices 10-14)
+                        UnlockBoards(18, 20); // Unlock 18,19,20
                     }
                     else if (id == 6)
                     {
-                        UnlockBoards(0, 20); // Unlock 10,11,12,13,14 (indices 10-14)
+                        UnlockBoards(0, 23); // Unlock 0-23
+                    }
+                    else if (id == 7)
+                    {
+                        UnlockBoards(21, 23); // Unlock 21,22,23
                     }
 
                 }

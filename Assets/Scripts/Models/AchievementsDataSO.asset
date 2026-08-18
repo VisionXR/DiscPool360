@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AchievementsDataSO
   m_EditorClassIdentifier: Assembly-CSharp::com.VisionXR.ModelClasses.AchievementsDataSO
   AllAchievementInfo:
-  - id: 0
+  - id: 1
     icon: {fileID: 21300000, guid: 14046bb48abdb84419606abecddd0913, type: 3}
     name: login1
     apiName: CgkI64-uqPAcEAIQAQ
@@ -28,7 +28,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 2
     icon: {fileID: 21300000, guid: f9ad17616a166c04d8aad4824774db2e, type: 3}
     name: login3
     apiName: CgkI64-uqPAcEAIQIg
@@ -43,7 +43,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 3
     icon: {fileID: 21300000, guid: 7bf326bb4197af14288117d47b1dbd98, type: 3}
     name: login5
     apiName: CgkI64-uqPAcEAIQLQ
@@ -58,7 +58,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 4
     icon: {fileID: 21300000, guid: 82e1988a8949d1b42b54c519c1f87bee, type: 3}
     name: login10
     apiName: CgkI64-uqPAcEAIQKA
@@ -71,9 +71,9 @@ MonoBehaviour:
     achievementSection: 2
     achievementType: 1
     isAchieved: 0
-    actual: 4
+    actual: 3
     target: 10
-  - id: 0
+  - id: 5
     icon: {fileID: 21300000, guid: a851051f350cf8c4e87f6569e9a3ab82, type: 3}
     name: invite1
     apiName: CgkI64-uqPAcEAIQBQ
@@ -88,7 +88,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 6
     icon: {fileID: 21300000, guid: c0cdb5126f9e1444c90c5d5c602cfb7d, type: 3}
     name: invite3
     apiName: CgkI64-uqPAcEAIQDA
@@ -103,7 +103,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 7
     icon: {fileID: 21300000, guid: bc1db51e37ff0634cafa3c21f9fa4ede, type: 3}
     name: invite5
     apiName: CgkI64-uqPAcEAIQHA
@@ -118,7 +118,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 8
     icon: {fileID: 21300000, guid: 32361ec57a30c6940a2a6bbe20e1c295, type: 3}
     name: invite10
     apiName: CgkI64-uqPAcEAIQGg
@@ -133,7 +133,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 1
     target: 10
-  - id: 0
+  - id: 9
     icon: {fileID: 21300000, guid: 8afb9e783aea4e74ba0e75c613c05ecd, type: 3}
     name: GrandChampion
     apiName: CgkI64-uqPAcEAIQKw
@@ -148,7 +148,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 4
     target: 100
-  - id: 0
+  - id: 1
     icon: {fileID: 21300000, guid: dae4a5fb1741db14a8ee16b6fc023fe6, type: 3}
     name: spPoolEasyWins1
     apiName: CgkI64-uqPAcEAIQEg
@@ -163,7 +163,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 2
     icon: {fileID: 21300000, guid: f3d7b148b5aba2a4abe7ed567b607372, type: 3}
     name: spPoolMediumWins1
     apiName: CgkI64-uqPAcEAIQHg
@@ -178,7 +178,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 3
     icon: {fileID: 21300000, guid: cda1dafd866c9de4eabefdbf4b08bb1b, type: 3}
     name: spPoolHardWins1
     apiName: CgkI64-uqPAcEAIQIw
@@ -193,7 +193,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 4
     icon: {fileID: 21300000, guid: 5dc20861eeb0db54aaecea4cf148010b, type: 3}
     name: spPoolHardWins10
     apiName: CgkI64-uqPAcEAIQMw
@@ -208,7 +208,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 10
-  - id: 0
+  - id: 5
     icon: {fileID: 21300000, guid: beb3741f9adef9c4dabbae7afe5b9725, type: 3}
     name: spSnookerEasyWins1
     apiName: CgkI64-uqPAcEAIQDw
@@ -223,7 +223,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 6
     icon: {fileID: 21300000, guid: fce6932f114054d4f895b4e6598a28bc, type: 3}
     name: spSnookerMediumWins1
     apiName: CgkI64-uqPAcEAIQBg
@@ -238,7 +238,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 7
     icon: {fileID: 21300000, guid: f3051d318f4b59844ba085996dbdb5bc, type: 3}
     name: spSnookerHardWins1
     apiName: CgkI64-uqPAcEAIQKQ
@@ -253,7 +253,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 8
     icon: {fileID: 21300000, guid: 44abe305ea6ae3641901329744af22ed, type: 3}
     name: spSnookerHardWins10
     apiName: CgkI64-uqPAcEAIQJA
@@ -268,7 +268,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 10
-  - id: 0
+  - id: 1
     icon: {fileID: 21300000, guid: 887132449ea3d2346bf5e70f2c502749, type: 3}
     name: mpPoolWins1
     apiName: CgkI64-uqPAcEAIQFA
@@ -283,7 +283,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 2
     icon: {fileID: 21300000, guid: 7437c634c6681c04e92ff1e1eb10506e, type: 3}
     name: mpPoolWins3
     apiName: CgkI64-uqPAcEAIQEw
@@ -298,7 +298,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 3
     icon: {fileID: 21300000, guid: 2f615831d7eb55d4581ad7d8043bf3dc, type: 3}
     name: mpPoolWins5
     apiName: CgkI64-uqPAcEAIQNw
@@ -313,7 +313,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 4
     icon: {fileID: 21300000, guid: a82eecc5b378c6547af0fded86ef994a, type: 3}
     name: mpPoolWins10
     apiName: CgkI64-uqPAcEAIQFw
@@ -328,7 +328,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 1
     target: 10
-  - id: 0
+  - id: 5
     icon: {fileID: 21300000, guid: 17693894d74c4ef41a691fac8d69149b, type: 3}
     name: mpSnookerWins1
     apiName: CgkI64-uqPAcEAIQAw
@@ -343,7 +343,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 6
     icon: {fileID: 21300000, guid: ca273e80795f40145ac346f5eb5d0a19, type: 3}
     name: mpSnookerWins3
     apiName: CgkI64-uqPAcEAIQHw
@@ -358,7 +358,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 7
     icon: {fileID: 21300000, guid: 5d7e5a7f0acc26c49b62187ecddfdec5, type: 3}
     name: mpSnookerWins5
     apiName: CgkI64-uqPAcEAIQLw
@@ -373,7 +373,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 8
     icon: {fileID: 21300000, guid: 30568b23f18cd8046948ba8e337f0a40, type: 3}
     name: mpSnookerWins10
     apiName: CgkI64-uqPAcEAIQNQ
@@ -388,7 +388,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 1
     target: 10
-  - id: 0
+  - id: 9
     icon: {fileID: 21300000, guid: ed548b4ea007efb46b624c8a24642dd9, type: 3}
     name: spPoolSquare4
     apiName: CgkI64-uqPAcEAIQBw
@@ -403,7 +403,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 10
     icon: {fileID: 21300000, guid: 3a05fe5fd9ca240428d3caeb6b40449c, type: 3}
     name: spSnookerSquare4
     apiName: CgkI64-uqPAcEAIQIQ
@@ -418,7 +418,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 9
     icon: {fileID: 21300000, guid: eb07d31561c01144a8d2b1401ae19be8, type: 3}
     name: mpPoolSquare4
     apiName: CgkI64-uqPAcEAIQDQ
@@ -433,7 +433,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 10
     icon: {fileID: 21300000, guid: 280dacaced8e4a24da46d7f9a94de3e1, type: 3}
     name: mpSnookerSquare4
     apiName: CgkI64-uqPAcEAIQMA
@@ -448,7 +448,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 11
     icon: {fileID: 21300000, guid: 210201b021a62c040a9f113620209150, type: 3}
     name: spPoolHexagon4
     apiName: CgkI64-uqPAcEAIQJg
@@ -463,7 +463,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 11
     icon: {fileID: 21300000, guid: 7cadc894e7e3d404c8a49c4e0ce3c590, type: 3}
     name: mpPoolHexagon4
     apiName: CgkI64-uqPAcEAIQFg
@@ -478,7 +478,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 12
     icon: {fileID: 21300000, guid: 7659fd600496ee441b95c1ef87ac91fd, type: 3}
     name: spSnookerHexagon4
     apiName: CgkI64-uqPAcEAIQLg
@@ -493,7 +493,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 12
     icon: {fileID: 21300000, guid: 45eab5e89a916a54fbb69bacbf16bfc5, type: 3}
     name: mpSnookerHexagon4
     apiName: CgkI64-uqPAcEAIQHQ
@@ -508,7 +508,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 13
     icon: {fileID: 21300000, guid: b1e5e5013d8bb11429869e6bfd15c87c, type: 3}
     name: spPoolOctagon4
     apiName: CgkI64-uqPAcEAIQGA
@@ -523,7 +523,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 13
     icon: {fileID: 21300000, guid: e69be4fbdc39a2d40b87c52c1690aef8, type: 3}
     name: mpPoolOctagon4
     apiName: CgkI64-uqPAcEAIQDg
@@ -538,7 +538,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 14
     icon: {fileID: 21300000, guid: 6544adcd149b1e74f94cfd967711b2d3, type: 3}
     name: spSnookerOctagon4
     apiName: CgkI64-uqPAcEAIQEA
@@ -553,7 +553,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 14
     icon: {fileID: 21300000, guid: 837a51d4342ed054f9d429ce1a668b3c, type: 3}
     name: mpSnookerOctagon4
     apiName: CgkI64-uqPAcEAIQCQ
@@ -568,7 +568,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 15
     icon: {fileID: 21300000, guid: 88843faf5e441c34dbd8f85ca076e117, type: 3}
     name: spPoolCircle4
     apiName: CgkI64-uqPAcEAIQNA
@@ -583,7 +583,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 15
     icon: {fileID: 21300000, guid: b8497591a8202df44b1f73372786d6bb, type: 3}
     name: mpPoolCircle4
     apiName: CgkI64-uqPAcEAIQGw
@@ -598,7 +598,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 16
     icon: {fileID: 21300000, guid: a47a9fafde1335f4cab12d95754737c4, type: 3}
     name: spSnookerCircle4
     apiName: CgkI64-uqPAcEAIQJw
@@ -613,7 +613,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 16
     icon: {fileID: 21300000, guid: eb2a9bcf562461d4bba250a48b89bcc0, type: 3}
     name: mpSnookerCircle4
     apiName: CgkI64-uqPAcEAIQCA
@@ -628,7 +628,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 17
     icon: {fileID: 21300000, guid: 210201b021a62c040a9f113620209150, type: 3}
     name: spPoolHexagon6
     apiName: CgkI64-uqPAcEAIQCw
@@ -643,7 +643,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 17
     icon: {fileID: 21300000, guid: 7cadc894e7e3d404c8a49c4e0ce3c590, type: 3}
     name: mpPoolHexagon6
     apiName: CgkI64-uqPAcEAIQGQ
@@ -658,7 +658,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 18
     icon: {fileID: 21300000, guid: 7659fd600496ee441b95c1ef87ac91fd, type: 3}
     name: spSnookerHexagon6
     apiName: CgkI64-uqPAcEAIQKg
@@ -673,7 +673,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 18
     icon: {fileID: 21300000, guid: 45eab5e89a916a54fbb69bacbf16bfc5, type: 3}
     name: mpSnookerHexagon6
     apiName: CgkI64-uqPAcEAIQMQ
@@ -688,7 +688,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 19
     icon: {fileID: 21300000, guid: 97026f7eeef27264998604a34474bdf4, type: 3}
     name: mpPoolTriangle3
     apiName: CgkI64-uqPAcEAIQCg
@@ -703,7 +703,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 20
     icon: {fileID: 21300000, guid: 8077e1265bec10547980719e334e796c, type: 3}
     name: mpSnookerTriangle3
     apiName: CgkI64-uqPAcEAIQLA
@@ -718,7 +718,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 19
     icon: {fileID: 21300000, guid: 5d7b1448dca466a44918e3f2283a7c52, type: 3}
     name: spPoolTriangle3
     apiName: CgkI64-uqPAcEAIQAg
@@ -733,7 +733,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 20
     icon: {fileID: 21300000, guid: 0ded85a9a6cd3bc4798c12555c990eb8, type: 3}
     name: spSnookerTriangle3
     apiName: CgkI64-uqPAcEAIQJQ
@@ -748,7 +748,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 0
     target: 0
-  - id: 0
+  - id: 21
     icon: {fileID: 21300000, guid: 4abd57bb36b49ed4ea823e928cf7383b, type: 3}
     name: spTotalWins50
     apiName: CgkI64-uqPAcEAIQEQ
@@ -763,7 +763,7 @@ MonoBehaviour:
     isAchieved: 0
     actual: 2
     target: 50
-  - id: 0
+  - id: 21
     icon: {fileID: 21300000, guid: e70965bb2c5d81641a9b20850a7e5ec8, type: 3}
     name: mpTotalWins50
     apiName: CgkI64-uqPAcEAIQMg
@@ -778,6 +778,66 @@ MonoBehaviour:
     isAchieved: 0
     actual: 2
     target: 50
+  - id: 21
+    icon: {fileID: 21300000, guid: 0677046bc7a47d04db9d5a556aee8eca, type: 3}
+    name: spPoolPentagon5
+    apiName: CgkI64-uqPAcEAIQPA
+    achievementName: Pentagon Pool Pro
+    description: Win a Single Player Pool Match against AI on Petagon Board
+    type: 0
+    mode: 0
+    boardType: 7
+    difficulty: 0
+    achievementSection: 0
+    achievementType: 0
+    isAchieved: 0
+    actual: 0
+    target: 0
+  - id: 21
+    icon: {fileID: 21300000, guid: 10d487575bbbcfb428465a454592694c, type: 3}
+    name: spSnookerPentagon5
+    apiName: CgkI64-uqPAcEAIQPg
+    achievementName: Pentagon Snooker Pro
+    description: Win a Single Player Snooker match against AI on a Pentagon Board
+    type: 0
+    mode: 1
+    boardType: 7
+    difficulty: 0
+    achievementSection: 0
+    achievementType: 0
+    isAchieved: 0
+    actual: 0
+    target: 0
+  - id: 21
+    icon: {fileID: 21300000, guid: 0d0a8099bcd35794e8b7ee432a5e0dcb, type: 3}
+    name: mpPoolPentagon5
+    apiName: CgkI64-uqPAcEAIQPQ
+    achievementName: Pentagon Pool Duelist
+    description: 'Win a pool match in multiplayer on a pentagon board '
+    type: 1
+    mode: 0
+    boardType: 7
+    difficulty: 0
+    achievementSection: 1
+    achievementType: 0
+    isAchieved: 0
+    actual: 0
+    target: 0
+  - id: 21
+    icon: {fileID: 21300000, guid: 3e8db9eb3ed148e4e8aac6dc6c10229b, type: 3}
+    name: mpSnookerPentagon5
+    apiName: CgkI64-uqPAcEAIQPw
+    achievementName: Pentagon Snooker Duelist
+    description: Win a Multiplayer Snooker match on a Pentagon Board
+    type: 1
+    mode: 1
+    boardType: 7
+    difficulty: 0
+    achievementSection: 1
+    achievementType: 0
+    isAchieved: 0
+    actual: 0
+    target: 0
   defaultBoardWinsData:
     lastLoginDate: 
     totalLogins: 0
@@ -820,12 +880,12 @@ MonoBehaviour:
       spSnookerWins: 0
       mpPoolWins: 0
       mpSnookerWins: 0
-    - boardType: 7
+    - boardType: 6
       spPoolWins: 0
       spSnookerWins: 0
       mpPoolWins: 0
       mpSnookerWins: 0
-    - boardType: 6
+    - boardType: 7
       spPoolWins: 0
       spSnookerWins: 0
       mpPoolWins: 0

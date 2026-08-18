@@ -787,7 +787,7 @@ public class AchievementManager : MonoBehaviour
                 {
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
-                        Debug.Log("Trying to unlock pool " + achievementInfo.name);
+                      
                         UnlockSimpleAchievement(achievementInfo);
                         yield return new WaitForSeconds(1);
                     }
@@ -803,7 +803,7 @@ public class AchievementManager : MonoBehaviour
                 {
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
-                        Debug.Log("Trying to unlock snooker " + achievementInfo.name);
+                      
                         UnlockSimpleAchievement(achievementInfo);
                         yield return new WaitForSeconds(1);
                     }
