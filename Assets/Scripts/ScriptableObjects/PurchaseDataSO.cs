@@ -38,6 +38,11 @@ public class PurchaseDataSO : ScriptableObject
                 allSingleBoards[i] = false;
             }
         }
+
+        foreach(var assetData in BoardsData) 
+        {
+            assetData.isPurchased = false;
+        }
     }
 
     public void RefreshData()

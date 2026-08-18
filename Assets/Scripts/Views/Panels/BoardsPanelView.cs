@@ -139,7 +139,7 @@ namespace com.VisionXR.Views
                     {
                         UnlockBoards(0, 23); // Unlock 0-23
                     }
-                    else if (id == 7)
+                    else if (id == 8)
                     {
                         UnlockBoards(21, 23); // Unlock 21,22,23
                     }
