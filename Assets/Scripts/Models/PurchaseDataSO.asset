@@ -47,7 +47,7 @@ MonoBehaviour:
     Price: 0.01 USD
   - skuName: ' Pentagon Pocket 5 Bundle'
     productId: pentagon_pocket_5_bundle
-    isPurchased: 0
+    isPurchased: 1
     Price: 0.01 USD
   allSingleBoards: 000000000000000000000000000000000000000000000000
   allSkusData:

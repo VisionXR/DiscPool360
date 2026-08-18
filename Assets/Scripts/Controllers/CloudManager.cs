@@ -144,6 +144,7 @@ namespace com.VisionXR.Controllers
                     {
                         string json = result.Data[specialBoardWinsKey].Value;
 
+                       // Debug.Log("Special Board Wins Data Loaded: " + json);
                         achievementsData.specialBoardWinsStats = JsonUtility.FromJson<SpecialBoardWinsStats>(json);
                         achievementsData.SetSpecialBoardsData();
 

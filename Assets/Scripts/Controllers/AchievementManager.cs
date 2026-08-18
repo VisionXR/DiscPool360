@@ -138,6 +138,7 @@ public class AchievementManager : MonoBehaviour
 
         if (uiData.currentBoardType != BoardType.Circle6)
         {
+            bool boardExists = false;
             BoardStats currentBoardStats;
 
             foreach (BoardStats stats in achievementData.specialBoardWinsStats.boardStats)
@@ -167,10 +168,41 @@ public class AchievementManager : MonoBehaviour
                             currentBoardStats.spSnookerWins++;
                         }
                     }
+                    boardExists = true;
                     break;
                 }
+           
             }
-          
+
+            if(!boardExists)
+            {
+                BoardStats newBoardStats = new BoardStats();
+                newBoardStats.boardType = uiData.currentBoardType;
+                if (d.gameMode == GameMode.Pool)
+                {
+                    if (d.gameType == GameType.MultiPlayer)
+                    {
+                        newBoardStats.mpPoolWins = 1;
+                    }
+                    else if (d.gameType == GameType.SinglePlayer)
+                    {
+                        newBoardStats.spPoolWins = 1;
+                    }
+                }
+                else if (d.gameMode == GameMode.Snooker)
+                {
+                    if (d.gameType == GameType.MultiPlayer)
+                    {
+                        newBoardStats.mpSnookerWins = 1;
+                    }
+                    else if (d.gameType == GameType.SinglePlayer)
+                    {
+                        newBoardStats.spSnookerWins = 1;
+                    }
+                }
+                achievementData.specialBoardWinsStats.boardStats.Add(newBoardStats);
+            }
+
             StartCoroutine(UnLockWin());
 
             return;
@@ -256,7 +288,7 @@ public class AchievementManager : MonoBehaviour
     {
 
         string achievementId = info.apiName;
-    //    Debug.Log("Trying to unlock" + info.name);
+        Debug.Log("Trying to unlock" + info.name);
 
         if (!PlayGamesPlatform.Instance.IsAuthenticated())
         {
@@ -787,7 +819,7 @@ public class AchievementManager : MonoBehaviour
                 {
                     if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
                     {
-                      
+                        Debug.Log("Unlocking achievement: " + achievementInfo.name);
                         UnlockSimpleAchievement(achievementInfo);
                         yield return new WaitForSeconds(1);
                     }
